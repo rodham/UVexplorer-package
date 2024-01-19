@@ -1,0 +1,26 @@
+{
+  "id": "",
+  "version": "1.0.0",
+  "extensions": [
+    {
+      "name": "UVexplorer-integration",
+      "title": "UVexplorer-integration",
+      "products": [
+        "chart",
+        "spark",
+        "teamspaces"
+      ],
+      "codePath": "editorextensions/UVexplorer-integration/bin/extension.js",
+      "scopes": [
+        "READ",
+        "WRITE",
+        "DOWNLOAD",
+        "SHOW_MODAL",
+        "CUSTOM_UI",
+        "NETWORK"
+      ]
+    }
+  ],
+  "shapeLibraries": [],
+  "oauthProviders": []
+}
