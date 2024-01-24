@@ -2,3 +2,4 @@ node_modules/*
 resources/*
 webpack.config.js
 .eslintrc.js
+bin/*
