@@ -41,4 +41,4 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-editorextensions/UVexplorer-integration/node_modules
+editorextensions/UVexplorer-integration/node_modules/*
