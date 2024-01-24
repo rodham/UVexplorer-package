@@ -42,3 +42,4 @@ testem.log
 .DS_Store
 Thumbs.db
 editorextensions/UVexplorer-integration/node_modules/*
+editorextensions/UVexplorer-integration/node_modules/.package-lock.json
