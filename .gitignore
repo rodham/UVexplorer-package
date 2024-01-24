@@ -43,3 +43,4 @@ testem.log
 Thumbs.db
 editorextensions/UVexplorer-integration/node_modules/*
 editorextensions/UVexplorer-integration/node_modules/.package-lock.json
+editorextensions/UVexplorer-integration/control-panel/node_modules
