@@ -48,12 +48,10 @@ declare interface I18nFormattedNumberParams {
 
 declare class I18nFormattedNumber {}
 
-declare interface I18nReplacement {
-    [s: string]: number | string | I18nSafeString | I18nFormattedNumber;
-}
+type I18nReplacement = Record<string, number | string | I18nSafeString | I18nFormattedNumber>;
 
 declare namespace i18n {
-    function setData(data: {[key: string]: string}, language: string): void;
+    function setData(data: Record<string, string>, language: string): void;
     function get(key: string, replacements?: I18nReplacement, wrappers?: string[], gender?: string): string;
     function getLanguage(): string;
     function getInLocale(locale: string, key: string, replacements?: I18nReplacement, wrappers?: string[]): string;

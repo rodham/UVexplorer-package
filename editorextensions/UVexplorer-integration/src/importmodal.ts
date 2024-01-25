@@ -1,8 +1,8 @@
-import {EditorClient, Modal} from 'lucid-extension-sdk';
+import { EditorClient, Modal } from 'lucid-extension-sdk';
 
 export interface ImportModalMessage {
-    'name': string;
-    'content': string;
+    name: string;
+    content: string;
 }
 
 export class ImportModal extends Modal {
@@ -11,17 +11,18 @@ export class ImportModal extends Modal {
             title: 'Import a thing',
             width: 600,
             height: 400,
-            url: 'import.html',
+            url: 'import.html'
         });
     }
 
     protected frameLoaded() {
-        this.sendMessage({'message': 'Successfully passed message to iframe'});
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        this.sendMessage({ message: 'Successfully passed message to iframe' });
     }
 
     protected messageFromFrame(message: ImportModalMessage): void {
-        console.log(message['name']);
-        console.log(message['content']);
+        console.log(message.name);
+        console.log(message.content);
 
         this.hide();
     }

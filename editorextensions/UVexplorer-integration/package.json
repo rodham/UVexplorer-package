@@ -1,11 +1,23 @@
 {
     "devDependencies": {
+        "@types/jest": "^29.5.11",
+        "@typescript-eslint/eslint-plugin": "^6.19.1",
+        "@typescript-eslint/parser": "^6.19.1",
+        "eslint": "^8.56.0",
+        "eslint-plugin-jest": "^27.6.3",
+        "prettier": "^3.2.4",
         "raw-loader": "^4.0.2",
         "ts-loader": "^9.2.6",
-        "typescript": "^5.1.6",
+        "typescript": "^5.3.3",
         "webpack": "^5.64.4"
     },
     "dependencies": {
+        "jest": "^29.7.0",
         "lucid-extension-sdk": "^0.0.249"
+    },
+    "scripts": {
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix",
+        "prettier": "prettier . --write"
     }
 }
