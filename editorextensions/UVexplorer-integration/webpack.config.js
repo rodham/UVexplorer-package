@@ -7,21 +7,21 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 use: 'ts-loader',
-                exclude: /node_modules/,
+                exclude: /node_modules/
             },
             {
                 test: /[\\\/]resources[\\\/]/,
                 use: 'raw-loader',
-                exclude: /\.json$/,
-            },
-        ],
+                exclude: /\.json$/
+            }
+        ]
     },
     resolve: {
-        extensions: ['.ts', '.js'],
+        extensions: ['.ts', '.js']
     },
     output: {
         filename: 'bin/extension.js',
-        path: __dirname,
+        path: __dirname
     },
-    mode: 'development',
+    mode: 'development'
 };
