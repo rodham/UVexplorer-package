@@ -22,6 +22,9 @@ jobs:
           node-version: "20"
       - name: install
         run: npm install
+      - name: install in Angular app
+        working-directory: editorextensions/UVexplorer-integration/control-panel
+        run: npm install
       - name: ESLint
         run: npm run lint
       - name: Prettier
