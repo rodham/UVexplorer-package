@@ -5,8 +5,6 @@ defaults:
     working-directory: editorextensions/UVexplorer-integration
 
 on:
-  push:
-    branches: ["main"]
   pull_request:
     branches: ["main"]
 
@@ -19,12 +17,12 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - name: install
+      - name: Install
         run: npm ci
-      - name: install in Angular app
+      - name: Install in Angular app
         working-directory: editorextensions/UVexplorer-integration/control-panel
         run: npm ci
       - name: ESLint
