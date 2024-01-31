@@ -24,7 +24,7 @@ export class LoginComponent {
     })
   }
 
-  async login() {
+  login() {
     if (this.serverUrl === '' || this.apiKey === '') {
       return;
     }
