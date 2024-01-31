@@ -36,8 +36,8 @@ import {
   provideProtractorTestingSupport,
   withHttpTransferCacheOptions,
   withNoHttpTransferCache
-} from "./chunk-KAW73ZCG.js";
-import "./chunk-7UBRETAF.js";
+} from './chunk-KAW73ZCG.js';
+import './chunk-7UBRETAF.js';
 export {
   BrowserModule,
   By,

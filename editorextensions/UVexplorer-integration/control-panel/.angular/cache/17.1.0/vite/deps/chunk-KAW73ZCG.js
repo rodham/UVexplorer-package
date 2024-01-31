@@ -110,7 +110,7 @@ import {
   ɵɵinject,
   ɵɵinjectAttribute,
   ɵɵstyleProp
-} from "./chunk-7UBRETAF.js";
+} from './chunk-7UBRETAF.js';
 
 // node_modules/@angular/common/fesm2022/common.mjs
 var _DOM = null;
@@ -122,12 +122,11 @@ function setRootDomAdapter(adapter) {
     _DOM = adapter;
   }
 }
-var DomAdapter = class {
-};
-var DOCUMENT = new InjectionToken("DocumentToken");
+var DomAdapter = class {};
+var DOCUMENT = new InjectionToken('DocumentToken');
 var _PlatformLocation = class _PlatformLocation {
   historyGo(relativePosition) {
-    throw new Error("Not implemented");
+    throw new Error('Not implemented');
   }
 };
 _PlatformLocation.ɵfac = function PlatformLocation_Factory(t) {
@@ -136,19 +135,29 @@ _PlatformLocation.ɵfac = function PlatformLocation_Factory(t) {
 _PlatformLocation.ɵprov = ɵɵdefineInjectable({
   token: _PlatformLocation,
   factory: () => (() => inject(BrowserPlatformLocation))(),
-  providedIn: "platform"
+  providedIn: 'platform'
 });
 var PlatformLocation = _PlatformLocation;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PlatformLocation, [{
-    type: Injectable,
-    args: [{
-      providedIn: "platform",
-      useFactory: () => inject(BrowserPlatformLocation)
-    }]
-  }], null, null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      PlatformLocation,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'platform',
+              useFactory: () => inject(BrowserPlatformLocation)
+            }
+          ]
+        }
+      ],
+      null,
+      null
+    );
 })();
-var LOCATION_INITIALIZED = new InjectionToken("Location Initialized");
+var LOCATION_INITIALIZED = new InjectionToken('Location Initialized');
 var _BrowserPlatformLocation = class _BrowserPlatformLocation extends PlatformLocation {
   constructor() {
     super();
@@ -160,14 +169,14 @@ var _BrowserPlatformLocation = class _BrowserPlatformLocation extends PlatformLo
     return getDOM().getBaseHref(this._doc);
   }
   onPopState(fn) {
-    const window2 = getDOM().getGlobalEventTarget(this._doc, "window");
-    window2.addEventListener("popstate", fn, false);
-    return () => window2.removeEventListener("popstate", fn);
+    const window2 = getDOM().getGlobalEventTarget(this._doc, 'window');
+    window2.addEventListener('popstate', fn, false);
+    return () => window2.removeEventListener('popstate', fn);
   }
   onHashChange(fn) {
-    const window2 = getDOM().getGlobalEventTarget(this._doc, "window");
-    window2.addEventListener("hashchange", fn, false);
-    return () => window2.removeEventListener("hashchange", fn);
+    const window2 = getDOM().getGlobalEventTarget(this._doc, 'window');
+    window2.addEventListener('hashchange', fn, false);
+    return () => window2.removeEventListener('hashchange', fn);
   }
   get href() {
     return this._location.href;
@@ -218,17 +227,27 @@ _BrowserPlatformLocation.ɵfac = function BrowserPlatformLocation_Factory(t) {
 _BrowserPlatformLocation.ɵprov = ɵɵdefineInjectable({
   token: _BrowserPlatformLocation,
   factory: () => (() => new _BrowserPlatformLocation())(),
-  providedIn: "platform"
+  providedIn: 'platform'
 });
 var BrowserPlatformLocation = _BrowserPlatformLocation;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BrowserPlatformLocation, [{
-    type: Injectable,
-    args: [{
-      providedIn: "platform",
-      useFactory: () => new BrowserPlatformLocation()
-    }]
-  }], () => [], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      BrowserPlatformLocation,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'platform',
+              useFactory: () => new BrowserPlatformLocation()
+            }
+          ]
+        }
+      ],
+      () => [],
+      null
+    );
 })();
 function joinWithSlash(start, end) {
   if (start.length == 0) {
@@ -238,10 +257,10 @@ function joinWithSlash(start, end) {
     return start;
   }
   let slashes = 0;
-  if (start.endsWith("/")) {
+  if (start.endsWith('/')) {
     slashes++;
   }
-  if (end.startsWith("/")) {
+  if (end.startsWith('/')) {
     slashes++;
   }
   if (slashes == 2) {
@@ -250,20 +269,20 @@ function joinWithSlash(start, end) {
   if (slashes == 1) {
     return start + end;
   }
-  return start + "/" + end;
+  return start + '/' + end;
 }
 function stripTrailingSlash(url) {
   const match = url.match(/#|\?|$/);
-  const pathEndIdx = match && match.index || url.length;
-  const droppedSlashIdx = pathEndIdx - (url[pathEndIdx - 1] === "/" ? 1 : 0);
+  const pathEndIdx = (match && match.index) || url.length;
+  const droppedSlashIdx = pathEndIdx - (url[pathEndIdx - 1] === '/' ? 1 : 0);
   return url.slice(0, droppedSlashIdx) + url.slice(pathEndIdx);
 }
 function normalizeQueryParams(params) {
-  return params && params[0] !== "?" ? "?" + params : params;
+  return params && params[0] !== '?' ? '?' + params : params;
 }
 var _LocationStrategy = class _LocationStrategy {
   historyGo(relativePosition) {
-    throw new Error("Not implemented");
+    throw new Error('Not implemented');
   }
 };
 _LocationStrategy.ɵfac = function LocationStrategy_Factory(t) {
@@ -272,25 +291,35 @@ _LocationStrategy.ɵfac = function LocationStrategy_Factory(t) {
 _LocationStrategy.ɵprov = ɵɵdefineInjectable({
   token: _LocationStrategy,
   factory: () => (() => inject(PathLocationStrategy))(),
-  providedIn: "root"
+  providedIn: 'root'
 });
 var LocationStrategy = _LocationStrategy;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(LocationStrategy, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root",
-      useFactory: () => inject(PathLocationStrategy)
-    }]
-  }], null, null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      LocationStrategy,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'root',
+              useFactory: () => inject(PathLocationStrategy)
+            }
+          ]
+        }
+      ],
+      null,
+      null
+    );
 })();
-var APP_BASE_HREF = new InjectionToken("appBaseHref");
+var APP_BASE_HREF = new InjectionToken('appBaseHref');
 var _PathLocationStrategy = class _PathLocationStrategy extends LocationStrategy {
   constructor(_platformLocation, href) {
     super();
     this._platformLocation = _platformLocation;
     this._removeListenerFns = [];
-    this._baseHref = href ?? this._platformLocation.getBaseHrefFromDOM() ?? inject(DOCUMENT).location?.origin ?? "";
+    this._baseHref = href ?? this._platformLocation.getBaseHrefFromDOM() ?? inject(DOCUMENT).location?.origin ?? '';
   }
   /** @nodoc */
   ngOnDestroy() {
@@ -339,32 +368,48 @@ _PathLocationStrategy.ɵfac = function PathLocationStrategy_Factory(t) {
 _PathLocationStrategy.ɵprov = ɵɵdefineInjectable({
   token: _PathLocationStrategy,
   factory: _PathLocationStrategy.ɵfac,
-  providedIn: "root"
+  providedIn: 'root'
 });
 var PathLocationStrategy = _PathLocationStrategy;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PathLocationStrategy, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [{
-    type: PlatformLocation
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Optional
-    }, {
-      type: Inject,
-      args: [APP_BASE_HREF]
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      PathLocationStrategy,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'root'
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: PlatformLocation
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Optional
+            },
+            {
+              type: Inject,
+              args: [APP_BASE_HREF]
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 var _HashLocationStrategy = class _HashLocationStrategy extends LocationStrategy {
   constructor(_platformLocation, _baseHref) {
     super();
     this._platformLocation = _platformLocation;
-    this._baseHref = "";
+    this._baseHref = '';
     this._removeListenerFns = [];
     if (_baseHref != null) {
       this._baseHref = _baseHref;
@@ -384,13 +429,12 @@ var _HashLocationStrategy = class _HashLocationStrategy extends LocationStrategy
   }
   path(includeHash = false) {
     let path = this._platformLocation.hash;
-    if (path == null)
-      path = "#";
+    if (path == null) path = '#';
     return path.length > 0 ? path.substring(1) : path;
   }
   prepareExternalUrl(internal) {
     const url = joinWithSlash(this._baseHref, internal);
-    return url.length > 0 ? "#" + url : url;
+    return url.length > 0 ? '#' + url : url;
   }
   pushState(state, title, path, queryParams) {
     let url = this.prepareExternalUrl(path + normalizeQueryParams(queryParams));
@@ -428,19 +472,33 @@ _HashLocationStrategy.ɵprov = ɵɵdefineInjectable({
 });
 var HashLocationStrategy = _HashLocationStrategy;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HashLocationStrategy, [{
-    type: Injectable
-  }], () => [{
-    type: PlatformLocation
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Optional
-    }, {
-      type: Inject,
-      args: [APP_BASE_HREF]
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      HashLocationStrategy,
+      [
+        {
+          type: Injectable
+        }
+      ],
+      () => [
+        {
+          type: PlatformLocation
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Optional
+            },
+            {
+              type: Inject,
+              args: [APP_BASE_HREF]
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 var _Location = class _Location {
   constructor(locationStrategy) {
@@ -452,10 +510,10 @@ var _Location = class _Location {
     this._basePath = _stripOrigin(stripTrailingSlash(_stripIndexHtml(baseHref)));
     this._locationStrategy.onPopState((ev) => {
       this._subject.emit({
-        "url": this.path(true),
-        "pop": true,
-        "state": ev.state,
-        "type": ev.type
+        url: this.path(true),
+        pop: true,
+        state: ev.state,
+        type: ev.type
       });
     });
   }
@@ -492,7 +550,7 @@ var _Location = class _Location {
    * @returns True if the given URL path is equal to the current normalized path, false
    * otherwise.
    */
-  isCurrentPathEqualTo(path, query = "") {
+  isCurrentPathEqualTo(path, query = '') {
     return this.path() == this.normalize(path + normalizeQueryParams(query));
   }
   /**
@@ -516,8 +574,8 @@ var _Location = class _Location {
    * @returns  A normalized platform-specific URL.
    */
   prepareExternalUrl(url) {
-    if (url && url[0] !== "/") {
-      url = "/" + url;
+    if (url && url[0] !== '/') {
+      url = '/' + url;
     }
     return this._locationStrategy.prepareExternalUrl(url);
   }
@@ -531,8 +589,8 @@ var _Location = class _Location {
    * @param state Location history state.
    *
    */
-  go(path, query = "", state = null) {
-    this._locationStrategy.pushState(state, "", path, query);
+  go(path, query = '', state = null) {
+    this._locationStrategy.pushState(state, '', path, query);
     this._notifyUrlChangeListeners(this.prepareExternalUrl(path + normalizeQueryParams(query)), state);
   }
   /**
@@ -543,8 +601,8 @@ var _Location = class _Location {
    * @param query Query parameters.
    * @param state Location history state.
    */
-  replaceState(path, query = "", state = null) {
-    this._locationStrategy.replaceState(state, "", path, query);
+  replaceState(path, query = '', state = null) {
+    this._locationStrategy.replaceState(state, '', path, query);
     this._notifyUrlChangeListeners(this.prepareExternalUrl(path + normalizeQueryParams(query)), state);
   }
   /**
@@ -598,7 +656,7 @@ var _Location = class _Location {
     };
   }
   /** @internal */
-  _notifyUrlChangeListeners(url = "", state) {
+  _notifyUrlChangeListeners(url = '', state) {
     this._urlChangeListeners.forEach((fn) => fn(url, state));
   }
   /**
@@ -631,20 +689,32 @@ _Location.ɵfac = function Location_Factory(t) {
 _Location.ɵprov = ɵɵdefineInjectable({
   token: _Location,
   factory: () => createLocation(),
-  providedIn: "root"
+  providedIn: 'root'
 });
 var Location = _Location;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Location, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root",
-      // See #23917
-      useFactory: createLocation
-    }]
-  }], () => [{
-    type: LocationStrategy
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      Location,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'root',
+              // See #23917
+              useFactory: createLocation
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: LocationStrategy
+        }
+      ],
+      null
+    );
 })();
 function createLocation() {
   return new Location(ɵɵinject(LocationStrategy));
@@ -654,16 +724,16 @@ function _stripBasePath(basePath, url) {
     return url;
   }
   const strippedUrl = url.substring(basePath.length);
-  if (strippedUrl === "" || ["/", ";", "?", "#"].includes(strippedUrl[0])) {
+  if (strippedUrl === '' || ['/', ';', '?', '#'].includes(strippedUrl[0])) {
     return strippedUrl;
   }
   return url;
 }
 function _stripIndexHtml(url) {
-  return url.replace(/\/index.html$/, "");
+  return url.replace(/\/index.html$/, '');
 }
 function _stripOrigin(baseHref) {
-  const isAbsoluteUrl2 = new RegExp("^(https?:)?//").test(baseHref);
+  const isAbsoluteUrl2 = new RegExp('^(https?:)?//').test(baseHref);
   if (isAbsoluteUrl2) {
     const [, pathname] = baseHref.split(/\/\/[^\/]+/);
     return pathname;
@@ -671,208 +741,208 @@ function _stripOrigin(baseHref) {
   return baseHref;
 }
 var CURRENCIES_EN = {
-  "ADP": [void 0, void 0, 0],
-  "AFN": [void 0, "؋", 0],
-  "ALL": [void 0, void 0, 0],
-  "AMD": [void 0, "֏", 2],
-  "AOA": [void 0, "Kz"],
-  "ARS": [void 0, "$"],
-  "AUD": ["A$", "$"],
-  "AZN": [void 0, "₼"],
-  "BAM": [void 0, "KM"],
-  "BBD": [void 0, "$"],
-  "BDT": [void 0, "৳"],
-  "BHD": [void 0, void 0, 3],
-  "BIF": [void 0, void 0, 0],
-  "BMD": [void 0, "$"],
-  "BND": [void 0, "$"],
-  "BOB": [void 0, "Bs"],
-  "BRL": ["R$"],
-  "BSD": [void 0, "$"],
-  "BWP": [void 0, "P"],
-  "BYN": [void 0, void 0, 2],
-  "BYR": [void 0, void 0, 0],
-  "BZD": [void 0, "$"],
-  "CAD": ["CA$", "$", 2],
-  "CHF": [void 0, void 0, 2],
-  "CLF": [void 0, void 0, 4],
-  "CLP": [void 0, "$", 0],
-  "CNY": ["CN¥", "¥"],
-  "COP": [void 0, "$", 2],
-  "CRC": [void 0, "₡", 2],
-  "CUC": [void 0, "$"],
-  "CUP": [void 0, "$"],
-  "CZK": [void 0, "Kč", 2],
-  "DJF": [void 0, void 0, 0],
-  "DKK": [void 0, "kr", 2],
-  "DOP": [void 0, "$"],
-  "EGP": [void 0, "E£"],
-  "ESP": [void 0, "₧", 0],
-  "EUR": ["€"],
-  "FJD": [void 0, "$"],
-  "FKP": [void 0, "£"],
-  "GBP": ["£"],
-  "GEL": [void 0, "₾"],
-  "GHS": [void 0, "GH₵"],
-  "GIP": [void 0, "£"],
-  "GNF": [void 0, "FG", 0],
-  "GTQ": [void 0, "Q"],
-  "GYD": [void 0, "$", 2],
-  "HKD": ["HK$", "$"],
-  "HNL": [void 0, "L"],
-  "HRK": [void 0, "kn"],
-  "HUF": [void 0, "Ft", 2],
-  "IDR": [void 0, "Rp", 2],
-  "ILS": ["₪"],
-  "INR": ["₹"],
-  "IQD": [void 0, void 0, 0],
-  "IRR": [void 0, void 0, 0],
-  "ISK": [void 0, "kr", 0],
-  "ITL": [void 0, void 0, 0],
-  "JMD": [void 0, "$"],
-  "JOD": [void 0, void 0, 3],
-  "JPY": ["¥", void 0, 0],
-  "KHR": [void 0, "៛"],
-  "KMF": [void 0, "CF", 0],
-  "KPW": [void 0, "₩", 0],
-  "KRW": ["₩", void 0, 0],
-  "KWD": [void 0, void 0, 3],
-  "KYD": [void 0, "$"],
-  "KZT": [void 0, "₸"],
-  "LAK": [void 0, "₭", 0],
-  "LBP": [void 0, "L£", 0],
-  "LKR": [void 0, "Rs"],
-  "LRD": [void 0, "$"],
-  "LTL": [void 0, "Lt"],
-  "LUF": [void 0, void 0, 0],
-  "LVL": [void 0, "Ls"],
-  "LYD": [void 0, void 0, 3],
-  "MGA": [void 0, "Ar", 0],
-  "MGF": [void 0, void 0, 0],
-  "MMK": [void 0, "K", 0],
-  "MNT": [void 0, "₮", 2],
-  "MRO": [void 0, void 0, 0],
-  "MUR": [void 0, "Rs", 2],
-  "MXN": ["MX$", "$"],
-  "MYR": [void 0, "RM"],
-  "NAD": [void 0, "$"],
-  "NGN": [void 0, "₦"],
-  "NIO": [void 0, "C$"],
-  "NOK": [void 0, "kr", 2],
-  "NPR": [void 0, "Rs"],
-  "NZD": ["NZ$", "$"],
-  "OMR": [void 0, void 0, 3],
-  "PHP": ["₱"],
-  "PKR": [void 0, "Rs", 2],
-  "PLN": [void 0, "zł"],
-  "PYG": [void 0, "₲", 0],
-  "RON": [void 0, "lei"],
-  "RSD": [void 0, void 0, 0],
-  "RUB": [void 0, "₽"],
-  "RWF": [void 0, "RF", 0],
-  "SBD": [void 0, "$"],
-  "SEK": [void 0, "kr", 2],
-  "SGD": [void 0, "$"],
-  "SHP": [void 0, "£"],
-  "SLE": [void 0, void 0, 2],
-  "SLL": [void 0, void 0, 0],
-  "SOS": [void 0, void 0, 0],
-  "SRD": [void 0, "$"],
-  "SSP": [void 0, "£"],
-  "STD": [void 0, void 0, 0],
-  "STN": [void 0, "Db"],
-  "SYP": [void 0, "£", 0],
-  "THB": [void 0, "฿"],
-  "TMM": [void 0, void 0, 0],
-  "TND": [void 0, void 0, 3],
-  "TOP": [void 0, "T$"],
-  "TRL": [void 0, void 0, 0],
-  "TRY": [void 0, "₺"],
-  "TTD": [void 0, "$"],
-  "TWD": ["NT$", "$", 2],
-  "TZS": [void 0, void 0, 2],
-  "UAH": [void 0, "₴"],
-  "UGX": [void 0, void 0, 0],
-  "USD": ["$"],
-  "UYI": [void 0, void 0, 0],
-  "UYU": [void 0, "$"],
-  "UYW": [void 0, void 0, 4],
-  "UZS": [void 0, void 0, 2],
-  "VEF": [void 0, "Bs", 2],
-  "VND": ["₫", void 0, 0],
-  "VUV": [void 0, void 0, 0],
-  "XAF": ["FCFA", void 0, 0],
-  "XCD": ["EC$", "$"],
-  "XOF": ["F CFA", void 0, 0],
-  "XPF": ["CFPF", void 0, 0],
-  "XXX": ["¤"],
-  "YER": [void 0, void 0, 0],
-  "ZAR": [void 0, "R"],
-  "ZMK": [void 0, void 0, 0],
-  "ZMW": [void 0, "ZK"],
-  "ZWD": [void 0, void 0, 0]
+  ADP: [void 0, void 0, 0],
+  AFN: [void 0, '؋', 0],
+  ALL: [void 0, void 0, 0],
+  AMD: [void 0, '֏', 2],
+  AOA: [void 0, 'Kz'],
+  ARS: [void 0, '$'],
+  AUD: ['A$', '$'],
+  AZN: [void 0, '₼'],
+  BAM: [void 0, 'KM'],
+  BBD: [void 0, '$'],
+  BDT: [void 0, '৳'],
+  BHD: [void 0, void 0, 3],
+  BIF: [void 0, void 0, 0],
+  BMD: [void 0, '$'],
+  BND: [void 0, '$'],
+  BOB: [void 0, 'Bs'],
+  BRL: ['R$'],
+  BSD: [void 0, '$'],
+  BWP: [void 0, 'P'],
+  BYN: [void 0, void 0, 2],
+  BYR: [void 0, void 0, 0],
+  BZD: [void 0, '$'],
+  CAD: ['CA$', '$', 2],
+  CHF: [void 0, void 0, 2],
+  CLF: [void 0, void 0, 4],
+  CLP: [void 0, '$', 0],
+  CNY: ['CN¥', '¥'],
+  COP: [void 0, '$', 2],
+  CRC: [void 0, '₡', 2],
+  CUC: [void 0, '$'],
+  CUP: [void 0, '$'],
+  CZK: [void 0, 'Kč', 2],
+  DJF: [void 0, void 0, 0],
+  DKK: [void 0, 'kr', 2],
+  DOP: [void 0, '$'],
+  EGP: [void 0, 'E£'],
+  ESP: [void 0, '₧', 0],
+  EUR: ['€'],
+  FJD: [void 0, '$'],
+  FKP: [void 0, '£'],
+  GBP: ['£'],
+  GEL: [void 0, '₾'],
+  GHS: [void 0, 'GH₵'],
+  GIP: [void 0, '£'],
+  GNF: [void 0, 'FG', 0],
+  GTQ: [void 0, 'Q'],
+  GYD: [void 0, '$', 2],
+  HKD: ['HK$', '$'],
+  HNL: [void 0, 'L'],
+  HRK: [void 0, 'kn'],
+  HUF: [void 0, 'Ft', 2],
+  IDR: [void 0, 'Rp', 2],
+  ILS: ['₪'],
+  INR: ['₹'],
+  IQD: [void 0, void 0, 0],
+  IRR: [void 0, void 0, 0],
+  ISK: [void 0, 'kr', 0],
+  ITL: [void 0, void 0, 0],
+  JMD: [void 0, '$'],
+  JOD: [void 0, void 0, 3],
+  JPY: ['¥', void 0, 0],
+  KHR: [void 0, '៛'],
+  KMF: [void 0, 'CF', 0],
+  KPW: [void 0, '₩', 0],
+  KRW: ['₩', void 0, 0],
+  KWD: [void 0, void 0, 3],
+  KYD: [void 0, '$'],
+  KZT: [void 0, '₸'],
+  LAK: [void 0, '₭', 0],
+  LBP: [void 0, 'L£', 0],
+  LKR: [void 0, 'Rs'],
+  LRD: [void 0, '$'],
+  LTL: [void 0, 'Lt'],
+  LUF: [void 0, void 0, 0],
+  LVL: [void 0, 'Ls'],
+  LYD: [void 0, void 0, 3],
+  MGA: [void 0, 'Ar', 0],
+  MGF: [void 0, void 0, 0],
+  MMK: [void 0, 'K', 0],
+  MNT: [void 0, '₮', 2],
+  MRO: [void 0, void 0, 0],
+  MUR: [void 0, 'Rs', 2],
+  MXN: ['MX$', '$'],
+  MYR: [void 0, 'RM'],
+  NAD: [void 0, '$'],
+  NGN: [void 0, '₦'],
+  NIO: [void 0, 'C$'],
+  NOK: [void 0, 'kr', 2],
+  NPR: [void 0, 'Rs'],
+  NZD: ['NZ$', '$'],
+  OMR: [void 0, void 0, 3],
+  PHP: ['₱'],
+  PKR: [void 0, 'Rs', 2],
+  PLN: [void 0, 'zł'],
+  PYG: [void 0, '₲', 0],
+  RON: [void 0, 'lei'],
+  RSD: [void 0, void 0, 0],
+  RUB: [void 0, '₽'],
+  RWF: [void 0, 'RF', 0],
+  SBD: [void 0, '$'],
+  SEK: [void 0, 'kr', 2],
+  SGD: [void 0, '$'],
+  SHP: [void 0, '£'],
+  SLE: [void 0, void 0, 2],
+  SLL: [void 0, void 0, 0],
+  SOS: [void 0, void 0, 0],
+  SRD: [void 0, '$'],
+  SSP: [void 0, '£'],
+  STD: [void 0, void 0, 0],
+  STN: [void 0, 'Db'],
+  SYP: [void 0, '£', 0],
+  THB: [void 0, '฿'],
+  TMM: [void 0, void 0, 0],
+  TND: [void 0, void 0, 3],
+  TOP: [void 0, 'T$'],
+  TRL: [void 0, void 0, 0],
+  TRY: [void 0, '₺'],
+  TTD: [void 0, '$'],
+  TWD: ['NT$', '$', 2],
+  TZS: [void 0, void 0, 2],
+  UAH: [void 0, '₴'],
+  UGX: [void 0, void 0, 0],
+  USD: ['$'],
+  UYI: [void 0, void 0, 0],
+  UYU: [void 0, '$'],
+  UYW: [void 0, void 0, 4],
+  UZS: [void 0, void 0, 2],
+  VEF: [void 0, 'Bs', 2],
+  VND: ['₫', void 0, 0],
+  VUV: [void 0, void 0, 0],
+  XAF: ['FCFA', void 0, 0],
+  XCD: ['EC$', '$'],
+  XOF: ['F CFA', void 0, 0],
+  XPF: ['CFPF', void 0, 0],
+  XXX: ['¤'],
+  YER: [void 0, void 0, 0],
+  ZAR: [void 0, 'R'],
+  ZMK: [void 0, void 0, 0],
+  ZMW: [void 0, 'ZK'],
+  ZWD: [void 0, void 0, 0]
 };
 var NumberFormatStyle;
-(function(NumberFormatStyle2) {
-  NumberFormatStyle2[NumberFormatStyle2["Decimal"] = 0] = "Decimal";
-  NumberFormatStyle2[NumberFormatStyle2["Percent"] = 1] = "Percent";
-  NumberFormatStyle2[NumberFormatStyle2["Currency"] = 2] = "Currency";
-  NumberFormatStyle2[NumberFormatStyle2["Scientific"] = 3] = "Scientific";
+(function (NumberFormatStyle2) {
+  NumberFormatStyle2[(NumberFormatStyle2['Decimal'] = 0)] = 'Decimal';
+  NumberFormatStyle2[(NumberFormatStyle2['Percent'] = 1)] = 'Percent';
+  NumberFormatStyle2[(NumberFormatStyle2['Currency'] = 2)] = 'Currency';
+  NumberFormatStyle2[(NumberFormatStyle2['Scientific'] = 3)] = 'Scientific';
 })(NumberFormatStyle || (NumberFormatStyle = {}));
 var Plural;
-(function(Plural2) {
-  Plural2[Plural2["Zero"] = 0] = "Zero";
-  Plural2[Plural2["One"] = 1] = "One";
-  Plural2[Plural2["Two"] = 2] = "Two";
-  Plural2[Plural2["Few"] = 3] = "Few";
-  Plural2[Plural2["Many"] = 4] = "Many";
-  Plural2[Plural2["Other"] = 5] = "Other";
+(function (Plural2) {
+  Plural2[(Plural2['Zero'] = 0)] = 'Zero';
+  Plural2[(Plural2['One'] = 1)] = 'One';
+  Plural2[(Plural2['Two'] = 2)] = 'Two';
+  Plural2[(Plural2['Few'] = 3)] = 'Few';
+  Plural2[(Plural2['Many'] = 4)] = 'Many';
+  Plural2[(Plural2['Other'] = 5)] = 'Other';
 })(Plural || (Plural = {}));
 var FormStyle;
-(function(FormStyle2) {
-  FormStyle2[FormStyle2["Format"] = 0] = "Format";
-  FormStyle2[FormStyle2["Standalone"] = 1] = "Standalone";
+(function (FormStyle2) {
+  FormStyle2[(FormStyle2['Format'] = 0)] = 'Format';
+  FormStyle2[(FormStyle2['Standalone'] = 1)] = 'Standalone';
 })(FormStyle || (FormStyle = {}));
 var TranslationWidth;
-(function(TranslationWidth2) {
-  TranslationWidth2[TranslationWidth2["Narrow"] = 0] = "Narrow";
-  TranslationWidth2[TranslationWidth2["Abbreviated"] = 1] = "Abbreviated";
-  TranslationWidth2[TranslationWidth2["Wide"] = 2] = "Wide";
-  TranslationWidth2[TranslationWidth2["Short"] = 3] = "Short";
+(function (TranslationWidth2) {
+  TranslationWidth2[(TranslationWidth2['Narrow'] = 0)] = 'Narrow';
+  TranslationWidth2[(TranslationWidth2['Abbreviated'] = 1)] = 'Abbreviated';
+  TranslationWidth2[(TranslationWidth2['Wide'] = 2)] = 'Wide';
+  TranslationWidth2[(TranslationWidth2['Short'] = 3)] = 'Short';
 })(TranslationWidth || (TranslationWidth = {}));
 var FormatWidth;
-(function(FormatWidth2) {
-  FormatWidth2[FormatWidth2["Short"] = 0] = "Short";
-  FormatWidth2[FormatWidth2["Medium"] = 1] = "Medium";
-  FormatWidth2[FormatWidth2["Long"] = 2] = "Long";
-  FormatWidth2[FormatWidth2["Full"] = 3] = "Full";
+(function (FormatWidth2) {
+  FormatWidth2[(FormatWidth2['Short'] = 0)] = 'Short';
+  FormatWidth2[(FormatWidth2['Medium'] = 1)] = 'Medium';
+  FormatWidth2[(FormatWidth2['Long'] = 2)] = 'Long';
+  FormatWidth2[(FormatWidth2['Full'] = 3)] = 'Full';
 })(FormatWidth || (FormatWidth = {}));
 var NumberSymbol;
-(function(NumberSymbol2) {
-  NumberSymbol2[NumberSymbol2["Decimal"] = 0] = "Decimal";
-  NumberSymbol2[NumberSymbol2["Group"] = 1] = "Group";
-  NumberSymbol2[NumberSymbol2["List"] = 2] = "List";
-  NumberSymbol2[NumberSymbol2["PercentSign"] = 3] = "PercentSign";
-  NumberSymbol2[NumberSymbol2["PlusSign"] = 4] = "PlusSign";
-  NumberSymbol2[NumberSymbol2["MinusSign"] = 5] = "MinusSign";
-  NumberSymbol2[NumberSymbol2["Exponential"] = 6] = "Exponential";
-  NumberSymbol2[NumberSymbol2["SuperscriptingExponent"] = 7] = "SuperscriptingExponent";
-  NumberSymbol2[NumberSymbol2["PerMille"] = 8] = "PerMille";
-  NumberSymbol2[NumberSymbol2["Infinity"] = 9] = "Infinity";
-  NumberSymbol2[NumberSymbol2["NaN"] = 10] = "NaN";
-  NumberSymbol2[NumberSymbol2["TimeSeparator"] = 11] = "TimeSeparator";
-  NumberSymbol2[NumberSymbol2["CurrencyDecimal"] = 12] = "CurrencyDecimal";
-  NumberSymbol2[NumberSymbol2["CurrencyGroup"] = 13] = "CurrencyGroup";
+(function (NumberSymbol2) {
+  NumberSymbol2[(NumberSymbol2['Decimal'] = 0)] = 'Decimal';
+  NumberSymbol2[(NumberSymbol2['Group'] = 1)] = 'Group';
+  NumberSymbol2[(NumberSymbol2['List'] = 2)] = 'List';
+  NumberSymbol2[(NumberSymbol2['PercentSign'] = 3)] = 'PercentSign';
+  NumberSymbol2[(NumberSymbol2['PlusSign'] = 4)] = 'PlusSign';
+  NumberSymbol2[(NumberSymbol2['MinusSign'] = 5)] = 'MinusSign';
+  NumberSymbol2[(NumberSymbol2['Exponential'] = 6)] = 'Exponential';
+  NumberSymbol2[(NumberSymbol2['SuperscriptingExponent'] = 7)] = 'SuperscriptingExponent';
+  NumberSymbol2[(NumberSymbol2['PerMille'] = 8)] = 'PerMille';
+  NumberSymbol2[(NumberSymbol2['Infinity'] = 9)] = 'Infinity';
+  NumberSymbol2[(NumberSymbol2['NaN'] = 10)] = 'NaN';
+  NumberSymbol2[(NumberSymbol2['TimeSeparator'] = 11)] = 'TimeSeparator';
+  NumberSymbol2[(NumberSymbol2['CurrencyDecimal'] = 12)] = 'CurrencyDecimal';
+  NumberSymbol2[(NumberSymbol2['CurrencyGroup'] = 13)] = 'CurrencyGroup';
 })(NumberSymbol || (NumberSymbol = {}));
 var WeekDay;
-(function(WeekDay2) {
-  WeekDay2[WeekDay2["Sunday"] = 0] = "Sunday";
-  WeekDay2[WeekDay2["Monday"] = 1] = "Monday";
-  WeekDay2[WeekDay2["Tuesday"] = 2] = "Tuesday";
-  WeekDay2[WeekDay2["Wednesday"] = 3] = "Wednesday";
-  WeekDay2[WeekDay2["Thursday"] = 4] = "Thursday";
-  WeekDay2[WeekDay2["Friday"] = 5] = "Friday";
-  WeekDay2[WeekDay2["Saturday"] = 6] = "Saturday";
+(function (WeekDay2) {
+  WeekDay2[(WeekDay2['Sunday'] = 0)] = 'Sunday';
+  WeekDay2[(WeekDay2['Monday'] = 1)] = 'Monday';
+  WeekDay2[(WeekDay2['Tuesday'] = 2)] = 'Tuesday';
+  WeekDay2[(WeekDay2['Wednesday'] = 3)] = 'Wednesday';
+  WeekDay2[(WeekDay2['Thursday'] = 4)] = 'Thursday';
+  WeekDay2[(WeekDay2['Friday'] = 5)] = 'Friday';
+  WeekDay2[(WeekDay2['Saturday'] = 6)] = 'Saturday';
 })(WeekDay || (WeekDay = {}));
 function getLocaleId(locale) {
   return findLocaleData(locale)[LocaleDataIndex.LocaleId];
@@ -916,7 +986,7 @@ function getLocaleDateTimeFormat(locale, width) {
 function getLocaleNumberSymbol(locale, symbol) {
   const data = findLocaleData(locale);
   const res = data[LocaleDataIndex.NumberSymbols][symbol];
-  if (typeof res === "undefined") {
+  if (typeof res === 'undefined') {
     if (symbol === NumberSymbol.CurrencyDecimal) {
       return data[LocaleDataIndex.NumberSymbols][NumberSymbol.Decimal];
     } else if (symbol === NumberSymbol.CurrencyGroup) {
@@ -936,18 +1006,19 @@ function getLocaleCurrencies(locale) {
 var getLocalePluralCase2 = getLocalePluralCase;
 function checkFullData(data) {
   if (!data[LocaleDataIndex.ExtraData]) {
-    throw new Error(`Missing extra locale data for the locale "${data[LocaleDataIndex.LocaleId]}". Use "registerLocaleData" to load new data. See the "I18n guide" on angular.io to know more.`);
+    throw new Error(
+      `Missing extra locale data for the locale "${data[LocaleDataIndex.LocaleId]}". Use "registerLocaleData" to load new data. See the "I18n guide" on angular.io to know more.`
+    );
   }
 }
 function getLocaleExtraDayPeriodRules(locale) {
   const data = findLocaleData(locale);
   checkFullData(data);
-  const rules = data[LocaleDataIndex.ExtraData][
-    2
+  const rules =
+    data[LocaleDataIndex.ExtraData][2] || [];
     /* ɵExtraLocaleDataIndex.ExtraDayPeriodsRules */
-  ] || [];
   return rules.map((rule) => {
-    if (typeof rule === "string") {
+    if (typeof rule === 'string') {
       return extractTime(rule);
     }
     return [extractTime(rule[0]), extractTime(rule[1])];
@@ -956,84 +1027,83 @@ function getLocaleExtraDayPeriodRules(locale) {
 function getLocaleExtraDayPeriods(locale, formStyle, width) {
   const data = findLocaleData(locale);
   checkFullData(data);
-  const dayPeriodsData = [data[LocaleDataIndex.ExtraData][
-    0
+  const dayPeriodsData = [
+    data[LocaleDataIndex.ExtraData][0],
     /* ɵExtraLocaleDataIndex.ExtraDayPeriodFormats */
-  ], data[LocaleDataIndex.ExtraData][
-    1
+    data[LocaleDataIndex.ExtraData][1]
     /* ɵExtraLocaleDataIndex.ExtraDayPeriodStandalone */
-  ]];
+  ];
   const dayPeriods = getLastDefinedValue(dayPeriodsData, formStyle) || [];
   return getLastDefinedValue(dayPeriods, width) || [];
 }
 function getLastDefinedValue(data, index) {
   for (let i = index; i > -1; i--) {
-    if (typeof data[i] !== "undefined") {
+    if (typeof data[i] !== 'undefined') {
       return data[i];
     }
   }
-  throw new Error("Locale data API: locale data undefined");
+  throw new Error('Locale data API: locale data undefined');
 }
 function extractTime(time) {
-  const [h, m] = time.split(":");
+  const [h, m] = time.split(':');
   return {
     hours: +h,
     minutes: +m
   };
 }
-function getCurrencySymbol(code, format, locale = "en") {
+function getCurrencySymbol(code, format, locale = 'en') {
   const currency = getLocaleCurrencies(locale)[code] || CURRENCIES_EN[code] || [];
-  const symbolNarrow = currency[
-    1
+  const symbolNarrow =
+    currency[1];
     /* ɵCurrencyIndex.SymbolNarrow */
-  ];
-  if (format === "narrow" && typeof symbolNarrow === "string") {
+  if (format === 'narrow' && typeof symbolNarrow === 'string') {
     return symbolNarrow;
   }
-  return currency[
-    0
+  return (
+    currency[0] || code
     /* ɵCurrencyIndex.Symbol */
-  ] || code;
+  );
 }
 var DEFAULT_NB_OF_CURRENCY_DIGITS = 2;
 function getNumberOfCurrencyDigits(code) {
   let digits;
   const currency = CURRENCIES_EN[code];
   if (currency) {
-    digits = currency[
-      2
+    digits =
+      currency[2];
       /* ɵCurrencyIndex.NbOfDigits */
-    ];
   }
-  return typeof digits === "number" ? digits : DEFAULT_NB_OF_CURRENCY_DIGITS;
+  return typeof digits === 'number' ? digits : DEFAULT_NB_OF_CURRENCY_DIGITS;
 }
-var ISO8601_DATE_REGEX = /^(\d{4,})-?(\d\d)-?(\d\d)(?:T(\d\d)(?::?(\d\d)(?::?(\d\d)(?:\.(\d+))?)?)?(Z|([+-])(\d\d):?(\d\d))?)?$/;
+var ISO8601_DATE_REGEX =
+  /^(\d{4,})-?(\d\d)-?(\d\d)(?:T(\d\d)(?::?(\d\d)(?::?(\d\d)(?:\.(\d+))?)?)?(Z|([+-])(\d\d):?(\d\d))?)?$/;
 var NAMED_FORMATS = {};
-var DATE_FORMATS_SPLIT = /((?:[^BEGHLMOSWYZabcdhmswyz']+)|(?:'(?:[^']|'')*')|(?:G{1,5}|y{1,4}|Y{1,4}|M{1,5}|L{1,5}|w{1,2}|W{1}|d{1,2}|E{1,6}|c{1,6}|a{1,5}|b{1,5}|B{1,5}|h{1,2}|H{1,2}|m{1,2}|s{1,2}|S{1,3}|z{1,4}|Z{1,5}|O{1,4}))([\s\S]*)/;
+var DATE_FORMATS_SPLIT =
+  /((?:[^BEGHLMOSWYZabcdhmswyz']+)|(?:'(?:[^']|'')*')|(?:G{1,5}|y{1,4}|Y{1,4}|M{1,5}|L{1,5}|w{1,2}|W{1}|d{1,2}|E{1,6}|c{1,6}|a{1,5}|b{1,5}|B{1,5}|h{1,2}|H{1,2}|m{1,2}|s{1,2}|S{1,3}|z{1,4}|Z{1,5}|O{1,4}))([\s\S]*)/;
 var ZoneWidth;
-(function(ZoneWidth2) {
-  ZoneWidth2[ZoneWidth2["Short"] = 0] = "Short";
-  ZoneWidth2[ZoneWidth2["ShortGMT"] = 1] = "ShortGMT";
-  ZoneWidth2[ZoneWidth2["Long"] = 2] = "Long";
-  ZoneWidth2[ZoneWidth2["Extended"] = 3] = "Extended";
+(function (ZoneWidth2) {
+  ZoneWidth2[(ZoneWidth2['Short'] = 0)] = 'Short';
+  ZoneWidth2[(ZoneWidth2['ShortGMT'] = 1)] = 'ShortGMT';
+  ZoneWidth2[(ZoneWidth2['Long'] = 2)] = 'Long';
+  ZoneWidth2[(ZoneWidth2['Extended'] = 3)] = 'Extended';
 })(ZoneWidth || (ZoneWidth = {}));
 var DateType;
-(function(DateType2) {
-  DateType2[DateType2["FullYear"] = 0] = "FullYear";
-  DateType2[DateType2["Month"] = 1] = "Month";
-  DateType2[DateType2["Date"] = 2] = "Date";
-  DateType2[DateType2["Hours"] = 3] = "Hours";
-  DateType2[DateType2["Minutes"] = 4] = "Minutes";
-  DateType2[DateType2["Seconds"] = 5] = "Seconds";
-  DateType2[DateType2["FractionalSeconds"] = 6] = "FractionalSeconds";
-  DateType2[DateType2["Day"] = 7] = "Day";
+(function (DateType2) {
+  DateType2[(DateType2['FullYear'] = 0)] = 'FullYear';
+  DateType2[(DateType2['Month'] = 1)] = 'Month';
+  DateType2[(DateType2['Date'] = 2)] = 'Date';
+  DateType2[(DateType2['Hours'] = 3)] = 'Hours';
+  DateType2[(DateType2['Minutes'] = 4)] = 'Minutes';
+  DateType2[(DateType2['Seconds'] = 5)] = 'Seconds';
+  DateType2[(DateType2['FractionalSeconds'] = 6)] = 'FractionalSeconds';
+  DateType2[(DateType2['Day'] = 7)] = 'Day';
 })(DateType || (DateType = {}));
 var TranslationType;
-(function(TranslationType2) {
-  TranslationType2[TranslationType2["DayPeriods"] = 0] = "DayPeriods";
-  TranslationType2[TranslationType2["Days"] = 1] = "Days";
-  TranslationType2[TranslationType2["Months"] = 2] = "Months";
-  TranslationType2[TranslationType2["Eras"] = 3] = "Eras";
+(function (TranslationType2) {
+  TranslationType2[(TranslationType2['DayPeriods'] = 0)] = 'DayPeriods';
+  TranslationType2[(TranslationType2['Days'] = 1)] = 'Days';
+  TranslationType2[(TranslationType2['Months'] = 2)] = 'Months';
+  TranslationType2[(TranslationType2['Eras'] = 3)] = 'Eras';
 })(TranslationType || (TranslationType = {}));
 function formatDate(value, format, locale, timezone) {
   let date = toDate(value);
@@ -1060,10 +1130,14 @@ function formatDate(value, format, locale, timezone) {
     dateTimezoneOffset = timezoneToOffset(timezone, dateTimezoneOffset);
     date = convertTimezoneToLocal(date, timezone, true);
   }
-  let text = "";
+  let text = '';
   parts.forEach((value2) => {
     const dateFormatter = getDateFormatter(value2);
-    text += dateFormatter ? dateFormatter(date, locale, dateTimezoneOffset) : value2 === "''" ? "'" : value2.replace(/(^'|'$)/g, "").replace(/''/g, "'");
+    text += dateFormatter
+      ? dateFormatter(date, locale, dateTimezoneOffset)
+      : value2 === "''"
+        ? "'"
+        : value2.replace(/(^'|'$)/g, '').replace(/''/g, "'");
   });
   return text;
 }
@@ -1079,50 +1153,50 @@ function getNamedFormat(locale, format) {
   if (NAMED_FORMATS[localeId][format]) {
     return NAMED_FORMATS[localeId][format];
   }
-  let formatValue = "";
+  let formatValue = '';
   switch (format) {
-    case "shortDate":
+    case 'shortDate':
       formatValue = getLocaleDateFormat(locale, FormatWidth.Short);
       break;
-    case "mediumDate":
+    case 'mediumDate':
       formatValue = getLocaleDateFormat(locale, FormatWidth.Medium);
       break;
-    case "longDate":
+    case 'longDate':
       formatValue = getLocaleDateFormat(locale, FormatWidth.Long);
       break;
-    case "fullDate":
+    case 'fullDate':
       formatValue = getLocaleDateFormat(locale, FormatWidth.Full);
       break;
-    case "shortTime":
+    case 'shortTime':
       formatValue = getLocaleTimeFormat(locale, FormatWidth.Short);
       break;
-    case "mediumTime":
+    case 'mediumTime':
       formatValue = getLocaleTimeFormat(locale, FormatWidth.Medium);
       break;
-    case "longTime":
+    case 'longTime':
       formatValue = getLocaleTimeFormat(locale, FormatWidth.Long);
       break;
-    case "fullTime":
+    case 'fullTime':
       formatValue = getLocaleTimeFormat(locale, FormatWidth.Full);
       break;
-    case "short":
-      const shortTime = getNamedFormat(locale, "shortTime");
-      const shortDate = getNamedFormat(locale, "shortDate");
+    case 'short':
+      const shortTime = getNamedFormat(locale, 'shortTime');
+      const shortDate = getNamedFormat(locale, 'shortDate');
       formatValue = formatDateTime(getLocaleDateTimeFormat(locale, FormatWidth.Short), [shortTime, shortDate]);
       break;
-    case "medium":
-      const mediumTime = getNamedFormat(locale, "mediumTime");
-      const mediumDate = getNamedFormat(locale, "mediumDate");
+    case 'medium':
+      const mediumTime = getNamedFormat(locale, 'mediumTime');
+      const mediumDate = getNamedFormat(locale, 'mediumDate');
       formatValue = formatDateTime(getLocaleDateTimeFormat(locale, FormatWidth.Medium), [mediumTime, mediumDate]);
       break;
-    case "long":
-      const longTime = getNamedFormat(locale, "longTime");
-      const longDate = getNamedFormat(locale, "longDate");
+    case 'long':
+      const longTime = getNamedFormat(locale, 'longTime');
+      const longDate = getNamedFormat(locale, 'longDate');
       formatValue = formatDateTime(getLocaleDateTimeFormat(locale, FormatWidth.Long), [longTime, longDate]);
       break;
-    case "full":
-      const fullTime = getNamedFormat(locale, "fullTime");
-      const fullDate = getNamedFormat(locale, "fullDate");
+    case 'full':
+      const fullTime = getNamedFormat(locale, 'fullTime');
+      const fullDate = getNamedFormat(locale, 'fullDate');
       formatValue = formatDateTime(getLocaleDateTimeFormat(locale, FormatWidth.Full), [fullTime, fullDate]);
       break;
   }
@@ -1133,15 +1207,15 @@ function getNamedFormat(locale, format) {
 }
 function formatDateTime(str, opt_values) {
   if (opt_values) {
-    str = str.replace(/\{([^}]+)}/g, function(match, key) {
+    str = str.replace(/\{([^}]+)}/g, function (match, key) {
       return opt_values != null && key in opt_values ? opt_values[key] : match;
     });
   }
   return str;
 }
-function padNumber(num, digits, minusSign = "-", trim, negWrap) {
-  let neg = "";
-  if (num < 0 || negWrap && num <= 0) {
+function padNumber(num, digits, minusSign = '-', trim, negWrap) {
+  let neg = '';
+  if (num < 0 || (negWrap && num <= 0)) {
     if (negWrap) {
       num = -num + 1;
     } else {
@@ -1151,7 +1225,7 @@ function padNumber(num, digits, minusSign = "-", trim, negWrap) {
   }
   let strNum = String(num);
   while (strNum.length < digits) {
-    strNum = "0" + strNum;
+    strNum = '0' + strNum;
   }
   if (trim) {
     strNum = strNum.slice(strNum.length - digits);
@@ -1163,7 +1237,7 @@ function formatFractionalSeconds(milliseconds, digits) {
   return strMs.substring(0, digits);
 }
 function dateGetter(name, size, offset = 0, trim = false, negWrap = false) {
-  return function(date, locale) {
+  return function (date, locale) {
     let part = getDatePart(name, date);
     if (offset > 0 || part > -offset) {
       part += offset;
@@ -1202,7 +1276,7 @@ function getDatePart(part, date) {
   }
 }
 function dateStrGetter(name, width, form = FormStyle.Format, extended = false) {
-  return function(date, locale) {
+  return function (date, locale) {
     return getDateTranslation(date, locale, name, width, form, extended);
   };
 }
@@ -1222,7 +1296,7 @@ function getDateTranslation(date, locale, name, width, form, extended) {
           if (Array.isArray(rule)) {
             const [from2, to] = rule;
             const afterFrom = currentHours >= from2.hours && currentMinutes >= from2.minutes;
-            const beforeTo = currentHours < to.hours || currentHours === to.hours && currentMinutes < to.minutes;
+            const beforeTo = currentHours < to.hours || (currentHours === to.hours && currentMinutes < to.minutes);
             if (from2.hours < to.hours) {
               if (afterFrom && beforeTo) {
                 return true;
@@ -1250,22 +1324,30 @@ function getDateTranslation(date, locale, name, width, form, extended) {
   }
 }
 function timeZoneGetter(width) {
-  return function(date, locale, offset) {
+  return function (date, locale, offset) {
     const zone = -1 * offset;
     const minusSign = getLocaleNumberSymbol(locale, NumberSymbol.MinusSign);
     const hours = zone > 0 ? Math.floor(zone / 60) : Math.ceil(zone / 60);
     switch (width) {
       case ZoneWidth.Short:
-        return (zone >= 0 ? "+" : "") + padNumber(hours, 2, minusSign) + padNumber(Math.abs(zone % 60), 2, minusSign);
+        return (zone >= 0 ? '+' : '') + padNumber(hours, 2, minusSign) + padNumber(Math.abs(zone % 60), 2, minusSign);
       case ZoneWidth.ShortGMT:
-        return "GMT" + (zone >= 0 ? "+" : "") + padNumber(hours, 1, minusSign);
+        return 'GMT' + (zone >= 0 ? '+' : '') + padNumber(hours, 1, minusSign);
       case ZoneWidth.Long:
-        return "GMT" + (zone >= 0 ? "+" : "") + padNumber(hours, 2, minusSign) + ":" + padNumber(Math.abs(zone % 60), 2, minusSign);
+        return (
+          'GMT' +
+          (zone >= 0 ? '+' : '') +
+          padNumber(hours, 2, minusSign) +
+          ':' +
+          padNumber(Math.abs(zone % 60), 2, minusSign)
+        );
       case ZoneWidth.Extended:
         if (offset === 0) {
-          return "Z";
+          return 'Z';
         } else {
-          return (zone >= 0 ? "+" : "") + padNumber(hours, 2, minusSign) + ":" + padNumber(Math.abs(zone % 60), 2, minusSign);
+          return (
+            (zone >= 0 ? '+' : '') + padNumber(hours, 2, minusSign) + ':' + padNumber(Math.abs(zone % 60), 2, minusSign)
+          );
         }
       default:
         throw new Error(`Unknown zone width "${width}"`);
@@ -1282,7 +1364,7 @@ function getThursdayThisWeek(datetime) {
   return createDate(datetime.getFullYear(), datetime.getMonth(), datetime.getDate() + (THURSDAY - datetime.getDay()));
 }
 function weekGetter(size, monthBased = false) {
-  return function(date, locale) {
+  return function (date, locale) {
     let result;
     if (monthBased) {
       const nbDaysBefore1stDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1).getDay() - 1;
@@ -1298,7 +1380,7 @@ function weekGetter(size, monthBased = false) {
   };
 }
 function weekNumberingYearGetter(size, trim = false) {
-  return function(date, locale) {
+  return function (date, locale) {
     const thisThurs = getThursdayThisWeek(date);
     const weekNumberingYear = thisThurs.getFullYear();
     return padNumber(weekNumberingYear, size, getLocaleNumberSymbol(locale, NumberSymbol.MinusSign), trim);
@@ -1311,197 +1393,197 @@ function getDateFormatter(format) {
   }
   let formatter;
   switch (format) {
-    case "G":
-    case "GG":
-    case "GGG":
+    case 'G':
+    case 'GG':
+    case 'GGG':
       formatter = dateStrGetter(TranslationType.Eras, TranslationWidth.Abbreviated);
       break;
-    case "GGGG":
+    case 'GGGG':
       formatter = dateStrGetter(TranslationType.Eras, TranslationWidth.Wide);
       break;
-    case "GGGGG":
+    case 'GGGGG':
       formatter = dateStrGetter(TranslationType.Eras, TranslationWidth.Narrow);
       break;
-    case "y":
+    case 'y':
       formatter = dateGetter(DateType.FullYear, 1, 0, false, true);
       break;
-    case "yy":
+    case 'yy':
       formatter = dateGetter(DateType.FullYear, 2, 0, true, true);
       break;
-    case "yyy":
+    case 'yyy':
       formatter = dateGetter(DateType.FullYear, 3, 0, false, true);
       break;
-    case "yyyy":
+    case 'yyyy':
       formatter = dateGetter(DateType.FullYear, 4, 0, false, true);
       break;
-    case "Y":
+    case 'Y':
       formatter = weekNumberingYearGetter(1);
       break;
-    case "YY":
+    case 'YY':
       formatter = weekNumberingYearGetter(2, true);
       break;
-    case "YYY":
+    case 'YYY':
       formatter = weekNumberingYearGetter(3);
       break;
-    case "YYYY":
+    case 'YYYY':
       formatter = weekNumberingYearGetter(4);
       break;
-    case "M":
-    case "L":
+    case 'M':
+    case 'L':
       formatter = dateGetter(DateType.Month, 1, 1);
       break;
-    case "MM":
-    case "LL":
+    case 'MM':
+    case 'LL':
       formatter = dateGetter(DateType.Month, 2, 1);
       break;
-    case "MMM":
+    case 'MMM':
       formatter = dateStrGetter(TranslationType.Months, TranslationWidth.Abbreviated);
       break;
-    case "MMMM":
+    case 'MMMM':
       formatter = dateStrGetter(TranslationType.Months, TranslationWidth.Wide);
       break;
-    case "MMMMM":
+    case 'MMMMM':
       formatter = dateStrGetter(TranslationType.Months, TranslationWidth.Narrow);
       break;
-    case "LLL":
+    case 'LLL':
       formatter = dateStrGetter(TranslationType.Months, TranslationWidth.Abbreviated, FormStyle.Standalone);
       break;
-    case "LLLL":
+    case 'LLLL':
       formatter = dateStrGetter(TranslationType.Months, TranslationWidth.Wide, FormStyle.Standalone);
       break;
-    case "LLLLL":
+    case 'LLLLL':
       formatter = dateStrGetter(TranslationType.Months, TranslationWidth.Narrow, FormStyle.Standalone);
       break;
-    case "w":
+    case 'w':
       formatter = weekGetter(1);
       break;
-    case "ww":
+    case 'ww':
       formatter = weekGetter(2);
       break;
-    case "W":
+    case 'W':
       formatter = weekGetter(1, true);
       break;
-    case "d":
+    case 'd':
       formatter = dateGetter(DateType.Date, 1);
       break;
-    case "dd":
+    case 'dd':
       formatter = dateGetter(DateType.Date, 2);
       break;
-    case "c":
-    case "cc":
+    case 'c':
+    case 'cc':
       formatter = dateGetter(DateType.Day, 1);
       break;
-    case "ccc":
+    case 'ccc':
       formatter = dateStrGetter(TranslationType.Days, TranslationWidth.Abbreviated, FormStyle.Standalone);
       break;
-    case "cccc":
+    case 'cccc':
       formatter = dateStrGetter(TranslationType.Days, TranslationWidth.Wide, FormStyle.Standalone);
       break;
-    case "ccccc":
+    case 'ccccc':
       formatter = dateStrGetter(TranslationType.Days, TranslationWidth.Narrow, FormStyle.Standalone);
       break;
-    case "cccccc":
+    case 'cccccc':
       formatter = dateStrGetter(TranslationType.Days, TranslationWidth.Short, FormStyle.Standalone);
       break;
-    case "E":
-    case "EE":
-    case "EEE":
+    case 'E':
+    case 'EE':
+    case 'EEE':
       formatter = dateStrGetter(TranslationType.Days, TranslationWidth.Abbreviated);
       break;
-    case "EEEE":
+    case 'EEEE':
       formatter = dateStrGetter(TranslationType.Days, TranslationWidth.Wide);
       break;
-    case "EEEEE":
+    case 'EEEEE':
       formatter = dateStrGetter(TranslationType.Days, TranslationWidth.Narrow);
       break;
-    case "EEEEEE":
+    case 'EEEEEE':
       formatter = dateStrGetter(TranslationType.Days, TranslationWidth.Short);
       break;
-    case "a":
-    case "aa":
-    case "aaa":
+    case 'a':
+    case 'aa':
+    case 'aaa':
       formatter = dateStrGetter(TranslationType.DayPeriods, TranslationWidth.Abbreviated);
       break;
-    case "aaaa":
+    case 'aaaa':
       formatter = dateStrGetter(TranslationType.DayPeriods, TranslationWidth.Wide);
       break;
-    case "aaaaa":
+    case 'aaaaa':
       formatter = dateStrGetter(TranslationType.DayPeriods, TranslationWidth.Narrow);
       break;
-    case "b":
-    case "bb":
-    case "bbb":
+    case 'b':
+    case 'bb':
+    case 'bbb':
       formatter = dateStrGetter(TranslationType.DayPeriods, TranslationWidth.Abbreviated, FormStyle.Standalone, true);
       break;
-    case "bbbb":
+    case 'bbbb':
       formatter = dateStrGetter(TranslationType.DayPeriods, TranslationWidth.Wide, FormStyle.Standalone, true);
       break;
-    case "bbbbb":
+    case 'bbbbb':
       formatter = dateStrGetter(TranslationType.DayPeriods, TranslationWidth.Narrow, FormStyle.Standalone, true);
       break;
-    case "B":
-    case "BB":
-    case "BBB":
+    case 'B':
+    case 'BB':
+    case 'BBB':
       formatter = dateStrGetter(TranslationType.DayPeriods, TranslationWidth.Abbreviated, FormStyle.Format, true);
       break;
-    case "BBBB":
+    case 'BBBB':
       formatter = dateStrGetter(TranslationType.DayPeriods, TranslationWidth.Wide, FormStyle.Format, true);
       break;
-    case "BBBBB":
+    case 'BBBBB':
       formatter = dateStrGetter(TranslationType.DayPeriods, TranslationWidth.Narrow, FormStyle.Format, true);
       break;
-    case "h":
+    case 'h':
       formatter = dateGetter(DateType.Hours, 1, -12);
       break;
-    case "hh":
+    case 'hh':
       formatter = dateGetter(DateType.Hours, 2, -12);
       break;
-    case "H":
+    case 'H':
       formatter = dateGetter(DateType.Hours, 1);
       break;
-    case "HH":
+    case 'HH':
       formatter = dateGetter(DateType.Hours, 2);
       break;
-    case "m":
+    case 'm':
       formatter = dateGetter(DateType.Minutes, 1);
       break;
-    case "mm":
+    case 'mm':
       formatter = dateGetter(DateType.Minutes, 2);
       break;
-    case "s":
+    case 's':
       formatter = dateGetter(DateType.Seconds, 1);
       break;
-    case "ss":
+    case 'ss':
       formatter = dateGetter(DateType.Seconds, 2);
       break;
-    case "S":
+    case 'S':
       formatter = dateGetter(DateType.FractionalSeconds, 1);
       break;
-    case "SS":
+    case 'SS':
       formatter = dateGetter(DateType.FractionalSeconds, 2);
       break;
-    case "SSS":
+    case 'SSS':
       formatter = dateGetter(DateType.FractionalSeconds, 3);
       break;
-    case "Z":
-    case "ZZ":
-    case "ZZZ":
+    case 'Z':
+    case 'ZZ':
+    case 'ZZZ':
       formatter = timeZoneGetter(ZoneWidth.Short);
       break;
-    case "ZZZZZ":
+    case 'ZZZZZ':
       formatter = timeZoneGetter(ZoneWidth.Extended);
       break;
-    case "O":
-    case "OO":
-    case "OOO":
-    case "z":
-    case "zz":
-    case "zzz":
+    case 'O':
+    case 'OO':
+    case 'OOO':
+    case 'z':
+    case 'zz':
+    case 'zzz':
       formatter = timeZoneGetter(ZoneWidth.ShortGMT);
       break;
-    case "OOOO":
-    case "ZZZZ":
-    case "zzzz":
+    case 'OOOO':
+    case 'ZZZZ':
+    case 'zzzz':
       formatter = timeZoneGetter(ZoneWidth.Long);
       break;
     default:
@@ -1511,8 +1593,8 @@ function getDateFormatter(format) {
   return formatter;
 }
 function timezoneToOffset(timezone, fallback) {
-  timezone = timezone.replace(/:/g, "");
-  const requestedTimezoneOffset = Date.parse("Jan 01, 1970 00:00:00 " + timezone) / 6e4;
+  timezone = timezone.replace(/:/g, '');
+  const requestedTimezoneOffset = Date.parse('Jan 01, 1970 00:00:00 ' + timezone) / 6e4;
   return isNaN(requestedTimezoneOffset) ? fallback : requestedTimezoneOffset;
 }
 function addDateMinutes(date, minutes) {
@@ -1530,13 +1612,13 @@ function toDate(value) {
   if (isDate(value)) {
     return value;
   }
-  if (typeof value === "number" && !isNaN(value)) {
+  if (typeof value === 'number' && !isNaN(value)) {
     return new Date(value);
   }
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     value = value.trim();
     if (/^(\d{4}(-\d{1,2}(-\d{1,2})?)?)$/.test(value)) {
-      const [y, m = 1, d = 1] = value.split("-").map((val) => +val);
+      const [y, m = 1, d = 1] = value.split('-').map((val) => +val);
       return createDate(y, m - 1, d);
     }
     const parsedNb = parseFloat(value);
@@ -1544,7 +1626,7 @@ function toDate(value) {
       return new Date(parsedNb);
     }
     let match;
-    if (match = value.match(ISO8601_DATE_REGEX)) {
+    if ((match = value.match(ISO8601_DATE_REGEX))) {
       return isoStringToDate(match);
     }
   }
@@ -1568,7 +1650,7 @@ function isoStringToDate(match) {
   const h = Number(match[4] || 0) - tzHour;
   const m = Number(match[5] || 0) - tzMin;
   const s = Number(match[6] || 0);
-  const ms = Math.floor(parseFloat("0." + (match[7] || 0)) * 1e3);
+  const ms = Math.floor(parseFloat('0.' + (match[7] || 0)) * 1e3);
   timeSetter.call(date, h, m, s, ms);
   return date;
 }
@@ -1577,15 +1659,15 @@ function isDate(value) {
 }
 var NUMBER_FORMAT_REGEXP = /^(\d+)?\.((\d+)(-(\d+))?)?$/;
 var MAX_DIGITS = 22;
-var DECIMAL_SEP = ".";
-var ZERO_CHAR = "0";
-var PATTERN_SEP = ";";
-var GROUP_SEP = ",";
-var DIGIT_CHAR = "#";
-var CURRENCY_CHAR = "¤";
-var PERCENT_CHAR = "%";
+var DECIMAL_SEP = '.';
+var ZERO_CHAR = '0';
+var PATTERN_SEP = ';';
+var GROUP_SEP = ',';
+var DIGIT_CHAR = '#';
+var CURRENCY_CHAR = '¤';
+var PERCENT_CHAR = '%';
 function formatNumberToLocaleString(value, pattern, locale, groupSymbol, decimalSymbol, digitsInfo, isPercent = false) {
-  let formattedText = "";
+  let formattedText = '';
   let isZero = false;
   if (!isFinite(value)) {
     formattedText = getLocaleNumberSymbol(locale, NumberSymbol.Infinity);
@@ -1637,20 +1719,20 @@ function formatNumberToLocaleString(value, pattern, locale, groupSymbol, decimal
     }
     const groups = [];
     if (digits.length >= pattern.lgSize) {
-      groups.unshift(digits.splice(-pattern.lgSize, digits.length).join(""));
+      groups.unshift(digits.splice(-pattern.lgSize, digits.length).join(''));
     }
     while (digits.length > pattern.gSize) {
-      groups.unshift(digits.splice(-pattern.gSize, digits.length).join(""));
+      groups.unshift(digits.splice(-pattern.gSize, digits.length).join(''));
     }
     if (digits.length) {
-      groups.unshift(digits.join(""));
+      groups.unshift(digits.join(''));
     }
     formattedText = groups.join(getLocaleNumberSymbol(locale, groupSymbol));
     if (decimals.length) {
-      formattedText += getLocaleNumberSymbol(locale, decimalSymbol) + decimals.join("");
+      formattedText += getLocaleNumberSymbol(locale, decimalSymbol) + decimals.join('');
     }
     if (exponent) {
-      formattedText += getLocaleNumberSymbol(locale, NumberSymbol.Exponential) + "+" + exponent;
+      formattedText += getLocaleNumberSymbol(locale, NumberSymbol.Exponential) + '+' + exponent;
     }
   }
   if (value < 0 && !isZero) {
@@ -1665,36 +1747,59 @@ function formatCurrency(value, locale, currency, currencyCode, digitsInfo) {
   const pattern = parseNumberFormat(format, getLocaleNumberSymbol(locale, NumberSymbol.MinusSign));
   pattern.minFrac = getNumberOfCurrencyDigits(currencyCode);
   pattern.maxFrac = pattern.minFrac;
-  const res = formatNumberToLocaleString(value, pattern, locale, NumberSymbol.CurrencyGroup, NumberSymbol.CurrencyDecimal, digitsInfo);
-  return res.replace(CURRENCY_CHAR, currency).replace(CURRENCY_CHAR, "").trim();
+  const res = formatNumberToLocaleString(
+    value,
+    pattern,
+    locale,
+    NumberSymbol.CurrencyGroup,
+    NumberSymbol.CurrencyDecimal,
+    digitsInfo
+  );
+  return res.replace(CURRENCY_CHAR, currency).replace(CURRENCY_CHAR, '').trim();
 }
 function formatPercent(value, locale, digitsInfo) {
   const format = getLocaleNumberFormat(locale, NumberFormatStyle.Percent);
   const pattern = parseNumberFormat(format, getLocaleNumberSymbol(locale, NumberSymbol.MinusSign));
-  const res = formatNumberToLocaleString(value, pattern, locale, NumberSymbol.Group, NumberSymbol.Decimal, digitsInfo, true);
-  return res.replace(new RegExp(PERCENT_CHAR, "g"), getLocaleNumberSymbol(locale, NumberSymbol.PercentSign));
+  const res = formatNumberToLocaleString(
+    value,
+    pattern,
+    locale,
+    NumberSymbol.Group,
+    NumberSymbol.Decimal,
+    digitsInfo,
+    true
+  );
+  return res.replace(new RegExp(PERCENT_CHAR, 'g'), getLocaleNumberSymbol(locale, NumberSymbol.PercentSign));
 }
 function formatNumber(value, locale, digitsInfo) {
   const format = getLocaleNumberFormat(locale, NumberFormatStyle.Decimal);
   const pattern = parseNumberFormat(format, getLocaleNumberSymbol(locale, NumberSymbol.MinusSign));
   return formatNumberToLocaleString(value, pattern, locale, NumberSymbol.Group, NumberSymbol.Decimal, digitsInfo);
 }
-function parseNumberFormat(format, minusSign = "-") {
+function parseNumberFormat(format, minusSign = '-') {
   const p = {
     minInt: 1,
     minFrac: 0,
     maxFrac: 0,
-    posPre: "",
-    posSuf: "",
-    negPre: "",
-    negSuf: "",
+    posPre: '',
+    posSuf: '',
+    negPre: '',
+    negSuf: '',
     gSize: 0,
     lgSize: 0
   };
   const patternParts = format.split(PATTERN_SEP);
   const positive = patternParts[0];
   const negative = patternParts[1];
-  const positiveParts = positive.indexOf(DECIMAL_SEP) !== -1 ? positive.split(DECIMAL_SEP) : [positive.substring(0, positive.lastIndexOf(ZERO_CHAR) + 1), positive.substring(positive.lastIndexOf(ZERO_CHAR) + 1)], integer = positiveParts[0], fraction = positiveParts[1] || "";
+  const positiveParts =
+      positive.indexOf(DECIMAL_SEP) !== -1
+        ? positive.split(DECIMAL_SEP)
+        : [
+            positive.substring(0, positive.lastIndexOf(ZERO_CHAR) + 1),
+            positive.substring(positive.lastIndexOf(ZERO_CHAR) + 1)
+          ],
+    integer = positiveParts[0],
+    fraction = positiveParts[1] || '';
   p.posPre = integer.substring(0, integer.indexOf(DIGIT_CHAR));
   for (let i = 0; i < fraction.length; i++) {
     const ch = fraction.charAt(i);
@@ -1710,9 +1815,10 @@ function parseNumberFormat(format, minusSign = "-") {
   p.gSize = groups[1] ? groups[1].length : 0;
   p.lgSize = groups[2] || groups[1] ? (groups[2] || groups[1]).length : 0;
   if (negative) {
-    const trunkLen = positive.length - p.posPre.length - p.posSuf.length, pos = negative.indexOf(DIGIT_CHAR);
-    p.negPre = negative.substring(0, pos).replace(/'/g, "");
-    p.negSuf = negative.slice(pos + trunkLen).replace(/'/g, "");
+    const trunkLen = positive.length - p.posPre.length - p.posSuf.length,
+      pos = negative.indexOf(DIGIT_CHAR);
+    p.negPre = negative.substring(0, pos).replace(/'/g, '');
+    p.negSuf = negative.slice(pos + trunkLen).replace(/'/g, '');
   } else {
     p.negPre = minusSign + p.posPre;
     p.negSuf = p.posSuf;
@@ -1737,29 +1843,28 @@ function toPercent(parsedNumber) {
   return parsedNumber;
 }
 function parseNumber(num) {
-  let numStr = Math.abs(num) + "";
-  let exponent = 0, digits, integerLen;
+  let numStr = Math.abs(num) + '';
+  let exponent = 0,
+    digits,
+    integerLen;
   let i, j, zeros;
   if ((integerLen = numStr.indexOf(DECIMAL_SEP)) > -1) {
-    numStr = numStr.replace(DECIMAL_SEP, "");
+    numStr = numStr.replace(DECIMAL_SEP, '');
   }
   if ((i = numStr.search(/e/i)) > 0) {
-    if (integerLen < 0)
-      integerLen = i;
+    if (integerLen < 0) integerLen = i;
     integerLen += +numStr.slice(i + 1);
     numStr = numStr.substring(0, i);
   } else if (integerLen < 0) {
     integerLen = numStr.length;
   }
-  for (i = 0; numStr.charAt(i) === ZERO_CHAR; i++) {
-  }
+  for (i = 0; numStr.charAt(i) === ZERO_CHAR; i++) {}
   if (i === (zeros = numStr.length)) {
     digits = [0];
     integerLen = 1;
   } else {
     zeros--;
-    while (numStr.charAt(zeros) === ZERO_CHAR)
-      zeros--;
+    while (numStr.charAt(zeros) === ZERO_CHAR) zeros--;
     integerLen -= i;
     digits = [];
     for (j = 0; i <= zeros; i++, j++) {
@@ -1779,7 +1884,9 @@ function parseNumber(num) {
 }
 function roundNumber(parsedNumber, minFrac, maxFrac) {
   if (minFrac > maxFrac) {
-    throw new Error(`The minimum number of digits after fraction (${minFrac}) is higher than the maximum (${maxFrac}).`);
+    throw new Error(
+      `The minimum number of digits after fraction (${minFrac}) is higher than the maximum (${maxFrac}).`
+    );
   }
   let digits = parsedNumber.digits;
   let fractionLen = digits.length - parsedNumber.integerLen;
@@ -1794,10 +1901,9 @@ function roundNumber(parsedNumber, minFrac, maxFrac) {
   } else {
     fractionLen = Math.max(0, fractionLen);
     parsedNumber.integerLen = 1;
-    digits.length = Math.max(1, roundAt = fractionSize + 1);
+    digits.length = Math.max(1, (roundAt = fractionSize + 1));
     digits[0] = 0;
-    for (let i = 1; i < roundAt; i++)
-      digits[i] = 0;
+    for (let i = 1; i < roundAt; i++) digits[i] = 0;
   }
   if (digit >= 5) {
     if (roundAt - 1 < 0) {
@@ -1811,11 +1917,10 @@ function roundNumber(parsedNumber, minFrac, maxFrac) {
       digits[roundAt - 1]++;
     }
   }
-  for (; fractionLen < Math.max(0, fractionSize); fractionLen++)
-    digits.push(0);
+  for (; fractionLen < Math.max(0, fractionSize); fractionLen++) digits.push(0);
   let dropTrailingZeros = fractionSize !== 0;
   const minLen = minFrac + parsedNumber.integerLen;
-  const carry = digits.reduceRight(function(carry2, d, i, digits2) {
+  const carry = digits.reduceRight(function (carry2, d, i, digits2) {
     d = d + carry2;
     digits2[i] = d < 10 ? d : d - 10;
     if (dropTrailingZeros) {
@@ -1835,12 +1940,11 @@ function roundNumber(parsedNumber, minFrac, maxFrac) {
 function parseIntAutoRadix(text) {
   const result = parseInt(text);
   if (isNaN(result)) {
-    throw new Error("Invalid integer literal when parsing " + text);
+    throw new Error('Invalid integer literal when parsing ' + text);
   }
   return result;
 }
-var _NgLocalization = class _NgLocalization {
-};
+var _NgLocalization = class _NgLocalization {};
 _NgLocalization.ɵfac = function NgLocalization_Factory(t) {
   return new (t || _NgLocalization)();
 };
@@ -1855,18 +1959,28 @@ _NgLocalization.ɵprov = ɵɵdefineInjectable({
     }
     return r;
   },
-  providedIn: "root"
+  providedIn: 'root'
 });
 var NgLocalization = _NgLocalization;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NgLocalization, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root",
-      useFactory: (locale) => new NgLocaleLocalization(locale),
-      deps: [LOCALE_ID]
-    }]
-  }], null, null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      NgLocalization,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'root',
+              useFactory: (locale) => new NgLocaleLocalization(locale),
+              deps: [LOCALE_ID]
+            }
+          ]
+        }
+      ],
+      null,
+      null
+    );
 })();
 function getPluralCategory(value, cases, ngLocalization, locale) {
   let key = `=${value}`;
@@ -1877,8 +1991,8 @@ function getPluralCategory(value, cases, ngLocalization, locale) {
   if (cases.indexOf(key) > -1) {
     return key;
   }
-  if (cases.indexOf("other") > -1) {
-    return "other";
+  if (cases.indexOf('other') > -1) {
+    return 'other';
   }
   throw new Error(`No plural message found for value "${value}"`);
 }
@@ -1891,17 +2005,17 @@ var _NgLocaleLocalization = class _NgLocaleLocalization extends NgLocalization {
     const plural = getLocalePluralCase2(locale || this.locale)(value);
     switch (plural) {
       case Plural.Zero:
-        return "zero";
+        return 'zero';
       case Plural.One:
-        return "one";
+        return 'one';
       case Plural.Two:
-        return "two";
+        return 'two';
       case Plural.Few:
-        return "few";
+        return 'few';
       case Plural.Many:
-        return "many";
+        return 'many';
       default:
-        return "other";
+        return 'other';
     }
   }
 };
@@ -1914,21 +2028,34 @@ _NgLocaleLocalization.ɵprov = ɵɵdefineInjectable({
 });
 var NgLocaleLocalization = _NgLocaleLocalization;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NgLocaleLocalization, [{
-    type: Injectable
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [LOCALE_ID]
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      NgLocaleLocalization,
+      [
+        {
+          type: Injectable
+        }
+      ],
+      () => [
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [LOCALE_ID]
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 function parseCookieValue(cookieStr, name) {
   name = encodeURIComponent(name);
-  for (const cookie of cookieStr.split(";")) {
-    const eqIndex = cookie.indexOf("=");
-    const [cookieName, cookieValue] = eqIndex == -1 ? [cookie, ""] : [cookie.slice(0, eqIndex), cookie.slice(eqIndex + 1)];
+  for (const cookie of cookieStr.split(';')) {
+    const eqIndex = cookie.indexOf('=');
+    const [cookieName, cookieValue] =
+      eqIndex == -1 ? [cookie, ''] : [cookie.slice(0, eqIndex), cookie.slice(eqIndex + 1)];
     if (cookieName.trim() === name) {
       return decodeURIComponent(cookieValue);
     }
@@ -1948,7 +2075,7 @@ var _NgClass = class _NgClass {
     this.initialClasses = value != null ? value.trim().split(WS_REGEXP) : EMPTY_ARRAY;
   }
   set ngClass(value) {
-    this.rawClass = typeof value === "string" ? value.trim().split(WS_REGEXP) : value;
+    this.rawClass = typeof value === 'string' ? value.trim().split(WS_REGEXP) : value;
   }
   /*
   The NgClass directive uses the custom change detection algorithm for its inputs. The custom
@@ -2022,7 +2149,7 @@ var _NgClass = class _NgClass {
   }
   _toggleClass(klass, enabled) {
     if (ngDevMode) {
-      if (typeof klass !== "string") {
+      if (typeof klass !== 'string') {
         throw new Error(`NgClass can only toggle CSS classes expressed as strings, got ${stringify(klass)}`);
       }
     }
@@ -2043,35 +2170,52 @@ _NgClass.ɵfac = function NgClass_Factory(t) {
 };
 _NgClass.ɵdir = ɵɵdefineDirective({
   type: _NgClass,
-  selectors: [["", "ngClass", ""]],
+  selectors: [['', 'ngClass', '']],
   inputs: {
-    klass: [InputFlags.None, "class", "klass"],
-    ngClass: "ngClass"
+    klass: [InputFlags.None, 'class', 'klass'],
+    ngClass: 'ngClass'
   },
   standalone: true
 });
 var NgClass = _NgClass;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NgClass, [{
-    type: Directive,
-    args: [{
-      selector: "[ngClass]",
-      standalone: true
-    }]
-  }], () => [{
-    type: ElementRef
-  }, {
-    type: Renderer2
-  }], {
-    klass: [{
-      type: Input,
-      args: ["class"]
-    }],
-    ngClass: [{
-      type: Input,
-      args: ["ngClass"]
-    }]
-  });
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      NgClass,
+      [
+        {
+          type: Directive,
+          args: [
+            {
+              selector: '[ngClass]',
+              standalone: true
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: ElementRef
+        },
+        {
+          type: Renderer2
+        }
+      ],
+      {
+        klass: [
+          {
+            type: Input,
+            args: ['class']
+          }
+        ],
+        ngClass: [
+          {
+            type: Input,
+            args: ['ngClass']
+          }
+        ]
+      }
+    );
 })();
 var _NgComponentOutlet = class _NgComponentOutlet {
   constructor(_viewContainerRef) {
@@ -2080,10 +2224,15 @@ var _NgComponentOutlet = class _NgComponentOutlet {
     this._inputsUsed = /* @__PURE__ */ new Map();
   }
   _needToReCreateNgModuleInstance(changes) {
-    return changes["ngComponentOutletNgModule"] !== void 0 || changes["ngComponentOutletNgModuleFactory"] !== void 0;
+    return changes['ngComponentOutletNgModule'] !== void 0 || changes['ngComponentOutletNgModuleFactory'] !== void 0;
   }
   _needToReCreateComponentInstance(changes) {
-    return changes["ngComponentOutlet"] !== void 0 || changes["ngComponentOutletContent"] !== void 0 || changes["ngComponentOutletInjector"] !== void 0 || this._needToReCreateNgModuleInstance(changes);
+    return (
+      changes['ngComponentOutlet'] !== void 0 ||
+      changes['ngComponentOutletContent'] !== void 0 ||
+      changes['ngComponentOutletInjector'] !== void 0 ||
+      this._needToReCreateNgModuleInstance(changes)
+    );
   }
   /** @nodoc */
   ngOnChanges(changes) {
@@ -2143,48 +2292,72 @@ _NgComponentOutlet.ɵfac = function NgComponentOutlet_Factory(t) {
 };
 _NgComponentOutlet.ɵdir = ɵɵdefineDirective({
   type: _NgComponentOutlet,
-  selectors: [["", "ngComponentOutlet", ""]],
+  selectors: [['', 'ngComponentOutlet', '']],
   inputs: {
-    ngComponentOutlet: "ngComponentOutlet",
-    ngComponentOutletInputs: "ngComponentOutletInputs",
-    ngComponentOutletInjector: "ngComponentOutletInjector",
-    ngComponentOutletContent: "ngComponentOutletContent",
-    ngComponentOutletNgModule: "ngComponentOutletNgModule",
-    ngComponentOutletNgModuleFactory: "ngComponentOutletNgModuleFactory"
+    ngComponentOutlet: 'ngComponentOutlet',
+    ngComponentOutletInputs: 'ngComponentOutletInputs',
+    ngComponentOutletInjector: 'ngComponentOutletInjector',
+    ngComponentOutletContent: 'ngComponentOutletContent',
+    ngComponentOutletNgModule: 'ngComponentOutletNgModule',
+    ngComponentOutletNgModuleFactory: 'ngComponentOutletNgModuleFactory'
   },
   standalone: true,
   features: [ɵɵNgOnChangesFeature]
 });
 var NgComponentOutlet = _NgComponentOutlet;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NgComponentOutlet, [{
-    type: Directive,
-    args: [{
-      selector: "[ngComponentOutlet]",
-      standalone: true
-    }]
-  }], () => [{
-    type: ViewContainerRef
-  }], {
-    ngComponentOutlet: [{
-      type: Input
-    }],
-    ngComponentOutletInputs: [{
-      type: Input
-    }],
-    ngComponentOutletInjector: [{
-      type: Input
-    }],
-    ngComponentOutletContent: [{
-      type: Input
-    }],
-    ngComponentOutletNgModule: [{
-      type: Input
-    }],
-    ngComponentOutletNgModuleFactory: [{
-      type: Input
-    }]
-  });
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      NgComponentOutlet,
+      [
+        {
+          type: Directive,
+          args: [
+            {
+              selector: '[ngComponentOutlet]',
+              standalone: true
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: ViewContainerRef
+        }
+      ],
+      {
+        ngComponentOutlet: [
+          {
+            type: Input
+          }
+        ],
+        ngComponentOutletInputs: [
+          {
+            type: Input
+          }
+        ],
+        ngComponentOutletInjector: [
+          {
+            type: Input
+          }
+        ],
+        ngComponentOutletContent: [
+          {
+            type: Input
+          }
+        ],
+        ngComponentOutletNgModule: [
+          {
+            type: Input
+          }
+        ],
+        ngComponentOutletNgModuleFactory: [
+          {
+            type: Input
+          }
+        ]
+      }
+    );
 })();
 function getParentInjector(injector) {
   const parentNgModule = injector.get(NgModuleRef$1);
@@ -2238,8 +2411,10 @@ var _NgForOf = class _NgForOf {
    * @see {@link TrackByFunction}
    */
   set ngForTrackBy(fn) {
-    if ((typeof ngDevMode === "undefined" || ngDevMode) && fn != null && typeof fn !== "function") {
-      console.warn(`trackBy must be a function, but received ${JSON.stringify(fn)}. See https://angular.io/api/common/NgForOf#change-propagation for more information.`);
+    if ((typeof ngDevMode === 'undefined' || ngDevMode) && fn != null && typeof fn !== 'function') {
+      console.warn(
+        `trackBy must be a function, but received ${JSON.stringify(fn)}. See https://angular.io/api/common/NgForOf#change-propagation for more information.`
+      );
     }
     this._trackByFn = fn;
   }
@@ -2272,13 +2447,13 @@ var _NgForOf = class _NgForOf {
       this._ngForOfDirty = false;
       const value = this._ngForOf;
       if (!this._differ && value) {
-        if (typeof ngDevMode === "undefined" || ngDevMode) {
+        if (typeof ngDevMode === 'undefined' || ngDevMode) {
           try {
             this._differ = this._differs.find(value).create(this.ngForTrackBy);
           } catch {
             let errorMessage = `Cannot find a differ supporting object '${value}' of type '${getTypeName(value)}'. NgFor only supports binding to Iterables, such as Arrays.`;
-            if (typeof value === "object") {
-              errorMessage += " Did you mean to use the keyvalue pipe?";
+            if (typeof value === 'object') {
+              errorMessage += ' Did you mean to use the keyvalue pipe?';
             }
             throw new RuntimeError(-2200, errorMessage);
           }
@@ -2289,15 +2464,18 @@ var _NgForOf = class _NgForOf {
     }
     if (this._differ) {
       const changes = this._differ.diff(this._ngForOf);
-      if (changes)
-        this._applyChanges(changes);
+      if (changes) this._applyChanges(changes);
     }
   }
   _applyChanges(changes) {
     const viewContainer = this._viewContainer;
     changes.forEachOperation((item, adjustedPreviousIndex, currentIndex) => {
       if (item.previousIndex == null) {
-        viewContainer.createEmbeddedView(this._template, new NgForOfContext(item.item, this._ngForOf, -1, -1), currentIndex === null ? void 0 : currentIndex);
+        viewContainer.createEmbeddedView(
+          this._template,
+          new NgForOfContext(item.item, this._ngForOf, -1, -1),
+          currentIndex === null ? void 0 : currentIndex
+        );
       } else if (currentIndex == null) {
         viewContainer.remove(adjustedPreviousIndex === null ? void 0 : adjustedPreviousIndex);
       } else if (adjustedPreviousIndex !== null) {
@@ -2329,49 +2507,73 @@ var _NgForOf = class _NgForOf {
   }
 };
 _NgForOf.ɵfac = function NgForOf_Factory(t) {
-  return new (t || _NgForOf)(ɵɵdirectiveInject(ViewContainerRef), ɵɵdirectiveInject(TemplateRef), ɵɵdirectiveInject(IterableDiffers));
+  return new (t || _NgForOf)(
+    ɵɵdirectiveInject(ViewContainerRef),
+    ɵɵdirectiveInject(TemplateRef),
+    ɵɵdirectiveInject(IterableDiffers)
+  );
 };
 _NgForOf.ɵdir = ɵɵdefineDirective({
   type: _NgForOf,
-  selectors: [["", "ngFor", "", "ngForOf", ""]],
+  selectors: [['', 'ngFor', '', 'ngForOf', '']],
   inputs: {
-    ngForOf: "ngForOf",
-    ngForTrackBy: "ngForTrackBy",
-    ngForTemplate: "ngForTemplate"
+    ngForOf: 'ngForOf',
+    ngForTrackBy: 'ngForTrackBy',
+    ngForTemplate: 'ngForTemplate'
   },
   standalone: true
 });
 var NgForOf = _NgForOf;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NgForOf, [{
-    type: Directive,
-    args: [{
-      selector: "[ngFor][ngForOf]",
-      standalone: true
-    }]
-  }], () => [{
-    type: ViewContainerRef
-  }, {
-    type: TemplateRef
-  }, {
-    type: IterableDiffers
-  }], {
-    ngForOf: [{
-      type: Input
-    }],
-    ngForTrackBy: [{
-      type: Input
-    }],
-    ngForTemplate: [{
-      type: Input
-    }]
-  });
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      NgForOf,
+      [
+        {
+          type: Directive,
+          args: [
+            {
+              selector: '[ngFor][ngForOf]',
+              standalone: true
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: ViewContainerRef
+        },
+        {
+          type: TemplateRef
+        },
+        {
+          type: IterableDiffers
+        }
+      ],
+      {
+        ngForOf: [
+          {
+            type: Input
+          }
+        ],
+        ngForTrackBy: [
+          {
+            type: Input
+          }
+        ],
+        ngForTemplate: [
+          {
+            type: Input
+          }
+        ]
+      }
+    );
 })();
 function applyViewChange(view, record) {
   view.context.$implicit = record.item;
 }
 function getTypeName(type) {
-  return type["name"] || typeof type;
+  return type['name'] || typeof type;
 }
 var _NgIf = class _NgIf {
   constructor(_viewContainer, templateRef) {
@@ -2394,7 +2596,7 @@ var _NgIf = class _NgIf {
    * A template to show if the condition expression evaluates to true.
    */
   set ngIfThen(templateRef) {
-    assertTemplate("ngIfThen", templateRef);
+    assertTemplate('ngIfThen', templateRef);
     this._thenTemplateRef = templateRef;
     this._thenViewRef = null;
     this._updateView();
@@ -2403,7 +2605,7 @@ var _NgIf = class _NgIf {
    * A template to show if the condition expression evaluates to false.
    */
   set ngIfElse(templateRef) {
-    assertTemplate("ngIfElse", templateRef);
+    assertTemplate('ngIfElse', templateRef);
     this._elseTemplateRef = templateRef;
     this._elseViewRef = null;
     this._updateView();
@@ -2442,37 +2644,56 @@ _NgIf.ɵfac = function NgIf_Factory(t) {
 };
 _NgIf.ɵdir = ɵɵdefineDirective({
   type: _NgIf,
-  selectors: [["", "ngIf", ""]],
+  selectors: [['', 'ngIf', '']],
   inputs: {
-    ngIf: "ngIf",
-    ngIfThen: "ngIfThen",
-    ngIfElse: "ngIfElse"
+    ngIf: 'ngIf',
+    ngIfThen: 'ngIfThen',
+    ngIfElse: 'ngIfElse'
   },
   standalone: true
 });
 var NgIf = _NgIf;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NgIf, [{
-    type: Directive,
-    args: [{
-      selector: "[ngIf]",
-      standalone: true
-    }]
-  }], () => [{
-    type: ViewContainerRef
-  }, {
-    type: TemplateRef
-  }], {
-    ngIf: [{
-      type: Input
-    }],
-    ngIfThen: [{
-      type: Input
-    }],
-    ngIfElse: [{
-      type: Input
-    }]
-  });
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      NgIf,
+      [
+        {
+          type: Directive,
+          args: [
+            {
+              selector: '[ngIf]',
+              standalone: true
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: ViewContainerRef
+        },
+        {
+          type: TemplateRef
+        }
+      ],
+      {
+        ngIf: [
+          {
+            type: Input
+          }
+        ],
+        ngIfThen: [
+          {
+            type: Input
+          }
+        ],
+        ngIfElse: [
+          {
+            type: Input
+          }
+        ]
+      }
+    );
 })();
 var NgIfContext = class {
   constructor() {
@@ -2534,8 +2755,13 @@ var _NgSwitch = class _NgSwitch {
   /** @internal */
   _matchCase(value) {
     const matched = NG_SWITCH_USE_STRICT_EQUALS ? value === this._ngSwitch : value == this._ngSwitch;
-    if ((typeof ngDevMode === "undefined" || ngDevMode) && matched !== (value == this._ngSwitch)) {
-      console.warn(formatRuntimeError(2001, `As of Angular v17 the NgSwitch directive uses strict equality comparison === instead of == to match different cases. Previously the case value "${stringifyValue(value)}" matched switch expression value "${stringifyValue(this._ngSwitch)}", but this is no longer the case with the stricter equality check. Your comparison results return different results using === vs. == and you should adjust your ngSwitch expression and / or values to conform with the strict equality requirements.`));
+    if ((typeof ngDevMode === 'undefined' || ngDevMode) && matched !== (value == this._ngSwitch)) {
+      console.warn(
+        formatRuntimeError(
+          2001,
+          `As of Angular v17 the NgSwitch directive uses strict equality comparison === instead of == to match different cases. Previously the case value "${stringifyValue(value)}" matched switch expression value "${stringifyValue(this._ngSwitch)}", but this is no longer the case with the stricter equality check. Your comparison results return different results using === vs. == and you should adjust your ngSwitch expression and / or values to conform with the strict equality requirements.`
+        )
+      );
     }
     this._lastCasesMatched = this._lastCasesMatched || matched;
     this._lastCaseCheckIndex++;
@@ -2560,31 +2786,43 @@ _NgSwitch.ɵfac = function NgSwitch_Factory(t) {
 };
 _NgSwitch.ɵdir = ɵɵdefineDirective({
   type: _NgSwitch,
-  selectors: [["", "ngSwitch", ""]],
+  selectors: [['', 'ngSwitch', '']],
   inputs: {
-    ngSwitch: "ngSwitch"
+    ngSwitch: 'ngSwitch'
   },
   standalone: true
 });
 var NgSwitch = _NgSwitch;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NgSwitch, [{
-    type: Directive,
-    args: [{
-      selector: "[ngSwitch]",
-      standalone: true
-    }]
-  }], null, {
-    ngSwitch: [{
-      type: Input
-    }]
-  });
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      NgSwitch,
+      [
+        {
+          type: Directive,
+          args: [
+            {
+              selector: '[ngSwitch]',
+              standalone: true
+            }
+          ]
+        }
+      ],
+      null,
+      {
+        ngSwitch: [
+          {
+            type: Input
+          }
+        ]
+      }
+    );
 })();
 var _NgSwitchCase = class _NgSwitchCase {
   constructor(viewContainer, templateRef, ngSwitch) {
     this.ngSwitch = ngSwitch;
-    if ((typeof ngDevMode === "undefined" || ngDevMode) && !ngSwitch) {
-      throwNgSwitchProviderNotFoundError("ngSwitchCase", "NgSwitchCase");
+    if ((typeof ngDevMode === 'undefined' || ngDevMode) && !ngSwitch) {
+      throwNgSwitchProviderNotFoundError('ngSwitchCase', 'NgSwitchCase');
     }
     ngSwitch._addCase();
     this._view = new SwitchView(viewContainer, templateRef);
@@ -2598,83 +2836,130 @@ var _NgSwitchCase = class _NgSwitchCase {
   }
 };
 _NgSwitchCase.ɵfac = function NgSwitchCase_Factory(t) {
-  return new (t || _NgSwitchCase)(ɵɵdirectiveInject(ViewContainerRef), ɵɵdirectiveInject(TemplateRef), ɵɵdirectiveInject(NgSwitch, 9));
+  return new (t || _NgSwitchCase)(
+    ɵɵdirectiveInject(ViewContainerRef),
+    ɵɵdirectiveInject(TemplateRef),
+    ɵɵdirectiveInject(NgSwitch, 9)
+  );
 };
 _NgSwitchCase.ɵdir = ɵɵdefineDirective({
   type: _NgSwitchCase,
-  selectors: [["", "ngSwitchCase", ""]],
+  selectors: [['', 'ngSwitchCase', '']],
   inputs: {
-    ngSwitchCase: "ngSwitchCase"
+    ngSwitchCase: 'ngSwitchCase'
   },
   standalone: true
 });
 var NgSwitchCase = _NgSwitchCase;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NgSwitchCase, [{
-    type: Directive,
-    args: [{
-      selector: "[ngSwitchCase]",
-      standalone: true
-    }]
-  }], () => [{
-    type: ViewContainerRef
-  }, {
-    type: TemplateRef
-  }, {
-    type: NgSwitch,
-    decorators: [{
-      type: Optional
-    }, {
-      type: Host
-    }]
-  }], {
-    ngSwitchCase: [{
-      type: Input
-    }]
-  });
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      NgSwitchCase,
+      [
+        {
+          type: Directive,
+          args: [
+            {
+              selector: '[ngSwitchCase]',
+              standalone: true
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: ViewContainerRef
+        },
+        {
+          type: TemplateRef
+        },
+        {
+          type: NgSwitch,
+          decorators: [
+            {
+              type: Optional
+            },
+            {
+              type: Host
+            }
+          ]
+        }
+      ],
+      {
+        ngSwitchCase: [
+          {
+            type: Input
+          }
+        ]
+      }
+    );
 })();
 var _NgSwitchDefault = class _NgSwitchDefault {
   constructor(viewContainer, templateRef, ngSwitch) {
-    if ((typeof ngDevMode === "undefined" || ngDevMode) && !ngSwitch) {
-      throwNgSwitchProviderNotFoundError("ngSwitchDefault", "NgSwitchDefault");
+    if ((typeof ngDevMode === 'undefined' || ngDevMode) && !ngSwitch) {
+      throwNgSwitchProviderNotFoundError('ngSwitchDefault', 'NgSwitchDefault');
     }
     ngSwitch._addDefault(new SwitchView(viewContainer, templateRef));
   }
 };
 _NgSwitchDefault.ɵfac = function NgSwitchDefault_Factory(t) {
-  return new (t || _NgSwitchDefault)(ɵɵdirectiveInject(ViewContainerRef), ɵɵdirectiveInject(TemplateRef), ɵɵdirectiveInject(NgSwitch, 9));
+  return new (t || _NgSwitchDefault)(
+    ɵɵdirectiveInject(ViewContainerRef),
+    ɵɵdirectiveInject(TemplateRef),
+    ɵɵdirectiveInject(NgSwitch, 9)
+  );
 };
 _NgSwitchDefault.ɵdir = ɵɵdefineDirective({
   type: _NgSwitchDefault,
-  selectors: [["", "ngSwitchDefault", ""]],
+  selectors: [['', 'ngSwitchDefault', '']],
   standalone: true
 });
 var NgSwitchDefault = _NgSwitchDefault;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NgSwitchDefault, [{
-    type: Directive,
-    args: [{
-      selector: "[ngSwitchDefault]",
-      standalone: true
-    }]
-  }], () => [{
-    type: ViewContainerRef
-  }, {
-    type: TemplateRef
-  }, {
-    type: NgSwitch,
-    decorators: [{
-      type: Optional
-    }, {
-      type: Host
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      NgSwitchDefault,
+      [
+        {
+          type: Directive,
+          args: [
+            {
+              selector: '[ngSwitchDefault]',
+              standalone: true
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: ViewContainerRef
+        },
+        {
+          type: TemplateRef
+        },
+        {
+          type: NgSwitch,
+          decorators: [
+            {
+              type: Optional
+            },
+            {
+              type: Host
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 function throwNgSwitchProviderNotFoundError(attrName, directiveName) {
-  throw new RuntimeError(2e3, `An element with the "${attrName}" attribute (matching the "${directiveName}" directive) must be located inside an element with the "ngSwitch" attribute (matching "NgSwitch" directive)`);
+  throw new RuntimeError(
+    2e3,
+    `An element with the "${attrName}" attribute (matching the "${directiveName}" directive) must be located inside an element with the "ngSwitch" attribute (matching "NgSwitch" directive)`
+  );
 }
 function stringifyValue(value) {
-  return typeof value === "string" ? `'${value}'` : String(value);
+  return typeof value === 'string' ? `'${value}'` : String(value);
 }
 var _NgPlural = class _NgPlural {
   constructor(_localization) {
@@ -2694,8 +2979,7 @@ var _NgPlural = class _NgPlural {
     this._activateView(this._caseViews[key]);
   }
   _clearViews() {
-    if (this._activeView)
-      this._activeView.destroy();
+    if (this._activeView) this._activeView.destroy();
   }
   _activateView(view) {
     if (view) {
@@ -2709,27 +2993,41 @@ _NgPlural.ɵfac = function NgPlural_Factory(t) {
 };
 _NgPlural.ɵdir = ɵɵdefineDirective({
   type: _NgPlural,
-  selectors: [["", "ngPlural", ""]],
+  selectors: [['', 'ngPlural', '']],
   inputs: {
-    ngPlural: "ngPlural"
+    ngPlural: 'ngPlural'
   },
   standalone: true
 });
 var NgPlural = _NgPlural;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NgPlural, [{
-    type: Directive,
-    args: [{
-      selector: "[ngPlural]",
-      standalone: true
-    }]
-  }], () => [{
-    type: NgLocalization
-  }], {
-    ngPlural: [{
-      type: Input
-    }]
-  });
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      NgPlural,
+      [
+        {
+          type: Directive,
+          args: [
+            {
+              selector: '[ngPlural]',
+              standalone: true
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: NgLocalization
+        }
+      ],
+      {
+        ngPlural: [
+          {
+            type: Input
+          }
+        ]
+      }
+    );
 })();
 var _NgPluralCase = class _NgPluralCase {
   constructor(value, template, viewContainer, ngPlural) {
@@ -2739,37 +3037,61 @@ var _NgPluralCase = class _NgPluralCase {
   }
 };
 _NgPluralCase.ɵfac = function NgPluralCase_Factory(t) {
-  return new (t || _NgPluralCase)(ɵɵinjectAttribute("ngPluralCase"), ɵɵdirectiveInject(TemplateRef), ɵɵdirectiveInject(ViewContainerRef), ɵɵdirectiveInject(NgPlural, 1));
+  return new (t || _NgPluralCase)(
+    ɵɵinjectAttribute('ngPluralCase'),
+    ɵɵdirectiveInject(TemplateRef),
+    ɵɵdirectiveInject(ViewContainerRef),
+    ɵɵdirectiveInject(NgPlural, 1)
+  );
 };
 _NgPluralCase.ɵdir = ɵɵdefineDirective({
   type: _NgPluralCase,
-  selectors: [["", "ngPluralCase", ""]],
+  selectors: [['', 'ngPluralCase', '']],
   standalone: true
 });
 var NgPluralCase = _NgPluralCase;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NgPluralCase, [{
-    type: Directive,
-    args: [{
-      selector: "[ngPluralCase]",
-      standalone: true
-    }]
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Attribute,
-      args: ["ngPluralCase"]
-    }]
-  }, {
-    type: TemplateRef
-  }, {
-    type: ViewContainerRef
-  }, {
-    type: NgPlural,
-    decorators: [{
-      type: Host
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      NgPluralCase,
+      [
+        {
+          type: Directive,
+          args: [
+            {
+              selector: '[ngPluralCase]',
+              standalone: true
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Attribute,
+              args: ['ngPluralCase']
+            }
+          ]
+        },
+        {
+          type: TemplateRef
+        },
+        {
+          type: ViewContainerRef
+        },
+        {
+          type: NgPlural,
+          decorators: [
+            {
+              type: Host
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 var _NgStyle = class _NgStyle {
   constructor(_ngEl, _differs, _renderer) {
@@ -2794,8 +3116,8 @@ var _NgStyle = class _NgStyle {
     }
   }
   _setStyle(nameAndUnit, value) {
-    const [name, unit] = nameAndUnit.split(".");
-    const flags = name.indexOf("-") === -1 ? void 0 : RendererStyleFlags2.DashCase;
+    const [name, unit] = nameAndUnit.split('.');
+    const flags = name.indexOf('-') === -1 ? void 0 : RendererStyleFlags2.DashCase;
     if (value != null) {
       this._renderer.setStyle(this._ngEl.nativeElement, name, unit ? `${value}${unit}` : value, flags);
     } else {
@@ -2809,36 +3131,56 @@ var _NgStyle = class _NgStyle {
   }
 };
 _NgStyle.ɵfac = function NgStyle_Factory(t) {
-  return new (t || _NgStyle)(ɵɵdirectiveInject(ElementRef), ɵɵdirectiveInject(KeyValueDiffers), ɵɵdirectiveInject(Renderer2));
+  return new (t || _NgStyle)(
+    ɵɵdirectiveInject(ElementRef),
+    ɵɵdirectiveInject(KeyValueDiffers),
+    ɵɵdirectiveInject(Renderer2)
+  );
 };
 _NgStyle.ɵdir = ɵɵdefineDirective({
   type: _NgStyle,
-  selectors: [["", "ngStyle", ""]],
+  selectors: [['', 'ngStyle', '']],
   inputs: {
-    ngStyle: "ngStyle"
+    ngStyle: 'ngStyle'
   },
   standalone: true
 });
 var NgStyle = _NgStyle;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NgStyle, [{
-    type: Directive,
-    args: [{
-      selector: "[ngStyle]",
-      standalone: true
-    }]
-  }], () => [{
-    type: ElementRef
-  }, {
-    type: KeyValueDiffers
-  }, {
-    type: Renderer2
-  }], {
-    ngStyle: [{
-      type: Input,
-      args: ["ngStyle"]
-    }]
-  });
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      NgStyle,
+      [
+        {
+          type: Directive,
+          args: [
+            {
+              selector: '[ngStyle]',
+              standalone: true
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: ElementRef
+        },
+        {
+          type: KeyValueDiffers
+        },
+        {
+          type: Renderer2
+        }
+      ],
+      {
+        ngStyle: [
+          {
+            type: Input,
+            args: ['ngStyle']
+          }
+        ]
+      }
+    );
 })();
 var _NgTemplateOutlet = class _NgTemplateOutlet {
   constructor(_viewContainerRef) {
@@ -2870,7 +3212,7 @@ var _NgTemplateOutlet = class _NgTemplateOutlet {
    * - the injector changed.
    */
   _shouldRecreateView(changes) {
-    return !!changes["ngTemplateOutlet"] || !!changes["ngTemplateOutletInjector"];
+    return !!changes['ngTemplateOutlet'] || !!changes['ngTemplateOutletInjector'];
   }
   /**
    * For a given outlet instance, we create a proxy object that delegates
@@ -2878,20 +3220,23 @@ var _NgTemplateOutlet = class _NgTemplateOutlet {
    * the context object completely without having to destroy/re-create the view.
    */
   _createContextForwardProxy() {
-    return new Proxy({}, {
-      set: (_target, prop, newValue) => {
-        if (!this.ngTemplateOutletContext) {
-          return false;
+    return new Proxy(
+      {},
+      {
+        set: (_target, prop, newValue) => {
+          if (!this.ngTemplateOutletContext) {
+            return false;
+          }
+          return Reflect.set(this.ngTemplateOutletContext, prop, newValue);
+        },
+        get: (_target, prop, receiver) => {
+          if (!this.ngTemplateOutletContext) {
+            return void 0;
+          }
+          return Reflect.get(this.ngTemplateOutletContext, prop, receiver);
         }
-        return Reflect.set(this.ngTemplateOutletContext, prop, newValue);
-      },
-      get: (_target, prop, receiver) => {
-        if (!this.ngTemplateOutletContext) {
-          return void 0;
-        }
-        return Reflect.get(this.ngTemplateOutletContext, prop, receiver);
       }
-    });
+    );
   }
 };
 _NgTemplateOutlet.ɵfac = function NgTemplateOutlet_Factory(t) {
@@ -2899,49 +3244,81 @@ _NgTemplateOutlet.ɵfac = function NgTemplateOutlet_Factory(t) {
 };
 _NgTemplateOutlet.ɵdir = ɵɵdefineDirective({
   type: _NgTemplateOutlet,
-  selectors: [["", "ngTemplateOutlet", ""]],
+  selectors: [['', 'ngTemplateOutlet', '']],
   inputs: {
-    ngTemplateOutletContext: "ngTemplateOutletContext",
-    ngTemplateOutlet: "ngTemplateOutlet",
-    ngTemplateOutletInjector: "ngTemplateOutletInjector"
+    ngTemplateOutletContext: 'ngTemplateOutletContext',
+    ngTemplateOutlet: 'ngTemplateOutlet',
+    ngTemplateOutletInjector: 'ngTemplateOutletInjector'
   },
   standalone: true,
   features: [ɵɵNgOnChangesFeature]
 });
 var NgTemplateOutlet = _NgTemplateOutlet;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NgTemplateOutlet, [{
-    type: Directive,
-    args: [{
-      selector: "[ngTemplateOutlet]",
-      standalone: true
-    }]
-  }], () => [{
-    type: ViewContainerRef
-  }], {
-    ngTemplateOutletContext: [{
-      type: Input
-    }],
-    ngTemplateOutlet: [{
-      type: Input
-    }],
-    ngTemplateOutletInjector: [{
-      type: Input
-    }]
-  });
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      NgTemplateOutlet,
+      [
+        {
+          type: Directive,
+          args: [
+            {
+              selector: '[ngTemplateOutlet]',
+              standalone: true
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: ViewContainerRef
+        }
+      ],
+      {
+        ngTemplateOutletContext: [
+          {
+            type: Input
+          }
+        ],
+        ngTemplateOutlet: [
+          {
+            type: Input
+          }
+        ],
+        ngTemplateOutletInjector: [
+          {
+            type: Input
+          }
+        ]
+      }
+    );
 })();
-var COMMON_DIRECTIVES = [NgClass, NgComponentOutlet, NgForOf, NgIf, NgTemplateOutlet, NgStyle, NgSwitch, NgSwitchCase, NgSwitchDefault, NgPlural, NgPluralCase];
+var COMMON_DIRECTIVES = [
+  NgClass,
+  NgComponentOutlet,
+  NgForOf,
+  NgIf,
+  NgTemplateOutlet,
+  NgStyle,
+  NgSwitch,
+  NgSwitchCase,
+  NgSwitchDefault,
+  NgPlural,
+  NgPluralCase
+];
 function invalidPipeArgumentError(type, value) {
   return new RuntimeError(2100, ngDevMode && `InvalidPipeArgument: '${value}' for pipe '${stringify(type)}'`);
 }
 var SubscribableStrategy = class {
   createSubscription(async, updateLatestValue) {
-    return untracked(() => async.subscribe({
-      next: updateLatestValue,
-      error: (e) => {
-        throw e;
-      }
-    }));
+    return untracked(() =>
+      async.subscribe({
+        next: updateLatestValue,
+        error: (e) => {
+          throw e;
+        }
+      })
+    );
   }
   dispose(subscription) {
     untracked(() => subscription.unsubscribe());
@@ -2953,8 +3330,7 @@ var PromiseStrategy = class {
       throw e;
     });
   }
-  dispose(subscription) {
-  }
+  dispose(subscription) {}
 };
 var _promiseStrategy = new PromiseStrategy();
 var _subscribableStrategy = new SubscribableStrategy();
@@ -3016,29 +3392,40 @@ _AsyncPipe.ɵfac = function AsyncPipe_Factory(t) {
   return new (t || _AsyncPipe)(ɵɵdirectiveInject(ChangeDetectorRef, 16));
 };
 _AsyncPipe.ɵpipe = ɵɵdefinePipe({
-  name: "async",
+  name: 'async',
   type: _AsyncPipe,
   pure: false,
   standalone: true
 });
 var AsyncPipe = _AsyncPipe;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(AsyncPipe, [{
-    type: Pipe,
-    args: [{
-      name: "async",
-      pure: false,
-      standalone: true
-    }]
-  }], () => [{
-    type: ChangeDetectorRef
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      AsyncPipe,
+      [
+        {
+          type: Pipe,
+          args: [
+            {
+              name: 'async',
+              pure: false,
+              standalone: true
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: ChangeDetectorRef
+        }
+      ],
+      null
+    );
 })();
 var _LowerCasePipe = class _LowerCasePipe {
   transform(value) {
-    if (value == null)
-      return null;
-    if (typeof value !== "string") {
+    if (value == null) return null;
+    if (typeof value !== 'string') {
       throw invalidPipeArgumentError(_LowerCasePipe, value);
     }
     return value.toLowerCase();
@@ -3048,27 +3435,37 @@ _LowerCasePipe.ɵfac = function LowerCasePipe_Factory(t) {
   return new (t || _LowerCasePipe)();
 };
 _LowerCasePipe.ɵpipe = ɵɵdefinePipe({
-  name: "lowercase",
+  name: 'lowercase',
   type: _LowerCasePipe,
   pure: true,
   standalone: true
 });
 var LowerCasePipe = _LowerCasePipe;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(LowerCasePipe, [{
-    type: Pipe,
-    args: [{
-      name: "lowercase",
-      standalone: true
-    }]
-  }], null, null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      LowerCasePipe,
+      [
+        {
+          type: Pipe,
+          args: [
+            {
+              name: 'lowercase',
+              standalone: true
+            }
+          ]
+        }
+      ],
+      null,
+      null
+    );
 })();
-var unicodeWordMatch = /(?:[0-9A-Za-z\xAA\xB5\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02C1\u02C6-\u02D1\u02E0-\u02E4\u02EC\u02EE\u0370-\u0374\u0376\u0377\u037A-\u037D\u037F\u0386\u0388-\u038A\u038C\u038E-\u03A1\u03A3-\u03F5\u03F7-\u0481\u048A-\u052F\u0531-\u0556\u0559\u0560-\u0588\u05D0-\u05EA\u05EF-\u05F2\u0620-\u064A\u066E\u066F\u0671-\u06D3\u06D5\u06E5\u06E6\u06EE\u06EF\u06FA-\u06FC\u06FF\u0710\u0712-\u072F\u074D-\u07A5\u07B1\u07CA-\u07EA\u07F4\u07F5\u07FA\u0800-\u0815\u081A\u0824\u0828\u0840-\u0858\u0860-\u086A\u0870-\u0887\u0889-\u088E\u08A0-\u08C9\u0904-\u0939\u093D\u0950\u0958-\u0961\u0971-\u0980\u0985-\u098C\u098F\u0990\u0993-\u09A8\u09AA-\u09B0\u09B2\u09B6-\u09B9\u09BD\u09CE\u09DC\u09DD\u09DF-\u09E1\u09F0\u09F1\u09FC\u0A05-\u0A0A\u0A0F\u0A10\u0A13-\u0A28\u0A2A-\u0A30\u0A32\u0A33\u0A35\u0A36\u0A38\u0A39\u0A59-\u0A5C\u0A5E\u0A72-\u0A74\u0A85-\u0A8D\u0A8F-\u0A91\u0A93-\u0AA8\u0AAA-\u0AB0\u0AB2\u0AB3\u0AB5-\u0AB9\u0ABD\u0AD0\u0AE0\u0AE1\u0AF9\u0B05-\u0B0C\u0B0F\u0B10\u0B13-\u0B28\u0B2A-\u0B30\u0B32\u0B33\u0B35-\u0B39\u0B3D\u0B5C\u0B5D\u0B5F-\u0B61\u0B71\u0B83\u0B85-\u0B8A\u0B8E-\u0B90\u0B92-\u0B95\u0B99\u0B9A\u0B9C\u0B9E\u0B9F\u0BA3\u0BA4\u0BA8-\u0BAA\u0BAE-\u0BB9\u0BD0\u0C05-\u0C0C\u0C0E-\u0C10\u0C12-\u0C28\u0C2A-\u0C39\u0C3D\u0C58-\u0C5A\u0C5D\u0C60\u0C61\u0C80\u0C85-\u0C8C\u0C8E-\u0C90\u0C92-\u0CA8\u0CAA-\u0CB3\u0CB5-\u0CB9\u0CBD\u0CDD\u0CDE\u0CE0\u0CE1\u0CF1\u0CF2\u0D04-\u0D0C\u0D0E-\u0D10\u0D12-\u0D3A\u0D3D\u0D4E\u0D54-\u0D56\u0D5F-\u0D61\u0D7A-\u0D7F\u0D85-\u0D96\u0D9A-\u0DB1\u0DB3-\u0DBB\u0DBD\u0DC0-\u0DC6\u0E01-\u0E30\u0E32\u0E33\u0E40-\u0E46\u0E81\u0E82\u0E84\u0E86-\u0E8A\u0E8C-\u0EA3\u0EA5\u0EA7-\u0EB0\u0EB2\u0EB3\u0EBD\u0EC0-\u0EC4\u0EC6\u0EDC-\u0EDF\u0F00\u0F40-\u0F47\u0F49-\u0F6C\u0F88-\u0F8C\u1000-\u102A\u103F\u1050-\u1055\u105A-\u105D\u1061\u1065\u1066\u106E-\u1070\u1075-\u1081\u108E\u10A0-\u10C5\u10C7\u10CD\u10D0-\u10FA\u10FC-\u1248\u124A-\u124D\u1250-\u1256\u1258\u125A-\u125D\u1260-\u1288\u128A-\u128D\u1290-\u12B0\u12B2-\u12B5\u12B8-\u12BE\u12C0\u12C2-\u12C5\u12C8-\u12D6\u12D8-\u1310\u1312-\u1315\u1318-\u135A\u1380-\u138F\u13A0-\u13F5\u13F8-\u13FD\u1401-\u166C\u166F-\u167F\u1681-\u169A\u16A0-\u16EA\u16F1-\u16F8\u1700-\u1711\u171F-\u1731\u1740-\u1751\u1760-\u176C\u176E-\u1770\u1780-\u17B3\u17D7\u17DC\u1820-\u1878\u1880-\u1884\u1887-\u18A8\u18AA\u18B0-\u18F5\u1900-\u191E\u1950-\u196D\u1970-\u1974\u1980-\u19AB\u19B0-\u19C9\u1A00-\u1A16\u1A20-\u1A54\u1AA7\u1B05-\u1B33\u1B45-\u1B4C\u1B83-\u1BA0\u1BAE\u1BAF\u1BBA-\u1BE5\u1C00-\u1C23\u1C4D-\u1C4F\u1C5A-\u1C7D\u1C80-\u1C88\u1C90-\u1CBA\u1CBD-\u1CBF\u1CE9-\u1CEC\u1CEE-\u1CF3\u1CF5\u1CF6\u1CFA\u1D00-\u1DBF\u1E00-\u1F15\u1F18-\u1F1D\u1F20-\u1F45\u1F48-\u1F4D\u1F50-\u1F57\u1F59\u1F5B\u1F5D\u1F5F-\u1F7D\u1F80-\u1FB4\u1FB6-\u1FBC\u1FBE\u1FC2-\u1FC4\u1FC6-\u1FCC\u1FD0-\u1FD3\u1FD6-\u1FDB\u1FE0-\u1FEC\u1FF2-\u1FF4\u1FF6-\u1FFC\u2071\u207F\u2090-\u209C\u2102\u2107\u210A-\u2113\u2115\u2119-\u211D\u2124\u2126\u2128\u212A-\u212D\u212F-\u2139\u213C-\u213F\u2145-\u2149\u214E\u2183\u2184\u2C00-\u2CE4\u2CEB-\u2CEE\u2CF2\u2CF3\u2D00-\u2D25\u2D27\u2D2D\u2D30-\u2D67\u2D6F\u2D80-\u2D96\u2DA0-\u2DA6\u2DA8-\u2DAE\u2DB0-\u2DB6\u2DB8-\u2DBE\u2DC0-\u2DC6\u2DC8-\u2DCE\u2DD0-\u2DD6\u2DD8-\u2DDE\u2E2F\u3005\u3006\u3031-\u3035\u303B\u303C\u3041-\u3096\u309D-\u309F\u30A1-\u30FA\u30FC-\u30FF\u3105-\u312F\u3131-\u318E\u31A0-\u31BF\u31F0-\u31FF\u3400-\u4DBF\u4E00-\uA48C\uA4D0-\uA4FD\uA500-\uA60C\uA610-\uA61F\uA62A\uA62B\uA640-\uA66E\uA67F-\uA69D\uA6A0-\uA6E5\uA717-\uA71F\uA722-\uA788\uA78B-\uA7CA\uA7D0\uA7D1\uA7D3\uA7D5-\uA7D9\uA7F2-\uA801\uA803-\uA805\uA807-\uA80A\uA80C-\uA822\uA840-\uA873\uA882-\uA8B3\uA8F2-\uA8F7\uA8FB\uA8FD\uA8FE\uA90A-\uA925\uA930-\uA946\uA960-\uA97C\uA984-\uA9B2\uA9CF\uA9E0-\uA9E4\uA9E6-\uA9EF\uA9FA-\uA9FE\uAA00-\uAA28\uAA40-\uAA42\uAA44-\uAA4B\uAA60-\uAA76\uAA7A\uAA7E-\uAAAF\uAAB1\uAAB5\uAAB6\uAAB9-\uAABD\uAAC0\uAAC2\uAADB-\uAADD\uAAE0-\uAAEA\uAAF2-\uAAF4\uAB01-\uAB06\uAB09-\uAB0E\uAB11-\uAB16\uAB20-\uAB26\uAB28-\uAB2E\uAB30-\uAB5A\uAB5C-\uAB69\uAB70-\uABE2\uAC00-\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFA6D\uFA70-\uFAD9\uFB00-\uFB06\uFB13-\uFB17\uFB1D\uFB1F-\uFB28\uFB2A-\uFB36\uFB38-\uFB3C\uFB3E\uFB40\uFB41\uFB43\uFB44\uFB46-\uFBB1\uFBD3-\uFD3D\uFD50-\uFD8F\uFD92-\uFDC7\uFDF0-\uFDFB\uFE70-\uFE74\uFE76-\uFEFC\uFF21-\uFF3A\uFF41-\uFF5A\uFF66-\uFFBE\uFFC2-\uFFC7\uFFCA-\uFFCF\uFFD2-\uFFD7\uFFDA-\uFFDC]|\uD800[\uDC00-\uDC0B\uDC0D-\uDC26\uDC28-\uDC3A\uDC3C\uDC3D\uDC3F-\uDC4D\uDC50-\uDC5D\uDC80-\uDCFA\uDE80-\uDE9C\uDEA0-\uDED0\uDF00-\uDF1F\uDF2D-\uDF40\uDF42-\uDF49\uDF50-\uDF75\uDF80-\uDF9D\uDFA0-\uDFC3\uDFC8-\uDFCF]|\uD801[\uDC00-\uDC9D\uDCB0-\uDCD3\uDCD8-\uDCFB\uDD00-\uDD27\uDD30-\uDD63\uDD70-\uDD7A\uDD7C-\uDD8A\uDD8C-\uDD92\uDD94\uDD95\uDD97-\uDDA1\uDDA3-\uDDB1\uDDB3-\uDDB9\uDDBB\uDDBC\uDE00-\uDF36\uDF40-\uDF55\uDF60-\uDF67\uDF80-\uDF85\uDF87-\uDFB0\uDFB2-\uDFBA]|\uD802[\uDC00-\uDC05\uDC08\uDC0A-\uDC35\uDC37\uDC38\uDC3C\uDC3F-\uDC55\uDC60-\uDC76\uDC80-\uDC9E\uDCE0-\uDCF2\uDCF4\uDCF5\uDD00-\uDD15\uDD20-\uDD39\uDD80-\uDDB7\uDDBE\uDDBF\uDE00\uDE10-\uDE13\uDE15-\uDE17\uDE19-\uDE35\uDE60-\uDE7C\uDE80-\uDE9C\uDEC0-\uDEC7\uDEC9-\uDEE4\uDF00-\uDF35\uDF40-\uDF55\uDF60-\uDF72\uDF80-\uDF91]|\uD803[\uDC00-\uDC48\uDC80-\uDCB2\uDCC0-\uDCF2\uDD00-\uDD23\uDE80-\uDEA9\uDEB0\uDEB1\uDF00-\uDF1C\uDF27\uDF30-\uDF45\uDF70-\uDF81\uDFB0-\uDFC4\uDFE0-\uDFF6]|\uD804[\uDC03-\uDC37\uDC71\uDC72\uDC75\uDC83-\uDCAF\uDCD0-\uDCE8\uDD03-\uDD26\uDD44\uDD47\uDD50-\uDD72\uDD76\uDD83-\uDDB2\uDDC1-\uDDC4\uDDDA\uDDDC\uDE00-\uDE11\uDE13-\uDE2B\uDE80-\uDE86\uDE88\uDE8A-\uDE8D\uDE8F-\uDE9D\uDE9F-\uDEA8\uDEB0-\uDEDE\uDF05-\uDF0C\uDF0F\uDF10\uDF13-\uDF28\uDF2A-\uDF30\uDF32\uDF33\uDF35-\uDF39\uDF3D\uDF50\uDF5D-\uDF61]|\uD805[\uDC00-\uDC34\uDC47-\uDC4A\uDC5F-\uDC61\uDC80-\uDCAF\uDCC4\uDCC5\uDCC7\uDD80-\uDDAE\uDDD8-\uDDDB\uDE00-\uDE2F\uDE44\uDE80-\uDEAA\uDEB8\uDF00-\uDF1A\uDF40-\uDF46]|\uD806[\uDC00-\uDC2B\uDCA0-\uDCDF\uDCFF-\uDD06\uDD09\uDD0C-\uDD13\uDD15\uDD16\uDD18-\uDD2F\uDD3F\uDD41\uDDA0-\uDDA7\uDDAA-\uDDD0\uDDE1\uDDE3\uDE00\uDE0B-\uDE32\uDE3A\uDE50\uDE5C-\uDE89\uDE9D\uDEB0-\uDEF8]|\uD807[\uDC00-\uDC08\uDC0A-\uDC2E\uDC40\uDC72-\uDC8F\uDD00-\uDD06\uDD08\uDD09\uDD0B-\uDD30\uDD46\uDD60-\uDD65\uDD67\uDD68\uDD6A-\uDD89\uDD98\uDEE0-\uDEF2\uDFB0]|\uD808[\uDC00-\uDF99]|\uD809[\uDC80-\uDD43]|\uD80B[\uDF90-\uDFF0]|[\uD80C\uD81C-\uD820\uD822\uD840-\uD868\uD86A-\uD86C\uD86F-\uD872\uD874-\uD879\uD880-\uD883][\uDC00-\uDFFF]|\uD80D[\uDC00-\uDC2E]|\uD811[\uDC00-\uDE46]|\uD81A[\uDC00-\uDE38\uDE40-\uDE5E\uDE70-\uDEBE\uDED0-\uDEED\uDF00-\uDF2F\uDF40-\uDF43\uDF63-\uDF77\uDF7D-\uDF8F]|\uD81B[\uDE40-\uDE7F\uDF00-\uDF4A\uDF50\uDF93-\uDF9F\uDFE0\uDFE1\uDFE3]|\uD821[\uDC00-\uDFF7]|\uD823[\uDC00-\uDCD5\uDD00-\uDD08]|\uD82B[\uDFF0-\uDFF3\uDFF5-\uDFFB\uDFFD\uDFFE]|\uD82C[\uDC00-\uDD22\uDD50-\uDD52\uDD64-\uDD67\uDD70-\uDEFB]|\uD82F[\uDC00-\uDC6A\uDC70-\uDC7C\uDC80-\uDC88\uDC90-\uDC99]|\uD835[\uDC00-\uDC54\uDC56-\uDC9C\uDC9E\uDC9F\uDCA2\uDCA5\uDCA6\uDCA9-\uDCAC\uDCAE-\uDCB9\uDCBB\uDCBD-\uDCC3\uDCC5-\uDD05\uDD07-\uDD0A\uDD0D-\uDD14\uDD16-\uDD1C\uDD1E-\uDD39\uDD3B-\uDD3E\uDD40-\uDD44\uDD46\uDD4A-\uDD50\uDD52-\uDEA5\uDEA8-\uDEC0\uDEC2-\uDEDA\uDEDC-\uDEFA\uDEFC-\uDF14\uDF16-\uDF34\uDF36-\uDF4E\uDF50-\uDF6E\uDF70-\uDF88\uDF8A-\uDFA8\uDFAA-\uDFC2\uDFC4-\uDFCB]|\uD837[\uDF00-\uDF1E]|\uD838[\uDD00-\uDD2C\uDD37-\uDD3D\uDD4E\uDE90-\uDEAD\uDEC0-\uDEEB]|\uD839[\uDFE0-\uDFE6\uDFE8-\uDFEB\uDFED\uDFEE\uDFF0-\uDFFE]|\uD83A[\uDC00-\uDCC4\uDD00-\uDD43\uDD4B]|\uD83B[\uDE00-\uDE03\uDE05-\uDE1F\uDE21\uDE22\uDE24\uDE27\uDE29-\uDE32\uDE34-\uDE37\uDE39\uDE3B\uDE42\uDE47\uDE49\uDE4B\uDE4D-\uDE4F\uDE51\uDE52\uDE54\uDE57\uDE59\uDE5B\uDE5D\uDE5F\uDE61\uDE62\uDE64\uDE67-\uDE6A\uDE6C-\uDE72\uDE74-\uDE77\uDE79-\uDE7C\uDE7E\uDE80-\uDE89\uDE8B-\uDE9B\uDEA1-\uDEA3\uDEA5-\uDEA9\uDEAB-\uDEBB]|\uD869[\uDC00-\uDEDF\uDF00-\uDFFF]|\uD86D[\uDC00-\uDF38\uDF40-\uDFFF]|\uD86E[\uDC00-\uDC1D\uDC20-\uDFFF]|\uD873[\uDC00-\uDEA1\uDEB0-\uDFFF]|\uD87A[\uDC00-\uDFE0]|\uD87E[\uDC00-\uDE1D]|\uD884[\uDC00-\uDF4A])\S*/g;
+var unicodeWordMatch =
+  /(?:[0-9A-Za-z\xAA\xB5\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02C1\u02C6-\u02D1\u02E0-\u02E4\u02EC\u02EE\u0370-\u0374\u0376\u0377\u037A-\u037D\u037F\u0386\u0388-\u038A\u038C\u038E-\u03A1\u03A3-\u03F5\u03F7-\u0481\u048A-\u052F\u0531-\u0556\u0559\u0560-\u0588\u05D0-\u05EA\u05EF-\u05F2\u0620-\u064A\u066E\u066F\u0671-\u06D3\u06D5\u06E5\u06E6\u06EE\u06EF\u06FA-\u06FC\u06FF\u0710\u0712-\u072F\u074D-\u07A5\u07B1\u07CA-\u07EA\u07F4\u07F5\u07FA\u0800-\u0815\u081A\u0824\u0828\u0840-\u0858\u0860-\u086A\u0870-\u0887\u0889-\u088E\u08A0-\u08C9\u0904-\u0939\u093D\u0950\u0958-\u0961\u0971-\u0980\u0985-\u098C\u098F\u0990\u0993-\u09A8\u09AA-\u09B0\u09B2\u09B6-\u09B9\u09BD\u09CE\u09DC\u09DD\u09DF-\u09E1\u09F0\u09F1\u09FC\u0A05-\u0A0A\u0A0F\u0A10\u0A13-\u0A28\u0A2A-\u0A30\u0A32\u0A33\u0A35\u0A36\u0A38\u0A39\u0A59-\u0A5C\u0A5E\u0A72-\u0A74\u0A85-\u0A8D\u0A8F-\u0A91\u0A93-\u0AA8\u0AAA-\u0AB0\u0AB2\u0AB3\u0AB5-\u0AB9\u0ABD\u0AD0\u0AE0\u0AE1\u0AF9\u0B05-\u0B0C\u0B0F\u0B10\u0B13-\u0B28\u0B2A-\u0B30\u0B32\u0B33\u0B35-\u0B39\u0B3D\u0B5C\u0B5D\u0B5F-\u0B61\u0B71\u0B83\u0B85-\u0B8A\u0B8E-\u0B90\u0B92-\u0B95\u0B99\u0B9A\u0B9C\u0B9E\u0B9F\u0BA3\u0BA4\u0BA8-\u0BAA\u0BAE-\u0BB9\u0BD0\u0C05-\u0C0C\u0C0E-\u0C10\u0C12-\u0C28\u0C2A-\u0C39\u0C3D\u0C58-\u0C5A\u0C5D\u0C60\u0C61\u0C80\u0C85-\u0C8C\u0C8E-\u0C90\u0C92-\u0CA8\u0CAA-\u0CB3\u0CB5-\u0CB9\u0CBD\u0CDD\u0CDE\u0CE0\u0CE1\u0CF1\u0CF2\u0D04-\u0D0C\u0D0E-\u0D10\u0D12-\u0D3A\u0D3D\u0D4E\u0D54-\u0D56\u0D5F-\u0D61\u0D7A-\u0D7F\u0D85-\u0D96\u0D9A-\u0DB1\u0DB3-\u0DBB\u0DBD\u0DC0-\u0DC6\u0E01-\u0E30\u0E32\u0E33\u0E40-\u0E46\u0E81\u0E82\u0E84\u0E86-\u0E8A\u0E8C-\u0EA3\u0EA5\u0EA7-\u0EB0\u0EB2\u0EB3\u0EBD\u0EC0-\u0EC4\u0EC6\u0EDC-\u0EDF\u0F00\u0F40-\u0F47\u0F49-\u0F6C\u0F88-\u0F8C\u1000-\u102A\u103F\u1050-\u1055\u105A-\u105D\u1061\u1065\u1066\u106E-\u1070\u1075-\u1081\u108E\u10A0-\u10C5\u10C7\u10CD\u10D0-\u10FA\u10FC-\u1248\u124A-\u124D\u1250-\u1256\u1258\u125A-\u125D\u1260-\u1288\u128A-\u128D\u1290-\u12B0\u12B2-\u12B5\u12B8-\u12BE\u12C0\u12C2-\u12C5\u12C8-\u12D6\u12D8-\u1310\u1312-\u1315\u1318-\u135A\u1380-\u138F\u13A0-\u13F5\u13F8-\u13FD\u1401-\u166C\u166F-\u167F\u1681-\u169A\u16A0-\u16EA\u16F1-\u16F8\u1700-\u1711\u171F-\u1731\u1740-\u1751\u1760-\u176C\u176E-\u1770\u1780-\u17B3\u17D7\u17DC\u1820-\u1878\u1880-\u1884\u1887-\u18A8\u18AA\u18B0-\u18F5\u1900-\u191E\u1950-\u196D\u1970-\u1974\u1980-\u19AB\u19B0-\u19C9\u1A00-\u1A16\u1A20-\u1A54\u1AA7\u1B05-\u1B33\u1B45-\u1B4C\u1B83-\u1BA0\u1BAE\u1BAF\u1BBA-\u1BE5\u1C00-\u1C23\u1C4D-\u1C4F\u1C5A-\u1C7D\u1C80-\u1C88\u1C90-\u1CBA\u1CBD-\u1CBF\u1CE9-\u1CEC\u1CEE-\u1CF3\u1CF5\u1CF6\u1CFA\u1D00-\u1DBF\u1E00-\u1F15\u1F18-\u1F1D\u1F20-\u1F45\u1F48-\u1F4D\u1F50-\u1F57\u1F59\u1F5B\u1F5D\u1F5F-\u1F7D\u1F80-\u1FB4\u1FB6-\u1FBC\u1FBE\u1FC2-\u1FC4\u1FC6-\u1FCC\u1FD0-\u1FD3\u1FD6-\u1FDB\u1FE0-\u1FEC\u1FF2-\u1FF4\u1FF6-\u1FFC\u2071\u207F\u2090-\u209C\u2102\u2107\u210A-\u2113\u2115\u2119-\u211D\u2124\u2126\u2128\u212A-\u212D\u212F-\u2139\u213C-\u213F\u2145-\u2149\u214E\u2183\u2184\u2C00-\u2CE4\u2CEB-\u2CEE\u2CF2\u2CF3\u2D00-\u2D25\u2D27\u2D2D\u2D30-\u2D67\u2D6F\u2D80-\u2D96\u2DA0-\u2DA6\u2DA8-\u2DAE\u2DB0-\u2DB6\u2DB8-\u2DBE\u2DC0-\u2DC6\u2DC8-\u2DCE\u2DD0-\u2DD6\u2DD8-\u2DDE\u2E2F\u3005\u3006\u3031-\u3035\u303B\u303C\u3041-\u3096\u309D-\u309F\u30A1-\u30FA\u30FC-\u30FF\u3105-\u312F\u3131-\u318E\u31A0-\u31BF\u31F0-\u31FF\u3400-\u4DBF\u4E00-\uA48C\uA4D0-\uA4FD\uA500-\uA60C\uA610-\uA61F\uA62A\uA62B\uA640-\uA66E\uA67F-\uA69D\uA6A0-\uA6E5\uA717-\uA71F\uA722-\uA788\uA78B-\uA7CA\uA7D0\uA7D1\uA7D3\uA7D5-\uA7D9\uA7F2-\uA801\uA803-\uA805\uA807-\uA80A\uA80C-\uA822\uA840-\uA873\uA882-\uA8B3\uA8F2-\uA8F7\uA8FB\uA8FD\uA8FE\uA90A-\uA925\uA930-\uA946\uA960-\uA97C\uA984-\uA9B2\uA9CF\uA9E0-\uA9E4\uA9E6-\uA9EF\uA9FA-\uA9FE\uAA00-\uAA28\uAA40-\uAA42\uAA44-\uAA4B\uAA60-\uAA76\uAA7A\uAA7E-\uAAAF\uAAB1\uAAB5\uAAB6\uAAB9-\uAABD\uAAC0\uAAC2\uAADB-\uAADD\uAAE0-\uAAEA\uAAF2-\uAAF4\uAB01-\uAB06\uAB09-\uAB0E\uAB11-\uAB16\uAB20-\uAB26\uAB28-\uAB2E\uAB30-\uAB5A\uAB5C-\uAB69\uAB70-\uABE2\uAC00-\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFA6D\uFA70-\uFAD9\uFB00-\uFB06\uFB13-\uFB17\uFB1D\uFB1F-\uFB28\uFB2A-\uFB36\uFB38-\uFB3C\uFB3E\uFB40\uFB41\uFB43\uFB44\uFB46-\uFBB1\uFBD3-\uFD3D\uFD50-\uFD8F\uFD92-\uFDC7\uFDF0-\uFDFB\uFE70-\uFE74\uFE76-\uFEFC\uFF21-\uFF3A\uFF41-\uFF5A\uFF66-\uFFBE\uFFC2-\uFFC7\uFFCA-\uFFCF\uFFD2-\uFFD7\uFFDA-\uFFDC]|\uD800[\uDC00-\uDC0B\uDC0D-\uDC26\uDC28-\uDC3A\uDC3C\uDC3D\uDC3F-\uDC4D\uDC50-\uDC5D\uDC80-\uDCFA\uDE80-\uDE9C\uDEA0-\uDED0\uDF00-\uDF1F\uDF2D-\uDF40\uDF42-\uDF49\uDF50-\uDF75\uDF80-\uDF9D\uDFA0-\uDFC3\uDFC8-\uDFCF]|\uD801[\uDC00-\uDC9D\uDCB0-\uDCD3\uDCD8-\uDCFB\uDD00-\uDD27\uDD30-\uDD63\uDD70-\uDD7A\uDD7C-\uDD8A\uDD8C-\uDD92\uDD94\uDD95\uDD97-\uDDA1\uDDA3-\uDDB1\uDDB3-\uDDB9\uDDBB\uDDBC\uDE00-\uDF36\uDF40-\uDF55\uDF60-\uDF67\uDF80-\uDF85\uDF87-\uDFB0\uDFB2-\uDFBA]|\uD802[\uDC00-\uDC05\uDC08\uDC0A-\uDC35\uDC37\uDC38\uDC3C\uDC3F-\uDC55\uDC60-\uDC76\uDC80-\uDC9E\uDCE0-\uDCF2\uDCF4\uDCF5\uDD00-\uDD15\uDD20-\uDD39\uDD80-\uDDB7\uDDBE\uDDBF\uDE00\uDE10-\uDE13\uDE15-\uDE17\uDE19-\uDE35\uDE60-\uDE7C\uDE80-\uDE9C\uDEC0-\uDEC7\uDEC9-\uDEE4\uDF00-\uDF35\uDF40-\uDF55\uDF60-\uDF72\uDF80-\uDF91]|\uD803[\uDC00-\uDC48\uDC80-\uDCB2\uDCC0-\uDCF2\uDD00-\uDD23\uDE80-\uDEA9\uDEB0\uDEB1\uDF00-\uDF1C\uDF27\uDF30-\uDF45\uDF70-\uDF81\uDFB0-\uDFC4\uDFE0-\uDFF6]|\uD804[\uDC03-\uDC37\uDC71\uDC72\uDC75\uDC83-\uDCAF\uDCD0-\uDCE8\uDD03-\uDD26\uDD44\uDD47\uDD50-\uDD72\uDD76\uDD83-\uDDB2\uDDC1-\uDDC4\uDDDA\uDDDC\uDE00-\uDE11\uDE13-\uDE2B\uDE80-\uDE86\uDE88\uDE8A-\uDE8D\uDE8F-\uDE9D\uDE9F-\uDEA8\uDEB0-\uDEDE\uDF05-\uDF0C\uDF0F\uDF10\uDF13-\uDF28\uDF2A-\uDF30\uDF32\uDF33\uDF35-\uDF39\uDF3D\uDF50\uDF5D-\uDF61]|\uD805[\uDC00-\uDC34\uDC47-\uDC4A\uDC5F-\uDC61\uDC80-\uDCAF\uDCC4\uDCC5\uDCC7\uDD80-\uDDAE\uDDD8-\uDDDB\uDE00-\uDE2F\uDE44\uDE80-\uDEAA\uDEB8\uDF00-\uDF1A\uDF40-\uDF46]|\uD806[\uDC00-\uDC2B\uDCA0-\uDCDF\uDCFF-\uDD06\uDD09\uDD0C-\uDD13\uDD15\uDD16\uDD18-\uDD2F\uDD3F\uDD41\uDDA0-\uDDA7\uDDAA-\uDDD0\uDDE1\uDDE3\uDE00\uDE0B-\uDE32\uDE3A\uDE50\uDE5C-\uDE89\uDE9D\uDEB0-\uDEF8]|\uD807[\uDC00-\uDC08\uDC0A-\uDC2E\uDC40\uDC72-\uDC8F\uDD00-\uDD06\uDD08\uDD09\uDD0B-\uDD30\uDD46\uDD60-\uDD65\uDD67\uDD68\uDD6A-\uDD89\uDD98\uDEE0-\uDEF2\uDFB0]|\uD808[\uDC00-\uDF99]|\uD809[\uDC80-\uDD43]|\uD80B[\uDF90-\uDFF0]|[\uD80C\uD81C-\uD820\uD822\uD840-\uD868\uD86A-\uD86C\uD86F-\uD872\uD874-\uD879\uD880-\uD883][\uDC00-\uDFFF]|\uD80D[\uDC00-\uDC2E]|\uD811[\uDC00-\uDE46]|\uD81A[\uDC00-\uDE38\uDE40-\uDE5E\uDE70-\uDEBE\uDED0-\uDEED\uDF00-\uDF2F\uDF40-\uDF43\uDF63-\uDF77\uDF7D-\uDF8F]|\uD81B[\uDE40-\uDE7F\uDF00-\uDF4A\uDF50\uDF93-\uDF9F\uDFE0\uDFE1\uDFE3]|\uD821[\uDC00-\uDFF7]|\uD823[\uDC00-\uDCD5\uDD00-\uDD08]|\uD82B[\uDFF0-\uDFF3\uDFF5-\uDFFB\uDFFD\uDFFE]|\uD82C[\uDC00-\uDD22\uDD50-\uDD52\uDD64-\uDD67\uDD70-\uDEFB]|\uD82F[\uDC00-\uDC6A\uDC70-\uDC7C\uDC80-\uDC88\uDC90-\uDC99]|\uD835[\uDC00-\uDC54\uDC56-\uDC9C\uDC9E\uDC9F\uDCA2\uDCA5\uDCA6\uDCA9-\uDCAC\uDCAE-\uDCB9\uDCBB\uDCBD-\uDCC3\uDCC5-\uDD05\uDD07-\uDD0A\uDD0D-\uDD14\uDD16-\uDD1C\uDD1E-\uDD39\uDD3B-\uDD3E\uDD40-\uDD44\uDD46\uDD4A-\uDD50\uDD52-\uDEA5\uDEA8-\uDEC0\uDEC2-\uDEDA\uDEDC-\uDEFA\uDEFC-\uDF14\uDF16-\uDF34\uDF36-\uDF4E\uDF50-\uDF6E\uDF70-\uDF88\uDF8A-\uDFA8\uDFAA-\uDFC2\uDFC4-\uDFCB]|\uD837[\uDF00-\uDF1E]|\uD838[\uDD00-\uDD2C\uDD37-\uDD3D\uDD4E\uDE90-\uDEAD\uDEC0-\uDEEB]|\uD839[\uDFE0-\uDFE6\uDFE8-\uDFEB\uDFED\uDFEE\uDFF0-\uDFFE]|\uD83A[\uDC00-\uDCC4\uDD00-\uDD43\uDD4B]|\uD83B[\uDE00-\uDE03\uDE05-\uDE1F\uDE21\uDE22\uDE24\uDE27\uDE29-\uDE32\uDE34-\uDE37\uDE39\uDE3B\uDE42\uDE47\uDE49\uDE4B\uDE4D-\uDE4F\uDE51\uDE52\uDE54\uDE57\uDE59\uDE5B\uDE5D\uDE5F\uDE61\uDE62\uDE64\uDE67-\uDE6A\uDE6C-\uDE72\uDE74-\uDE77\uDE79-\uDE7C\uDE7E\uDE80-\uDE89\uDE8B-\uDE9B\uDEA1-\uDEA3\uDEA5-\uDEA9\uDEAB-\uDEBB]|\uD869[\uDC00-\uDEDF\uDF00-\uDFFF]|\uD86D[\uDC00-\uDF38\uDF40-\uDFFF]|\uD86E[\uDC00-\uDC1D\uDC20-\uDFFF]|\uD873[\uDC00-\uDEA1\uDEB0-\uDFFF]|\uD87A[\uDC00-\uDFE0]|\uD87E[\uDC00-\uDE1D]|\uD884[\uDC00-\uDF4A])\S*/g;
 var _TitleCasePipe = class _TitleCasePipe {
   transform(value) {
-    if (value == null)
-      return null;
-    if (typeof value !== "string") {
+    if (value == null) return null;
+    if (typeof value !== 'string') {
       throw invalidPipeArgumentError(_TitleCasePipe, value);
     }
     return value.replace(unicodeWordMatch, (txt) => txt[0].toUpperCase() + txt.slice(1).toLowerCase());
@@ -3078,26 +3475,35 @@ _TitleCasePipe.ɵfac = function TitleCasePipe_Factory(t) {
   return new (t || _TitleCasePipe)();
 };
 _TitleCasePipe.ɵpipe = ɵɵdefinePipe({
-  name: "titlecase",
+  name: 'titlecase',
   type: _TitleCasePipe,
   pure: true,
   standalone: true
 });
 var TitleCasePipe = _TitleCasePipe;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(TitleCasePipe, [{
-    type: Pipe,
-    args: [{
-      name: "titlecase",
-      standalone: true
-    }]
-  }], null, null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      TitleCasePipe,
+      [
+        {
+          type: Pipe,
+          args: [
+            {
+              name: 'titlecase',
+              standalone: true
+            }
+          ]
+        }
+      ],
+      null,
+      null
+    );
 })();
 var _UpperCasePipe = class _UpperCasePipe {
   transform(value) {
-    if (value == null)
-      return null;
-    if (typeof value !== "string") {
+    if (value == null) return null;
+    if (typeof value !== 'string') {
       throw invalidPipeArgumentError(_UpperCasePipe, value);
     }
     return value.toUpperCase();
@@ -3107,24 +3513,34 @@ _UpperCasePipe.ɵfac = function UpperCasePipe_Factory(t) {
   return new (t || _UpperCasePipe)();
 };
 _UpperCasePipe.ɵpipe = ɵɵdefinePipe({
-  name: "uppercase",
+  name: 'uppercase',
   type: _UpperCasePipe,
   pure: true,
   standalone: true
 });
 var UpperCasePipe = _UpperCasePipe;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(UpperCasePipe, [{
-    type: Pipe,
-    args: [{
-      name: "uppercase",
-      standalone: true
-    }]
-  }], null, null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      UpperCasePipe,
+      [
+        {
+          type: Pipe,
+          args: [
+            {
+              name: 'uppercase',
+              standalone: true
+            }
+          ]
+        }
+      ],
+      null,
+      null
+    );
 })();
-var DEFAULT_DATE_FORMAT = "mediumDate";
-var DATE_PIPE_DEFAULT_TIMEZONE = new InjectionToken("DATE_PIPE_DEFAULT_TIMEZONE");
-var DATE_PIPE_DEFAULT_OPTIONS = new InjectionToken("DATE_PIPE_DEFAULT_OPTIONS");
+var DEFAULT_DATE_FORMAT = 'mediumDate';
+var DATE_PIPE_DEFAULT_TIMEZONE = new InjectionToken('DATE_PIPE_DEFAULT_TIMEZONE');
+var DATE_PIPE_DEFAULT_OPTIONS = new InjectionToken('DATE_PIPE_DEFAULT_OPTIONS');
 var _DatePipe = class _DatePipe {
   constructor(locale, defaultTimezone, defaultOptions) {
     this.locale = locale;
@@ -3132,8 +3548,7 @@ var _DatePipe = class _DatePipe {
     this.defaultOptions = defaultOptions;
   }
   transform(value, format, timezone, locale) {
-    if (value == null || value === "" || value !== value)
-      return null;
+    if (value == null || value === '' || value !== value) return null;
     try {
       const _format = format ?? this.defaultOptions?.dateFormat ?? DEFAULT_DATE_FORMAT;
       const _timezone = timezone ?? this.defaultOptions?.timezone ?? this.defaultTimezone ?? void 0;
@@ -3144,46 +3559,72 @@ var _DatePipe = class _DatePipe {
   }
 };
 _DatePipe.ɵfac = function DatePipe_Factory(t) {
-  return new (t || _DatePipe)(ɵɵdirectiveInject(LOCALE_ID, 16), ɵɵdirectiveInject(DATE_PIPE_DEFAULT_TIMEZONE, 24), ɵɵdirectiveInject(DATE_PIPE_DEFAULT_OPTIONS, 24));
+  return new (t || _DatePipe)(
+    ɵɵdirectiveInject(LOCALE_ID, 16),
+    ɵɵdirectiveInject(DATE_PIPE_DEFAULT_TIMEZONE, 24),
+    ɵɵdirectiveInject(DATE_PIPE_DEFAULT_OPTIONS, 24)
+  );
 };
 _DatePipe.ɵpipe = ɵɵdefinePipe({
-  name: "date",
+  name: 'date',
   type: _DatePipe,
   pure: true,
   standalone: true
 });
 var DatePipe = _DatePipe;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DatePipe, [{
-    type: Pipe,
-    args: [{
-      name: "date",
-      pure: true,
-      standalone: true
-    }]
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [LOCALE_ID]
-    }]
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DATE_PIPE_DEFAULT_TIMEZONE]
-    }, {
-      type: Optional
-    }]
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DATE_PIPE_DEFAULT_OPTIONS]
-    }, {
-      type: Optional
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      DatePipe,
+      [
+        {
+          type: Pipe,
+          args: [
+            {
+              name: 'date',
+              pure: true,
+              standalone: true
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [LOCALE_ID]
+            }
+          ]
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [DATE_PIPE_DEFAULT_TIMEZONE]
+            },
+            {
+              type: Optional
+            }
+          ]
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [DATE_PIPE_DEFAULT_OPTIONS]
+            },
+            {
+              type: Optional
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 var _INTERPOLATION_REGEXP = /#/g;
 var _I18nPluralPipe = class _I18nPluralPipe {
@@ -3198,9 +3639,8 @@ var _I18nPluralPipe = class _I18nPluralPipe {
    * default).
    */
   transform(value, pluralMap, locale) {
-    if (value == null)
-      return "";
-    if (typeof pluralMap !== "object" || pluralMap === null) {
+    if (value == null) return '';
+    if (typeof pluralMap !== 'object' || pluralMap === null) {
       throw invalidPipeArgumentError(_I18nPluralPipe, pluralMap);
     }
     const key = getPluralCategory(value, Object.keys(pluralMap), this._localization, locale);
@@ -3211,23 +3651,35 @@ _I18nPluralPipe.ɵfac = function I18nPluralPipe_Factory(t) {
   return new (t || _I18nPluralPipe)(ɵɵdirectiveInject(NgLocalization, 16));
 };
 _I18nPluralPipe.ɵpipe = ɵɵdefinePipe({
-  name: "i18nPlural",
+  name: 'i18nPlural',
   type: _I18nPluralPipe,
   pure: true,
   standalone: true
 });
 var I18nPluralPipe = _I18nPluralPipe;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(I18nPluralPipe, [{
-    type: Pipe,
-    args: [{
-      name: "i18nPlural",
-      pure: true,
-      standalone: true
-    }]
-  }], () => [{
-    type: NgLocalization
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      I18nPluralPipe,
+      [
+        {
+          type: Pipe,
+          args: [
+            {
+              name: 'i18nPlural',
+              pure: true,
+              standalone: true
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: NgLocalization
+        }
+      ],
+      null
+    );
 })();
 var _I18nSelectPipe = class _I18nSelectPipe {
   /**
@@ -3236,39 +3688,48 @@ var _I18nSelectPipe = class _I18nSelectPipe {
    * for different values of the provided `value`.
    */
   transform(value, mapping) {
-    if (value == null)
-      return "";
-    if (typeof mapping !== "object" || typeof value !== "string") {
+    if (value == null) return '';
+    if (typeof mapping !== 'object' || typeof value !== 'string') {
       throw invalidPipeArgumentError(_I18nSelectPipe, mapping);
     }
     if (mapping.hasOwnProperty(value)) {
       return mapping[value];
     }
-    if (mapping.hasOwnProperty("other")) {
-      return mapping["other"];
+    if (mapping.hasOwnProperty('other')) {
+      return mapping['other'];
     }
-    return "";
+    return '';
   }
 };
 _I18nSelectPipe.ɵfac = function I18nSelectPipe_Factory(t) {
   return new (t || _I18nSelectPipe)();
 };
 _I18nSelectPipe.ɵpipe = ɵɵdefinePipe({
-  name: "i18nSelect",
+  name: 'i18nSelect',
   type: _I18nSelectPipe,
   pure: true,
   standalone: true
 });
 var I18nSelectPipe = _I18nSelectPipe;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(I18nSelectPipe, [{
-    type: Pipe,
-    args: [{
-      name: "i18nSelect",
-      pure: true,
-      standalone: true
-    }]
-  }], null, null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      I18nSelectPipe,
+      [
+        {
+          type: Pipe,
+          args: [
+            {
+              name: 'i18nSelect',
+              pure: true,
+              standalone: true
+            }
+          ]
+        }
+      ],
+      null,
+      null
+    );
 })();
 var _JsonPipe = class _JsonPipe {
   /**
@@ -3282,21 +3743,31 @@ _JsonPipe.ɵfac = function JsonPipe_Factory(t) {
   return new (t || _JsonPipe)();
 };
 _JsonPipe.ɵpipe = ɵɵdefinePipe({
-  name: "json",
+  name: 'json',
   type: _JsonPipe,
   pure: false,
   standalone: true
 });
 var JsonPipe = _JsonPipe;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(JsonPipe, [{
-    type: Pipe,
-    args: [{
-      name: "json",
-      pure: false,
-      standalone: true
-    }]
-  }], null, null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      JsonPipe,
+      [
+        {
+          type: Pipe,
+          args: [
+            {
+              name: 'json',
+              pure: false,
+              standalone: true
+            }
+          ]
+        }
+      ],
+      null,
+      null
+    );
 })();
 function makeKeyValuePair(key, value) {
   return {
@@ -3311,7 +3782,7 @@ var _KeyValuePipe = class _KeyValuePipe {
     this.compareFn = defaultComparator;
   }
   transform(input, compareFn = defaultComparator) {
-    if (!input || !(input instanceof Map) && typeof input !== "object") {
+    if (!input || (!(input instanceof Map) && typeof input !== 'object')) {
       return null;
     }
     if (!this.differ) {
@@ -3336,44 +3807,51 @@ _KeyValuePipe.ɵfac = function KeyValuePipe_Factory(t) {
   return new (t || _KeyValuePipe)(ɵɵdirectiveInject(KeyValueDiffers, 16));
 };
 _KeyValuePipe.ɵpipe = ɵɵdefinePipe({
-  name: "keyvalue",
+  name: 'keyvalue',
   type: _KeyValuePipe,
   pure: false,
   standalone: true
 });
 var KeyValuePipe = _KeyValuePipe;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(KeyValuePipe, [{
-    type: Pipe,
-    args: [{
-      name: "keyvalue",
-      pure: false,
-      standalone: true
-    }]
-  }], () => [{
-    type: KeyValueDiffers
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      KeyValuePipe,
+      [
+        {
+          type: Pipe,
+          args: [
+            {
+              name: 'keyvalue',
+              pure: false,
+              standalone: true
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: KeyValueDiffers
+        }
+      ],
+      null
+    );
 })();
 function defaultComparator(keyValueA, keyValueB) {
   const a = keyValueA.key;
   const b = keyValueB.key;
-  if (a === b)
-    return 0;
-  if (a === void 0)
-    return 1;
-  if (b === void 0)
-    return -1;
-  if (a === null)
-    return 1;
-  if (b === null)
-    return -1;
-  if (typeof a == "string" && typeof b == "string") {
+  if (a === b) return 0;
+  if (a === void 0) return 1;
+  if (b === void 0) return -1;
+  if (a === null) return 1;
+  if (b === null) return -1;
+  if (typeof a == 'string' && typeof b == 'string') {
     return a < b ? -1 : 1;
   }
-  if (typeof a == "number" && typeof b == "number") {
+  if (typeof a == 'number' && typeof b == 'number') {
     return a - b;
   }
-  if (typeof a == "boolean" && typeof b == "boolean") {
+  if (typeof a == 'boolean' && typeof b == 'boolean') {
     return a < b ? -1 : 1;
   }
   const aString = String(a);
@@ -3392,8 +3870,7 @@ var _DecimalPipe = class _DecimalPipe {
    * [See more](#locale).
    */
   transform(value, digitsInfo, locale) {
-    if (!isValue(value))
-      return null;
+    if (!isValue(value)) return null;
     locale = locale || this._locale;
     try {
       const num = strToNumber(value);
@@ -3407,26 +3884,40 @@ _DecimalPipe.ɵfac = function DecimalPipe_Factory(t) {
   return new (t || _DecimalPipe)(ɵɵdirectiveInject(LOCALE_ID, 16));
 };
 _DecimalPipe.ɵpipe = ɵɵdefinePipe({
-  name: "number",
+  name: 'number',
   type: _DecimalPipe,
   pure: true,
   standalone: true
 });
 var DecimalPipe = _DecimalPipe;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DecimalPipe, [{
-    type: Pipe,
-    args: [{
-      name: "number",
-      standalone: true
-    }]
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [LOCALE_ID]
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      DecimalPipe,
+      [
+        {
+          type: Pipe,
+          args: [
+            {
+              name: 'number',
+              standalone: true
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [LOCALE_ID]
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 var _PercentPipe = class _PercentPipe {
   constructor(_locale) {
@@ -3449,8 +3940,7 @@ var _PercentPipe = class _PercentPipe {
    * See [Setting your app locale](guide/i18n-common-locale-id).
    */
   transform(value, digitsInfo, locale) {
-    if (!isValue(value))
-      return null;
+    if (!isValue(value)) return null;
     locale = locale || this._locale;
     try {
       const num = strToNumber(value);
@@ -3464,29 +3954,43 @@ _PercentPipe.ɵfac = function PercentPipe_Factory(t) {
   return new (t || _PercentPipe)(ɵɵdirectiveInject(LOCALE_ID, 16));
 };
 _PercentPipe.ɵpipe = ɵɵdefinePipe({
-  name: "percent",
+  name: 'percent',
   type: _PercentPipe,
   pure: true,
   standalone: true
 });
 var PercentPipe = _PercentPipe;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PercentPipe, [{
-    type: Pipe,
-    args: [{
-      name: "percent",
-      standalone: true
-    }]
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [LOCALE_ID]
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      PercentPipe,
+      [
+        {
+          type: Pipe,
+          args: [
+            {
+              name: 'percent',
+              standalone: true
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [LOCALE_ID]
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 var _CurrencyPipe = class _CurrencyPipe {
-  constructor(_locale, _defaultCurrencyCode = "USD") {
+  constructor(_locale, _defaultCurrencyCode = 'USD') {
     this._locale = _locale;
     this._defaultCurrencyCode = _defaultCurrencyCode;
   }
@@ -3523,20 +4027,21 @@ var _CurrencyPipe = class _CurrencyPipe {
    * When not supplied, uses the value of `LOCALE_ID`, which is `en-US` by default.
    * See [Setting your app locale](guide/i18n-common-locale-id).
    */
-  transform(value, currencyCode = this._defaultCurrencyCode, display = "symbol", digitsInfo, locale) {
-    if (!isValue(value))
-      return null;
+  transform(value, currencyCode = this._defaultCurrencyCode, display = 'symbol', digitsInfo, locale) {
+    if (!isValue(value)) return null;
     locale = locale || this._locale;
-    if (typeof display === "boolean") {
-      if ((typeof ngDevMode === "undefined" || ngDevMode) && console && console.warn) {
-        console.warn(`Warning: the currency pipe has been changed in Angular v5. The symbolDisplay option (third parameter) is now a string instead of a boolean. The accepted values are "code", "symbol" or "symbol-narrow".`);
+    if (typeof display === 'boolean') {
+      if ((typeof ngDevMode === 'undefined' || ngDevMode) && console && console.warn) {
+        console.warn(
+          `Warning: the currency pipe has been changed in Angular v5. The symbolDisplay option (third parameter) is now a string instead of a boolean. The accepted values are "code", "symbol" or "symbol-narrow".`
+        );
       }
-      display = display ? "symbol" : "code";
+      display = display ? 'symbol' : 'code';
     }
     let currency = currencyCode || this._defaultCurrencyCode;
-    if (display !== "code") {
-      if (display === "symbol" || display === "symbol-narrow") {
-        currency = getCurrencySymbol(currency, display === "symbol" ? "wide" : "narrow", locale);
+    if (display !== 'code') {
+      if (display === 'symbol' || display === 'symbol-narrow') {
+        currency = getCurrencySymbol(currency, display === 'symbol' ? 'wide' : 'narrow', locale);
       } else {
         currency = display;
       }
@@ -3553,115 +4058,216 @@ _CurrencyPipe.ɵfac = function CurrencyPipe_Factory(t) {
   return new (t || _CurrencyPipe)(ɵɵdirectiveInject(LOCALE_ID, 16), ɵɵdirectiveInject(DEFAULT_CURRENCY_CODE, 16));
 };
 _CurrencyPipe.ɵpipe = ɵɵdefinePipe({
-  name: "currency",
+  name: 'currency',
   type: _CurrencyPipe,
   pure: true,
   standalone: true
 });
 var CurrencyPipe = _CurrencyPipe;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(CurrencyPipe, [{
-    type: Pipe,
-    args: [{
-      name: "currency",
-      standalone: true
-    }]
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [LOCALE_ID]
-    }]
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DEFAULT_CURRENCY_CODE]
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      CurrencyPipe,
+      [
+        {
+          type: Pipe,
+          args: [
+            {
+              name: 'currency',
+              standalone: true
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [LOCALE_ID]
+            }
+          ]
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [DEFAULT_CURRENCY_CODE]
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 function isValue(value) {
-  return !(value == null || value === "" || value !== value);
+  return !(value == null || value === '' || value !== value);
 }
 function strToNumber(value) {
-  if (typeof value === "string" && !isNaN(Number(value) - parseFloat(value))) {
+  if (typeof value === 'string' && !isNaN(Number(value) - parseFloat(value))) {
     return Number(value);
   }
-  if (typeof value !== "number") {
+  if (typeof value !== 'number') {
     throw new Error(`${value} is not a number`);
   }
   return value;
 }
 var _SlicePipe = class _SlicePipe {
   transform(value, start, end) {
-    if (value == null)
-      return null;
+    if (value == null) return null;
     if (!this.supports(value)) {
       throw invalidPipeArgumentError(_SlicePipe, value);
     }
     return value.slice(start, end);
   }
   supports(obj) {
-    return typeof obj === "string" || Array.isArray(obj);
+    return typeof obj === 'string' || Array.isArray(obj);
   }
 };
 _SlicePipe.ɵfac = function SlicePipe_Factory(t) {
   return new (t || _SlicePipe)();
 };
 _SlicePipe.ɵpipe = ɵɵdefinePipe({
-  name: "slice",
+  name: 'slice',
   type: _SlicePipe,
   pure: false,
   standalone: true
 });
 var SlicePipe = _SlicePipe;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(SlicePipe, [{
-    type: Pipe,
-    args: [{
-      name: "slice",
-      pure: false,
-      standalone: true
-    }]
-  }], null, null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      SlicePipe,
+      [
+        {
+          type: Pipe,
+          args: [
+            {
+              name: 'slice',
+              pure: false,
+              standalone: true
+            }
+          ]
+        }
+      ],
+      null,
+      null
+    );
 })();
-var COMMON_PIPES = [AsyncPipe, UpperCasePipe, LowerCasePipe, JsonPipe, SlicePipe, DecimalPipe, PercentPipe, TitleCasePipe, CurrencyPipe, DatePipe, I18nPluralPipe, I18nSelectPipe, KeyValuePipe];
-var _CommonModule = class _CommonModule {
-};
+var COMMON_PIPES = [
+  AsyncPipe,
+  UpperCasePipe,
+  LowerCasePipe,
+  JsonPipe,
+  SlicePipe,
+  DecimalPipe,
+  PercentPipe,
+  TitleCasePipe,
+  CurrencyPipe,
+  DatePipe,
+  I18nPluralPipe,
+  I18nSelectPipe,
+  KeyValuePipe
+];
+var _CommonModule = class _CommonModule {};
 _CommonModule.ɵfac = function CommonModule_Factory(t) {
   return new (t || _CommonModule)();
 };
 _CommonModule.ɵmod = ɵɵdefineNgModule({
   type: _CommonModule,
-  imports: [NgClass, NgComponentOutlet, NgForOf, NgIf, NgTemplateOutlet, NgStyle, NgSwitch, NgSwitchCase, NgSwitchDefault, NgPlural, NgPluralCase, AsyncPipe, UpperCasePipe, LowerCasePipe, JsonPipe, SlicePipe, DecimalPipe, PercentPipe, TitleCasePipe, CurrencyPipe, DatePipe, I18nPluralPipe, I18nSelectPipe, KeyValuePipe],
-  exports: [NgClass, NgComponentOutlet, NgForOf, NgIf, NgTemplateOutlet, NgStyle, NgSwitch, NgSwitchCase, NgSwitchDefault, NgPlural, NgPluralCase, AsyncPipe, UpperCasePipe, LowerCasePipe, JsonPipe, SlicePipe, DecimalPipe, PercentPipe, TitleCasePipe, CurrencyPipe, DatePipe, I18nPluralPipe, I18nSelectPipe, KeyValuePipe]
+  imports: [
+    NgClass,
+    NgComponentOutlet,
+    NgForOf,
+    NgIf,
+    NgTemplateOutlet,
+    NgStyle,
+    NgSwitch,
+    NgSwitchCase,
+    NgSwitchDefault,
+    NgPlural,
+    NgPluralCase,
+    AsyncPipe,
+    UpperCasePipe,
+    LowerCasePipe,
+    JsonPipe,
+    SlicePipe,
+    DecimalPipe,
+    PercentPipe,
+    TitleCasePipe,
+    CurrencyPipe,
+    DatePipe,
+    I18nPluralPipe,
+    I18nSelectPipe,
+    KeyValuePipe
+  ],
+  exports: [
+    NgClass,
+    NgComponentOutlet,
+    NgForOf,
+    NgIf,
+    NgTemplateOutlet,
+    NgStyle,
+    NgSwitch,
+    NgSwitchCase,
+    NgSwitchDefault,
+    NgPlural,
+    NgPluralCase,
+    AsyncPipe,
+    UpperCasePipe,
+    LowerCasePipe,
+    JsonPipe,
+    SlicePipe,
+    DecimalPipe,
+    PercentPipe,
+    TitleCasePipe,
+    CurrencyPipe,
+    DatePipe,
+    I18nPluralPipe,
+    I18nSelectPipe,
+    KeyValuePipe
+  ]
 });
 _CommonModule.ɵinj = ɵɵdefineInjector({});
 var CommonModule = _CommonModule;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(CommonModule, [{
-    type: NgModule,
-    args: [{
-      imports: [COMMON_DIRECTIVES, COMMON_PIPES],
-      exports: [COMMON_DIRECTIVES, COMMON_PIPES]
-    }]
-  }], null, null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      CommonModule,
+      [
+        {
+          type: NgModule,
+          args: [
+            {
+              imports: [COMMON_DIRECTIVES, COMMON_PIPES],
+              exports: [COMMON_DIRECTIVES, COMMON_PIPES]
+            }
+          ]
+        }
+      ],
+      null,
+      null
+    );
 })();
-var PLATFORM_BROWSER_ID = "browser";
-var PLATFORM_SERVER_ID = "server";
+var PLATFORM_BROWSER_ID = 'browser';
+var PLATFORM_SERVER_ID = 'server';
 function isPlatformBrowser(platformId) {
   return platformId === PLATFORM_BROWSER_ID;
 }
 function isPlatformServer(platformId) {
   return platformId === PLATFORM_SERVER_ID;
 }
-var VERSION = new Version("17.1.0");
-var _ViewportScroller = class _ViewportScroller {
-};
+var VERSION = new Version('17.1.0');
+var _ViewportScroller = class _ViewportScroller {};
 _ViewportScroller.ɵprov = ɵɵdefineInjectable({
   token: _ViewportScroller,
-  providedIn: "root",
-  factory: () => isPlatformBrowser(inject(PLATFORM_ID)) ? new BrowserViewportScroller(inject(DOCUMENT), window) : new NullViewportScroller()
+  providedIn: 'root',
+  factory: () =>
+    isPlatformBrowser(inject(PLATFORM_ID))
+      ? new BrowserViewportScroller(inject(DOCUMENT), window)
+      : new NullViewportScroller()
 });
 var ViewportScroller = _ViewportScroller;
 var BrowserViewportScroller = class {
@@ -3740,7 +4346,11 @@ function findAnchorFromDocument(document2, target) {
   if (documentResult) {
     return documentResult;
   }
-  if (typeof document2.createTreeWalker === "function" && document2.body && typeof document2.body.attachShadow === "function") {
+  if (
+    typeof document2.createTreeWalker === 'function' &&
+    document2.body &&
+    typeof document2.body.attachShadow === 'function'
+  ) {
     const treeWalker = document2.createTreeWalker(document2.body, NodeFilter.SHOW_ELEMENT);
     let currentNode = treeWalker.currentNode;
     while (currentNode) {
@@ -3760,8 +4370,7 @@ var NullViewportScroller = class {
   /**
    * Empty implementation
    */
-  setOffset(offset) {
-  }
+  setOffset(offset) {}
   /**
    * Empty implementation
    */
@@ -3771,21 +4380,17 @@ var NullViewportScroller = class {
   /**
    * Empty implementation
    */
-  scrollToPosition(position) {
-  }
+  scrollToPosition(position) {}
   /**
    * Empty implementation
    */
-  scrollToAnchor(anchor) {
-  }
+  scrollToAnchor(anchor) {}
   /**
    * Empty implementation
    */
-  setHistoryScrollRestoration(scrollRestoration) {
-  }
+  setHistoryScrollRestoration(scrollRestoration) {}
 };
-var XhrFactory = class {
-};
+var XhrFactory = class {};
 function getUrl(src, win2) {
   return isAbsoluteUrl(src) ? new URL(src) : new URL(src, win2.location.href);
 }
@@ -3796,8 +4401,8 @@ function extractHostname(url) {
   return isAbsoluteUrl(url) ? new URL(url).hostname : url;
 }
 function isValidPath(path) {
-  const isString = typeof path === "string";
-  if (!isString || path.trim() === "") {
+  const isString = typeof path === 'string';
+  if (!isString || path.trim() === '') {
     return false;
   }
   try {
@@ -3808,14 +4413,14 @@ function isValidPath(path) {
   }
 }
 function normalizePath(path) {
-  return path.endsWith("/") ? path.slice(0, -1) : path;
+  return path.endsWith('/') ? path.slice(0, -1) : path;
 }
 function normalizeSrc(src) {
-  return src.startsWith("/") ? src.slice(1) : src;
+  return src.startsWith('/') ? src.slice(1) : src;
 }
 var noopImageLoader = (config) => config.src;
-var IMAGE_LOADER = new InjectionToken("ImageLoader", {
-  providedIn: "root",
+var IMAGE_LOADER = new InjectionToken('ImageLoader', {
+  providedIn: 'root',
   factory: () => noopImageLoader
 });
 function createImageLoader(buildUrlFn, exampleUrls) {
@@ -3828,24 +4433,40 @@ function createImageLoader(buildUrlFn, exampleUrls) {
       if (isAbsoluteUrl(config.src)) {
         throwUnexpectedAbsoluteUrlError(path, config.src);
       }
-      return buildUrlFn(path, __spreadProps(__spreadValues({}, config), {
-        src: normalizeSrc(config.src)
-      }));
+      return buildUrlFn(
+        path,
+        __spreadProps(__spreadValues({}, config), {
+          src: normalizeSrc(config.src)
+        })
+      );
     };
-    const providers = [{
-      provide: IMAGE_LOADER,
-      useValue: loaderFn
-    }];
+    const providers = [
+      {
+        provide: IMAGE_LOADER,
+        useValue: loaderFn
+      }
+    ];
     return providers;
   };
 }
 function throwInvalidPathError(path, exampleUrls) {
-  throw new RuntimeError(2959, ngDevMode && `Image loader has detected an invalid path (\`${path}\`). To fix this, supply a path using one of the following formats: ${exampleUrls.join(" or ")}`);
+  throw new RuntimeError(
+    2959,
+    ngDevMode &&
+      `Image loader has detected an invalid path (\`${path}\`). To fix this, supply a path using one of the following formats: ${exampleUrls.join(' or ')}`
+  );
 }
 function throwUnexpectedAbsoluteUrlError(path, url) {
-  throw new RuntimeError(2959, ngDevMode && `Image loader has detected a \`<img>\` tag with an invalid \`ngSrc\` attribute: ${url}. This image loader expects \`ngSrc\` to be a relative URL - however the provided value is an absolute URL. To fix this, provide \`ngSrc\` as a path relative to the base URL configured for this loader (\`${path}\`).`);
+  throw new RuntimeError(
+    2959,
+    ngDevMode &&
+      `Image loader has detected a \`<img>\` tag with an invalid \`ngSrc\` attribute: ${url}. This image loader expects \`ngSrc\` to be a relative URL - however the provided value is an absolute URL. To fix this, provide \`ngSrc\` as a path relative to the base URL configured for this loader (\`${path}\`).`
+  );
 }
-var provideCloudflareLoader = createImageLoader(createCloudflareUrl, ngDevMode ? ["https://<ZONE>/cdn-cgi/image/<OPTIONS>/<SOURCE-IMAGE>"] : void 0);
+var provideCloudflareLoader = createImageLoader(
+  createCloudflareUrl,
+  ngDevMode ? ['https://<ZONE>/cdn-cgi/image/<OPTIONS>/<SOURCE-IMAGE>'] : void 0
+);
 function createCloudflareUrl(path, config) {
   let params = `format=auto`;
   if (config.width) {
@@ -3854,14 +4475,19 @@ function createCloudflareUrl(path, config) {
   return `${path}/cdn-cgi/image/${params}/${config.src}`;
 }
 var cloudinaryLoaderInfo = {
-  name: "Cloudinary",
+  name: 'Cloudinary',
   testUrl: isCloudinaryUrl
 };
 var CLOUDINARY_LOADER_REGEX = /https?\:\/\/[^\/]+\.cloudinary\.com\/.+/;
 function isCloudinaryUrl(url) {
   return CLOUDINARY_LOADER_REGEX.test(url);
 }
-var provideCloudinaryLoader = createImageLoader(createCloudinaryUrl, ngDevMode ? ["https://res.cloudinary.com/mysite", "https://mysite.cloudinary.com", "https://subdomain.mysite.com"] : void 0);
+var provideCloudinaryLoader = createImageLoader(
+  createCloudinaryUrl,
+  ngDevMode
+    ? ['https://res.cloudinary.com/mysite', 'https://mysite.cloudinary.com', 'https://subdomain.mysite.com']
+    : void 0
+);
 function createCloudinaryUrl(path, config) {
   let params = `f_auto,q_auto`;
   if (config.width) {
@@ -3870,19 +4496,19 @@ function createCloudinaryUrl(path, config) {
   return `${path}/image/upload/${params}/${config.src}`;
 }
 var imageKitLoaderInfo = {
-  name: "ImageKit",
+  name: 'ImageKit',
   testUrl: isImageKitUrl
 };
 var IMAGE_KIT_LOADER_REGEX = /https?\:\/\/[^\/]+\.imagekit\.io\/.+/;
 function isImageKitUrl(url) {
   return IMAGE_KIT_LOADER_REGEX.test(url);
 }
-var provideImageKitLoader = createImageLoader(createImagekitUrl, ngDevMode ? ["https://ik.imagekit.io/mysite", "https://subdomain.mysite.com"] : void 0);
+var provideImageKitLoader = createImageLoader(
+  createImagekitUrl,
+  ngDevMode ? ['https://ik.imagekit.io/mysite', 'https://subdomain.mysite.com'] : void 0
+);
 function createImagekitUrl(path, config) {
-  const {
-    src,
-    width
-  } = config;
+  const { src, width } = config;
   let urlSegments;
   if (width) {
     const params = `tr:w-${width}`;
@@ -3890,32 +4516,35 @@ function createImagekitUrl(path, config) {
   } else {
     urlSegments = [path, src];
   }
-  return urlSegments.join("/");
+  return urlSegments.join('/');
 }
 var imgixLoaderInfo = {
-  name: "Imgix",
+  name: 'Imgix',
   testUrl: isImgixUrl
 };
 var IMGIX_LOADER_REGEX = /https?\:\/\/[^\/]+\.imgix\.net\/.+/;
 function isImgixUrl(url) {
   return IMGIX_LOADER_REGEX.test(url);
 }
-var provideImgixLoader = createImageLoader(createImgixUrl, ngDevMode ? ["https://somepath.imgix.net/"] : void 0);
+var provideImgixLoader = createImageLoader(createImgixUrl, ngDevMode ? ['https://somepath.imgix.net/'] : void 0);
 function createImgixUrl(path, config) {
   const url = new URL(`${path}/${config.src}`);
-  url.searchParams.set("auto", "format");
+  url.searchParams.set('auto', 'format');
   if (config.width) {
-    url.searchParams.set("w", config.width.toString());
+    url.searchParams.set('w', config.width.toString());
   }
   return url.href;
 }
 function imgDirectiveDetails(ngSrc, includeNgSrc = true) {
-  const ngSrcInfo = includeNgSrc ? `(activated on an <img> element with the \`ngSrc="${ngSrc}"\`) ` : "";
+  const ngSrcInfo = includeNgSrc ? `(activated on an <img> element with the \`ngSrc="${ngSrc}"\`) ` : '';
   return `The NgOptimizedImage directive ${ngSrcInfo}has detected that`;
 }
 function assertDevMode(checkName) {
   if (!ngDevMode) {
-    throw new RuntimeError(2958, `Unexpected invocation of the ${checkName} in the prod mode. Please make sure that the prod mode is enabled for production builds.`);
+    throw new RuntimeError(
+      2958,
+      `Unexpected invocation of the ${checkName} in the prod mode. Please make sure that the prod mode is enabled for production builds.`
+    );
   }
 }
 var _LCPImageObserver = class _LCPImageObserver {
@@ -3923,9 +4552,9 @@ var _LCPImageObserver = class _LCPImageObserver {
     this.images = /* @__PURE__ */ new Map();
     this.window = null;
     this.observer = null;
-    assertDevMode("LCP checker");
+    assertDevMode('LCP checker');
     const win2 = inject(DOCUMENT).defaultView;
-    if (typeof win2 !== "undefined" && typeof PerformanceObserver !== "undefined") {
+    if (typeof win2 !== 'undefined' && typeof PerformanceObserver !== 'undefined') {
       this.window = win2;
       this.observer = this.initPerformanceObserver();
     }
@@ -3937,15 +4566,12 @@ var _LCPImageObserver = class _LCPImageObserver {
   initPerformanceObserver() {
     const observer = new PerformanceObserver((entryList) => {
       const entries = entryList.getEntries();
-      if (entries.length === 0)
-        return;
+      if (entries.length === 0) return;
       const lcpElement = entries[entries.length - 1];
-      const imgSrc = lcpElement.element?.src ?? "";
-      if (imgSrc.startsWith("data:") || imgSrc.startsWith("blob:"))
-        return;
+      const imgSrc = lcpElement.element?.src ?? '';
+      if (imgSrc.startsWith('data:') || imgSrc.startsWith('blob:')) return;
       const img = this.images.get(imgSrc);
-      if (!img)
-        return;
+      if (!img) return;
       if (!img.priority && !img.alreadyWarnedPriority) {
         img.alreadyWarnedPriority = true;
         logMissingPriorityError(imgSrc);
@@ -3956,14 +4582,13 @@ var _LCPImageObserver = class _LCPImageObserver {
       }
     });
     observer.observe({
-      type: "largest-contentful-paint",
+      type: 'largest-contentful-paint',
       buffered: true
     });
     return observer;
   }
   registerImage(rewrittenSrc, originalNgSrc, isPriority) {
-    if (!this.observer)
-      return;
+    if (!this.observer) return;
     const newObservedImageState = {
       priority: isPriority,
       modified: false,
@@ -3973,8 +4598,7 @@ var _LCPImageObserver = class _LCPImageObserver {
     this.images.set(getUrl(rewrittenSrc, this.window).href, newObservedImageState);
   }
   unregisterImage(rewrittenSrc) {
-    if (!this.observer)
-      return;
+    if (!this.observer) return;
     this.images.delete(getUrl(rewrittenSrc, this.window).href);
   }
   updateImage(originalSrc, newSrc) {
@@ -3987,8 +4611,7 @@ var _LCPImageObserver = class _LCPImageObserver {
     }
   }
   ngOnDestroy() {
-    if (!this.observer)
-      return;
+    if (!this.observer) return;
     this.observer.disconnect();
     this.images.clear();
   }
@@ -3999,27 +4622,47 @@ _LCPImageObserver.ɵfac = function LCPImageObserver_Factory(t) {
 _LCPImageObserver.ɵprov = ɵɵdefineInjectable({
   token: _LCPImageObserver,
   factory: _LCPImageObserver.ɵfac,
-  providedIn: "root"
+  providedIn: 'root'
 });
 var LCPImageObserver = _LCPImageObserver;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(LCPImageObserver, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      LCPImageObserver,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'root'
+            }
+          ]
+        }
+      ],
+      () => [],
+      null
+    );
 })();
 function logMissingPriorityError(ngSrc) {
   const directiveDetails = imgDirectiveDetails(ngSrc);
-  console.error(formatRuntimeError(2955, `${directiveDetails} this image is the Largest Contentful Paint (LCP) element but was not marked "priority". This image should be marked "priority" in order to prioritize its loading. To fix this, add the "priority" attribute.`));
+  console.error(
+    formatRuntimeError(
+      2955,
+      `${directiveDetails} this image is the Largest Contentful Paint (LCP) element but was not marked "priority". This image should be marked "priority" in order to prioritize its loading. To fix this, add the "priority" attribute.`
+    )
+  );
 }
 function logModifiedWarning(ngSrc) {
   const directiveDetails = imgDirectiveDetails(ngSrc);
-  console.warn(formatRuntimeError(2964, `${directiveDetails} this image is the Largest Contentful Paint (LCP) element and has had its "ngSrc" attribute modified. This can cause slower loading performance. It is recommended not to modify the "ngSrc" property on any image which could be the LCP element.`));
+  console.warn(
+    formatRuntimeError(
+      2964,
+      `${directiveDetails} this image is the Largest Contentful Paint (LCP) element and has had its "ngSrc" attribute modified. This can cause slower loading performance. It is recommended not to modify the "ngSrc" property on any image which could be the LCP element.`
+    )
+  );
 }
-var INTERNAL_PRECONNECT_CHECK_BLOCKLIST = /* @__PURE__ */ new Set(["localhost", "127.0.0.1", "0.0.0.0"]);
-var PRECONNECT_CHECK_BLOCKLIST = new InjectionToken("PRECONNECT_CHECK_BLOCKLIST");
+var INTERNAL_PRECONNECT_CHECK_BLOCKLIST = /* @__PURE__ */ new Set(['localhost', '127.0.0.1', '0.0.0.0']);
+var PRECONNECT_CHECK_BLOCKLIST = new InjectionToken('PRECONNECT_CHECK_BLOCKLIST');
 var _PreconnectLinkChecker = class _PreconnectLinkChecker {
   constructor() {
     this.document = inject(DOCUMENT);
@@ -4027,9 +4670,9 @@ var _PreconnectLinkChecker = class _PreconnectLinkChecker {
     this.alreadySeen = /* @__PURE__ */ new Set();
     this.window = null;
     this.blocklist = new Set(INTERNAL_PRECONNECT_CHECK_BLOCKLIST);
-    assertDevMode("preconnect link checker");
+    assertDevMode('preconnect link checker');
     const win2 = this.document.defaultView;
-    if (typeof win2 !== "undefined") {
+    if (typeof win2 !== 'undefined') {
       this.window = win2;
     }
     const blocklist = inject(PRECONNECT_CHECK_BLOCKLIST, {
@@ -4056,23 +4699,26 @@ var _PreconnectLinkChecker = class _PreconnectLinkChecker {
    * @param originalNgSrc ngSrc value
    */
   assertPreconnect(rewrittenSrc, originalNgSrc) {
-    if (!this.window)
-      return;
+    if (!this.window) return;
     const imgUrl = getUrl(rewrittenSrc, this.window);
-    if (this.blocklist.has(imgUrl.hostname) || this.alreadySeen.has(imgUrl.origin))
-      return;
+    if (this.blocklist.has(imgUrl.hostname) || this.alreadySeen.has(imgUrl.origin)) return;
     this.alreadySeen.add(imgUrl.origin);
     if (!this.preconnectLinks) {
       this.preconnectLinks = this.queryPreconnectLinks();
     }
     if (!this.preconnectLinks.has(imgUrl.origin)) {
-      console.warn(formatRuntimeError(2956, `${imgDirectiveDetails(originalNgSrc)} there is no preconnect tag present for this image. Preconnecting to the origin(s) that serve priority images ensures that these images are delivered as soon as possible. To fix this, please add the following element into the <head> of the document:
-  <link rel="preconnect" href="${imgUrl.origin}">`));
+      console.warn(
+        formatRuntimeError(
+          2956,
+          `${imgDirectiveDetails(originalNgSrc)} there is no preconnect tag present for this image. Preconnecting to the origin(s) that serve priority images ensures that these images are delivered as soon as possible. To fix this, please add the following element into the <head> of the document:
+  <link rel="preconnect" href="${imgUrl.origin}">`
+        )
+      );
     }
   }
   queryPreconnectLinks() {
     const preconnectUrls = /* @__PURE__ */ new Set();
-    const selector = "link[rel=preconnect]";
+    const selector = 'link[rel=preconnect]';
     const links = Array.from(this.document.querySelectorAll(selector));
     for (let link of links) {
       const url = getUrl(link.href, this.window);
@@ -4091,16 +4737,26 @@ _PreconnectLinkChecker.ɵfac = function PreconnectLinkChecker_Factory(t) {
 _PreconnectLinkChecker.ɵprov = ɵɵdefineInjectable({
   token: _PreconnectLinkChecker,
   factory: _PreconnectLinkChecker.ɵfac,
-  providedIn: "root"
+  providedIn: 'root'
 });
 var PreconnectLinkChecker = _PreconnectLinkChecker;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PreconnectLinkChecker, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      PreconnectLinkChecker,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'root'
+            }
+          ]
+        }
+      ],
+      () => [],
+      null
+    );
 })();
 function deepForEach(input, fn) {
   for (let value of input) {
@@ -4108,8 +4764,8 @@ function deepForEach(input, fn) {
   }
 }
 var DEFAULT_PRELOADED_IMAGES_LIMIT = 5;
-var PRELOADED_IMAGES = new InjectionToken("NG_OPTIMIZED_PRELOADED_IMAGES", {
-  providedIn: "root",
+var PRELOADED_IMAGES = new InjectionToken('NG_OPTIMIZED_PRELOADED_IMAGES', {
+  providedIn: 'root',
   factory: () => /* @__PURE__ */ new Set()
 });
 var _PreloadLinkCreator = class _PreloadLinkCreator {
@@ -4136,23 +4792,27 @@ var _PreloadLinkCreator = class _PreloadLinkCreator {
   createPreloadLinkTag(renderer, src, srcset, sizes) {
     if (ngDevMode) {
       if (this.preloadedImages.size >= DEFAULT_PRELOADED_IMAGES_LIMIT) {
-        throw new RuntimeError(2961, ngDevMode && `The \`NgOptimizedImage\` directive has detected that more than ${DEFAULT_PRELOADED_IMAGES_LIMIT} images were marked as priority. This might negatively affect an overall performance of the page. To fix this, remove the "priority" attribute from images with less priority.`);
+        throw new RuntimeError(
+          2961,
+          ngDevMode &&
+            `The \`NgOptimizedImage\` directive has detected that more than ${DEFAULT_PRELOADED_IMAGES_LIMIT} images were marked as priority. This might negatively affect an overall performance of the page. To fix this, remove the "priority" attribute from images with less priority.`
+        );
       }
     }
     if (this.preloadedImages.has(src)) {
       return;
     }
     this.preloadedImages.add(src);
-    const preload = renderer.createElement("link");
-    renderer.setAttribute(preload, "as", "image");
-    renderer.setAttribute(preload, "href", src);
-    renderer.setAttribute(preload, "rel", "preload");
-    renderer.setAttribute(preload, "fetchpriority", "high");
+    const preload = renderer.createElement('link');
+    renderer.setAttribute(preload, 'as', 'image');
+    renderer.setAttribute(preload, 'href', src);
+    renderer.setAttribute(preload, 'rel', 'preload');
+    renderer.setAttribute(preload, 'fetchpriority', 'high');
     if (sizes) {
-      renderer.setAttribute(preload, "imageSizes", sizes);
+      renderer.setAttribute(preload, 'imageSizes', sizes);
     }
     if (srcset) {
-      renderer.setAttribute(preload, "imageSrcset", srcset);
+      renderer.setAttribute(preload, 'imageSrcset', srcset);
     }
     renderer.appendChild(this.document.head, preload);
   }
@@ -4163,16 +4823,26 @@ _PreloadLinkCreator.ɵfac = function PreloadLinkCreator_Factory(t) {
 _PreloadLinkCreator.ɵprov = ɵɵdefineInjectable({
   token: _PreloadLinkCreator,
   factory: _PreloadLinkCreator.ɵfac,
-  providedIn: "root"
+  providedIn: 'root'
 });
 var PreloadLinkCreator = _PreloadLinkCreator;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PreloadLinkCreator, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], null, null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      PreloadLinkCreator,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'root'
+            }
+          ]
+        }
+      ],
+      null,
+      null
+    );
 })();
 var BASE64_IMG_MAX_LENGTH_IN_ERROR = 50;
 var VALID_WIDTH_DESCRIPTOR_SRCSET = /^((\s*\d+w\s*(,|$)){1,})$/;
@@ -4203,10 +4873,10 @@ var _NgOptimizedImage = class _NgOptimizedImage {
   }
   /** @nodoc */
   ngOnInit() {
-    performanceMarkFeature("NgOptimizedImage");
+    performanceMarkFeature('NgOptimizedImage');
     if (ngDevMode) {
       const ngZone = this.injector.get(NgZone);
-      assertNonEmptyInput(this, "ngSrc", this.ngSrc);
+      assertNonEmptyInput(this, 'ngSrc', this.ngSrc);
       assertValidNgSrcset(this, this.ngSrcset);
       assertNoConflictingSrc(this);
       if (this.ngSrcset) {
@@ -4220,10 +4890,10 @@ var _NgOptimizedImage = class _NgOptimizedImage {
       } else {
         assertNonEmptyWidthAndHeight(this);
         if (this.height !== void 0) {
-          assertGreaterThanZero(this, this.height, "height");
+          assertGreaterThanZero(this, this.height, 'height');
         }
         if (this.width !== void 0) {
-          assertGreaterThanZero(this, this.width, "width");
+          assertGreaterThanZero(this, this.width, 'width');
         }
         ngZone.runOutsideAngular(() => assertNoImageDistortion(this, this.imgElement, this.renderer));
       }
@@ -4250,18 +4920,18 @@ var _NgOptimizedImage = class _NgOptimizedImage {
   setHostAttributes() {
     if (this.fill) {
       if (!this.sizes) {
-        this.sizes = "100vw";
+        this.sizes = '100vw';
       }
     } else {
-      this.setHostAttribute("width", this.width.toString());
-      this.setHostAttribute("height", this.height.toString());
+      this.setHostAttribute('width', this.width.toString());
+      this.setHostAttribute('height', this.height.toString());
     }
-    this.setHostAttribute("loading", this.getLoadingBehavior());
-    this.setHostAttribute("fetchpriority", this.getFetchPriority());
-    this.setHostAttribute("ng-img", "true");
+    this.setHostAttribute('loading', this.getLoadingBehavior());
+    this.setHostAttribute('fetchpriority', this.getFetchPriority());
+    this.setHostAttribute('ng-img', 'true');
     const rewrittenSrcset = this.updateSrcAndSrcset();
     if (this.sizes) {
-      this.setHostAttribute("sizes", this.sizes);
+      this.setHostAttribute('sizes', this.sizes);
     }
     if (this.isServer && this.priority) {
       this.preloadLinkCreator.createPreloadLinkTag(this.renderer, this.getRewrittenSrc(), rewrittenSrcset, this.sizes);
@@ -4270,9 +4940,19 @@ var _NgOptimizedImage = class _NgOptimizedImage {
   /** @nodoc */
   ngOnChanges(changes) {
     if (ngDevMode) {
-      assertNoPostInitInputChange(this, changes, ["ngSrcset", "width", "height", "priority", "fill", "loading", "sizes", "loaderParams", "disableOptimizedSrcset"]);
+      assertNoPostInitInputChange(this, changes, [
+        'ngSrcset',
+        'width',
+        'height',
+        'priority',
+        'fill',
+        'loading',
+        'sizes',
+        'loaderParams',
+        'disableOptimizedSrcset'
+      ]);
     }
-    if (changes["ngSrc"] && !changes["ngSrc"].isFirstChange()) {
+    if (changes['ngSrc'] && !changes['ngSrc'].isFirstChange()) {
       const oldSrc = this._renderedSrc;
       this.updateSrcAndSrcset(true);
       const newSrc = this._renderedSrc;
@@ -4295,10 +4975,10 @@ var _NgOptimizedImage = class _NgOptimizedImage {
     if (!this.priority && this.loading !== void 0) {
       return this.loading;
     }
-    return this.priority ? "eager" : "lazy";
+    return this.priority ? 'eager' : 'lazy';
   }
   getFetchPriority() {
-    return this.priority ? "high" : "auto";
+    return this.priority ? 'high' : 'auto';
   }
   getRewrittenSrc() {
     if (!this._renderedSrc) {
@@ -4311,15 +4991,18 @@ var _NgOptimizedImage = class _NgOptimizedImage {
   }
   getRewrittenSrcset() {
     const widthSrcSet = VALID_WIDTH_DESCRIPTOR_SRCSET.test(this.ngSrcset);
-    const finalSrcs = this.ngSrcset.split(",").filter((src) => src !== "").map((srcStr) => {
-      srcStr = srcStr.trim();
-      const width = widthSrcSet ? parseFloat(srcStr) : parseFloat(srcStr) * this.width;
-      return `${this.callImageLoader({
-        src: this.ngSrc,
-        width
-      })} ${srcStr}`;
-    });
-    return finalSrcs.join(", ");
+    const finalSrcs = this.ngSrcset
+      .split(',')
+      .filter((src) => src !== '')
+      .map((srcStr) => {
+        srcStr = srcStr.trim();
+        const width = widthSrcSet ? parseFloat(srcStr) : parseFloat(srcStr) * this.width;
+        return `${this.callImageLoader({
+          src: this.ngSrc,
+          width
+        })} ${srcStr}`;
+      });
+    return finalSrcs.join(', ');
   }
   getAutomaticSrcset() {
     if (this.sizes) {
@@ -4329,25 +5012,26 @@ var _NgOptimizedImage = class _NgOptimizedImage {
     }
   }
   getResponsiveSrcset() {
-    const {
-      breakpoints
-    } = this.config;
+    const { breakpoints } = this.config;
     let filteredBreakpoints = breakpoints;
-    if (this.sizes?.trim() === "100vw") {
+    if (this.sizes?.trim() === '100vw') {
       filteredBreakpoints = breakpoints.filter((bp) => bp >= VIEWPORT_BREAKPOINT_CUTOFF);
     }
-    const finalSrcs = filteredBreakpoints.map((bp) => `${this.callImageLoader({
-      src: this.ngSrc,
-      width: bp
-    })} ${bp}w`);
-    return finalSrcs.join(", ");
+    const finalSrcs = filteredBreakpoints.map(
+      (bp) =>
+        `${this.callImageLoader({
+          src: this.ngSrc,
+          width: bp
+        })} ${bp}w`
+    );
+    return finalSrcs.join(', ');
   }
   updateSrcAndSrcset(forceSrcRecalc = false) {
     if (forceSrcRecalc) {
       this._renderedSrc = null;
     }
     const rewrittenSrc = this.getRewrittenSrc();
-    this.setHostAttribute("src", rewrittenSrc);
+    this.setHostAttribute('src', rewrittenSrc);
     let rewrittenSrcset = void 0;
     if (this.ngSrcset) {
       rewrittenSrcset = this.getRewrittenSrcset();
@@ -4355,16 +5039,19 @@ var _NgOptimizedImage = class _NgOptimizedImage {
       rewrittenSrcset = this.getAutomaticSrcset();
     }
     if (rewrittenSrcset) {
-      this.setHostAttribute("srcset", rewrittenSrcset);
+      this.setHostAttribute('srcset', rewrittenSrcset);
     }
     return rewrittenSrcset;
   }
   getFixedSrcset() {
-    const finalSrcs = DENSITY_SRCSET_MULTIPLIERS.map((multiplier) => `${this.callImageLoader({
-      src: this.ngSrc,
-      width: this.width * multiplier
-    })} ${multiplier}x`);
-    return finalSrcs.join(", ");
+    const finalSrcs = DENSITY_SRCSET_MULTIPLIERS.map(
+      (multiplier) =>
+        `${this.callImageLoader({
+          src: this.ngSrc,
+          width: this.width * multiplier
+        })} ${multiplier}x`
+    );
+    return finalSrcs.join(', ');
   }
   shouldGenerateAutomaticSrcset() {
     let oversizedImage = false;
@@ -4390,101 +5077,155 @@ _NgOptimizedImage.ɵfac = function NgOptimizedImage_Factory(t) {
 };
 _NgOptimizedImage.ɵdir = ɵɵdefineDirective({
   type: _NgOptimizedImage,
-  selectors: [["img", "ngSrc", ""]],
+  selectors: [['img', 'ngSrc', '']],
   hostVars: 8,
   hostBindings: function NgOptimizedImage_HostBindings(rf, ctx) {
     if (rf & 2) {
-      ɵɵstyleProp("position", ctx.fill ? "absolute" : null)("width", ctx.fill ? "100%" : null)("height", ctx.fill ? "100%" : null)("inset", ctx.fill ? "0px" : null);
+      ɵɵstyleProp('position', ctx.fill ? 'absolute' : null)('width', ctx.fill ? '100%' : null)(
+        'height',
+        ctx.fill ? '100%' : null
+      )('inset', ctx.fill ? '0px' : null);
     }
   },
   inputs: {
-    ngSrc: [InputFlags.HasDecoratorInputTransform, "ngSrc", "ngSrc", unwrapSafeUrl],
-    ngSrcset: "ngSrcset",
-    sizes: "sizes",
-    width: [InputFlags.HasDecoratorInputTransform, "width", "width", numberAttribute],
-    height: [InputFlags.HasDecoratorInputTransform, "height", "height", numberAttribute],
-    loading: "loading",
-    priority: [InputFlags.HasDecoratorInputTransform, "priority", "priority", booleanAttribute],
-    loaderParams: "loaderParams",
-    disableOptimizedSrcset: [InputFlags.HasDecoratorInputTransform, "disableOptimizedSrcset", "disableOptimizedSrcset", booleanAttribute],
-    fill: [InputFlags.HasDecoratorInputTransform, "fill", "fill", booleanAttribute],
-    src: "src",
-    srcset: "srcset"
+    ngSrc: [InputFlags.HasDecoratorInputTransform, 'ngSrc', 'ngSrc', unwrapSafeUrl],
+    ngSrcset: 'ngSrcset',
+    sizes: 'sizes',
+    width: [InputFlags.HasDecoratorInputTransform, 'width', 'width', numberAttribute],
+    height: [InputFlags.HasDecoratorInputTransform, 'height', 'height', numberAttribute],
+    loading: 'loading',
+    priority: [InputFlags.HasDecoratorInputTransform, 'priority', 'priority', booleanAttribute],
+    loaderParams: 'loaderParams',
+    disableOptimizedSrcset: [
+      InputFlags.HasDecoratorInputTransform,
+      'disableOptimizedSrcset',
+      'disableOptimizedSrcset',
+      booleanAttribute
+    ],
+    fill: [InputFlags.HasDecoratorInputTransform, 'fill', 'fill', booleanAttribute],
+    src: 'src',
+    srcset: 'srcset'
   },
   standalone: true,
   features: [ɵɵInputTransformsFeature, ɵɵNgOnChangesFeature]
 });
 var NgOptimizedImage = _NgOptimizedImage;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NgOptimizedImage, [{
-    type: Directive,
-    args: [{
-      standalone: true,
-      selector: "img[ngSrc]",
-      host: {
-        "[style.position]": 'fill ? "absolute" : null',
-        "[style.width]": 'fill ? "100%" : null',
-        "[style.height]": 'fill ? "100%" : null',
-        "[style.inset]": 'fill ? "0px" : null'
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      NgOptimizedImage,
+      [
+        {
+          type: Directive,
+          args: [
+            {
+              standalone: true,
+              selector: 'img[ngSrc]',
+              host: {
+                '[style.position]': 'fill ? "absolute" : null',
+                '[style.width]': 'fill ? "100%" : null',
+                '[style.height]': 'fill ? "100%" : null',
+                '[style.inset]': 'fill ? "0px" : null'
+              }
+            }
+          ]
+        }
+      ],
+      null,
+      {
+        ngSrc: [
+          {
+            type: Input,
+            args: [
+              {
+                required: true,
+                transform: unwrapSafeUrl
+              }
+            ]
+          }
+        ],
+        ngSrcset: [
+          {
+            type: Input
+          }
+        ],
+        sizes: [
+          {
+            type: Input
+          }
+        ],
+        width: [
+          {
+            type: Input,
+            args: [
+              {
+                transform: numberAttribute
+              }
+            ]
+          }
+        ],
+        height: [
+          {
+            type: Input,
+            args: [
+              {
+                transform: numberAttribute
+              }
+            ]
+          }
+        ],
+        loading: [
+          {
+            type: Input
+          }
+        ],
+        priority: [
+          {
+            type: Input,
+            args: [
+              {
+                transform: booleanAttribute
+              }
+            ]
+          }
+        ],
+        loaderParams: [
+          {
+            type: Input
+          }
+        ],
+        disableOptimizedSrcset: [
+          {
+            type: Input,
+            args: [
+              {
+                transform: booleanAttribute
+              }
+            ]
+          }
+        ],
+        fill: [
+          {
+            type: Input,
+            args: [
+              {
+                transform: booleanAttribute
+              }
+            ]
+          }
+        ],
+        src: [
+          {
+            type: Input
+          }
+        ],
+        srcset: [
+          {
+            type: Input
+          }
+        ]
       }
-    }]
-  }], null, {
-    ngSrc: [{
-      type: Input,
-      args: [{
-        required: true,
-        transform: unwrapSafeUrl
-      }]
-    }],
-    ngSrcset: [{
-      type: Input
-    }],
-    sizes: [{
-      type: Input
-    }],
-    width: [{
-      type: Input,
-      args: [{
-        transform: numberAttribute
-      }]
-    }],
-    height: [{
-      type: Input,
-      args: [{
-        transform: numberAttribute
-      }]
-    }],
-    loading: [{
-      type: Input
-    }],
-    priority: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    loaderParams: [{
-      type: Input
-    }],
-    disableOptimizedSrcset: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    fill: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    src: [{
-      type: Input
-    }],
-    srcset: [{
-      type: Input
-    }]
-  });
+    );
 })();
 function processConfig(config) {
   let sortedBreakpoints = {};
@@ -4495,46 +5236,63 @@ function processConfig(config) {
 }
 function assertNoConflictingSrc(dir) {
   if (dir.src) {
-    throw new RuntimeError(2950, `${imgDirectiveDetails(dir.ngSrc)} both \`src\` and \`ngSrc\` have been set. Supplying both of these attributes breaks lazy loading. The NgOptimizedImage directive sets \`src\` itself based on the value of \`ngSrc\`. To fix this, please remove the \`src\` attribute.`);
+    throw new RuntimeError(
+      2950,
+      `${imgDirectiveDetails(dir.ngSrc)} both \`src\` and \`ngSrc\` have been set. Supplying both of these attributes breaks lazy loading. The NgOptimizedImage directive sets \`src\` itself based on the value of \`ngSrc\`. To fix this, please remove the \`src\` attribute.`
+    );
   }
 }
 function assertNoConflictingSrcset(dir) {
   if (dir.srcset) {
-    throw new RuntimeError(2951, `${imgDirectiveDetails(dir.ngSrc)} both \`srcset\` and \`ngSrcset\` have been set. Supplying both of these attributes breaks lazy loading. The NgOptimizedImage directive sets \`srcset\` itself based on the value of \`ngSrcset\`. To fix this, please remove the \`srcset\` attribute.`);
+    throw new RuntimeError(
+      2951,
+      `${imgDirectiveDetails(dir.ngSrc)} both \`srcset\` and \`ngSrcset\` have been set. Supplying both of these attributes breaks lazy loading. The NgOptimizedImage directive sets \`srcset\` itself based on the value of \`ngSrcset\`. To fix this, please remove the \`srcset\` attribute.`
+    );
   }
 }
 function assertNotBase64Image(dir) {
   let ngSrc = dir.ngSrc.trim();
-  if (ngSrc.startsWith("data:")) {
+  if (ngSrc.startsWith('data:')) {
     if (ngSrc.length > BASE64_IMG_MAX_LENGTH_IN_ERROR) {
-      ngSrc = ngSrc.substring(0, BASE64_IMG_MAX_LENGTH_IN_ERROR) + "...";
+      ngSrc = ngSrc.substring(0, BASE64_IMG_MAX_LENGTH_IN_ERROR) + '...';
     }
-    throw new RuntimeError(2952, `${imgDirectiveDetails(dir.ngSrc, false)} \`ngSrc\` is a Base64-encoded string (${ngSrc}). NgOptimizedImage does not support Base64-encoded strings. To fix this, disable the NgOptimizedImage directive for this element by removing \`ngSrc\` and using a standard \`src\` attribute instead.`);
+    throw new RuntimeError(
+      2952,
+      `${imgDirectiveDetails(dir.ngSrc, false)} \`ngSrc\` is a Base64-encoded string (${ngSrc}). NgOptimizedImage does not support Base64-encoded strings. To fix this, disable the NgOptimizedImage directive for this element by removing \`ngSrc\` and using a standard \`src\` attribute instead.`
+    );
   }
 }
 function assertNoComplexSizes(dir) {
   let sizes = dir.sizes;
   if (sizes?.match(/((\)|,)\s|^)\d+px/)) {
-    throw new RuntimeError(2952, `${imgDirectiveDetails(dir.ngSrc, false)} \`sizes\` was set to a string including pixel values. For automatic \`srcset\` generation, \`sizes\` must only include responsive values, such as \`sizes="50vw"\` or \`sizes="(min-width: 768px) 50vw, 100vw"\`. To fix this, modify the \`sizes\` attribute, or provide your own \`ngSrcset\` value directly.`);
+    throw new RuntimeError(
+      2952,
+      `${imgDirectiveDetails(dir.ngSrc, false)} \`sizes\` was set to a string including pixel values. For automatic \`srcset\` generation, \`sizes\` must only include responsive values, such as \`sizes="50vw"\` or \`sizes="(min-width: 768px) 50vw, 100vw"\`. To fix this, modify the \`sizes\` attribute, or provide your own \`ngSrcset\` value directly.`
+    );
   }
 }
 function assertNotBlobUrl(dir) {
   const ngSrc = dir.ngSrc.trim();
-  if (ngSrc.startsWith("blob:")) {
-    throw new RuntimeError(2952, `${imgDirectiveDetails(dir.ngSrc)} \`ngSrc\` was set to a blob URL (${ngSrc}). Blob URLs are not supported by the NgOptimizedImage directive. To fix this, disable the NgOptimizedImage directive for this element by removing \`ngSrc\` and using a regular \`src\` attribute instead.`);
+  if (ngSrc.startsWith('blob:')) {
+    throw new RuntimeError(
+      2952,
+      `${imgDirectiveDetails(dir.ngSrc)} \`ngSrc\` was set to a blob URL (${ngSrc}). Blob URLs are not supported by the NgOptimizedImage directive. To fix this, disable the NgOptimizedImage directive for this element by removing \`ngSrc\` and using a regular \`src\` attribute instead.`
+    );
   }
 }
 function assertNonEmptyInput(dir, name, value) {
-  const isString = typeof value === "string";
-  const isEmptyString = isString && value.trim() === "";
+  const isString = typeof value === 'string';
+  const isEmptyString = isString && value.trim() === '';
   if (!isString || isEmptyString) {
-    throw new RuntimeError(2952, `${imgDirectiveDetails(dir.ngSrc)} \`${name}\` has an invalid value (\`${value}\`). To fix this, change the value to a non-empty string.`);
+    throw new RuntimeError(
+      2952,
+      `${imgDirectiveDetails(dir.ngSrc)} \`${name}\` has an invalid value (\`${value}\`). To fix this, change the value to a non-empty string.`
+    );
   }
 }
 function assertValidNgSrcset(dir, value) {
-  if (value == null)
-    return;
-  assertNonEmptyInput(dir, "ngSrcset", value);
+  if (value == null) return;
+  assertNonEmptyInput(dir, 'ngSrcset', value);
   const stringVal = value;
   const isValidWidthDescriptor = VALID_WIDTH_DESCRIPTOR_SRCSET.test(stringVal);
   const isValidDensityDescriptor = VALID_DENSITY_DESCRIPTOR_SRCSET.test(stringVal);
@@ -4543,29 +5301,38 @@ function assertValidNgSrcset(dir, value) {
   }
   const isValidSrcset = isValidWidthDescriptor || isValidDensityDescriptor;
   if (!isValidSrcset) {
-    throw new RuntimeError(2952, `${imgDirectiveDetails(dir.ngSrc)} \`ngSrcset\` has an invalid value (\`${value}\`). To fix this, supply \`ngSrcset\` using a comma-separated list of one or more width descriptors (e.g. "100w, 200w") or density descriptors (e.g. "1x, 2x").`);
+    throw new RuntimeError(
+      2952,
+      `${imgDirectiveDetails(dir.ngSrc)} \`ngSrcset\` has an invalid value (\`${value}\`). To fix this, supply \`ngSrcset\` using a comma-separated list of one or more width descriptors (e.g. "100w, 200w") or density descriptors (e.g. "1x, 2x").`
+    );
   }
 }
 function assertUnderDensityCap(dir, value) {
-  const underDensityCap = value.split(",").every((num) => num === "" || parseFloat(num) <= ABSOLUTE_SRCSET_DENSITY_CAP);
+  const underDensityCap = value.split(',').every((num) => num === '' || parseFloat(num) <= ABSOLUTE_SRCSET_DENSITY_CAP);
   if (!underDensityCap) {
-    throw new RuntimeError(2952, `${imgDirectiveDetails(dir.ngSrc)} the \`ngSrcset\` contains an unsupported image density:\`${value}\`. NgOptimizedImage generally recommends a max image density of ${RECOMMENDED_SRCSET_DENSITY_CAP}x but supports image densities up to ${ABSOLUTE_SRCSET_DENSITY_CAP}x. The human eye cannot distinguish between image densities greater than ${RECOMMENDED_SRCSET_DENSITY_CAP}x - which makes them unnecessary for most use cases. Images that will be pinch-zoomed are typically the primary use case for ${ABSOLUTE_SRCSET_DENSITY_CAP}x images. Please remove the high density descriptor and try again.`);
+    throw new RuntimeError(
+      2952,
+      `${imgDirectiveDetails(dir.ngSrc)} the \`ngSrcset\` contains an unsupported image density:\`${value}\`. NgOptimizedImage generally recommends a max image density of ${RECOMMENDED_SRCSET_DENSITY_CAP}x but supports image densities up to ${ABSOLUTE_SRCSET_DENSITY_CAP}x. The human eye cannot distinguish between image densities greater than ${RECOMMENDED_SRCSET_DENSITY_CAP}x - which makes them unnecessary for most use cases. Images that will be pinch-zoomed are typically the primary use case for ${ABSOLUTE_SRCSET_DENSITY_CAP}x images. Please remove the high density descriptor and try again.`
+    );
   }
 }
 function postInitInputChangeError(dir, inputName) {
   let reason;
-  if (inputName === "width" || inputName === "height") {
+  if (inputName === 'width' || inputName === 'height') {
     reason = `Changing \`${inputName}\` may result in different attribute value applied to the underlying image element and cause layout shifts on a page.`;
   } else {
     reason = `Changing the \`${inputName}\` would have no effect on the underlying image element, because the resource loading has already occurred.`;
   }
-  return new RuntimeError(2953, `${imgDirectiveDetails(dir.ngSrc)} \`${inputName}\` was updated after initialization. The NgOptimizedImage directive will not react to this input change. ${reason} To fix this, either switch \`${inputName}\` to a static value or wrap the image element in an *ngIf that is gated on the necessary value.`);
+  return new RuntimeError(
+    2953,
+    `${imgDirectiveDetails(dir.ngSrc)} \`${inputName}\` was updated after initialization. The NgOptimizedImage directive will not react to this input change. ${reason} To fix this, either switch \`${inputName}\` to a static value or wrap the image element in an *ngIf that is gated on the necessary value.`
+  );
 }
 function assertNoPostInitInputChange(dir, changes, inputs) {
   inputs.forEach((input) => {
     const isUpdated = changes.hasOwnProperty(input);
     if (isUpdated && !changes[input].isFirstChange()) {
-      if (input === "ngSrc") {
+      if (input === 'ngSrc') {
         dir = {
           ngSrc: changes[input].previousValue
         };
@@ -4575,25 +5342,28 @@ function assertNoPostInitInputChange(dir, changes, inputs) {
   });
 }
 function assertGreaterThanZero(dir, inputValue, inputName) {
-  const validNumber = typeof inputValue === "number" && inputValue > 0;
-  const validString = typeof inputValue === "string" && /^\d+$/.test(inputValue.trim()) && parseInt(inputValue) > 0;
+  const validNumber = typeof inputValue === 'number' && inputValue > 0;
+  const validString = typeof inputValue === 'string' && /^\d+$/.test(inputValue.trim()) && parseInt(inputValue) > 0;
   if (!validNumber && !validString) {
-    throw new RuntimeError(2952, `${imgDirectiveDetails(dir.ngSrc)} \`${inputName}\` has an invalid value. To fix this, provide \`${inputName}\` as a number greater than 0.`);
+    throw new RuntimeError(
+      2952,
+      `${imgDirectiveDetails(dir.ngSrc)} \`${inputName}\` has an invalid value. To fix this, provide \`${inputName}\` as a number greater than 0.`
+    );
   }
 }
 function assertNoImageDistortion(dir, img, renderer) {
-  const removeLoadListenerFn = renderer.listen(img, "load", () => {
+  const removeLoadListenerFn = renderer.listen(img, 'load', () => {
     removeLoadListenerFn();
     removeErrorListenerFn();
     const computedStyle = window.getComputedStyle(img);
-    let renderedWidth = parseFloat(computedStyle.getPropertyValue("width"));
-    let renderedHeight = parseFloat(computedStyle.getPropertyValue("height"));
-    const boxSizing = computedStyle.getPropertyValue("box-sizing");
-    if (boxSizing === "border-box") {
-      const paddingTop = computedStyle.getPropertyValue("padding-top");
-      const paddingRight = computedStyle.getPropertyValue("padding-right");
-      const paddingBottom = computedStyle.getPropertyValue("padding-bottom");
-      const paddingLeft = computedStyle.getPropertyValue("padding-left");
+    let renderedWidth = parseFloat(computedStyle.getPropertyValue('width'));
+    let renderedHeight = parseFloat(computedStyle.getPropertyValue('height'));
+    const boxSizing = computedStyle.getPropertyValue('box-sizing');
+    if (boxSizing === 'border-box') {
+      const paddingTop = computedStyle.getPropertyValue('padding-top');
+      const paddingRight = computedStyle.getPropertyValue('padding-right');
+      const paddingBottom = computedStyle.getPropertyValue('padding-bottom');
+      const paddingLeft = computedStyle.getPropertyValue('padding-left');
       renderedWidth -= parseFloat(paddingRight) + parseFloat(paddingLeft);
       renderedHeight -= parseFloat(paddingTop) + parseFloat(paddingBottom);
     }
@@ -4606,77 +5376,108 @@ function assertNoImageDistortion(dir, img, renderer) {
     const suppliedHeight = dir.height;
     const suppliedAspectRatio = suppliedWidth / suppliedHeight;
     const inaccurateDimensions = Math.abs(suppliedAspectRatio - intrinsicAspectRatio) > ASPECT_RATIO_TOLERANCE;
-    const stylingDistortion = nonZeroRenderedDimensions && Math.abs(intrinsicAspectRatio - renderedAspectRatio) > ASPECT_RATIO_TOLERANCE;
+    const stylingDistortion =
+      nonZeroRenderedDimensions && Math.abs(intrinsicAspectRatio - renderedAspectRatio) > ASPECT_RATIO_TOLERANCE;
     if (inaccurateDimensions) {
-      console.warn(formatRuntimeError(2952, `${imgDirectiveDetails(dir.ngSrc)} the aspect ratio of the image does not match the aspect ratio indicated by the width and height attributes. 
+      console.warn(
+        formatRuntimeError(
+          2952,
+          `${imgDirectiveDetails(dir.ngSrc)} the aspect ratio of the image does not match the aspect ratio indicated by the width and height attributes. 
 Intrinsic image size: ${intrinsicWidth}w x ${intrinsicHeight}h (aspect-ratio: ${round(intrinsicAspectRatio)}). 
 Supplied width and height attributes: ${suppliedWidth}w x ${suppliedHeight}h (aspect-ratio: ${round(suppliedAspectRatio)}). 
-To fix this, update the width and height attributes.`));
+To fix this, update the width and height attributes.`
+        )
+      );
     } else if (stylingDistortion) {
-      console.warn(formatRuntimeError(2952, `${imgDirectiveDetails(dir.ngSrc)} the aspect ratio of the rendered image does not match the image's intrinsic aspect ratio. 
+      console.warn(
+        formatRuntimeError(
+          2952,
+          `${imgDirectiveDetails(dir.ngSrc)} the aspect ratio of the rendered image does not match the image's intrinsic aspect ratio. 
 Intrinsic image size: ${intrinsicWidth}w x ${intrinsicHeight}h (aspect-ratio: ${round(intrinsicAspectRatio)}). 
 Rendered image size: ${renderedWidth}w x ${renderedHeight}h (aspect-ratio: ${round(renderedAspectRatio)}). 
-This issue can occur if "width" and "height" attributes are added to an image without updating the corresponding image styling. To fix this, adjust image styling. In most cases, adding "height: auto" or "width: auto" to the image styling will fix this issue.`));
+This issue can occur if "width" and "height" attributes are added to an image without updating the corresponding image styling. To fix this, adjust image styling. In most cases, adding "height: auto" or "width: auto" to the image styling will fix this issue.`
+        )
+      );
     } else if (!dir.ngSrcset && nonZeroRenderedDimensions) {
       const recommendedWidth = RECOMMENDED_SRCSET_DENSITY_CAP * renderedWidth;
       const recommendedHeight = RECOMMENDED_SRCSET_DENSITY_CAP * renderedHeight;
       const oversizedWidth = intrinsicWidth - recommendedWidth >= OVERSIZED_IMAGE_TOLERANCE;
       const oversizedHeight = intrinsicHeight - recommendedHeight >= OVERSIZED_IMAGE_TOLERANCE;
       if (oversizedWidth || oversizedHeight) {
-        console.warn(formatRuntimeError(2960, `${imgDirectiveDetails(dir.ngSrc)} the intrinsic image is significantly larger than necessary. 
+        console.warn(
+          formatRuntimeError(
+            2960,
+            `${imgDirectiveDetails(dir.ngSrc)} the intrinsic image is significantly larger than necessary. 
 Rendered image size: ${renderedWidth}w x ${renderedHeight}h. 
 Intrinsic image size: ${intrinsicWidth}w x ${intrinsicHeight}h. 
 Recommended intrinsic image size: ${recommendedWidth}w x ${recommendedHeight}h. 
-Note: Recommended intrinsic image size is calculated assuming a maximum DPR of ${RECOMMENDED_SRCSET_DENSITY_CAP}. To improve loading time, resize the image or consider using the "ngSrcset" and "sizes" attributes.`));
+Note: Recommended intrinsic image size is calculated assuming a maximum DPR of ${RECOMMENDED_SRCSET_DENSITY_CAP}. To improve loading time, resize the image or consider using the "ngSrcset" and "sizes" attributes.`
+          )
+        );
       }
     }
   });
-  const removeErrorListenerFn = renderer.listen(img, "error", () => {
+  const removeErrorListenerFn = renderer.listen(img, 'error', () => {
     removeLoadListenerFn();
     removeErrorListenerFn();
   });
 }
 function assertNonEmptyWidthAndHeight(dir) {
   let missingAttributes = [];
-  if (dir.width === void 0)
-    missingAttributes.push("width");
-  if (dir.height === void 0)
-    missingAttributes.push("height");
+  if (dir.width === void 0) missingAttributes.push('width');
+  if (dir.height === void 0) missingAttributes.push('height');
   if (missingAttributes.length > 0) {
-    throw new RuntimeError(2954, `${imgDirectiveDetails(dir.ngSrc)} these required attributes are missing: ${missingAttributes.map((attr) => `"${attr}"`).join(", ")}. Including "width" and "height" attributes will prevent image-related layout shifts. To fix this, include "width" and "height" attributes on the image tag or turn on "fill" mode with the \`fill\` attribute.`);
+    throw new RuntimeError(
+      2954,
+      `${imgDirectiveDetails(dir.ngSrc)} these required attributes are missing: ${missingAttributes.map((attr) => `"${attr}"`).join(', ')}. Including "width" and "height" attributes will prevent image-related layout shifts. To fix this, include "width" and "height" attributes on the image tag or turn on "fill" mode with the \`fill\` attribute.`
+    );
   }
 }
 function assertEmptyWidthAndHeight(dir) {
   if (dir.width || dir.height) {
-    throw new RuntimeError(2952, `${imgDirectiveDetails(dir.ngSrc)} the attributes \`height\` and/or \`width\` are present along with the \`fill\` attribute. Because \`fill\` mode causes an image to fill its containing element, the size attributes have no effect and should be removed.`);
+    throw new RuntimeError(
+      2952,
+      `${imgDirectiveDetails(dir.ngSrc)} the attributes \`height\` and/or \`width\` are present along with the \`fill\` attribute. Because \`fill\` mode causes an image to fill its containing element, the size attributes have no effect and should be removed.`
+    );
   }
 }
 function assertNonZeroRenderedHeight(dir, img, renderer) {
-  const removeLoadListenerFn = renderer.listen(img, "load", () => {
+  const removeLoadListenerFn = renderer.listen(img, 'load', () => {
     removeLoadListenerFn();
     removeErrorListenerFn();
     const renderedHeight = img.clientHeight;
     if (dir.fill && renderedHeight === 0) {
-      console.warn(formatRuntimeError(2952, `${imgDirectiveDetails(dir.ngSrc)} the height of the fill-mode image is zero. This is likely because the containing element does not have the CSS 'position' property set to one of the following: "relative", "fixed", or "absolute". To fix this problem, make sure the container element has the CSS 'position' property defined and the height of the element is not zero.`));
+      console.warn(
+        formatRuntimeError(
+          2952,
+          `${imgDirectiveDetails(dir.ngSrc)} the height of the fill-mode image is zero. This is likely because the containing element does not have the CSS 'position' property set to one of the following: "relative", "fixed", or "absolute". To fix this problem, make sure the container element has the CSS 'position' property defined and the height of the element is not zero.`
+        )
+      );
     }
   });
-  const removeErrorListenerFn = renderer.listen(img, "error", () => {
+  const removeErrorListenerFn = renderer.listen(img, 'error', () => {
     removeLoadListenerFn();
     removeErrorListenerFn();
   });
 }
 function assertValidLoadingInput(dir) {
   if (dir.loading && dir.priority) {
-    throw new RuntimeError(2952, `${imgDirectiveDetails(dir.ngSrc)} the \`loading\` attribute was used on an image that was marked "priority". Setting \`loading\` on priority images is not allowed because these images will always be eagerly loaded. To fix this, remove the “loading” attribute from the priority image.`);
+    throw new RuntimeError(
+      2952,
+      `${imgDirectiveDetails(dir.ngSrc)} the \`loading\` attribute was used on an image that was marked "priority". Setting \`loading\` on priority images is not allowed because these images will always be eagerly loaded. To fix this, remove the “loading” attribute from the priority image.`
+    );
   }
-  const validInputs = ["auto", "eager", "lazy"];
-  if (typeof dir.loading === "string" && !validInputs.includes(dir.loading)) {
-    throw new RuntimeError(2952, `${imgDirectiveDetails(dir.ngSrc)} the \`loading\` attribute has an invalid value (\`${dir.loading}\`). To fix this, provide a valid value ("lazy", "eager", or "auto").`);
+  const validInputs = ['auto', 'eager', 'lazy'];
+  if (typeof dir.loading === 'string' && !validInputs.includes(dir.loading)) {
+    throw new RuntimeError(
+      2952,
+      `${imgDirectiveDetails(dir.ngSrc)} the \`loading\` attribute has an invalid value (\`${dir.loading}\`). To fix this, provide a valid value ("lazy", "eager", or "auto").`
+    );
   }
 }
 function assertNotMissingBuiltInLoader(ngSrc, imageLoader) {
   if (imageLoader === noopImageLoader) {
-    let builtInLoaderName = "";
+    let builtInLoaderName = '';
     for (const loader of BUILT_IN_LOADERS) {
       if (loader.testUrl(ngSrc)) {
         builtInLoaderName = loader.name;
@@ -4684,35 +5485,48 @@ function assertNotMissingBuiltInLoader(ngSrc, imageLoader) {
       }
     }
     if (builtInLoaderName) {
-      console.warn(formatRuntimeError(2962, `NgOptimizedImage: It looks like your images may be hosted on the ${builtInLoaderName} CDN, but your app is not using Angular's built-in loader for that CDN. We recommend switching to use the built-in by calling \`provide${builtInLoaderName}Loader()\` in your \`providers\` and passing it your instance's base URL. If you don't want to use the built-in loader, define a custom loader function using IMAGE_LOADER to silence this warning.`));
+      console.warn(
+        formatRuntimeError(
+          2962,
+          `NgOptimizedImage: It looks like your images may be hosted on the ${builtInLoaderName} CDN, but your app is not using Angular's built-in loader for that CDN. We recommend switching to use the built-in by calling \`provide${builtInLoaderName}Loader()\` in your \`providers\` and passing it your instance's base URL. If you don't want to use the built-in loader, define a custom loader function using IMAGE_LOADER to silence this warning.`
+        )
+      );
     }
   }
 }
 function assertNoNgSrcsetWithoutLoader(dir, imageLoader) {
   if (dir.ngSrcset && imageLoader === noopImageLoader) {
-    console.warn(formatRuntimeError(2963, `${imgDirectiveDetails(dir.ngSrc)} the \`ngSrcset\` attribute is present but no image loader is configured (i.e. the default one is being used), which would result in the same image being used for all configured sizes. To fix this, provide a loader or remove the \`ngSrcset\` attribute from the image.`));
+    console.warn(
+      formatRuntimeError(
+        2963,
+        `${imgDirectiveDetails(dir.ngSrc)} the \`ngSrcset\` attribute is present but no image loader is configured (i.e. the default one is being used), which would result in the same image being used for all configured sizes. To fix this, provide a loader or remove the \`ngSrcset\` attribute from the image.`
+      )
+    );
   }
 }
 function assertNoLoaderParamsWithoutLoader(dir, imageLoader) {
   if (dir.loaderParams && imageLoader === noopImageLoader) {
-    console.warn(formatRuntimeError(2963, `${imgDirectiveDetails(dir.ngSrc)} the \`loaderParams\` attribute is present but no image loader is configured (i.e. the default one is being used), which means that the loaderParams data will not be consumed and will not affect the URL. To fix this, provide a custom loader or remove the \`loaderParams\` attribute from the image.`));
+    console.warn(
+      formatRuntimeError(
+        2963,
+        `${imgDirectiveDetails(dir.ngSrc)} the \`loaderParams\` attribute is present but no image loader is configured (i.e. the default one is being used), which means that the loaderParams data will not be consumed and will not affect the URL. To fix this, provide a custom loader or remove the \`loaderParams\` attribute from the image.`
+      )
+    );
   }
 }
 function round(input) {
   return Number.isInteger(input) ? input : input.toFixed(2);
 }
 function unwrapSafeUrl(value) {
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     return value;
   }
   return unwrapSafeValue(value);
 }
 
 // node_modules/@angular/common/fesm2022/http.mjs
-var HttpHandler = class {
-};
-var HttpBackend = class {
-};
+var HttpHandler = class {};
+var HttpBackend = class {};
 var HttpHeaders = class _HttpHeaders {
   /**  Constructs a new HTTP header object with the given values.*/
   constructor(headers) {
@@ -4720,11 +5534,11 @@ var HttpHeaders = class _HttpHeaders {
     this.lazyUpdate = null;
     if (!headers) {
       this.headers = /* @__PURE__ */ new Map();
-    } else if (typeof headers === "string") {
+    } else if (typeof headers === 'string') {
       this.lazyInit = () => {
         this.headers = /* @__PURE__ */ new Map();
-        headers.split("\n").forEach((line) => {
-          const index = line.indexOf(":");
+        headers.split('\n').forEach((line) => {
+          const index = line.indexOf(':');
           if (index > 0) {
             const name = line.slice(0, index);
             const key = name.toLowerCase();
@@ -4738,14 +5552,14 @@ var HttpHeaders = class _HttpHeaders {
           }
         });
       };
-    } else if (typeof Headers !== "undefined" && headers instanceof Headers) {
+    } else if (typeof Headers !== 'undefined' && headers instanceof Headers) {
       this.headers = /* @__PURE__ */ new Map();
       headers.forEach((values, name) => {
         this.setHeaderEntries(name, values);
       });
     } else {
       this.lazyInit = () => {
-        if (typeof ngDevMode === "undefined" || ngDevMode) {
+        if (typeof ngDevMode === 'undefined' || ngDevMode) {
           assertValidHeaders(headers);
         }
         this.headers = /* @__PURE__ */ new Map();
@@ -4811,7 +5625,7 @@ var HttpHeaders = class _HttpHeaders {
     return this.clone({
       name,
       value,
-      op: "a"
+      op: 'a'
     });
   }
   /**
@@ -4828,7 +5642,7 @@ var HttpHeaders = class _HttpHeaders {
     return this.clone({
       name,
       value,
-      op: "s"
+      op: 's'
     });
   }
   /**
@@ -4843,7 +5657,7 @@ var HttpHeaders = class _HttpHeaders {
     return this.clone({
       name,
       value,
-      op: "d"
+      op: 'd'
     });
   }
   maybeSetNormalizedName(name, lcName) {
@@ -4881,21 +5695,21 @@ var HttpHeaders = class _HttpHeaders {
   applyUpdate(update) {
     const key = update.name.toLowerCase();
     switch (update.op) {
-      case "a":
-      case "s":
+      case 'a':
+      case 's':
         let value = update.value;
-        if (typeof value === "string") {
+        if (typeof value === 'string') {
           value = [value];
         }
         if (value.length === 0) {
           return;
         }
         this.maybeSetNormalizedName(update.name, key);
-        const base = (update.op === "a" ? this.headers.get(key) : void 0) || [];
+        const base = (update.op === 'a' ? this.headers.get(key) : void 0) || [];
         base.push(...value);
         this.headers.set(key, base);
         break;
-      case "d":
+      case 'd':
         const toDelete = update.value;
         if (!toDelete) {
           this.headers.delete(key);
@@ -4932,8 +5746,10 @@ var HttpHeaders = class _HttpHeaders {
 };
 function assertValidHeaders(headers) {
   for (const [key, value] of Object.entries(headers)) {
-    if (!(typeof value === "string" || typeof value === "number") && !Array.isArray(value)) {
-      throw new Error(`Unexpected value of the \`${key}\` header provided. Expecting either a string, a number or an array, but got: \`${value}\`.`);
+    if (!(typeof value === 'string' || typeof value === 'number') && !Array.isArray(value)) {
+      throw new Error(
+        `Unexpected value of the \`${key}\` header provided. Expecting either a string, a number or an array, but got: \`${value}\`.`
+      );
     }
   }
 }
@@ -4974,10 +5790,13 @@ var HttpUrlEncodingCodec = class {
 function paramParser(rawParams, codec) {
   const map2 = /* @__PURE__ */ new Map();
   if (rawParams.length > 0) {
-    const params = rawParams.replace(/^\?/, "").split("&");
+    const params = rawParams.replace(/^\?/, '').split('&');
     params.forEach((param) => {
-      const eqIdx = param.indexOf("=");
-      const [key, val] = eqIdx == -1 ? [codec.decodeKey(param), ""] : [codec.decodeKey(param.slice(0, eqIdx)), codec.decodeValue(param.slice(eqIdx + 1))];
+      const eqIdx = param.indexOf('=');
+      const [key, val] =
+        eqIdx == -1
+          ? [codec.decodeKey(param), '']
+          : [codec.decodeKey(param.slice(0, eqIdx)), codec.decodeValue(param.slice(eqIdx + 1))];
       const list = map2.get(key) || [];
       list.push(val);
       map2.set(key, list);
@@ -4987,14 +5806,14 @@ function paramParser(rawParams, codec) {
 }
 var STANDARD_ENCODING_REGEX = /%(\d[a-f0-9])/gi;
 var STANDARD_ENCODING_REPLACEMENTS = {
-  "40": "@",
-  "3A": ":",
-  "24": "$",
-  "2C": ",",
-  "3B": ";",
-  "3D": "=",
-  "3F": "?",
-  "2F": "/"
+  40: '@',
+  '3A': ':',
+  24: '$',
+  '2C': ',',
+  '3B': ';',
+  '3D': '=',
+  '3F': '?',
+  '2F': '/'
 };
 function standardEncoding(v) {
   return encodeURIComponent(v).replace(STANDARD_ENCODING_REGEX, (s, t) => STANDARD_ENCODING_REPLACEMENTS[t] ?? s);
@@ -5072,7 +5891,7 @@ var HttpParams = class _HttpParams {
     return this.clone({
       param,
       value,
-      op: "a"
+      op: 'a'
     });
   }
   /**
@@ -5089,14 +5908,14 @@ var HttpParams = class _HttpParams {
           updates.push({
             param,
             value: _value,
-            op: "a"
+            op: 'a'
           });
         });
       } else {
         updates.push({
           param,
           value,
-          op: "a"
+          op: 'a'
         });
       }
     });
@@ -5112,7 +5931,7 @@ var HttpParams = class _HttpParams {
     return this.clone({
       param,
       value,
-      op: "s"
+      op: 's'
     });
   }
   /**
@@ -5126,7 +5945,7 @@ var HttpParams = class _HttpParams {
     return this.clone({
       param,
       value,
-      op: "d"
+      op: 'd'
     });
   }
   /**
@@ -5135,10 +5954,16 @@ var HttpParams = class _HttpParams {
    */
   toString() {
     this.init();
-    return this.keys().map((key) => {
-      const eKey = this.encoder.encodeKey(key);
-      return this.map.get(key).map((value) => eKey + "=" + this.encoder.encodeValue(value)).join("&");
-    }).filter((param) => param !== "").join("&");
+    return this.keys()
+      .map((key) => {
+        const eKey = this.encoder.encodeKey(key);
+        return this.map
+          .get(key)
+          .map((value) => eKey + '=' + this.encoder.encodeValue(value))
+          .join('&');
+      })
+      .filter((param) => param !== '')
+      .join('&');
   }
   clone(update) {
     const clone = new _HttpParams({
@@ -5157,13 +5982,13 @@ var HttpParams = class _HttpParams {
       this.cloneFrom.keys().forEach((key) => this.map.set(key, this.cloneFrom.map.get(key)));
       this.updates.forEach((update) => {
         switch (update.op) {
-          case "a":
-          case "s":
-            const base = (update.op === "a" ? this.map.get(update.param) : void 0) || [];
+          case 'a':
+          case 's':
+            const base = (update.op === 'a' ? this.map.get(update.param) : void 0) || [];
             base.push(valueToString(update.value));
             this.map.set(update.param, base);
             break;
-          case "d":
+          case 'd':
             if (update.value !== void 0) {
               let base2 = this.map.get(update.param) || [];
               const idx = base2.indexOf(valueToString(update.value));
@@ -5244,27 +6069,27 @@ var HttpContext = class {
 };
 function mightHaveBody(method) {
   switch (method) {
-    case "DELETE":
-    case "GET":
-    case "HEAD":
-    case "OPTIONS":
-    case "JSONP":
+    case 'DELETE':
+    case 'GET':
+    case 'HEAD':
+    case 'OPTIONS':
+    case 'JSONP':
       return false;
     default:
       return true;
   }
 }
 function isArrayBuffer(value) {
-  return typeof ArrayBuffer !== "undefined" && value instanceof ArrayBuffer;
+  return typeof ArrayBuffer !== 'undefined' && value instanceof ArrayBuffer;
 }
 function isBlob(value) {
-  return typeof Blob !== "undefined" && value instanceof Blob;
+  return typeof Blob !== 'undefined' && value instanceof Blob;
 }
 function isFormData(value) {
-  return typeof FormData !== "undefined" && value instanceof FormData;
+  return typeof FormData !== 'undefined' && value instanceof FormData;
 }
 function isUrlSearchParams(value) {
-  return typeof URLSearchParams !== "undefined" && value instanceof URLSearchParams;
+  return typeof URLSearchParams !== 'undefined' && value instanceof URLSearchParams;
 }
 var HttpRequest = class _HttpRequest {
   constructor(method, url, third, fourth) {
@@ -5272,7 +6097,7 @@ var HttpRequest = class _HttpRequest {
     this.body = null;
     this.reportProgress = false;
     this.withCredentials = false;
-    this.responseType = "json";
+    this.responseType = 'json';
     this.method = method.toUpperCase();
     let options;
     if (mightHaveBody(this.method) || !!fourth) {
@@ -5312,8 +6137,8 @@ var HttpRequest = class _HttpRequest {
       if (params.length === 0) {
         this.urlWithParams = url;
       } else {
-        const qIdx = url.indexOf("?");
-        const sep = qIdx === -1 ? "?" : qIdx < url.length - 1 ? "&" : "";
+        const qIdx = url.indexOf('?');
+        const sep = qIdx === -1 ? '?' : qIdx < url.length - 1 ? '&' : '';
         this.urlWithParams = url + sep + params;
       }
     }
@@ -5326,13 +6151,19 @@ var HttpRequest = class _HttpRequest {
     if (this.body === null) {
       return null;
     }
-    if (isArrayBuffer(this.body) || isBlob(this.body) || isFormData(this.body) || isUrlSearchParams(this.body) || typeof this.body === "string") {
+    if (
+      isArrayBuffer(this.body) ||
+      isBlob(this.body) ||
+      isFormData(this.body) ||
+      isUrlSearchParams(this.body) ||
+      typeof this.body === 'string'
+    ) {
       return this.body;
     }
     if (this.body instanceof HttpParams) {
       return this.body.toString();
     }
-    if (typeof this.body === "object" || typeof this.body === "boolean" || Array.isArray(this.body)) {
+    if (typeof this.body === 'object' || typeof this.body === 'boolean' || Array.isArray(this.body)) {
       return JSON.stringify(this.body);
     }
     return this.body.toString();
@@ -5356,14 +6187,14 @@ var HttpRequest = class _HttpRequest {
     if (isArrayBuffer(this.body)) {
       return null;
     }
-    if (typeof this.body === "string") {
-      return "text/plain";
+    if (typeof this.body === 'string') {
+      return 'text/plain';
     }
     if (this.body instanceof HttpParams) {
-      return "application/x-www-form-urlencoded;charset=UTF-8";
+      return 'application/x-www-form-urlencoded;charset=UTF-8';
     }
-    if (typeof this.body === "object" || typeof this.body === "number" || typeof this.body === "boolean") {
-      return "application/json";
+    if (typeof this.body === 'object' || typeof this.body === 'number' || typeof this.body === 'boolean') {
+      return 'application/json';
     }
     return null;
   }
@@ -5378,10 +6209,16 @@ var HttpRequest = class _HttpRequest {
     let params = update.params || this.params;
     const context = update.context ?? this.context;
     if (update.setHeaders !== void 0) {
-      headers = Object.keys(update.setHeaders).reduce((headers2, name) => headers2.set(name, update.setHeaders[name]), headers);
+      headers = Object.keys(update.setHeaders).reduce(
+        (headers2, name) => headers2.set(name, update.setHeaders[name]),
+        headers
+      );
     }
     if (update.setParams) {
-      params = Object.keys(update.setParams).reduce((params2, param) => params2.set(param, update.setParams[param]), params);
+      params = Object.keys(update.setParams).reduce(
+        (params2, param) => params2.set(param, update.setParams[param]),
+        params
+      );
     }
     return new _HttpRequest(method, url, body, {
       params,
@@ -5394,13 +6231,13 @@ var HttpRequest = class _HttpRequest {
   }
 };
 var HttpEventType;
-(function(HttpEventType2) {
-  HttpEventType2[HttpEventType2["Sent"] = 0] = "Sent";
-  HttpEventType2[HttpEventType2["UploadProgress"] = 1] = "UploadProgress";
-  HttpEventType2[HttpEventType2["ResponseHeader"] = 2] = "ResponseHeader";
-  HttpEventType2[HttpEventType2["DownloadProgress"] = 3] = "DownloadProgress";
-  HttpEventType2[HttpEventType2["Response"] = 4] = "Response";
-  HttpEventType2[HttpEventType2["User"] = 5] = "User";
+(function (HttpEventType2) {
+  HttpEventType2[(HttpEventType2['Sent'] = 0)] = 'Sent';
+  HttpEventType2[(HttpEventType2['UploadProgress'] = 1)] = 'UploadProgress';
+  HttpEventType2[(HttpEventType2['ResponseHeader'] = 2)] = 'ResponseHeader';
+  HttpEventType2[(HttpEventType2['DownloadProgress'] = 3)] = 'DownloadProgress';
+  HttpEventType2[(HttpEventType2['Response'] = 4)] = 'Response';
+  HttpEventType2[(HttpEventType2['User'] = 5)] = 'User';
 })(HttpEventType || (HttpEventType = {}));
 var HttpResponseBase = class {
   /**
@@ -5409,7 +6246,7 @@ var HttpResponseBase = class {
    * The single parameter accepted is an initialization hash. Any properties
    * of the response passed there will override the default values.
    */
-  constructor(init, defaultStatus = HttpStatusCode.Ok, defaultStatusText = "OK") {
+  constructor(init, defaultStatus = HttpStatusCode.Ok, defaultStatusText = 'OK') {
     this.headers = init.headers || new HttpHeaders();
     this.status = init.status !== void 0 ? init.status : defaultStatus;
     this.statusText = init.statusText || defaultStatusText;
@@ -5459,82 +6296,82 @@ var HttpResponse = class _HttpResponse extends HttpResponseBase {
 };
 var HttpErrorResponse = class extends HttpResponseBase {
   constructor(init) {
-    super(init, 0, "Unknown Error");
-    this.name = "HttpErrorResponse";
+    super(init, 0, 'Unknown Error');
+    this.name = 'HttpErrorResponse';
     this.ok = false;
     if (this.status >= 200 && this.status < 300) {
-      this.message = `Http failure during parsing for ${init.url || "(unknown url)"}`;
+      this.message = `Http failure during parsing for ${init.url || '(unknown url)'}`;
     } else {
-      this.message = `Http failure response for ${init.url || "(unknown url)"}: ${init.status} ${init.statusText}`;
+      this.message = `Http failure response for ${init.url || '(unknown url)'}: ${init.status} ${init.statusText}`;
     }
     this.error = init.error || null;
   }
 };
 var HttpStatusCode;
-(function(HttpStatusCode2) {
-  HttpStatusCode2[HttpStatusCode2["Continue"] = 100] = "Continue";
-  HttpStatusCode2[HttpStatusCode2["SwitchingProtocols"] = 101] = "SwitchingProtocols";
-  HttpStatusCode2[HttpStatusCode2["Processing"] = 102] = "Processing";
-  HttpStatusCode2[HttpStatusCode2["EarlyHints"] = 103] = "EarlyHints";
-  HttpStatusCode2[HttpStatusCode2["Ok"] = 200] = "Ok";
-  HttpStatusCode2[HttpStatusCode2["Created"] = 201] = "Created";
-  HttpStatusCode2[HttpStatusCode2["Accepted"] = 202] = "Accepted";
-  HttpStatusCode2[HttpStatusCode2["NonAuthoritativeInformation"] = 203] = "NonAuthoritativeInformation";
-  HttpStatusCode2[HttpStatusCode2["NoContent"] = 204] = "NoContent";
-  HttpStatusCode2[HttpStatusCode2["ResetContent"] = 205] = "ResetContent";
-  HttpStatusCode2[HttpStatusCode2["PartialContent"] = 206] = "PartialContent";
-  HttpStatusCode2[HttpStatusCode2["MultiStatus"] = 207] = "MultiStatus";
-  HttpStatusCode2[HttpStatusCode2["AlreadyReported"] = 208] = "AlreadyReported";
-  HttpStatusCode2[HttpStatusCode2["ImUsed"] = 226] = "ImUsed";
-  HttpStatusCode2[HttpStatusCode2["MultipleChoices"] = 300] = "MultipleChoices";
-  HttpStatusCode2[HttpStatusCode2["MovedPermanently"] = 301] = "MovedPermanently";
-  HttpStatusCode2[HttpStatusCode2["Found"] = 302] = "Found";
-  HttpStatusCode2[HttpStatusCode2["SeeOther"] = 303] = "SeeOther";
-  HttpStatusCode2[HttpStatusCode2["NotModified"] = 304] = "NotModified";
-  HttpStatusCode2[HttpStatusCode2["UseProxy"] = 305] = "UseProxy";
-  HttpStatusCode2[HttpStatusCode2["Unused"] = 306] = "Unused";
-  HttpStatusCode2[HttpStatusCode2["TemporaryRedirect"] = 307] = "TemporaryRedirect";
-  HttpStatusCode2[HttpStatusCode2["PermanentRedirect"] = 308] = "PermanentRedirect";
-  HttpStatusCode2[HttpStatusCode2["BadRequest"] = 400] = "BadRequest";
-  HttpStatusCode2[HttpStatusCode2["Unauthorized"] = 401] = "Unauthorized";
-  HttpStatusCode2[HttpStatusCode2["PaymentRequired"] = 402] = "PaymentRequired";
-  HttpStatusCode2[HttpStatusCode2["Forbidden"] = 403] = "Forbidden";
-  HttpStatusCode2[HttpStatusCode2["NotFound"] = 404] = "NotFound";
-  HttpStatusCode2[HttpStatusCode2["MethodNotAllowed"] = 405] = "MethodNotAllowed";
-  HttpStatusCode2[HttpStatusCode2["NotAcceptable"] = 406] = "NotAcceptable";
-  HttpStatusCode2[HttpStatusCode2["ProxyAuthenticationRequired"] = 407] = "ProxyAuthenticationRequired";
-  HttpStatusCode2[HttpStatusCode2["RequestTimeout"] = 408] = "RequestTimeout";
-  HttpStatusCode2[HttpStatusCode2["Conflict"] = 409] = "Conflict";
-  HttpStatusCode2[HttpStatusCode2["Gone"] = 410] = "Gone";
-  HttpStatusCode2[HttpStatusCode2["LengthRequired"] = 411] = "LengthRequired";
-  HttpStatusCode2[HttpStatusCode2["PreconditionFailed"] = 412] = "PreconditionFailed";
-  HttpStatusCode2[HttpStatusCode2["PayloadTooLarge"] = 413] = "PayloadTooLarge";
-  HttpStatusCode2[HttpStatusCode2["UriTooLong"] = 414] = "UriTooLong";
-  HttpStatusCode2[HttpStatusCode2["UnsupportedMediaType"] = 415] = "UnsupportedMediaType";
-  HttpStatusCode2[HttpStatusCode2["RangeNotSatisfiable"] = 416] = "RangeNotSatisfiable";
-  HttpStatusCode2[HttpStatusCode2["ExpectationFailed"] = 417] = "ExpectationFailed";
-  HttpStatusCode2[HttpStatusCode2["ImATeapot"] = 418] = "ImATeapot";
-  HttpStatusCode2[HttpStatusCode2["MisdirectedRequest"] = 421] = "MisdirectedRequest";
-  HttpStatusCode2[HttpStatusCode2["UnprocessableEntity"] = 422] = "UnprocessableEntity";
-  HttpStatusCode2[HttpStatusCode2["Locked"] = 423] = "Locked";
-  HttpStatusCode2[HttpStatusCode2["FailedDependency"] = 424] = "FailedDependency";
-  HttpStatusCode2[HttpStatusCode2["TooEarly"] = 425] = "TooEarly";
-  HttpStatusCode2[HttpStatusCode2["UpgradeRequired"] = 426] = "UpgradeRequired";
-  HttpStatusCode2[HttpStatusCode2["PreconditionRequired"] = 428] = "PreconditionRequired";
-  HttpStatusCode2[HttpStatusCode2["TooManyRequests"] = 429] = "TooManyRequests";
-  HttpStatusCode2[HttpStatusCode2["RequestHeaderFieldsTooLarge"] = 431] = "RequestHeaderFieldsTooLarge";
-  HttpStatusCode2[HttpStatusCode2["UnavailableForLegalReasons"] = 451] = "UnavailableForLegalReasons";
-  HttpStatusCode2[HttpStatusCode2["InternalServerError"] = 500] = "InternalServerError";
-  HttpStatusCode2[HttpStatusCode2["NotImplemented"] = 501] = "NotImplemented";
-  HttpStatusCode2[HttpStatusCode2["BadGateway"] = 502] = "BadGateway";
-  HttpStatusCode2[HttpStatusCode2["ServiceUnavailable"] = 503] = "ServiceUnavailable";
-  HttpStatusCode2[HttpStatusCode2["GatewayTimeout"] = 504] = "GatewayTimeout";
-  HttpStatusCode2[HttpStatusCode2["HttpVersionNotSupported"] = 505] = "HttpVersionNotSupported";
-  HttpStatusCode2[HttpStatusCode2["VariantAlsoNegotiates"] = 506] = "VariantAlsoNegotiates";
-  HttpStatusCode2[HttpStatusCode2["InsufficientStorage"] = 507] = "InsufficientStorage";
-  HttpStatusCode2[HttpStatusCode2["LoopDetected"] = 508] = "LoopDetected";
-  HttpStatusCode2[HttpStatusCode2["NotExtended"] = 510] = "NotExtended";
-  HttpStatusCode2[HttpStatusCode2["NetworkAuthenticationRequired"] = 511] = "NetworkAuthenticationRequired";
+(function (HttpStatusCode2) {
+  HttpStatusCode2[(HttpStatusCode2['Continue'] = 100)] = 'Continue';
+  HttpStatusCode2[(HttpStatusCode2['SwitchingProtocols'] = 101)] = 'SwitchingProtocols';
+  HttpStatusCode2[(HttpStatusCode2['Processing'] = 102)] = 'Processing';
+  HttpStatusCode2[(HttpStatusCode2['EarlyHints'] = 103)] = 'EarlyHints';
+  HttpStatusCode2[(HttpStatusCode2['Ok'] = 200)] = 'Ok';
+  HttpStatusCode2[(HttpStatusCode2['Created'] = 201)] = 'Created';
+  HttpStatusCode2[(HttpStatusCode2['Accepted'] = 202)] = 'Accepted';
+  HttpStatusCode2[(HttpStatusCode2['NonAuthoritativeInformation'] = 203)] = 'NonAuthoritativeInformation';
+  HttpStatusCode2[(HttpStatusCode2['NoContent'] = 204)] = 'NoContent';
+  HttpStatusCode2[(HttpStatusCode2['ResetContent'] = 205)] = 'ResetContent';
+  HttpStatusCode2[(HttpStatusCode2['PartialContent'] = 206)] = 'PartialContent';
+  HttpStatusCode2[(HttpStatusCode2['MultiStatus'] = 207)] = 'MultiStatus';
+  HttpStatusCode2[(HttpStatusCode2['AlreadyReported'] = 208)] = 'AlreadyReported';
+  HttpStatusCode2[(HttpStatusCode2['ImUsed'] = 226)] = 'ImUsed';
+  HttpStatusCode2[(HttpStatusCode2['MultipleChoices'] = 300)] = 'MultipleChoices';
+  HttpStatusCode2[(HttpStatusCode2['MovedPermanently'] = 301)] = 'MovedPermanently';
+  HttpStatusCode2[(HttpStatusCode2['Found'] = 302)] = 'Found';
+  HttpStatusCode2[(HttpStatusCode2['SeeOther'] = 303)] = 'SeeOther';
+  HttpStatusCode2[(HttpStatusCode2['NotModified'] = 304)] = 'NotModified';
+  HttpStatusCode2[(HttpStatusCode2['UseProxy'] = 305)] = 'UseProxy';
+  HttpStatusCode2[(HttpStatusCode2['Unused'] = 306)] = 'Unused';
+  HttpStatusCode2[(HttpStatusCode2['TemporaryRedirect'] = 307)] = 'TemporaryRedirect';
+  HttpStatusCode2[(HttpStatusCode2['PermanentRedirect'] = 308)] = 'PermanentRedirect';
+  HttpStatusCode2[(HttpStatusCode2['BadRequest'] = 400)] = 'BadRequest';
+  HttpStatusCode2[(HttpStatusCode2['Unauthorized'] = 401)] = 'Unauthorized';
+  HttpStatusCode2[(HttpStatusCode2['PaymentRequired'] = 402)] = 'PaymentRequired';
+  HttpStatusCode2[(HttpStatusCode2['Forbidden'] = 403)] = 'Forbidden';
+  HttpStatusCode2[(HttpStatusCode2['NotFound'] = 404)] = 'NotFound';
+  HttpStatusCode2[(HttpStatusCode2['MethodNotAllowed'] = 405)] = 'MethodNotAllowed';
+  HttpStatusCode2[(HttpStatusCode2['NotAcceptable'] = 406)] = 'NotAcceptable';
+  HttpStatusCode2[(HttpStatusCode2['ProxyAuthenticationRequired'] = 407)] = 'ProxyAuthenticationRequired';
+  HttpStatusCode2[(HttpStatusCode2['RequestTimeout'] = 408)] = 'RequestTimeout';
+  HttpStatusCode2[(HttpStatusCode2['Conflict'] = 409)] = 'Conflict';
+  HttpStatusCode2[(HttpStatusCode2['Gone'] = 410)] = 'Gone';
+  HttpStatusCode2[(HttpStatusCode2['LengthRequired'] = 411)] = 'LengthRequired';
+  HttpStatusCode2[(HttpStatusCode2['PreconditionFailed'] = 412)] = 'PreconditionFailed';
+  HttpStatusCode2[(HttpStatusCode2['PayloadTooLarge'] = 413)] = 'PayloadTooLarge';
+  HttpStatusCode2[(HttpStatusCode2['UriTooLong'] = 414)] = 'UriTooLong';
+  HttpStatusCode2[(HttpStatusCode2['UnsupportedMediaType'] = 415)] = 'UnsupportedMediaType';
+  HttpStatusCode2[(HttpStatusCode2['RangeNotSatisfiable'] = 416)] = 'RangeNotSatisfiable';
+  HttpStatusCode2[(HttpStatusCode2['ExpectationFailed'] = 417)] = 'ExpectationFailed';
+  HttpStatusCode2[(HttpStatusCode2['ImATeapot'] = 418)] = 'ImATeapot';
+  HttpStatusCode2[(HttpStatusCode2['MisdirectedRequest'] = 421)] = 'MisdirectedRequest';
+  HttpStatusCode2[(HttpStatusCode2['UnprocessableEntity'] = 422)] = 'UnprocessableEntity';
+  HttpStatusCode2[(HttpStatusCode2['Locked'] = 423)] = 'Locked';
+  HttpStatusCode2[(HttpStatusCode2['FailedDependency'] = 424)] = 'FailedDependency';
+  HttpStatusCode2[(HttpStatusCode2['TooEarly'] = 425)] = 'TooEarly';
+  HttpStatusCode2[(HttpStatusCode2['UpgradeRequired'] = 426)] = 'UpgradeRequired';
+  HttpStatusCode2[(HttpStatusCode2['PreconditionRequired'] = 428)] = 'PreconditionRequired';
+  HttpStatusCode2[(HttpStatusCode2['TooManyRequests'] = 429)] = 'TooManyRequests';
+  HttpStatusCode2[(HttpStatusCode2['RequestHeaderFieldsTooLarge'] = 431)] = 'RequestHeaderFieldsTooLarge';
+  HttpStatusCode2[(HttpStatusCode2['UnavailableForLegalReasons'] = 451)] = 'UnavailableForLegalReasons';
+  HttpStatusCode2[(HttpStatusCode2['InternalServerError'] = 500)] = 'InternalServerError';
+  HttpStatusCode2[(HttpStatusCode2['NotImplemented'] = 501)] = 'NotImplemented';
+  HttpStatusCode2[(HttpStatusCode2['BadGateway'] = 502)] = 'BadGateway';
+  HttpStatusCode2[(HttpStatusCode2['ServiceUnavailable'] = 503)] = 'ServiceUnavailable';
+  HttpStatusCode2[(HttpStatusCode2['GatewayTimeout'] = 504)] = 'GatewayTimeout';
+  HttpStatusCode2[(HttpStatusCode2['HttpVersionNotSupported'] = 505)] = 'HttpVersionNotSupported';
+  HttpStatusCode2[(HttpStatusCode2['VariantAlsoNegotiates'] = 506)] = 'VariantAlsoNegotiates';
+  HttpStatusCode2[(HttpStatusCode2['InsufficientStorage'] = 507)] = 'InsufficientStorage';
+  HttpStatusCode2[(HttpStatusCode2['LoopDetected'] = 508)] = 'LoopDetected';
+  HttpStatusCode2[(HttpStatusCode2['NotExtended'] = 510)] = 'NotExtended';
+  HttpStatusCode2[(HttpStatusCode2['NetworkAuthenticationRequired'] = 511)] = 'NetworkAuthenticationRequired';
 })(HttpStatusCode || (HttpStatusCode = {}));
 function addBody(options, body) {
   return {
@@ -5606,45 +6443,51 @@ var _HttpClient = class _HttpClient {
         params,
         reportProgress: options.reportProgress,
         // By default, JSON is assumed to be returned for all calls.
-        responseType: options.responseType || "json",
+        responseType: options.responseType || 'json',
         withCredentials: options.withCredentials,
         transferCache: options.transferCache
       });
     }
     const events$ = of(req).pipe(concatMap((req2) => this.handler.handle(req2)));
-    if (first instanceof HttpRequest || options.observe === "events") {
+    if (first instanceof HttpRequest || options.observe === 'events') {
       return events$;
     }
     const res$ = events$.pipe(filter((event) => event instanceof HttpResponse));
-    switch (options.observe || "body") {
-      case "body":
+    switch (options.observe || 'body') {
+      case 'body':
         switch (req.responseType) {
-          case "arraybuffer":
-            return res$.pipe(map((res) => {
-              if (res.body !== null && !(res.body instanceof ArrayBuffer)) {
-                throw new Error("Response is not an ArrayBuffer.");
-              }
-              return res.body;
-            }));
-          case "blob":
-            return res$.pipe(map((res) => {
-              if (res.body !== null && !(res.body instanceof Blob)) {
-                throw new Error("Response is not a Blob.");
-              }
-              return res.body;
-            }));
-          case "text":
-            return res$.pipe(map((res) => {
-              if (res.body !== null && typeof res.body !== "string") {
-                throw new Error("Response is not a string.");
-              }
-              return res.body;
-            }));
-          case "json":
+          case 'arraybuffer':
+            return res$.pipe(
+              map((res) => {
+                if (res.body !== null && !(res.body instanceof ArrayBuffer)) {
+                  throw new Error('Response is not an ArrayBuffer.');
+                }
+                return res.body;
+              })
+            );
+          case 'blob':
+            return res$.pipe(
+              map((res) => {
+                if (res.body !== null && !(res.body instanceof Blob)) {
+                  throw new Error('Response is not a Blob.');
+                }
+                return res.body;
+              })
+            );
+          case 'text':
+            return res$.pipe(
+              map((res) => {
+                if (res.body !== null && typeof res.body !== 'string') {
+                  throw new Error('Response is not a string.');
+                }
+                return res.body;
+              })
+            );
+          case 'json':
           default:
             return res$.pipe(map((res) => res.body));
         }
-      case "response":
+      case 'response':
         return res$;
       default:
         throw new Error(`Unreachable: unhandled observe type ${options.observe}}`);
@@ -5660,7 +6503,7 @@ var _HttpClient = class _HttpClient {
    *
    */
   delete(url, options = {}) {
-    return this.request("DELETE", url, options);
+    return this.request('DELETE', url, options);
   }
   /**
    * Constructs an observable that, when subscribed, causes the configured
@@ -5668,7 +6511,7 @@ var _HttpClient = class _HttpClient {
    * details on the return type.
    */
   get(url, options = {}) {
-    return this.request("GET", url, options);
+    return this.request('GET', url, options);
   }
   /**
    * Constructs an observable that, when subscribed, causes the configured
@@ -5678,7 +6521,7 @@ var _HttpClient = class _HttpClient {
    * details on the return type.
    */
   head(url, options = {}) {
-    return this.request("HEAD", url, options);
+    return this.request('HEAD', url, options);
   }
   /**
    * Constructs an `Observable` that, when subscribed, causes a request with the special method
@@ -5699,10 +6542,10 @@ var _HttpClient = class _HttpClient {
    *
    */
   jsonp(url, callbackParam) {
-    return this.request("JSONP", url, {
-      params: new HttpParams().append(callbackParam, "JSONP_CALLBACK"),
-      observe: "body",
-      responseType: "json"
+    return this.request('JSONP', url, {
+      params: new HttpParams().append(callbackParam, 'JSONP_CALLBACK'),
+      observe: 'body',
+      responseType: 'json'
     });
   }
   /**
@@ -5713,7 +6556,7 @@ var _HttpClient = class _HttpClient {
    * details on the return type.
    */
   options(url, options = {}) {
-    return this.request("OPTIONS", url, options);
+    return this.request('OPTIONS', url, options);
   }
   /**
    * Constructs an observable that, when subscribed, causes the configured
@@ -5721,7 +6564,7 @@ var _HttpClient = class _HttpClient {
    * details on the return type.
    */
   patch(url, body, options = {}) {
-    return this.request("PATCH", url, addBody(options, body));
+    return this.request('PATCH', url, addBody(options, body));
   }
   /**
    * Constructs an observable that, when subscribed, causes the configured
@@ -5730,7 +6573,7 @@ var _HttpClient = class _HttpClient {
    * details on the return type.
    */
   post(url, body, options = {}) {
-    return this.request("POST", url, addBody(options, body));
+    return this.request('POST', url, addBody(options, body));
   }
   /**
    * Constructs an observable that, when subscribed, causes the configured
@@ -5739,7 +6582,7 @@ var _HttpClient = class _HttpClient {
    * See the individual overloads for details on the return type.
    */
   put(url, body, options = {}) {
-    return this.request("PUT", url, addBody(options, body));
+    return this.request('PUT', url, addBody(options, body));
   }
 };
 _HttpClient.ɵfac = function HttpClient_Factory(t) {
@@ -5751,11 +6594,21 @@ _HttpClient.ɵprov = ɵɵdefineInjectable({
 });
 var HttpClient = _HttpClient;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HttpClient, [{
-    type: Injectable
-  }], () => [{
-    type: HttpHandler
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      HttpClient,
+      [
+        {
+          type: Injectable
+        }
+      ],
+      () => [
+        {
+          type: HttpHandler
+        }
+      ],
+      null
+    );
 })();
 var XSSI_PREFIX$1 = /^\)\]\}',?\n/;
 var REQUEST_URL_HEADER = `X-Request-URL`;
@@ -5768,17 +6621,22 @@ function getResponseUrl$1(response) {
 }
 var _FetchBackend = class _FetchBackend {
   constructor() {
-    this.fetchImpl = inject(FetchFactory, {
-      optional: true
-    })?.fetch ?? fetch.bind(globalThis);
+    this.fetchImpl =
+      inject(FetchFactory, {
+        optional: true
+      })?.fetch ?? fetch.bind(globalThis);
     this.ngZone = inject(NgZone);
   }
   handle(request) {
     return new Observable((observer) => {
       const aborter = new AbortController();
-      this.doRequest(request, aborter.signal, observer).then(noop, (error) => observer.error(new HttpErrorResponse({
-        error
-      })));
+      this.doRequest(request, aborter.signal, observer).then(noop, (error) =>
+        observer.error(
+          new HttpErrorResponse({
+            error
+          })
+        )
+      );
       return () => aborter.abort();
     });
   }
@@ -5787,22 +6645,30 @@ var _FetchBackend = class _FetchBackend {
       const init = this.createRequestInit(request);
       let response;
       try {
-        const fetchPromise = this.fetchImpl(request.urlWithParams, __spreadValues({
-          signal
-        }, init));
+        const fetchPromise = this.fetchImpl(
+          request.urlWithParams,
+          __spreadValues(
+            {
+              signal
+            },
+            init
+          )
+        );
         silenceSuperfluousUnhandledPromiseRejection(fetchPromise);
         observer.next({
           type: HttpEventType.Sent
         });
         response = yield fetchPromise;
       } catch (error) {
-        observer.error(new HttpErrorResponse({
-          error,
-          status: error.status ?? 0,
-          statusText: error.statusText,
-          url: request.urlWithParams,
-          headers: error.headers
-        }));
+        observer.error(
+          new HttpErrorResponse({
+            error,
+            status: error.status ?? 0,
+            statusText: error.statusText,
+            url: request.urlWithParams,
+            headers: error.headers
+          })
+        );
         return;
       }
       const headers = new HttpHeaders(response.headers);
@@ -5811,58 +6677,66 @@ var _FetchBackend = class _FetchBackend {
       let status = response.status;
       let body = null;
       if (request.reportProgress) {
-        observer.next(new HttpHeaderResponse({
-          headers,
-          status,
-          statusText,
-          url
-        }));
+        observer.next(
+          new HttpHeaderResponse({
+            headers,
+            status,
+            statusText,
+            url
+          })
+        );
       }
       if (response.body) {
-        const contentLength = response.headers.get("content-length");
+        const contentLength = response.headers.get('content-length');
         const chunks = [];
         const reader = response.body.getReader();
         let receivedLength = 0;
         let decoder;
         let partialText;
-        const reqZone = typeof Zone !== "undefined" && Zone.current;
-        yield this.ngZone.runOutsideAngular(() => __async(this, null, function* () {
-          while (true) {
-            const {
-              done,
-              value
-            } = yield reader.read();
-            if (done) {
-              break;
+        const reqZone = typeof Zone !== 'undefined' && Zone.current;
+        yield this.ngZone.runOutsideAngular(() =>
+          __async(this, null, function* () {
+            while (true) {
+              const { done, value } = yield reader.read();
+              if (done) {
+                break;
+              }
+              chunks.push(value);
+              receivedLength += value.length;
+              if (request.reportProgress) {
+                partialText =
+                  request.responseType === 'text'
+                    ? (partialText ?? '') +
+                      (decoder ??= new TextDecoder()).decode(value, {
+                        stream: true
+                      })
+                    : void 0;
+                const reportProgress = () =>
+                  observer.next({
+                    type: HttpEventType.DownloadProgress,
+                    total: contentLength ? +contentLength : void 0,
+                    loaded: receivedLength,
+                    partialText
+                  });
+                reqZone ? reqZone.run(reportProgress) : reportProgress();
+              }
             }
-            chunks.push(value);
-            receivedLength += value.length;
-            if (request.reportProgress) {
-              partialText = request.responseType === "text" ? (partialText ?? "") + (decoder ??= new TextDecoder()).decode(value, {
-                stream: true
-              }) : void 0;
-              const reportProgress = () => observer.next({
-                type: HttpEventType.DownloadProgress,
-                total: contentLength ? +contentLength : void 0,
-                loaded: receivedLength,
-                partialText
-              });
-              reqZone ? reqZone.run(reportProgress) : reportProgress();
-            }
-          }
-        }));
+          })
+        );
         const chunksAll = this.concatChunks(chunks, receivedLength);
         try {
-          const contentType = response.headers.get("Content-Type") ?? "";
+          const contentType = response.headers.get('Content-Type') ?? '';
           body = this.parseBody(request, chunksAll, contentType);
         } catch (error) {
-          observer.error(new HttpErrorResponse({
-            error,
-            headers: new HttpHeaders(response.headers),
-            status: response.status,
-            statusText: response.statusText,
-            url: getResponseUrl$1(response) ?? request.urlWithParams
-          }));
+          observer.error(
+            new HttpErrorResponse({
+              error,
+              headers: new HttpHeaders(response.headers),
+              status: response.status,
+              statusText: response.statusText,
+              url: getResponseUrl$1(response) ?? request.urlWithParams
+            })
+          );
           return;
         }
       }
@@ -5871,49 +6745,53 @@ var _FetchBackend = class _FetchBackend {
       }
       const ok = status >= 200 && status < 300;
       if (ok) {
-        observer.next(new HttpResponse({
-          body,
-          headers,
-          status,
-          statusText,
-          url
-        }));
+        observer.next(
+          new HttpResponse({
+            body,
+            headers,
+            status,
+            statusText,
+            url
+          })
+        );
         observer.complete();
       } else {
-        observer.error(new HttpErrorResponse({
-          error: body,
-          headers,
-          status,
-          statusText,
-          url
-        }));
+        observer.error(
+          new HttpErrorResponse({
+            error: body,
+            headers,
+            status,
+            statusText,
+            url
+          })
+        );
       }
     });
   }
   parseBody(request, binContent, contentType) {
     switch (request.responseType) {
-      case "json":
-        const text = new TextDecoder().decode(binContent).replace(XSSI_PREFIX$1, "");
-        return text === "" ? null : JSON.parse(text);
-      case "text":
+      case 'json':
+        const text = new TextDecoder().decode(binContent).replace(XSSI_PREFIX$1, '');
+        return text === '' ? null : JSON.parse(text);
+      case 'text':
         return new TextDecoder().decode(binContent);
-      case "blob":
+      case 'blob':
         return new Blob([binContent], {
           type: contentType
         });
-      case "arraybuffer":
+      case 'arraybuffer':
         return binContent.buffer;
     }
   }
   createRequestInit(req) {
     const headers = {};
-    const credentials = req.withCredentials ? "include" : void 0;
-    req.headers.forEach((name, values) => headers[name] = values.join(","));
-    headers["Accept"] ??= "application/json, text/plain, */*";
-    if (!headers["Content-Type"]) {
+    const credentials = req.withCredentials ? 'include' : void 0;
+    req.headers.forEach((name, values) => (headers[name] = values.join(',')));
+    headers['Accept'] ??= 'application/json, text/plain, */*';
+    if (!headers['Content-Type']) {
       const detectedType = req.detectContentTypeHeader();
       if (detectedType !== null) {
-        headers["Content-Type"] = detectedType;
+        headers['Content-Type'] = detectedType;
       }
     }
     return {
@@ -5942,14 +6820,20 @@ _FetchBackend.ɵprov = ɵɵdefineInjectable({
 });
 var FetchBackend = _FetchBackend;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(FetchBackend, [{
-    type: Injectable
-  }], null, null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      FetchBackend,
+      [
+        {
+          type: Injectable
+        }
+      ],
+      null,
+      null
+    );
 })();
-var FetchFactory = class {
-};
-function noop() {
-}
+var FetchFactory = class {};
+function noop() {}
 function silenceSuperfluousUnhandledPromiseRejection(promise) {
   promise.then(noop, noop);
 }
@@ -5957,24 +6841,29 @@ function interceptorChainEndFn(req, finalHandlerFn) {
   return finalHandlerFn(req);
 }
 function adaptLegacyInterceptorToChain(chainTailFn, interceptor) {
-  return (initialRequest, finalHandlerFn) => interceptor.intercept(initialRequest, {
-    handle: (downstreamRequest) => chainTailFn(downstreamRequest, finalHandlerFn)
-  });
+  return (initialRequest, finalHandlerFn) =>
+    interceptor.intercept(initialRequest, {
+      handle: (downstreamRequest) => chainTailFn(downstreamRequest, finalHandlerFn)
+    });
 }
 function chainedInterceptorFn(chainTailFn, interceptorFn, injector) {
-  return (initialRequest, finalHandlerFn) => runInInjectionContext(injector, () => interceptorFn(initialRequest, (downstreamRequest) => chainTailFn(downstreamRequest, finalHandlerFn)));
+  return (initialRequest, finalHandlerFn) =>
+    runInInjectionContext(injector, () =>
+      interceptorFn(initialRequest, (downstreamRequest) => chainTailFn(downstreamRequest, finalHandlerFn))
+    );
 }
-var HTTP_INTERCEPTORS = new InjectionToken(ngDevMode ? "HTTP_INTERCEPTORS" : "");
-var HTTP_INTERCEPTOR_FNS = new InjectionToken(ngDevMode ? "HTTP_INTERCEPTOR_FNS" : "");
-var HTTP_ROOT_INTERCEPTOR_FNS = new InjectionToken(ngDevMode ? "HTTP_ROOT_INTERCEPTOR_FNS" : "");
-var PRIMARY_HTTP_BACKEND = new InjectionToken(ngDevMode ? "PRIMARY_HTTP_BACKEND" : "");
+var HTTP_INTERCEPTORS = new InjectionToken(ngDevMode ? 'HTTP_INTERCEPTORS' : '');
+var HTTP_INTERCEPTOR_FNS = new InjectionToken(ngDevMode ? 'HTTP_INTERCEPTOR_FNS' : '');
+var HTTP_ROOT_INTERCEPTOR_FNS = new InjectionToken(ngDevMode ? 'HTTP_ROOT_INTERCEPTOR_FNS' : '');
+var PRIMARY_HTTP_BACKEND = new InjectionToken(ngDevMode ? 'PRIMARY_HTTP_BACKEND' : '');
 function legacyInterceptorFnFactory() {
   let chain = null;
   return (req, handler) => {
     if (chain === null) {
-      const interceptors = inject(HTTP_INTERCEPTORS, {
-        optional: true
-      }) ?? [];
+      const interceptors =
+        inject(HTTP_INTERCEPTORS, {
+          optional: true
+        }) ?? [];
       chain = interceptors.reduceRight(adaptLegacyInterceptorToChain, interceptorChainEndFn);
     }
     const pendingTasks = inject(PendingTasks);
@@ -5994,21 +6883,38 @@ var _HttpInterceptorHandler = class _HttpInterceptorHandler extends HttpHandler 
       optional: true
     });
     this.backend = primaryHttpBackend ?? backend;
-    if ((typeof ngDevMode === "undefined" || ngDevMode) && !fetchBackendWarningDisplayed) {
+    if ((typeof ngDevMode === 'undefined' || ngDevMode) && !fetchBackendWarningDisplayed) {
       const isServer = isPlatformServer(injector.get(PLATFORM_ID));
       if (isServer && !(this.backend instanceof FetchBackend)) {
         fetchBackendWarningDisplayed = true;
-        injector.get(Console).warn(formatRuntimeError(2801, "Angular detected that `HttpClient` is not configured to use `fetch` APIs. It's strongly recommended to enable `fetch` for applications that use Server-Side Rendering for better performance and compatibility. To enable `fetch`, add the `withFetch()` to the `provideHttpClient()` call at the root of the application."));
+        injector
+          .get(Console)
+          .warn(
+            formatRuntimeError(
+              2801,
+              "Angular detected that `HttpClient` is not configured to use `fetch` APIs. It's strongly recommended to enable `fetch` for applications that use Server-Side Rendering for better performance and compatibility. To enable `fetch`, add the `withFetch()` to the `provideHttpClient()` call at the root of the application."
+            )
+          );
       }
     }
   }
   handle(initialRequest) {
     if (this.chain === null) {
-      const dedupedInterceptorFns = Array.from(/* @__PURE__ */ new Set([...this.injector.get(HTTP_INTERCEPTOR_FNS), ...this.injector.get(HTTP_ROOT_INTERCEPTOR_FNS, [])]));
-      this.chain = dedupedInterceptorFns.reduceRight((nextSequencedFn, interceptorFn) => chainedInterceptorFn(nextSequencedFn, interceptorFn, this.injector), interceptorChainEndFn);
+      const dedupedInterceptorFns = Array.from(
+        /* @__PURE__ */ new Set([
+          ...this.injector.get(HTTP_INTERCEPTOR_FNS),
+          ...this.injector.get(HTTP_ROOT_INTERCEPTOR_FNS, [])
+        ])
+      );
+      this.chain = dedupedInterceptorFns.reduceRight(
+        (nextSequencedFn, interceptorFn) => chainedInterceptorFn(nextSequencedFn, interceptorFn, this.injector),
+        interceptorChainEndFn
+      );
     }
     const taskId = this.pendingTasks.add();
-    return this.chain(initialRequest, (downstreamRequest) => this.backend.handle(downstreamRequest)).pipe(finalize(() => this.pendingTasks.remove(taskId)));
+    return this.chain(initialRequest, (downstreamRequest) => this.backend.handle(downstreamRequest)).pipe(
+      finalize(() => this.pendingTasks.remove(taskId))
+    );
   }
 };
 _HttpInterceptorHandler.ɵfac = function HttpInterceptorHandler_Factory(t) {
@@ -6020,24 +6926,34 @@ _HttpInterceptorHandler.ɵprov = ɵɵdefineInjectable({
 });
 var HttpInterceptorHandler = _HttpInterceptorHandler;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HttpInterceptorHandler, [{
-    type: Injectable
-  }], () => [{
-    type: HttpBackend
-  }, {
-    type: EnvironmentInjector
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      HttpInterceptorHandler,
+      [
+        {
+          type: Injectable
+        }
+      ],
+      () => [
+        {
+          type: HttpBackend
+        },
+        {
+          type: EnvironmentInjector
+        }
+      ],
+      null
+    );
 })();
 var nextRequestId = 0;
 var foreignDocument;
-var JSONP_ERR_NO_CALLBACK = "JSONP injected script did not invoke callback.";
-var JSONP_ERR_WRONG_METHOD = "JSONP requests must use JSONP request method.";
-var JSONP_ERR_WRONG_RESPONSE_TYPE = "JSONP requests must use Json response type.";
-var JSONP_ERR_HEADERS_NOT_SUPPORTED = "JSONP requests do not support headers.";
-var JsonpCallbackContext = class {
-};
+var JSONP_ERR_NO_CALLBACK = 'JSONP injected script did not invoke callback.';
+var JSONP_ERR_WRONG_METHOD = 'JSONP requests must use JSONP request method.';
+var JSONP_ERR_WRONG_RESPONSE_TYPE = 'JSONP requests must use Json response type.';
+var JSONP_ERR_HEADERS_NOT_SUPPORTED = 'JSONP requests do not support headers.';
+var JsonpCallbackContext = class {};
 function jsonpCallbackContext() {
-  if (typeof window === "object") {
+  if (typeof window === 'object') {
     return window;
   }
   return {};
@@ -6061,9 +6977,9 @@ var _JsonpClientBackend = class _JsonpClientBackend {
    *
    */
   handle(req) {
-    if (req.method !== "JSONP") {
+    if (req.method !== 'JSONP') {
       throw new Error(JSONP_ERR_WRONG_METHOD);
-    } else if (req.responseType !== "json") {
+    } else if (req.responseType !== 'json') {
       throw new Error(JSONP_ERR_WRONG_RESPONSE_TYPE);
     }
     if (req.headers.keys().length > 0) {
@@ -6072,7 +6988,7 @@ var _JsonpClientBackend = class _JsonpClientBackend {
     return new Observable((observer) => {
       const callback = this.nextCallback();
       const url = req.urlWithParams.replace(/=JSONP_CALLBACK(&|$)/, `=${callback}$1`);
-      const node = this.document.createElement("script");
+      const node = this.document.createElement('script');
       node.src = url;
       let body = null;
       let finished = false;
@@ -6091,34 +7007,40 @@ var _JsonpClientBackend = class _JsonpClientBackend {
         this.resolvedPromise.then(() => {
           cleanup();
           if (!finished) {
-            observer.error(new HttpErrorResponse({
-              url,
-              status: 0,
-              statusText: "JSONP Error",
-              error: new Error(JSONP_ERR_NO_CALLBACK)
-            }));
+            observer.error(
+              new HttpErrorResponse({
+                url,
+                status: 0,
+                statusText: 'JSONP Error',
+                error: new Error(JSONP_ERR_NO_CALLBACK)
+              })
+            );
             return;
           }
-          observer.next(new HttpResponse({
-            body,
-            status: HttpStatusCode.Ok,
-            statusText: "OK",
-            url
-          }));
+          observer.next(
+            new HttpResponse({
+              body,
+              status: HttpStatusCode.Ok,
+              statusText: 'OK',
+              url
+            })
+          );
           observer.complete();
         });
       };
       const onError = (error) => {
         cleanup();
-        observer.error(new HttpErrorResponse({
-          error,
-          status: 0,
-          statusText: "JSONP Error",
-          url
-        }));
+        observer.error(
+          new HttpErrorResponse({
+            error,
+            status: 0,
+            statusText: 'JSONP Error',
+            url
+          })
+        );
       };
-      node.addEventListener("load", onLoad);
-      node.addEventListener("error", onError);
+      node.addEventListener('load', onLoad);
+      node.addEventListener('error', onError);
       this.document.body.appendChild(node);
       observer.next({
         type: HttpEventType.Sent
@@ -6147,20 +7069,33 @@ _JsonpClientBackend.ɵprov = ɵɵdefineInjectable({
 });
 var JsonpClientBackend = _JsonpClientBackend;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(JsonpClientBackend, [{
-    type: Injectable
-  }], () => [{
-    type: JsonpCallbackContext
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      JsonpClientBackend,
+      [
+        {
+          type: Injectable
+        }
+      ],
+      () => [
+        {
+          type: JsonpCallbackContext
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [DOCUMENT]
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 function jsonpInterceptorFn(req, next) {
-  if (req.method === "JSONP") {
+  if (req.method === 'JSONP') {
     return inject(JsonpClientBackend).handle(req);
   }
   return next(req);
@@ -6177,7 +7112,9 @@ var _JsonpInterceptor = class _JsonpInterceptor {
    * @returns An observable of the event stream.
    */
   intercept(initialRequest, next) {
-    return runInInjectionContext(this.injector, () => jsonpInterceptorFn(initialRequest, (downstreamRequest) => next.handle(downstreamRequest)));
+    return runInInjectionContext(this.injector, () =>
+      jsonpInterceptorFn(initialRequest, (downstreamRequest) => next.handle(downstreamRequest))
+    );
   }
 };
 _JsonpInterceptor.ɵfac = function JsonpInterceptor_Factory(t) {
@@ -6189,19 +7126,29 @@ _JsonpInterceptor.ɵprov = ɵɵdefineInjectable({
 });
 var JsonpInterceptor = _JsonpInterceptor;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(JsonpInterceptor, [{
-    type: Injectable
-  }], () => [{
-    type: EnvironmentInjector
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      JsonpInterceptor,
+      [
+        {
+          type: Injectable
+        }
+      ],
+      () => [
+        {
+          type: EnvironmentInjector
+        }
+      ],
+      null
+    );
 })();
 var XSSI_PREFIX = /^\)\]\}',?\n/;
 function getResponseUrl(xhr) {
-  if ("responseURL" in xhr && xhr.responseURL) {
+  if ('responseURL' in xhr && xhr.responseURL) {
     return xhr.responseURL;
   }
   if (/^X-Request-URL:/m.test(xhr.getAllResponseHeaders())) {
-    return xhr.getResponseHeader("X-Request-URL");
+    return xhr.getResponseHeader('X-Request-URL');
   }
   return null;
 }
@@ -6215,171 +7162,174 @@ var _HttpXhrBackend = class _HttpXhrBackend {
    * @returns An observable of the response events.
    */
   handle(req) {
-    if (req.method === "JSONP") {
-      throw new RuntimeError(-2800, (typeof ngDevMode === "undefined" || ngDevMode) && `Cannot make a JSONP request without JSONP support. To fix the problem, either add the \`withJsonpSupport()\` call (if \`provideHttpClient()\` is used) or import the \`HttpClientJsonpModule\` in the root NgModule.`);
+    if (req.method === 'JSONP') {
+      throw new RuntimeError(
+        -2800,
+        (typeof ngDevMode === 'undefined' || ngDevMode) &&
+          `Cannot make a JSONP request without JSONP support. To fix the problem, either add the \`withJsonpSupport()\` call (if \`provideHttpClient()\` is used) or import the \`HttpClientJsonpModule\` in the root NgModule.`
+      );
     }
     const xhrFactory = this.xhrFactory;
     const source = xhrFactory.ɵloadImpl ? from(xhrFactory.ɵloadImpl()) : of(null);
-    return source.pipe(switchMap(() => {
-      return new Observable((observer) => {
-        const xhr = xhrFactory.build();
-        xhr.open(req.method, req.urlWithParams);
-        if (req.withCredentials) {
-          xhr.withCredentials = true;
-        }
-        req.headers.forEach((name, values) => xhr.setRequestHeader(name, values.join(",")));
-        if (!req.headers.has("Accept")) {
-          xhr.setRequestHeader("Accept", "application/json, text/plain, */*");
-        }
-        if (!req.headers.has("Content-Type")) {
-          const detectedType = req.detectContentTypeHeader();
-          if (detectedType !== null) {
-            xhr.setRequestHeader("Content-Type", detectedType);
+    return source.pipe(
+      switchMap(() => {
+        return new Observable((observer) => {
+          const xhr = xhrFactory.build();
+          xhr.open(req.method, req.urlWithParams);
+          if (req.withCredentials) {
+            xhr.withCredentials = true;
           }
-        }
-        if (req.responseType) {
-          const responseType = req.responseType.toLowerCase();
-          xhr.responseType = responseType !== "json" ? responseType : "text";
-        }
-        const reqBody = req.serializeBody();
-        let headerResponse = null;
-        const partialFromXhr = () => {
-          if (headerResponse !== null) {
+          req.headers.forEach((name, values) => xhr.setRequestHeader(name, values.join(',')));
+          if (!req.headers.has('Accept')) {
+            xhr.setRequestHeader('Accept', 'application/json, text/plain, */*');
+          }
+          if (!req.headers.has('Content-Type')) {
+            const detectedType = req.detectContentTypeHeader();
+            if (detectedType !== null) {
+              xhr.setRequestHeader('Content-Type', detectedType);
+            }
+          }
+          if (req.responseType) {
+            const responseType = req.responseType.toLowerCase();
+            xhr.responseType = responseType !== 'json' ? responseType : 'text';
+          }
+          const reqBody = req.serializeBody();
+          let headerResponse = null;
+          const partialFromXhr = () => {
+            if (headerResponse !== null) {
+              return headerResponse;
+            }
+            const statusText = xhr.statusText || 'OK';
+            const headers = new HttpHeaders(xhr.getAllResponseHeaders());
+            const url = getResponseUrl(xhr) || req.url;
+            headerResponse = new HttpHeaderResponse({
+              headers,
+              status: xhr.status,
+              statusText,
+              url
+            });
             return headerResponse;
-          }
-          const statusText = xhr.statusText || "OK";
-          const headers = new HttpHeaders(xhr.getAllResponseHeaders());
-          const url = getResponseUrl(xhr) || req.url;
-          headerResponse = new HttpHeaderResponse({
-            headers,
-            status: xhr.status,
-            statusText,
-            url
-          });
-          return headerResponse;
-        };
-        const onLoad = () => {
-          let {
-            headers,
-            status,
-            statusText,
-            url
-          } = partialFromXhr();
-          let body = null;
-          if (status !== HttpStatusCode.NoContent) {
-            body = typeof xhr.response === "undefined" ? xhr.responseText : xhr.response;
-          }
-          if (status === 0) {
-            status = !!body ? HttpStatusCode.Ok : 0;
-          }
-          let ok = status >= 200 && status < 300;
-          if (req.responseType === "json" && typeof body === "string") {
-            const originalBody = body;
-            body = body.replace(XSSI_PREFIX, "");
-            try {
-              body = body !== "" ? JSON.parse(body) : null;
-            } catch (error) {
-              body = originalBody;
-              if (ok) {
-                ok = false;
-                body = {
-                  error,
-                  text: body
-                };
+          };
+          const onLoad = () => {
+            let { headers, status, statusText, url } = partialFromXhr();
+            let body = null;
+            if (status !== HttpStatusCode.NoContent) {
+              body = typeof xhr.response === 'undefined' ? xhr.responseText : xhr.response;
+            }
+            if (status === 0) {
+              status = !!body ? HttpStatusCode.Ok : 0;
+            }
+            let ok = status >= 200 && status < 300;
+            if (req.responseType === 'json' && typeof body === 'string') {
+              const originalBody = body;
+              body = body.replace(XSSI_PREFIX, '');
+              try {
+                body = body !== '' ? JSON.parse(body) : null;
+              } catch (error) {
+                body = originalBody;
+                if (ok) {
+                  ok = false;
+                  body = {
+                    error,
+                    text: body
+                  };
+                }
               }
             }
-          }
-          if (ok) {
-            observer.next(new HttpResponse({
-              body,
-              headers,
-              status,
-              statusText,
-              url: url || void 0
-            }));
-            observer.complete();
-          } else {
-            observer.error(new HttpErrorResponse({
-              // The error in this case is the response body (error from the server).
-              error: body,
-              headers,
-              status,
-              statusText,
-              url: url || void 0
-            }));
-          }
-        };
-        const onError = (error) => {
-          const {
-            url
-          } = partialFromXhr();
-          const res = new HttpErrorResponse({
-            error,
-            status: xhr.status || 0,
-            statusText: xhr.statusText || "Unknown Error",
-            url: url || void 0
-          });
-          observer.error(res);
-        };
-        let sentHeaders = false;
-        const onDownProgress = (event) => {
-          if (!sentHeaders) {
-            observer.next(partialFromXhr());
-            sentHeaders = true;
-          }
-          let progressEvent = {
-            type: HttpEventType.DownloadProgress,
-            loaded: event.loaded
+            if (ok) {
+              observer.next(
+                new HttpResponse({
+                  body,
+                  headers,
+                  status,
+                  statusText,
+                  url: url || void 0
+                })
+              );
+              observer.complete();
+            } else {
+              observer.error(
+                new HttpErrorResponse({
+                  // The error in this case is the response body (error from the server).
+                  error: body,
+                  headers,
+                  status,
+                  statusText,
+                  url: url || void 0
+                })
+              );
+            }
           };
-          if (event.lengthComputable) {
-            progressEvent.total = event.total;
-          }
-          if (req.responseType === "text" && !!xhr.responseText) {
-            progressEvent.partialText = xhr.responseText;
-          }
-          observer.next(progressEvent);
-        };
-        const onUpProgress = (event) => {
-          let progress = {
-            type: HttpEventType.UploadProgress,
-            loaded: event.loaded
+          const onError = (error) => {
+            const { url } = partialFromXhr();
+            const res = new HttpErrorResponse({
+              error,
+              status: xhr.status || 0,
+              statusText: xhr.statusText || 'Unknown Error',
+              url: url || void 0
+            });
+            observer.error(res);
           };
-          if (event.lengthComputable) {
-            progress.total = event.total;
-          }
-          observer.next(progress);
-        };
-        xhr.addEventListener("load", onLoad);
-        xhr.addEventListener("error", onError);
-        xhr.addEventListener("timeout", onError);
-        xhr.addEventListener("abort", onError);
-        if (req.reportProgress) {
-          xhr.addEventListener("progress", onDownProgress);
-          if (reqBody !== null && xhr.upload) {
-            xhr.upload.addEventListener("progress", onUpProgress);
-          }
-        }
-        xhr.send(reqBody);
-        observer.next({
-          type: HttpEventType.Sent
-        });
-        return () => {
-          xhr.removeEventListener("error", onError);
-          xhr.removeEventListener("abort", onError);
-          xhr.removeEventListener("load", onLoad);
-          xhr.removeEventListener("timeout", onError);
+          let sentHeaders = false;
+          const onDownProgress = (event) => {
+            if (!sentHeaders) {
+              observer.next(partialFromXhr());
+              sentHeaders = true;
+            }
+            let progressEvent = {
+              type: HttpEventType.DownloadProgress,
+              loaded: event.loaded
+            };
+            if (event.lengthComputable) {
+              progressEvent.total = event.total;
+            }
+            if (req.responseType === 'text' && !!xhr.responseText) {
+              progressEvent.partialText = xhr.responseText;
+            }
+            observer.next(progressEvent);
+          };
+          const onUpProgress = (event) => {
+            let progress = {
+              type: HttpEventType.UploadProgress,
+              loaded: event.loaded
+            };
+            if (event.lengthComputable) {
+              progress.total = event.total;
+            }
+            observer.next(progress);
+          };
+          xhr.addEventListener('load', onLoad);
+          xhr.addEventListener('error', onError);
+          xhr.addEventListener('timeout', onError);
+          xhr.addEventListener('abort', onError);
           if (req.reportProgress) {
-            xhr.removeEventListener("progress", onDownProgress);
+            xhr.addEventListener('progress', onDownProgress);
             if (reqBody !== null && xhr.upload) {
-              xhr.upload.removeEventListener("progress", onUpProgress);
+              xhr.upload.addEventListener('progress', onUpProgress);
             }
           }
-          if (xhr.readyState !== xhr.DONE) {
-            xhr.abort();
-          }
-        };
-      });
-    }));
+          xhr.send(reqBody);
+          observer.next({
+            type: HttpEventType.Sent
+          });
+          return () => {
+            xhr.removeEventListener('error', onError);
+            xhr.removeEventListener('abort', onError);
+            xhr.removeEventListener('load', onLoad);
+            xhr.removeEventListener('timeout', onError);
+            if (req.reportProgress) {
+              xhr.removeEventListener('progress', onDownProgress);
+              if (reqBody !== null && xhr.upload) {
+                xhr.upload.removeEventListener('progress', onUpProgress);
+              }
+            }
+            if (xhr.readyState !== xhr.DONE) {
+              xhr.abort();
+            }
+          };
+        });
+      })
+    );
   }
 };
 _HttpXhrBackend.ɵfac = function HttpXhrBackend_Factory(t) {
@@ -6391,39 +7341,48 @@ _HttpXhrBackend.ɵprov = ɵɵdefineInjectable({
 });
 var HttpXhrBackend = _HttpXhrBackend;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HttpXhrBackend, [{
-    type: Injectable
-  }], () => [{
-    type: XhrFactory
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      HttpXhrBackend,
+      [
+        {
+          type: Injectable
+        }
+      ],
+      () => [
+        {
+          type: XhrFactory
+        }
+      ],
+      null
+    );
 })();
-var XSRF_ENABLED = new InjectionToken("XSRF_ENABLED");
-var XSRF_DEFAULT_COOKIE_NAME = "XSRF-TOKEN";
-var XSRF_COOKIE_NAME = new InjectionToken("XSRF_COOKIE_NAME", {
-  providedIn: "root",
+var XSRF_ENABLED = new InjectionToken('XSRF_ENABLED');
+var XSRF_DEFAULT_COOKIE_NAME = 'XSRF-TOKEN';
+var XSRF_COOKIE_NAME = new InjectionToken('XSRF_COOKIE_NAME', {
+  providedIn: 'root',
   factory: () => XSRF_DEFAULT_COOKIE_NAME
 });
-var XSRF_DEFAULT_HEADER_NAME = "X-XSRF-TOKEN";
-var XSRF_HEADER_NAME = new InjectionToken("XSRF_HEADER_NAME", {
-  providedIn: "root",
+var XSRF_DEFAULT_HEADER_NAME = 'X-XSRF-TOKEN';
+var XSRF_HEADER_NAME = new InjectionToken('XSRF_HEADER_NAME', {
+  providedIn: 'root',
   factory: () => XSRF_DEFAULT_HEADER_NAME
 });
-var HttpXsrfTokenExtractor = class {
-};
+var HttpXsrfTokenExtractor = class {};
 var _HttpXsrfCookieExtractor = class _HttpXsrfCookieExtractor {
   constructor(doc, platform, cookieName) {
     this.doc = doc;
     this.platform = platform;
     this.cookieName = cookieName;
-    this.lastCookieString = "";
+    this.lastCookieString = '';
     this.lastToken = null;
     this.parseCount = 0;
   }
   getToken() {
-    if (this.platform === "server") {
+    if (this.platform === 'server') {
       return null;
     }
-    const cookieString = this.doc.cookie || "";
+    const cookieString = this.doc.cookie || '';
     if (cookieString !== this.lastCookieString) {
       this.parseCount++;
       this.lastToken = parseCookieValue(cookieString, this.cookieName);
@@ -6441,31 +7400,55 @@ _HttpXsrfCookieExtractor.ɵprov = ɵɵdefineInjectable({
 });
 var HttpXsrfCookieExtractor = _HttpXsrfCookieExtractor;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HttpXsrfCookieExtractor, [{
-    type: Injectable
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [PLATFORM_ID]
-    }]
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [XSRF_COOKIE_NAME]
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      HttpXsrfCookieExtractor,
+      [
+        {
+          type: Injectable
+        }
+      ],
+      () => [
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [DOCUMENT]
+            }
+          ]
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [PLATFORM_ID]
+            }
+          ]
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [XSRF_COOKIE_NAME]
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 function xsrfInterceptorFn(req, next) {
   const lcUrl = req.url.toLowerCase();
-  if (!inject(XSRF_ENABLED) || req.method === "GET" || req.method === "HEAD" || lcUrl.startsWith("http://") || lcUrl.startsWith("https://")) {
+  if (
+    !inject(XSRF_ENABLED) ||
+    req.method === 'GET' ||
+    req.method === 'HEAD' ||
+    lcUrl.startsWith('http://') ||
+    lcUrl.startsWith('https://')
+  ) {
     return next(req);
   }
   const token = inject(HttpXsrfTokenExtractor).getToken();
@@ -6482,7 +7465,9 @@ var _HttpXsrfInterceptor = class _HttpXsrfInterceptor {
     this.injector = injector;
   }
   intercept(initialRequest, next) {
-    return runInInjectionContext(this.injector, () => xsrfInterceptorFn(initialRequest, (downstreamRequest) => next.handle(downstreamRequest)));
+    return runInInjectionContext(this.injector, () =>
+      xsrfInterceptorFn(initialRequest, (downstreamRequest) => next.handle(downstreamRequest))
+    );
   }
 };
 _HttpXsrfInterceptor.ɵfac = function HttpXsrfInterceptor_Factory(t) {
@@ -6494,21 +7479,31 @@ _HttpXsrfInterceptor.ɵprov = ɵɵdefineInjectable({
 });
 var HttpXsrfInterceptor = _HttpXsrfInterceptor;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HttpXsrfInterceptor, [{
-    type: Injectable
-  }], () => [{
-    type: EnvironmentInjector
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      HttpXsrfInterceptor,
+      [
+        {
+          type: Injectable
+        }
+      ],
+      () => [
+        {
+          type: EnvironmentInjector
+        }
+      ],
+      null
+    );
 })();
 var HttpFeatureKind;
-(function(HttpFeatureKind2) {
-  HttpFeatureKind2[HttpFeatureKind2["Interceptors"] = 0] = "Interceptors";
-  HttpFeatureKind2[HttpFeatureKind2["LegacyInterceptors"] = 1] = "LegacyInterceptors";
-  HttpFeatureKind2[HttpFeatureKind2["CustomXsrfConfiguration"] = 2] = "CustomXsrfConfiguration";
-  HttpFeatureKind2[HttpFeatureKind2["NoXsrfProtection"] = 3] = "NoXsrfProtection";
-  HttpFeatureKind2[HttpFeatureKind2["JsonpSupport"] = 4] = "JsonpSupport";
-  HttpFeatureKind2[HttpFeatureKind2["RequestsMadeViaParent"] = 5] = "RequestsMadeViaParent";
-  HttpFeatureKind2[HttpFeatureKind2["Fetch"] = 6] = "Fetch";
+(function (HttpFeatureKind2) {
+  HttpFeatureKind2[(HttpFeatureKind2['Interceptors'] = 0)] = 'Interceptors';
+  HttpFeatureKind2[(HttpFeatureKind2['LegacyInterceptors'] = 1)] = 'LegacyInterceptors';
+  HttpFeatureKind2[(HttpFeatureKind2['CustomXsrfConfiguration'] = 2)] = 'CustomXsrfConfiguration';
+  HttpFeatureKind2[(HttpFeatureKind2['NoXsrfProtection'] = 3)] = 'NoXsrfProtection';
+  HttpFeatureKind2[(HttpFeatureKind2['JsonpSupport'] = 4)] = 'JsonpSupport';
+  HttpFeatureKind2[(HttpFeatureKind2['RequestsMadeViaParent'] = 5)] = 'RequestsMadeViaParent';
+  HttpFeatureKind2[(HttpFeatureKind2['Fetch'] = 6)] = 'Fetch';
 })(HttpFeatureKind || (HttpFeatureKind = {}));
 function makeHttpFeature(kind, providers) {
   return {
@@ -6519,47 +7514,63 @@ function makeHttpFeature(kind, providers) {
 function provideHttpClient(...features) {
   if (ngDevMode) {
     const featureKinds = new Set(features.map((f) => f.ɵkind));
-    if (featureKinds.has(HttpFeatureKind.NoXsrfProtection) && featureKinds.has(HttpFeatureKind.CustomXsrfConfiguration)) {
-      throw new Error(ngDevMode ? `Configuration error: found both withXsrfConfiguration() and withNoXsrfProtection() in the same call to provideHttpClient(), which is a contradiction.` : "");
+    if (
+      featureKinds.has(HttpFeatureKind.NoXsrfProtection) &&
+      featureKinds.has(HttpFeatureKind.CustomXsrfConfiguration)
+    ) {
+      throw new Error(
+        ngDevMode
+          ? `Configuration error: found both withXsrfConfiguration() and withNoXsrfProtection() in the same call to provideHttpClient(), which is a contradiction.`
+          : ''
+      );
     }
   }
-  const providers = [HttpClient, HttpXhrBackend, HttpInterceptorHandler, {
-    provide: HttpHandler,
-    useExisting: HttpInterceptorHandler
-  }, {
-    provide: HttpBackend,
-    useExisting: HttpXhrBackend
-  }, {
-    provide: HTTP_INTERCEPTOR_FNS,
-    useValue: xsrfInterceptorFn,
-    multi: true
-  }, {
-    provide: XSRF_ENABLED,
-    useValue: true
-  }, {
-    provide: HttpXsrfTokenExtractor,
-    useClass: HttpXsrfCookieExtractor
-  }];
+  const providers = [
+    HttpClient,
+    HttpXhrBackend,
+    HttpInterceptorHandler,
+    {
+      provide: HttpHandler,
+      useExisting: HttpInterceptorHandler
+    },
+    {
+      provide: HttpBackend,
+      useExisting: HttpXhrBackend
+    },
+    {
+      provide: HTTP_INTERCEPTOR_FNS,
+      useValue: xsrfInterceptorFn,
+      multi: true
+    },
+    {
+      provide: XSRF_ENABLED,
+      useValue: true
+    },
+    {
+      provide: HttpXsrfTokenExtractor,
+      useClass: HttpXsrfCookieExtractor
+    }
+  ];
   for (const feature of features) {
     providers.push(...feature.ɵproviders);
   }
   return makeEnvironmentProviders(providers);
 }
-var LEGACY_INTERCEPTOR_FN = new InjectionToken("LEGACY_INTERCEPTOR_FN");
+var LEGACY_INTERCEPTOR_FN = new InjectionToken('LEGACY_INTERCEPTOR_FN');
 function withInterceptorsFromDi() {
-  return makeHttpFeature(HttpFeatureKind.LegacyInterceptors, [{
-    provide: LEGACY_INTERCEPTOR_FN,
-    useFactory: legacyInterceptorFnFactory
-  }, {
-    provide: HTTP_INTERCEPTOR_FNS,
-    useExisting: LEGACY_INTERCEPTOR_FN,
-    multi: true
-  }]);
+  return makeHttpFeature(HttpFeatureKind.LegacyInterceptors, [
+    {
+      provide: LEGACY_INTERCEPTOR_FN,
+      useFactory: legacyInterceptorFnFactory
+    },
+    {
+      provide: HTTP_INTERCEPTOR_FNS,
+      useExisting: LEGACY_INTERCEPTOR_FN,
+      multi: true
+    }
+  ]);
 }
-function withXsrfConfiguration({
-  cookieName,
-  headerName
-}) {
+function withXsrfConfiguration({ cookieName, headerName }) {
   const providers = [];
   if (cookieName !== void 0) {
     providers.push({
@@ -6576,20 +7587,26 @@ function withXsrfConfiguration({
   return makeHttpFeature(HttpFeatureKind.CustomXsrfConfiguration, providers);
 }
 function withNoXsrfProtection() {
-  return makeHttpFeature(HttpFeatureKind.NoXsrfProtection, [{
-    provide: XSRF_ENABLED,
-    useValue: false
-  }]);
+  return makeHttpFeature(HttpFeatureKind.NoXsrfProtection, [
+    {
+      provide: XSRF_ENABLED,
+      useValue: false
+    }
+  ]);
 }
 function withJsonpSupport() {
-  return makeHttpFeature(HttpFeatureKind.JsonpSupport, [JsonpClientBackend, {
-    provide: JsonpCallbackContext,
-    useFactory: jsonpCallbackContext
-  }, {
-    provide: HTTP_INTERCEPTOR_FNS,
-    useValue: jsonpInterceptorFn,
-    multi: true
-  }]);
+  return makeHttpFeature(HttpFeatureKind.JsonpSupport, [
+    JsonpClientBackend,
+    {
+      provide: JsonpCallbackContext,
+      useFactory: jsonpCallbackContext
+    },
+    {
+      provide: HTTP_INTERCEPTOR_FNS,
+      useValue: jsonpInterceptorFn,
+      multi: true
+    }
+  ]);
 }
 var _HttpClientXsrfModule = class _HttpClientXsrfModule {
   /**
@@ -6623,45 +7640,66 @@ _HttpClientXsrfModule.ɵmod = ɵɵdefineNgModule({
   type: _HttpClientXsrfModule
 });
 _HttpClientXsrfModule.ɵinj = ɵɵdefineInjector({
-  providers: [HttpXsrfInterceptor, {
-    provide: HTTP_INTERCEPTORS,
-    useExisting: HttpXsrfInterceptor,
-    multi: true
-  }, {
-    provide: HttpXsrfTokenExtractor,
-    useClass: HttpXsrfCookieExtractor
-  }, withXsrfConfiguration({
-    cookieName: XSRF_DEFAULT_COOKIE_NAME,
-    headerName: XSRF_DEFAULT_HEADER_NAME
-  }).ɵproviders, {
-    provide: XSRF_ENABLED,
-    useValue: true
-  }]
+  providers: [
+    HttpXsrfInterceptor,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useExisting: HttpXsrfInterceptor,
+      multi: true
+    },
+    {
+      provide: HttpXsrfTokenExtractor,
+      useClass: HttpXsrfCookieExtractor
+    },
+    withXsrfConfiguration({
+      cookieName: XSRF_DEFAULT_COOKIE_NAME,
+      headerName: XSRF_DEFAULT_HEADER_NAME
+    }).ɵproviders,
+    {
+      provide: XSRF_ENABLED,
+      useValue: true
+    }
+  ]
 });
 var HttpClientXsrfModule = _HttpClientXsrfModule;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HttpClientXsrfModule, [{
-    type: NgModule,
-    args: [{
-      providers: [HttpXsrfInterceptor, {
-        provide: HTTP_INTERCEPTORS,
-        useExisting: HttpXsrfInterceptor,
-        multi: true
-      }, {
-        provide: HttpXsrfTokenExtractor,
-        useClass: HttpXsrfCookieExtractor
-      }, withXsrfConfiguration({
-        cookieName: XSRF_DEFAULT_COOKIE_NAME,
-        headerName: XSRF_DEFAULT_HEADER_NAME
-      }).ɵproviders, {
-        provide: XSRF_ENABLED,
-        useValue: true
-      }]
-    }]
-  }], null, null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      HttpClientXsrfModule,
+      [
+        {
+          type: NgModule,
+          args: [
+            {
+              providers: [
+                HttpXsrfInterceptor,
+                {
+                  provide: HTTP_INTERCEPTORS,
+                  useExisting: HttpXsrfInterceptor,
+                  multi: true
+                },
+                {
+                  provide: HttpXsrfTokenExtractor,
+                  useClass: HttpXsrfCookieExtractor
+                },
+                withXsrfConfiguration({
+                  cookieName: XSRF_DEFAULT_COOKIE_NAME,
+                  headerName: XSRF_DEFAULT_HEADER_NAME
+                }).ɵproviders,
+                {
+                  provide: XSRF_ENABLED,
+                  useValue: true
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      null,
+      null
+    );
 })();
-var _HttpClientModule = class _HttpClientModule {
-};
+var _HttpClientModule = class _HttpClientModule {};
 _HttpClientModule.ɵfac = function HttpClientModule_Factory(t) {
   return new (t || _HttpClientModule)();
 };
@@ -6673,19 +7711,28 @@ _HttpClientModule.ɵinj = ɵɵdefineInjector({
 });
 var HttpClientModule = _HttpClientModule;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HttpClientModule, [{
-    type: NgModule,
-    args: [{
-      /**
-       * Configures the [dependency injector](guide/glossary#injector) where it is imported
-       * with supporting services for HTTP communications.
-       */
-      providers: [provideHttpClient(withInterceptorsFromDi())]
-    }]
-  }], null, null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      HttpClientModule,
+      [
+        {
+          type: NgModule,
+          args: [
+            {
+              /**
+               * Configures the [dependency injector](guide/glossary#injector) where it is imported
+               * with supporting services for HTTP communications.
+               */
+              providers: [provideHttpClient(withInterceptorsFromDi())]
+            }
+          ]
+        }
+      ],
+      null,
+      null
+    );
 })();
-var _HttpClientJsonpModule = class _HttpClientJsonpModule {
-};
+var _HttpClientJsonpModule = class _HttpClientJsonpModule {};
 _HttpClientJsonpModule.ɵfac = function HttpClientJsonpModule_Factory(t) {
   return new (t || _HttpClientJsonpModule)();
 };
@@ -6697,41 +7744,50 @@ _HttpClientJsonpModule.ɵinj = ɵɵdefineInjector({
 });
 var HttpClientJsonpModule = _HttpClientJsonpModule;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HttpClientJsonpModule, [{
-    type: NgModule,
-    args: [{
-      providers: [withJsonpSupport().ɵproviders]
-    }]
-  }], null, null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      HttpClientJsonpModule,
+      [
+        {
+          type: NgModule,
+          args: [
+            {
+              providers: [withJsonpSupport().ɵproviders]
+            }
+          ]
+        }
+      ],
+      null,
+      null
+    );
 })();
-var BODY = "b";
-var HEADERS = "h";
-var STATUS = "s";
-var STATUS_TEXT = "st";
-var URL2 = "u";
-var RESPONSE_TYPE = "rt";
-var CACHE_OPTIONS = new InjectionToken(ngDevMode ? "HTTP_TRANSFER_STATE_CACHE_OPTIONS" : "");
-var ALLOWED_METHODS = ["GET", "HEAD"];
+var BODY = 'b';
+var HEADERS = 'h';
+var STATUS = 's';
+var STATUS_TEXT = 'st';
+var URL2 = 'u';
+var RESPONSE_TYPE = 'rt';
+var CACHE_OPTIONS = new InjectionToken(ngDevMode ? 'HTTP_TRANSFER_STATE_CACHE_OPTIONS' : '');
+var ALLOWED_METHODS = ['GET', 'HEAD'];
 function transferCacheInterceptorFn(req, next) {
-  const _a = inject(CACHE_OPTIONS), {
-    isCacheActive
-  } = _a, globalOptions = __objRest(_a, [
-    "isCacheActive"
-  ]);
-  const {
-    transferCache: requestOptions,
-    method: requestMethod
-  } = req;
-  if (!isCacheActive || // POST requests are allowed either globally or at request level
-  requestMethod === "POST" && !globalOptions.includePostRequests && !requestOptions || requestMethod !== "POST" && !ALLOWED_METHODS.includes(requestMethod) || requestOptions === false || //
-  globalOptions.filter?.(req) === false) {
+  const _a = inject(CACHE_OPTIONS),
+    { isCacheActive } = _a,
+    globalOptions = __objRest(_a, ['isCacheActive']);
+  const { transferCache: requestOptions, method: requestMethod } = req;
+  if (
+    !isCacheActive || // POST requests are allowed either globally or at request level
+    (requestMethod === 'POST' && !globalOptions.includePostRequests && !requestOptions) ||
+    (requestMethod !== 'POST' && !ALLOWED_METHODS.includes(requestMethod)) ||
+    requestOptions === false || //
+    globalOptions.filter?.(req) === false
+  ) {
     return next(req);
   }
   const transferState = inject(TransferState);
   const storeKey = makeCacheKey(req);
   const response = transferState.get(storeKey, null);
   let headersToInclude = globalOptions.includeHeaders;
-  if (typeof requestOptions === "object" && requestOptions.includeHeaders) {
+  if (typeof requestOptions === 'object' && requestOptions.includeHeaders) {
     headersToInclude = requestOptions.includeHeaders;
   }
   if (response) {
@@ -6745,37 +7801,41 @@ function transferCacheInterceptorFn(req, next) {
     } = response;
     let body = undecodedBody;
     switch (responseType) {
-      case "arraybuffer":
+      case 'arraybuffer':
         body = new TextEncoder().encode(undecodedBody).buffer;
         break;
-      case "blob":
+      case 'blob':
         body = new Blob([undecodedBody]);
         break;
     }
     let headers = new HttpHeaders(httpHeaders);
-    if (typeof ngDevMode === "undefined" || ngDevMode) {
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
       headers = appendMissingHeadersDetection(req.url, headers, headersToInclude ?? []);
     }
-    return of(new HttpResponse({
-      body,
-      headers,
-      status,
-      statusText,
-      url
-    }));
+    return of(
+      new HttpResponse({
+        body,
+        headers,
+        status,
+        statusText,
+        url
+      })
+    );
   }
-  return next(req).pipe(tap((event) => {
-    if (event instanceof HttpResponse) {
-      transferState.set(storeKey, {
-        [BODY]: event.body,
-        [HEADERS]: getFilteredHeaders(event.headers, headersToInclude),
-        [STATUS]: event.status,
-        [STATUS_TEXT]: event.statusText,
-        [URL2]: event.url || "",
-        [RESPONSE_TYPE]: req.responseType
-      });
-    }
-  }));
+  return next(req).pipe(
+    tap((event) => {
+      if (event instanceof HttpResponse) {
+        transferState.set(storeKey, {
+          [BODY]: event.body,
+          [HEADERS]: getFilteredHeaders(event.headers, headersToInclude),
+          [STATUS]: event.status,
+          [STATUS_TEXT]: event.statusText,
+          [URL2]: event.url || '',
+          [RESPONSE_TYPE]: req.responseType
+        });
+      }
+    })
+  );
 }
 function getFilteredHeaders(headers, includeHeaders) {
   if (!includeHeaders) {
@@ -6791,68 +7851,79 @@ function getFilteredHeaders(headers, includeHeaders) {
   return headersMap;
 }
 function makeCacheKey(request) {
-  const {
-    params,
-    method,
-    responseType,
-    url
-  } = request;
-  const encodedParams = params.keys().sort().map((k) => `${k}=${params.getAll(k)}`).join("&");
-  const key = method + "." + responseType + "." + url + "?" + encodedParams;
+  const { params, method, responseType, url } = request;
+  const encodedParams = params
+    .keys()
+    .sort()
+    .map((k) => `${k}=${params.getAll(k)}`)
+    .join('&');
+  const key = method + '.' + responseType + '.' + url + '?' + encodedParams;
   const hash = generateHash(key);
   return makeStateKey(hash);
 }
 function generateHash(value) {
   let hash = 0;
   for (const char of value) {
-    hash = Math.imul(31, hash) + char.charCodeAt(0) << 0;
+    hash = (Math.imul(31, hash) + char.charCodeAt(0)) << 0;
   }
   hash += 2147483647 + 1;
   return hash.toString();
 }
 function withHttpTransferCache(cacheOptions) {
-  return [{
-    provide: CACHE_OPTIONS,
-    useFactory: () => {
-      performanceMarkFeature("NgHttpTransferCache");
-      return __spreadValues({
-        isCacheActive: true
-      }, cacheOptions);
+  return [
+    {
+      provide: CACHE_OPTIONS,
+      useFactory: () => {
+        performanceMarkFeature('NgHttpTransferCache');
+        return __spreadValues(
+          {
+            isCacheActive: true
+          },
+          cacheOptions
+        );
+      }
+    },
+    {
+      provide: HTTP_ROOT_INTERCEPTOR_FNS,
+      useValue: transferCacheInterceptorFn,
+      multi: true,
+      deps: [TransferState, CACHE_OPTIONS]
+    },
+    {
+      provide: APP_BOOTSTRAP_LISTENER,
+      multi: true,
+      useFactory: () => {
+        const appRef = inject(ApplicationRef);
+        const cacheState = inject(CACHE_OPTIONS);
+        return () => {
+          whenStable(appRef).then(() => {
+            cacheState.isCacheActive = false;
+          });
+        };
+      }
     }
-  }, {
-    provide: HTTP_ROOT_INTERCEPTOR_FNS,
-    useValue: transferCacheInterceptorFn,
-    multi: true,
-    deps: [TransferState, CACHE_OPTIONS]
-  }, {
-    provide: APP_BOOTSTRAP_LISTENER,
-    multi: true,
-    useFactory: () => {
-      const appRef = inject(ApplicationRef);
-      const cacheState = inject(CACHE_OPTIONS);
-      return () => {
-        whenStable(appRef).then(() => {
-          cacheState.isCacheActive = false;
-        });
-      };
-    }
-  }];
+  ];
 }
 function appendMissingHeadersDetection(url, headers, headersToInclude) {
   const warningProduced = /* @__PURE__ */ new Set();
   return new Proxy(headers, {
     get(target, prop) {
       const value = Reflect.get(target, prop);
-      const methods = /* @__PURE__ */ new Set(["get", "has", "getAll"]);
-      if (typeof value !== "function" || !methods.has(prop)) {
+      const methods = /* @__PURE__ */ new Set(['get', 'has', 'getAll']);
+      if (typeof value !== 'function' || !methods.has(prop)) {
         return value;
       }
       return (headerName) => {
-        const key = (prop + ":" + headerName).toLowerCase();
+        const key = (prop + ':' + headerName).toLowerCase();
         if (!headersToInclude.includes(headerName) && !warningProduced.has(key)) {
           warningProduced.add(key);
           const truncatedUrl = truncateMiddle(url);
-          console.warn(formatRuntimeError(2802, `Angular detected that the \`${headerName}\` header is accessed, but the value of the header was not transferred from the server to the client by the HttpTransferCache. To include the value of the \`${headerName}\` header for the \`${truncatedUrl}\` request, use the \`includeHeaders\` list. The \`includeHeaders\` can be defined either on a request level by adding the \`transferCache\` parameter, or on an application level by adding the \`httpCacheTransfer.includeHeaders\` argument to the \`provideClientHydration()\` call. `));
+          console.warn(
+            formatRuntimeError(
+              2802,
+              `Angular detected that the \`${headerName}\` header is accessed, but the value of the header was not transferred from the server to the client by the HttpTransferCache. To include the value of the \`${headerName}\` header for the \`${truncatedUrl}\` request, use the \`includeHeaders\` list. The \`includeHeaders\` can be defined either on a request level by adding the \`transferCache\` parameter, or on an application level by adding the \`httpCacheTransfer.includeHeaders\` argument to the \`provideClientHydration()\` call. `
+            )
+          );
         }
         return value.apply(target, [headerName]);
       };
@@ -6890,7 +7961,7 @@ var BrowserDomAdapter = class _BrowserDomAdapter extends GenericBrowserDomAdapte
     return doc.createElement(tagName);
   }
   createHtmlDocument() {
-    return document.implementation.createHTMLDocument("fakeTitle");
+    return document.implementation.createHTMLDocument('fakeTitle');
   }
   getDefaultDocument() {
     return document;
@@ -6903,13 +7974,13 @@ var BrowserDomAdapter = class _BrowserDomAdapter extends GenericBrowserDomAdapte
   }
   /** @deprecated No longer being used in Ivy code. To be removed in version 14. */
   getGlobalEventTarget(doc, target) {
-    if (target === "window") {
+    if (target === 'window') {
       return window;
     }
-    if (target === "document") {
+    if (target === 'document') {
       return doc;
     }
-    if (target === "body") {
+    if (target === 'body') {
       return doc.body;
     }
     return null;
@@ -6930,27 +8001,30 @@ var BrowserDomAdapter = class _BrowserDomAdapter extends GenericBrowserDomAdapte
 };
 var baseElement = null;
 function getBaseElementHref() {
-  baseElement = baseElement || document.querySelector("base");
-  return baseElement ? baseElement.getAttribute("href") : null;
+  baseElement = baseElement || document.querySelector('base');
+  return baseElement ? baseElement.getAttribute('href') : null;
 }
 function relativePath(url) {
   return new URL(url, document.baseURI).pathname;
 }
 var BrowserGetTestability = class {
   addToWindow(registry) {
-    _global["getAngularTestability"] = (elem, findInAncestors = true) => {
+    _global['getAngularTestability'] = (elem, findInAncestors = true) => {
       const testability = registry.findTestabilityInTree(elem, findInAncestors);
       if (testability == null) {
-        throw new RuntimeError(5103, (typeof ngDevMode === "undefined" || ngDevMode) && "Could not find testability for element.");
+        throw new RuntimeError(
+          5103,
+          (typeof ngDevMode === 'undefined' || ngDevMode) && 'Could not find testability for element.'
+        );
       }
       return testability;
     };
-    _global["getAllAngularTestabilities"] = () => registry.getAllTestabilities();
-    _global["getAllAngularRootElements"] = () => registry.getAllRootElements();
+    _global['getAllAngularTestabilities'] = () => registry.getAllTestabilities();
+    _global['getAllAngularRootElements'] = () => registry.getAllRootElements();
     const whenAllStable = (callback) => {
-      const testabilities = _global["getAllAngularTestabilities"]();
+      const testabilities = _global['getAllAngularTestabilities']();
       let count = testabilities.length;
-      const decrement = function() {
+      const decrement = function () {
         count--;
         if (count == 0) {
           callback();
@@ -6960,10 +8034,10 @@ var BrowserGetTestability = class {
         testability.whenStable(decrement);
       });
     };
-    if (!_global["frameworkStabilizers"]) {
-      _global["frameworkStabilizers"] = [];
+    if (!_global['frameworkStabilizers']) {
+      _global['frameworkStabilizers'] = [];
     }
-    _global["frameworkStabilizers"].push(whenAllStable);
+    _global['frameworkStabilizers'].push(whenAllStable);
   }
   findTestabilityInTree(registry, elem, findInAncestors) {
     if (elem == null) {
@@ -6995,11 +8069,19 @@ _BrowserXhr.ɵprov = ɵɵdefineInjectable({
 });
 var BrowserXhr = _BrowserXhr;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BrowserXhr, [{
-    type: Injectable
-  }], null, null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      BrowserXhr,
+      [
+        {
+          type: Injectable
+        }
+      ],
+      null,
+      null
+    );
 })();
-var EVENT_MANAGER_PLUGINS = new InjectionToken("EventManagerPlugins");
+var EVENT_MANAGER_PLUGINS = new InjectionToken('EventManagerPlugins');
 var _EventManager = class _EventManager {
   /**
    * Initializes an instance of the event-manager service.
@@ -7040,7 +8122,10 @@ var _EventManager = class _EventManager {
     const plugins = this._plugins;
     plugin = plugins.find((plugin2) => plugin2.supports(eventName));
     if (!plugin) {
-      throw new RuntimeError(5101, (typeof ngDevMode === "undefined" || ngDevMode) && `No event manager plugin found for event ${eventName}`);
+      throw new RuntimeError(
+        5101,
+        (typeof ngDevMode === 'undefined' || ngDevMode) && `No event manager plugin found for event ${eventName}`
+      );
     }
     this._eventNameToPlugin.set(eventName, plugin);
     return plugin;
@@ -7055,17 +8140,30 @@ _EventManager.ɵprov = ɵɵdefineInjectable({
 });
 var EventManager = _EventManager;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(EventManager, [{
-    type: Injectable
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [EVENT_MANAGER_PLUGINS]
-    }]
-  }, {
-    type: NgZone
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      EventManager,
+      [
+        {
+          type: Injectable
+        }
+      ],
+      () => [
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [EVENT_MANAGER_PLUGINS]
+            }
+          ]
+        },
+        {
+          type: NgZone
+        }
+      ],
+      null
+    );
 })();
 var EventManagerPlugin = class {
   // TODO: remove (has some usage in G3)
@@ -7073,7 +8171,7 @@ var EventManagerPlugin = class {
     this._doc = _doc;
   }
 };
-var APP_ID_ATTRIBUTE_NAME = "ng-app-id";
+var APP_ID_ATTRIBUTE_NAME = 'ng-app-id';
 var _SharedStylesHost = class _SharedStylesHost {
   constructor(doc, appId, nonce, platformId = {}) {
     this.doc = doc;
@@ -7167,14 +8265,14 @@ var _SharedStylesHost = class _SharedStylesHost {
     if (styleEl?.parentNode === host) {
       styleNodesInDOM.delete(style);
       styleEl.removeAttribute(APP_ID_ATTRIBUTE_NAME);
-      if (typeof ngDevMode === "undefined" || ngDevMode) {
-        styleEl.setAttribute("ng-style-reused", "");
+      if (typeof ngDevMode === 'undefined' || ngDevMode) {
+        styleEl.setAttribute('ng-style-reused', '');
       }
       return styleEl;
     } else {
-      const styleEl2 = this.doc.createElement("style");
+      const styleEl2 = this.doc.createElement('style');
       if (this.nonce) {
-        styleEl2.setAttribute("nonce", this.nonce);
+        styleEl2.setAttribute('nonce', this.nonce);
       }
       styleEl2.textContent = style;
       if (this.platformIsServer) {
@@ -7204,7 +8302,12 @@ var _SharedStylesHost = class _SharedStylesHost {
   }
 };
 _SharedStylesHost.ɵfac = function SharedStylesHost_Factory(t) {
-  return new (t || _SharedStylesHost)(ɵɵinject(DOCUMENT), ɵɵinject(APP_ID), ɵɵinject(CSP_NONCE, 8), ɵɵinject(PLATFORM_ID));
+  return new (t || _SharedStylesHost)(
+    ɵɵinject(DOCUMENT),
+    ɵɵinject(APP_ID),
+    ɵɵinject(CSP_NONCE, 8),
+    ɵɵinject(PLATFORM_ID)
+  );
 };
 _SharedStylesHost.ɵprov = ɵɵdefineInjectable({
   token: _SharedStylesHost,
@@ -7212,51 +8315,73 @@ _SharedStylesHost.ɵprov = ɵɵdefineInjectable({
 });
 var SharedStylesHost = _SharedStylesHost;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(SharedStylesHost, [{
-    type: Injectable
-  }], () => [{
-    type: Document,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [APP_ID]
-    }]
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [CSP_NONCE]
-    }, {
-      type: Optional
-    }]
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [PLATFORM_ID]
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      SharedStylesHost,
+      [
+        {
+          type: Injectable
+        }
+      ],
+      () => [
+        {
+          type: Document,
+          decorators: [
+            {
+              type: Inject,
+              args: [DOCUMENT]
+            }
+          ]
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [APP_ID]
+            }
+          ]
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [CSP_NONCE]
+            },
+            {
+              type: Optional
+            }
+          ]
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [PLATFORM_ID]
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 var NAMESPACE_URIS = {
-  "svg": "http://www.w3.org/2000/svg",
-  "xhtml": "http://www.w3.org/1999/xhtml",
-  "xlink": "http://www.w3.org/1999/xlink",
-  "xml": "http://www.w3.org/XML/1998/namespace",
-  "xmlns": "http://www.w3.org/2000/xmlns/",
-  "math": "http://www.w3.org/1998/MathML/"
+  svg: 'http://www.w3.org/2000/svg',
+  xhtml: 'http://www.w3.org/1999/xhtml',
+  xlink: 'http://www.w3.org/1999/xlink',
+  xml: 'http://www.w3.org/XML/1998/namespace',
+  xmlns: 'http://www.w3.org/2000/xmlns/',
+  math: 'http://www.w3.org/1998/MathML/'
 };
 var COMPONENT_REGEX = /%COMP%/g;
-var COMPONENT_VARIABLE = "%COMP%";
+var COMPONENT_VARIABLE = '%COMP%';
 var HOST_ATTR = `_nghost-${COMPONENT_VARIABLE}`;
 var CONTENT_ATTR = `_ngcontent-${COMPONENT_VARIABLE}`;
 var REMOVE_STYLES_ON_COMPONENT_DESTROY_DEFAULT = true;
-var REMOVE_STYLES_ON_COMPONENT_DESTROY = new InjectionToken("RemoveStylesOnCompDestroy", {
-  providedIn: "root",
+var REMOVE_STYLES_ON_COMPONENT_DESTROY = new InjectionToken('RemoveStylesOnCompDestroy', {
+  providedIn: 'root',
   factory: () => REMOVE_STYLES_ON_COMPONENT_DESTROY_DEFAULT
 });
 function shimContentAttribute(componentShortId) {
@@ -7311,12 +8436,38 @@ var _DomRendererFactory2 = class _DomRendererFactory2 {
       const platformIsServer = this.platformIsServer;
       switch (type.encapsulation) {
         case ViewEncapsulation$1.Emulated:
-          renderer = new EmulatedEncapsulationDomRenderer2(eventManager, sharedStylesHost, type, this.appId, removeStylesOnCompDestroy, doc, ngZone, platformIsServer);
+          renderer = new EmulatedEncapsulationDomRenderer2(
+            eventManager,
+            sharedStylesHost,
+            type,
+            this.appId,
+            removeStylesOnCompDestroy,
+            doc,
+            ngZone,
+            platformIsServer
+          );
           break;
         case ViewEncapsulation$1.ShadowDom:
-          return new ShadowDomRenderer(eventManager, sharedStylesHost, element, type, doc, ngZone, this.nonce, platformIsServer);
+          return new ShadowDomRenderer(
+            eventManager,
+            sharedStylesHost,
+            element,
+            type,
+            doc,
+            ngZone,
+            this.nonce,
+            platformIsServer
+          );
         default:
-          renderer = new NoneEncapsulationDomRenderer(eventManager, sharedStylesHost, type, removeStylesOnCompDestroy, doc, ngZone, platformIsServer);
+          renderer = new NoneEncapsulationDomRenderer(
+            eventManager,
+            sharedStylesHost,
+            type,
+            removeStylesOnCompDestroy,
+            doc,
+            ngZone,
+            platformIsServer
+          );
           break;
       }
       rendererByCompId.set(type.id, renderer);
@@ -7328,7 +8479,16 @@ var _DomRendererFactory2 = class _DomRendererFactory2 {
   }
 };
 _DomRendererFactory2.ɵfac = function DomRendererFactory2_Factory(t) {
-  return new (t || _DomRendererFactory2)(ɵɵinject(EventManager), ɵɵinject(SharedStylesHost), ɵɵinject(APP_ID), ɵɵinject(REMOVE_STYLES_ON_COMPONENT_DESTROY), ɵɵinject(DOCUMENT), ɵɵinject(PLATFORM_ID), ɵɵinject(NgZone), ɵɵinject(CSP_NONCE));
+  return new (t || _DomRendererFactory2)(
+    ɵɵinject(EventManager),
+    ɵɵinject(SharedStylesHost),
+    ɵɵinject(APP_ID),
+    ɵɵinject(REMOVE_STYLES_ON_COMPONENT_DESTROY),
+    ɵɵinject(DOCUMENT),
+    ɵɵinject(PLATFORM_ID),
+    ɵɵinject(NgZone),
+    ɵɵinject(CSP_NONCE)
+  );
 };
 _DomRendererFactory2.ɵprov = ɵɵdefineInjectable({
   token: _DomRendererFactory2,
@@ -7336,45 +8496,72 @@ _DomRendererFactory2.ɵprov = ɵɵdefineInjectable({
 });
 var DomRendererFactory2 = _DomRendererFactory2;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DomRendererFactory2, [{
-    type: Injectable
-  }], () => [{
-    type: EventManager
-  }, {
-    type: SharedStylesHost
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [APP_ID]
-    }]
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [REMOVE_STYLES_ON_COMPONENT_DESTROY]
-    }]
-  }, {
-    type: Document,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }, {
-    type: Object,
-    decorators: [{
-      type: Inject,
-      args: [PLATFORM_ID]
-    }]
-  }, {
-    type: NgZone
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [CSP_NONCE]
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      DomRendererFactory2,
+      [
+        {
+          type: Injectable
+        }
+      ],
+      () => [
+        {
+          type: EventManager
+        },
+        {
+          type: SharedStylesHost
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [APP_ID]
+            }
+          ]
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [REMOVE_STYLES_ON_COMPONENT_DESTROY]
+            }
+          ]
+        },
+        {
+          type: Document,
+          decorators: [
+            {
+              type: Inject,
+              args: [DOCUMENT]
+            }
+          ]
+        },
+        {
+          type: Object,
+          decorators: [
+            {
+              type: Inject,
+              args: [PLATFORM_ID]
+            }
+          ]
+        },
+        {
+          type: NgZone
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [CSP_NONCE]
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 var DefaultDomRenderer2 = class {
   constructor(eventManager, doc, ngZone, platformIsServer) {
@@ -7386,8 +8573,7 @@ var DefaultDomRenderer2 = class {
     this.throwOnSyntheticProps = true;
     this.destroyNode = null;
   }
-  destroy() {
-  }
+  destroy() {}
   createElement(name, namespace) {
     if (namespace) {
       return this.doc.createElementNS(NAMESPACE_URIS[namespace] || namespace, name);
@@ -7416,12 +8602,15 @@ var DefaultDomRenderer2 = class {
     }
   }
   selectRootElement(selectorOrNode, preserveContent) {
-    let el = typeof selectorOrNode === "string" ? this.doc.querySelector(selectorOrNode) : selectorOrNode;
+    let el = typeof selectorOrNode === 'string' ? this.doc.querySelector(selectorOrNode) : selectorOrNode;
     if (!el) {
-      throw new RuntimeError(-5104, (typeof ngDevMode === "undefined" || ngDevMode) && `The selector "${selectorOrNode}" did not match any elements`);
+      throw new RuntimeError(
+        -5104,
+        (typeof ngDevMode === 'undefined' || ngDevMode) && `The selector "${selectorOrNode}" did not match any elements`
+      );
     }
     if (!preserveContent) {
-      el.textContent = "";
+      el.textContent = '';
     }
     return el;
   }
@@ -7433,7 +8622,7 @@ var DefaultDomRenderer2 = class {
   }
   setAttribute(el, name, value, namespace) {
     if (namespace) {
-      name = namespace + ":" + name;
+      name = namespace + ':' + name;
       const namespaceUri = NAMESPACE_URIS[namespace];
       if (namespaceUri) {
         el.setAttributeNS(namespaceUri, name, value);
@@ -7464,7 +8653,7 @@ var DefaultDomRenderer2 = class {
   }
   setStyle(el, style, value, flags) {
     if (flags & (RendererStyleFlags2.DashCase | RendererStyleFlags2.Important)) {
-      el.style.setProperty(style, value, flags & RendererStyleFlags2.Important ? "important" : "");
+      el.style.setProperty(style, value, flags & RendererStyleFlags2.Important ? 'important' : '');
     } else {
       el.style[style] = value;
     }
@@ -7473,22 +8662,26 @@ var DefaultDomRenderer2 = class {
     if (flags & RendererStyleFlags2.DashCase) {
       el.style.removeProperty(style);
     } else {
-      el.style[style] = "";
+      el.style[style] = '';
     }
   }
   setProperty(el, name, value) {
     if (el == null) {
       return;
     }
-    (typeof ngDevMode === "undefined" || ngDevMode) && this.throwOnSyntheticProps && checkNoSyntheticProp(name, "property");
+    (typeof ngDevMode === 'undefined' || ngDevMode) &&
+      this.throwOnSyntheticProps &&
+      checkNoSyntheticProp(name, 'property');
     el[name] = value;
   }
   setValue(node, value) {
     node.nodeValue = value;
   }
   listen(target, event, callback) {
-    (typeof ngDevMode === "undefined" || ngDevMode) && this.throwOnSyntheticProps && checkNoSyntheticProp(event, "listener");
-    if (typeof target === "string") {
+    (typeof ngDevMode === 'undefined' || ngDevMode) &&
+      this.throwOnSyntheticProps &&
+      checkNoSyntheticProp(event, 'listener');
+    if (typeof target === 'string') {
       target = getDOM().getGlobalEventTarget(this.doc, target);
       if (!target) {
         throw new Error(`Unsupported event target ${target} for event ${event}`);
@@ -7498,10 +8691,12 @@ var DefaultDomRenderer2 = class {
   }
   decoratePreventDefault(eventHandler) {
     return (event) => {
-      if (event === "__ngUnwrap__") {
+      if (event === '__ngUnwrap__') {
         return eventHandler;
       }
-      const allowDefaultBehavior = this.platformIsServer ? this.ngZone.runGuarded(() => eventHandler(event)) : eventHandler(event);
+      const allowDefaultBehavior = this.platformIsServer
+        ? this.ngZone.runGuarded(() => eventHandler(event))
+        : eventHandler(event);
       if (allowDefaultBehavior === false) {
         event.preventDefault();
       }
@@ -7509,16 +8704,19 @@ var DefaultDomRenderer2 = class {
     };
   }
 };
-var AT_CHARCODE = (() => "@".charCodeAt(0))();
+var AT_CHARCODE = (() => '@'.charCodeAt(0))();
 function checkNoSyntheticProp(name, nameKind) {
   if (name.charCodeAt(0) === AT_CHARCODE) {
-    throw new RuntimeError(5105, `Unexpected synthetic ${nameKind} ${name} found. Please make sure that:
+    throw new RuntimeError(
+      5105,
+      `Unexpected synthetic ${nameKind} ${name} found. Please make sure that:
   - Either \`BrowserAnimationsModule\` or \`NoopAnimationsModule\` are imported in your application.
-  - There is corresponding configuration for the animation named \`${name}\` defined in the \`animations\` field of the \`@Component\` decorator (see https://angular.io/api/core/Component#animations).`);
+  - There is corresponding configuration for the animation named \`${name}\` defined in the \`animations\` field of the \`@Component\` decorator (see https://angular.io/api/core/Component#animations).`
+    );
   }
 }
 function isTemplateNode(node) {
-  return node.tagName === "TEMPLATE" && node.content !== void 0;
+  return node.tagName === 'TEMPLATE' && node.content !== void 0;
 }
 var ShadowDomRenderer = class extends DefaultDomRenderer2 {
   constructor(eventManager, sharedStylesHost, hostEl, component, doc, ngZone, nonce, platformIsServer) {
@@ -7526,14 +8724,14 @@ var ShadowDomRenderer = class extends DefaultDomRenderer2 {
     this.sharedStylesHost = sharedStylesHost;
     this.hostEl = hostEl;
     this.shadowRoot = hostEl.attachShadow({
-      mode: "open"
+      mode: 'open'
     });
     this.sharedStylesHost.addHost(this.shadowRoot);
     const styles = shimStylesContent(component.id, component.styles);
     for (const style of styles) {
-      const styleEl = document.createElement("style");
+      const styleEl = document.createElement('style');
       if (nonce) {
-        styleEl.setAttribute("nonce", nonce);
+        styleEl.setAttribute('nonce', nonce);
       }
       styleEl.textContent = style;
       this.shadowRoot.appendChild(styleEl);
@@ -7559,7 +8757,16 @@ var ShadowDomRenderer = class extends DefaultDomRenderer2 {
   }
 };
 var NoneEncapsulationDomRenderer = class extends DefaultDomRenderer2 {
-  constructor(eventManager, sharedStylesHost, component, removeStylesOnCompDestroy, doc, ngZone, platformIsServer, compId) {
+  constructor(
+    eventManager,
+    sharedStylesHost,
+    component,
+    removeStylesOnCompDestroy,
+    doc,
+    ngZone,
+    platformIsServer,
+    compId
+  ) {
     super(eventManager, doc, ngZone, platformIsServer);
     this.sharedStylesHost = sharedStylesHost;
     this.removeStylesOnCompDestroy = removeStylesOnCompDestroy;
@@ -7576,19 +8783,28 @@ var NoneEncapsulationDomRenderer = class extends DefaultDomRenderer2 {
   }
 };
 var EmulatedEncapsulationDomRenderer2 = class extends NoneEncapsulationDomRenderer {
-  constructor(eventManager, sharedStylesHost, component, appId, removeStylesOnCompDestroy, doc, ngZone, platformIsServer) {
-    const compId = appId + "-" + component.id;
+  constructor(
+    eventManager,
+    sharedStylesHost,
+    component,
+    appId,
+    removeStylesOnCompDestroy,
+    doc,
+    ngZone,
+    platformIsServer
+  ) {
+    const compId = appId + '-' + component.id;
     super(eventManager, sharedStylesHost, component, removeStylesOnCompDestroy, doc, ngZone, platformIsServer, compId);
     this.contentAttr = shimContentAttribute(compId);
     this.hostAttr = shimHostAttribute(compId);
   }
   applyToHost(element) {
     this.applyStyles();
-    this.setAttribute(element, this.hostAttr, "");
+    this.setAttribute(element, this.hostAttr, '');
   }
   createElement(parent, name) {
     const el = super.createElement(parent, name);
-    super.setAttribute(el, this.contentAttr, "");
+    super.setAttribute(el, this.contentAttr, '');
     return el;
   }
 };
@@ -7618,37 +8834,49 @@ _DomEventsPlugin.ɵprov = ɵɵdefineInjectable({
 });
 var DomEventsPlugin = _DomEventsPlugin;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DomEventsPlugin, [{
-    type: Injectable
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      DomEventsPlugin,
+      [
+        {
+          type: Injectable
+        }
+      ],
+      () => [
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [DOCUMENT]
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
-var MODIFIER_KEYS = ["alt", "control", "meta", "shift"];
+var MODIFIER_KEYS = ['alt', 'control', 'meta', 'shift'];
 var _keyMap = {
-  "\b": "Backspace",
-  "	": "Tab",
-  "": "Delete",
-  "\x1B": "Escape",
-  "Del": "Delete",
-  "Esc": "Escape",
-  "Left": "ArrowLeft",
-  "Right": "ArrowRight",
-  "Up": "ArrowUp",
-  "Down": "ArrowDown",
-  "Menu": "ContextMenu",
-  "Scroll": "ScrollLock",
-  "Win": "OS"
+  '\b': 'Backspace',
+  '	': 'Tab',
+  '': 'Delete',
+  '\x1B': 'Escape',
+  Del: 'Delete',
+  Esc: 'Escape',
+  Left: 'ArrowLeft',
+  Right: 'ArrowRight',
+  Up: 'ArrowUp',
+  Down: 'ArrowDown',
+  Menu: 'ContextMenu',
+  Scroll: 'ScrollLock',
+  Win: 'OS'
 };
 var MODIFIER_KEY_GETTERS = {
-  "alt": (event) => event.altKey,
-  "control": (event) => event.ctrlKey,
-  "meta": (event) => event.metaKey,
-  "shift": (event) => event.shiftKey
+  alt: (event) => event.altKey,
+  control: (event) => event.ctrlKey,
+  meta: (event) => event.metaKey,
+  shift: (event) => event.shiftKey
 };
 var _KeyEventsPlugin = class _KeyEventsPlugin extends EventManagerPlugin {
   /**
@@ -7676,9 +8904,9 @@ var _KeyEventsPlugin = class _KeyEventsPlugin extends EventManagerPlugin {
    */
   addEventListener(element, eventName, handler) {
     const parsedEvent = _KeyEventsPlugin.parseEventName(eventName);
-    const outsideHandler = _KeyEventsPlugin.eventCallback(parsedEvent["fullKey"], handler, this.manager.getZone());
+    const outsideHandler = _KeyEventsPlugin.eventCallback(parsedEvent['fullKey'], handler, this.manager.getZone());
     return this.manager.getZone().runOutsideAngular(() => {
-      return getDOM().onAndCancel(element, parsedEvent["domEventName"], outsideHandler);
+      return getDOM().onAndCancel(element, parsedEvent['domEventName'], outsideHandler);
     });
   }
   /**
@@ -7691,23 +8919,23 @@ var _KeyEventsPlugin = class _KeyEventsPlugin extends EventManagerPlugin {
    * or null in the case when the event doesn't match a keyboard event.
    */
   static parseEventName(eventName) {
-    const parts = eventName.toLowerCase().split(".");
+    const parts = eventName.toLowerCase().split('.');
     const domEventName = parts.shift();
-    if (parts.length === 0 || !(domEventName === "keydown" || domEventName === "keyup")) {
+    if (parts.length === 0 || !(domEventName === 'keydown' || domEventName === 'keyup')) {
       return null;
     }
     const key = _KeyEventsPlugin._normalizeKey(parts.pop());
-    let fullKey = "";
-    let codeIX = parts.indexOf("code");
+    let fullKey = '';
+    let codeIX = parts.indexOf('code');
     if (codeIX > -1) {
       parts.splice(codeIX, 1);
-      fullKey = "code.";
+      fullKey = 'code.';
     }
     MODIFIER_KEYS.forEach((modifierName) => {
       const index = parts.indexOf(modifierName);
       if (index > -1) {
         parts.splice(index, 1);
-        fullKey += modifierName + ".";
+        fullKey += modifierName + '.';
       }
     });
     fullKey += key;
@@ -7715,8 +8943,8 @@ var _KeyEventsPlugin = class _KeyEventsPlugin extends EventManagerPlugin {
       return null;
     }
     const result = {};
-    result["domEventName"] = domEventName;
-    result["fullKey"] = fullKey;
+    result['domEventName'] = domEventName;
+    result['fullKey'] = fullKey;
     return result;
   }
   /**
@@ -7731,24 +8959,23 @@ var _KeyEventsPlugin = class _KeyEventsPlugin extends EventManagerPlugin {
    */
   static matchEventFullKeyCode(event, fullKeyCode) {
     let keycode = _keyMap[event.key] || event.key;
-    let key = "";
-    if (fullKeyCode.indexOf("code.") > -1) {
+    let key = '';
+    if (fullKeyCode.indexOf('code.') > -1) {
       keycode = event.code;
-      key = "code.";
+      key = 'code.';
     }
-    if (keycode == null || !keycode)
-      return false;
+    if (keycode == null || !keycode) return false;
     keycode = keycode.toLowerCase();
-    if (keycode === " ") {
-      keycode = "space";
-    } else if (keycode === ".") {
-      keycode = "dot";
+    if (keycode === ' ') {
+      keycode = 'space';
+    } else if (keycode === '.') {
+      keycode = 'dot';
     }
     MODIFIER_KEYS.forEach((modifierName) => {
       if (modifierName !== keycode) {
         const modifierGetter = MODIFIER_KEY_GETTERS[modifierName];
         if (modifierGetter(event)) {
-          key += modifierName + ".";
+          key += modifierName + '.';
         }
       }
     });
@@ -7771,7 +8998,7 @@ var _KeyEventsPlugin = class _KeyEventsPlugin extends EventManagerPlugin {
   }
   /** @internal */
   static _normalizeKey(keyName) {
-    return keyName === "esc" ? "escape" : keyName;
+    return keyName === 'esc' ? 'escape' : keyName;
   }
 };
 _KeyEventsPlugin.ɵfac = function KeyEventsPlugin_Factory(t) {
@@ -7783,27 +9010,44 @@ _KeyEventsPlugin.ɵprov = ɵɵdefineInjectable({
 });
 var KeyEventsPlugin = _KeyEventsPlugin;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(KeyEventsPlugin, [{
-    type: Injectable
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      KeyEventsPlugin,
+      [
+        {
+          type: Injectable
+        }
+      ],
+      () => [
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [DOCUMENT]
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 function bootstrapApplication(rootComponent, options) {
-  return internalCreateApplication(__spreadValues({
-    rootComponent
-  }, createProvidersConfig(options)));
+  return internalCreateApplication(
+    __spreadValues(
+      {
+        rootComponent
+      },
+      createProvidersConfig(options)
+    )
+  );
 }
 function createApplication(options) {
   return internalCreateApplication(createProvidersConfig(options));
 }
 function createProvidersConfig(options) {
   return {
-    appProviders: [...BROWSER_MODULE_PROVIDERS, ...options?.providers ?? []],
+    appProviders: [...BROWSER_MODULE_PROVIDERS, ...(options?.providers ?? [])],
     platformProviders: INTERNAL_BROWSER_PLATFORM_PROVIDERS
   };
 }
@@ -7820,66 +9064,92 @@ function _document() {
   setDocument(document);
   return document;
 }
-var INTERNAL_BROWSER_PLATFORM_PROVIDERS = [{
-  provide: PLATFORM_ID,
-  useValue: PLATFORM_BROWSER_ID
-}, {
-  provide: PLATFORM_INITIALIZER,
-  useValue: initDomAdapter,
-  multi: true
-}, {
-  provide: DOCUMENT,
-  useFactory: _document,
-  deps: []
-}];
-var platformBrowser = createPlatformFactory(platformCore, "browser", INTERNAL_BROWSER_PLATFORM_PROVIDERS);
-var BROWSER_MODULE_PROVIDERS_MARKER = new InjectionToken(typeof ngDevMode === "undefined" || ngDevMode ? "BrowserModule Providers Marker" : "");
-var TESTABILITY_PROVIDERS = [{
-  provide: TESTABILITY_GETTER,
-  useClass: BrowserGetTestability,
-  deps: []
-}, {
-  provide: TESTABILITY,
-  useClass: Testability,
-  deps: [NgZone, TestabilityRegistry, TESTABILITY_GETTER]
-}, {
-  provide: Testability,
-  // Also provide as `Testability` for backwards-compatibility.
-  useClass: Testability,
-  deps: [NgZone, TestabilityRegistry, TESTABILITY_GETTER]
-}];
-var BROWSER_MODULE_PROVIDERS = [{
-  provide: INJECTOR_SCOPE,
-  useValue: "root"
-}, {
-  provide: ErrorHandler,
-  useFactory: errorHandler,
-  deps: []
-}, {
-  provide: EVENT_MANAGER_PLUGINS,
-  useClass: DomEventsPlugin,
-  multi: true,
-  deps: [DOCUMENT, NgZone, PLATFORM_ID]
-}, {
-  provide: EVENT_MANAGER_PLUGINS,
-  useClass: KeyEventsPlugin,
-  multi: true,
-  deps: [DOCUMENT]
-}, DomRendererFactory2, SharedStylesHost, EventManager, {
-  provide: RendererFactory2,
-  useExisting: DomRendererFactory2
-}, {
-  provide: XhrFactory,
-  useClass: BrowserXhr,
-  deps: []
-}, typeof ngDevMode === "undefined" || ngDevMode ? {
-  provide: BROWSER_MODULE_PROVIDERS_MARKER,
-  useValue: true
-} : []];
+var INTERNAL_BROWSER_PLATFORM_PROVIDERS = [
+  {
+    provide: PLATFORM_ID,
+    useValue: PLATFORM_BROWSER_ID
+  },
+  {
+    provide: PLATFORM_INITIALIZER,
+    useValue: initDomAdapter,
+    multi: true
+  },
+  {
+    provide: DOCUMENT,
+    useFactory: _document,
+    deps: []
+  }
+];
+var platformBrowser = createPlatformFactory(platformCore, 'browser', INTERNAL_BROWSER_PLATFORM_PROVIDERS);
+var BROWSER_MODULE_PROVIDERS_MARKER = new InjectionToken(
+  typeof ngDevMode === 'undefined' || ngDevMode ? 'BrowserModule Providers Marker' : ''
+);
+var TESTABILITY_PROVIDERS = [
+  {
+    provide: TESTABILITY_GETTER,
+    useClass: BrowserGetTestability,
+    deps: []
+  },
+  {
+    provide: TESTABILITY,
+    useClass: Testability,
+    deps: [NgZone, TestabilityRegistry, TESTABILITY_GETTER]
+  },
+  {
+    provide: Testability,
+    // Also provide as `Testability` for backwards-compatibility.
+    useClass: Testability,
+    deps: [NgZone, TestabilityRegistry, TESTABILITY_GETTER]
+  }
+];
+var BROWSER_MODULE_PROVIDERS = [
+  {
+    provide: INJECTOR_SCOPE,
+    useValue: 'root'
+  },
+  {
+    provide: ErrorHandler,
+    useFactory: errorHandler,
+    deps: []
+  },
+  {
+    provide: EVENT_MANAGER_PLUGINS,
+    useClass: DomEventsPlugin,
+    multi: true,
+    deps: [DOCUMENT, NgZone, PLATFORM_ID]
+  },
+  {
+    provide: EVENT_MANAGER_PLUGINS,
+    useClass: KeyEventsPlugin,
+    multi: true,
+    deps: [DOCUMENT]
+  },
+  DomRendererFactory2,
+  SharedStylesHost,
+  EventManager,
+  {
+    provide: RendererFactory2,
+    useExisting: DomRendererFactory2
+  },
+  {
+    provide: XhrFactory,
+    useClass: BrowserXhr,
+    deps: []
+  },
+  typeof ngDevMode === 'undefined' || ngDevMode
+    ? {
+        provide: BROWSER_MODULE_PROVIDERS_MARKER,
+        useValue: true
+      }
+    : []
+];
 var _BrowserModule = class _BrowserModule {
   constructor(providersAlreadyPresent) {
-    if ((typeof ngDevMode === "undefined" || ngDevMode) && providersAlreadyPresent) {
-      throw new RuntimeError(5100, `Providers from the \`BrowserModule\` have already been loaded. If you need access to common directives such as NgIf and NgFor, import the \`CommonModule\` instead.`);
+    if ((typeof ngDevMode === 'undefined' || ngDevMode) && providersAlreadyPresent) {
+      throw new RuntimeError(
+        5100,
+        `Providers from the \`BrowserModule\` have already been loaded. If you need access to common directives such as NgIf and NgFor, import the \`CommonModule\` instead.`
+      );
     }
   }
   /**
@@ -7895,10 +9165,12 @@ var _BrowserModule = class _BrowserModule {
   static withServerTransition(params) {
     return {
       ngModule: _BrowserModule,
-      providers: [{
-        provide: APP_ID,
-        useValue: params.appId
-      }]
+      providers: [
+        {
+          provide: APP_ID,
+          useValue: params.appId
+        }
+      ]
     };
   }
 };
@@ -7915,23 +9187,39 @@ _BrowserModule.ɵinj = ɵɵdefineInjector({
 });
 var BrowserModule = _BrowserModule;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BrowserModule, [{
-    type: NgModule,
-    args: [{
-      providers: [...BROWSER_MODULE_PROVIDERS, ...TESTABILITY_PROVIDERS],
-      exports: [CommonModule, ApplicationModule]
-    }]
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Optional
-    }, {
-      type: SkipSelf
-    }, {
-      type: Inject,
-      args: [BROWSER_MODULE_PROVIDERS_MARKER]
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      BrowserModule,
+      [
+        {
+          type: NgModule,
+          args: [
+            {
+              providers: [...BROWSER_MODULE_PROVIDERS, ...TESTABILITY_PROVIDERS],
+              exports: [CommonModule, ApplicationModule]
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Optional
+            },
+            {
+              type: SkipSelf
+            },
+            {
+              type: Inject,
+              args: [BROWSER_MODULE_PROVIDERS_MARKER]
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 function createMeta() {
   return new Meta(ɵɵinject(DOCUMENT));
@@ -7952,8 +9240,7 @@ var _Meta = class _Meta {
    * the new element if no match is found, or `null` if the tag parameter is not defined.
    */
   addTag(tag, forceCreation = false) {
-    if (!tag)
-      return null;
+    if (!tag) return null;
     return this._getOrCreateElement(tag, forceCreation);
   }
   /**
@@ -7965,8 +9252,7 @@ var _Meta = class _Meta {
    * @returns The matching elements if found, or the new elements.
    */
   addTags(tags, forceCreation = false) {
-    if (!tags)
-      return [];
+    if (!tags) return [];
     return tags.reduce((result, tag) => {
       if (tag) {
         result.push(this._getOrCreateElement(tag, forceCreation));
@@ -7981,8 +9267,7 @@ var _Meta = class _Meta {
    * @returns The matching element, if any.
    */
   getTag(attrSelector) {
-    if (!attrSelector)
-      return null;
+    if (!attrSelector) return null;
     return this._doc.querySelector(`meta[${attrSelector}]`) || null;
   }
   /**
@@ -7992,8 +9277,7 @@ var _Meta = class _Meta {
    * @returns The matching elements, if any.
    */
   getTags(attrSelector) {
-    if (!attrSelector)
-      return [];
+    if (!attrSelector) return [];
     const list = this._doc.querySelectorAll(`meta[${attrSelector}]`);
     return list ? [].slice.call(list) : [];
   }
@@ -8007,8 +9291,7 @@ var _Meta = class _Meta {
    * @return The modified element.
    */
   updateTag(tag, selector) {
-    if (!tag)
-      return null;
+    if (!tag) return null;
     selector = selector || this._parseSelector(tag);
     const meta = this.getTag(selector);
     if (meta) {
@@ -8037,12 +9320,11 @@ var _Meta = class _Meta {
     if (!forceCreation) {
       const selector = this._parseSelector(meta);
       const elem = this.getTags(selector).filter((elem2) => this._containsAttributes(meta, elem2))[0];
-      if (elem !== void 0)
-        return elem;
+      if (elem !== void 0) return elem;
     }
-    const element = this._dom.createElement("meta");
+    const element = this._dom.createElement('meta');
     this._setMetaElementAttributes(meta, element);
-    const head = this._doc.getElementsByTagName("head")[0];
+    const head = this._doc.getElementsByTagName('head')[0];
     head.appendChild(element);
     return element;
   }
@@ -8051,7 +9333,7 @@ var _Meta = class _Meta {
     return el;
   }
   _parseSelector(tag) {
-    const attr = tag.name ? "name" : "property";
+    const attr = tag.name ? 'name' : 'property';
     return `${attr}="${tag[attr]}"`;
   }
   _containsAttributes(tag, elem) {
@@ -8075,27 +9357,41 @@ _Meta.ɵprov = ɵɵdefineInjectable({
     }
     return r;
   },
-  providedIn: "root"
+  providedIn: 'root'
 });
 var Meta = _Meta;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Meta, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root",
-      useFactory: createMeta,
-      deps: []
-    }]
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      Meta,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'root',
+              useFactory: createMeta,
+              deps: []
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [DOCUMENT]
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 var META_KEYS_MAP = {
-  httpEquiv: "http-equiv"
+  httpEquiv: 'http-equiv'
 };
 function createTitle() {
   return new Title(ɵɵinject(DOCUMENT));
@@ -8115,7 +9411,7 @@ var _Title = class _Title {
    * @param newTitle
    */
   setTitle(newTitle) {
-    this._doc.title = newTitle || "";
+    this._doc.title = newTitle || '';
   }
 };
 _Title.ɵfac = function Title_Factory(t) {
@@ -8132,32 +9428,46 @@ _Title.ɵprov = ɵɵdefineInjectable({
     }
     return r;
   },
-  providedIn: "root"
+  providedIn: 'root'
 });
 var Title = _Title;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Title, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root",
-      useFactory: createTitle,
-      deps: []
-    }]
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      Title,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'root',
+              useFactory: createTitle,
+              deps: []
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [DOCUMENT]
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 function exportNgVar(name, value) {
-  if (typeof COMPILED === "undefined" || !COMPILED) {
-    const ng = _global["ng"] = _global["ng"] || {};
+  if (typeof COMPILED === 'undefined' || !COMPILED) {
+    const ng = (_global['ng'] = _global['ng'] || {});
     ng[name] = value;
   }
 }
-var win = typeof window !== "undefined" && window || {};
+var win = (typeof window !== 'undefined' && window) || {};
 var ChangeDetectionPerfRecord = class {
   constructor(msPerTick, numTicks) {
     this.msPerTick = msPerTick;
@@ -8186,8 +9496,8 @@ var AngularProfiler = class {
    * ```
    */
   timeChangeDetection(config) {
-    const record = config && config["record"];
-    const profileName = "Change Detection";
+    const record = config && config['record'];
+    const profileName = 'Change Detection';
     const isProfilerAvailable = win.console.profile != null;
     if (record && isProfilerAvailable) {
       win.console.profile(profileName);
@@ -8209,9 +9519,9 @@ var AngularProfiler = class {
   }
 };
 function performanceNow() {
-  return win.performance && win.performance.now ? win.performance.now() : (/* @__PURE__ */ new Date()).getTime();
+  return win.performance && win.performance.now ? win.performance.now() : /* @__PURE__ */ new Date().getTime();
 }
-var PROFILER_GLOBAL_NAME = "profiler";
+var PROFILER_GLOBAL_NAME = 'profiler';
 function enableDebugTools(ref) {
   exportNgVar(PROFILER_GLOBAL_NAME, new AngularProfiler(ref));
   return ref;
@@ -8258,50 +9568,54 @@ var By = class {
 };
 function elementMatches(n, selector) {
   if (getDOM().isElementNode(n)) {
-    return n.matches && n.matches(selector) || n.msMatchesSelector && n.msMatchesSelector(selector) || n.webkitMatchesSelector && n.webkitMatchesSelector(selector);
+    return (
+      (n.matches && n.matches(selector)) ||
+      (n.msMatchesSelector && n.msMatchesSelector(selector)) ||
+      (n.webkitMatchesSelector && n.webkitMatchesSelector(selector))
+    );
   }
   return false;
 }
 var EVENT_NAMES = {
   // pan
-  "pan": true,
-  "panstart": true,
-  "panmove": true,
-  "panend": true,
-  "pancancel": true,
-  "panleft": true,
-  "panright": true,
-  "panup": true,
-  "pandown": true,
+  pan: true,
+  panstart: true,
+  panmove: true,
+  panend: true,
+  pancancel: true,
+  panleft: true,
+  panright: true,
+  panup: true,
+  pandown: true,
   // pinch
-  "pinch": true,
-  "pinchstart": true,
-  "pinchmove": true,
-  "pinchend": true,
-  "pinchcancel": true,
-  "pinchin": true,
-  "pinchout": true,
+  pinch: true,
+  pinchstart: true,
+  pinchmove: true,
+  pinchend: true,
+  pinchcancel: true,
+  pinchin: true,
+  pinchout: true,
   // press
-  "press": true,
-  "pressup": true,
+  press: true,
+  pressup: true,
   // rotate
-  "rotate": true,
-  "rotatestart": true,
-  "rotatemove": true,
-  "rotateend": true,
-  "rotatecancel": true,
+  rotate: true,
+  rotatestart: true,
+  rotatemove: true,
+  rotateend: true,
+  rotatecancel: true,
   // swipe
-  "swipe": true,
-  "swipeleft": true,
-  "swiperight": true,
-  "swipeup": true,
-  "swipedown": true,
+  swipe: true,
+  swipeleft: true,
+  swiperight: true,
+  swipeup: true,
+  swipedown: true,
   // tap
-  "tap": true,
-  "doubletap": true
+  tap: true,
+  doubletap: true
 };
-var HAMMER_GESTURE_CONFIG = new InjectionToken("HammerGestureConfig");
-var HAMMER_LOADER = new InjectionToken("HammerLoader");
+var HAMMER_GESTURE_CONFIG = new InjectionToken('HammerGestureConfig');
+var HAMMER_LOADER = new InjectionToken('HammerLoader');
 var _HammerGestureConfig = class _HammerGestureConfig {
   constructor() {
     this.events = [];
@@ -8315,10 +9629,10 @@ var _HammerGestureConfig = class _HammerGestureConfig {
    */
   buildHammer(element) {
     const mc = new Hammer(element, this.options);
-    mc.get("pinch").set({
+    mc.get('pinch').set({
       enable: true
     });
-    mc.get("rotate").set({
+    mc.get('rotate').set({
       enable: true
     });
     for (const eventName in this.overrides) {
@@ -8336,9 +9650,17 @@ _HammerGestureConfig.ɵprov = ɵɵdefineInjectable({
 });
 var HammerGestureConfig = _HammerGestureConfig;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HammerGestureConfig, [{
-    type: Injectable
-  }], null, null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      HammerGestureConfig,
+      [
+        {
+          type: Injectable
+        }
+      ],
+      null,
+      null
+    );
 })();
 var _HammerGesturesPlugin = class _HammerGesturesPlugin extends EventManagerPlugin {
   constructor(doc, _config, console2, loader) {
@@ -8353,8 +9675,10 @@ var _HammerGesturesPlugin = class _HammerGesturesPlugin extends EventManagerPlug
       return false;
     }
     if (!window.Hammer && !this.loader) {
-      if (typeof ngDevMode === "undefined" || ngDevMode) {
-        this.console.warn(`The "${eventName}" event cannot be bound because Hammer.JS is not loaded and no custom loader has been specified.`);
+      if (typeof ngDevMode === 'undefined' || ngDevMode) {
+        this.console.warn(
+          `The "${eventName}" event cannot be bound because Hammer.JS is not loaded and no custom loader has been specified.`
+        );
       }
       return false;
     }
@@ -8369,40 +9693,42 @@ var _HammerGesturesPlugin = class _HammerGesturesPlugin extends EventManagerPlug
       let deregister = () => {
         cancelRegistration = true;
       };
-      zone.runOutsideAngular(() => this._loaderPromise.then(() => {
-        if (!window.Hammer) {
-          if (typeof ngDevMode === "undefined" || ngDevMode) {
-            this.console.warn(`The custom HAMMER_LOADER completed, but Hammer.JS is not present.`);
-          }
-          deregister = () => {
-          };
-          return;
-        }
-        if (!cancelRegistration) {
-          deregister = this.addEventListener(element, eventName, handler);
-        }
-      }).catch(() => {
-        if (typeof ngDevMode === "undefined" || ngDevMode) {
-          this.console.warn(`The "${eventName}" event cannot be bound because the custom Hammer.JS loader failed.`);
-        }
-        deregister = () => {
-        };
-      }));
+      zone.runOutsideAngular(() =>
+        this._loaderPromise
+          .then(() => {
+            if (!window.Hammer) {
+              if (typeof ngDevMode === 'undefined' || ngDevMode) {
+                this.console.warn(`The custom HAMMER_LOADER completed, but Hammer.JS is not present.`);
+              }
+              deregister = () => {};
+              return;
+            }
+            if (!cancelRegistration) {
+              deregister = this.addEventListener(element, eventName, handler);
+            }
+          })
+          .catch(() => {
+            if (typeof ngDevMode === 'undefined' || ngDevMode) {
+              this.console.warn(`The "${eventName}" event cannot be bound because the custom Hammer.JS loader failed.`);
+            }
+            deregister = () => {};
+          })
+      );
       return () => {
         deregister();
       };
     }
     return zone.runOutsideAngular(() => {
       const mc = this._config.buildHammer(element);
-      const callback = function(eventObj) {
-        zone.runGuarded(function() {
+      const callback = function (eventObj) {
+        zone.runGuarded(function () {
           handler(eventObj);
         });
       };
       mc.on(eventName, callback);
       return () => {
         mc.off(eventName, callback);
-        if (typeof mc.destroy === "function") {
+        if (typeof mc.destroy === 'function') {
           mc.destroy();
         }
       };
@@ -8413,7 +9739,12 @@ var _HammerGesturesPlugin = class _HammerGesturesPlugin extends EventManagerPlug
   }
 };
 _HammerGesturesPlugin.ɵfac = function HammerGesturesPlugin_Factory(t) {
-  return new (t || _HammerGesturesPlugin)(ɵɵinject(DOCUMENT), ɵɵinject(HAMMER_GESTURE_CONFIG), ɵɵinject(Console), ɵɵinject(HAMMER_LOADER, 8));
+  return new (t || _HammerGesturesPlugin)(
+    ɵɵinject(DOCUMENT),
+    ɵɵinject(HAMMER_GESTURE_CONFIG),
+    ɵɵinject(Console),
+    ɵɵinject(HAMMER_LOADER, 8)
+  );
 };
 _HammerGesturesPlugin.ɵprov = ɵɵdefineInjectable({
   token: _HammerGesturesPlugin,
@@ -8421,34 +9752,53 @@ _HammerGesturesPlugin.ɵprov = ɵɵdefineInjectable({
 });
 var HammerGesturesPlugin = _HammerGesturesPlugin;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HammerGesturesPlugin, [{
-    type: Injectable
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }, {
-    type: HammerGestureConfig,
-    decorators: [{
-      type: Inject,
-      args: [HAMMER_GESTURE_CONFIG]
-    }]
-  }, {
-    type: Console
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Optional
-    }, {
-      type: Inject,
-      args: [HAMMER_LOADER]
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      HammerGesturesPlugin,
+      [
+        {
+          type: Injectable
+        }
+      ],
+      () => [
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [DOCUMENT]
+            }
+          ]
+        },
+        {
+          type: HammerGestureConfig,
+          decorators: [
+            {
+              type: Inject,
+              args: [HAMMER_GESTURE_CONFIG]
+            }
+          ]
+        },
+        {
+          type: Console
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Optional
+            },
+            {
+              type: Inject,
+              args: [HAMMER_LOADER]
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
-var _HammerModule = class _HammerModule {
-};
+var _HammerModule = class _HammerModule {};
 _HammerModule.ɵfac = function HammerModule_Factory(t) {
   return new (t || _HammerModule)();
 };
@@ -8456,37 +9806,52 @@ _HammerModule.ɵmod = ɵɵdefineNgModule({
   type: _HammerModule
 });
 _HammerModule.ɵinj = ɵɵdefineInjector({
-  providers: [{
-    provide: EVENT_MANAGER_PLUGINS,
-    useClass: HammerGesturesPlugin,
-    multi: true,
-    deps: [DOCUMENT, HAMMER_GESTURE_CONFIG, Console, [new Optional(), HAMMER_LOADER]]
-  }, {
-    provide: HAMMER_GESTURE_CONFIG,
-    useClass: HammerGestureConfig,
-    deps: []
-  }]
+  providers: [
+    {
+      provide: EVENT_MANAGER_PLUGINS,
+      useClass: HammerGesturesPlugin,
+      multi: true,
+      deps: [DOCUMENT, HAMMER_GESTURE_CONFIG, Console, [new Optional(), HAMMER_LOADER]]
+    },
+    {
+      provide: HAMMER_GESTURE_CONFIG,
+      useClass: HammerGestureConfig,
+      deps: []
+    }
+  ]
 });
 var HammerModule = _HammerModule;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HammerModule, [{
-    type: NgModule,
-    args: [{
-      providers: [{
-        provide: EVENT_MANAGER_PLUGINS,
-        useClass: HammerGesturesPlugin,
-        multi: true,
-        deps: [DOCUMENT, HAMMER_GESTURE_CONFIG, Console, [new Optional(), HAMMER_LOADER]]
-      }, {
-        provide: HAMMER_GESTURE_CONFIG,
-        useClass: HammerGestureConfig,
-        deps: []
-      }]
-    }]
-  }], null, null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      HammerModule,
+      [
+        {
+          type: NgModule,
+          args: [
+            {
+              providers: [
+                {
+                  provide: EVENT_MANAGER_PLUGINS,
+                  useClass: HammerGesturesPlugin,
+                  multi: true,
+                  deps: [DOCUMENT, HAMMER_GESTURE_CONFIG, Console, [new Optional(), HAMMER_LOADER]]
+                },
+                {
+                  provide: HAMMER_GESTURE_CONFIG,
+                  useClass: HammerGestureConfig,
+                  deps: []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      null,
+      null
+    );
 })();
-var _DomSanitizer = class _DomSanitizer {
-};
+var _DomSanitizer = class _DomSanitizer {};
 _DomSanitizer.ɵfac = function DomSanitizer_Factory(t) {
   return new (t || _DomSanitizer)();
 };
@@ -8501,17 +9866,27 @@ _DomSanitizer.ɵprov = ɵɵdefineInjectable({
     }
     return r;
   },
-  providedIn: "root"
+  providedIn: 'root'
 });
 var DomSanitizer = _DomSanitizer;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DomSanitizer, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root",
-      useExisting: forwardRef(() => DomSanitizerImpl)
-    }]
-  }], null, null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      DomSanitizer,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'root',
+              useExisting: forwardRef(() => DomSanitizerImpl)
+            }
+          ]
+        }
+      ],
+      null,
+      null
+    );
 })();
 function domSanitizerImplFactory(injector) {
   return new DomSanitizerImpl(injector.get(DOCUMENT));
@@ -8522,58 +9897,78 @@ var _DomSanitizerImpl = class _DomSanitizerImpl extends DomSanitizer {
     this._doc = _doc;
   }
   sanitize(ctx, value) {
-    if (value == null)
-      return null;
+    if (value == null) return null;
     switch (ctx) {
       case SecurityContext.NONE:
         return value;
       case SecurityContext.HTML:
-        if (allowSanitizationBypassAndThrow(
-          value,
-          "HTML"
-          /* BypassType.Html */
-        )) {
+        if (
+          allowSanitizationBypassAndThrow(
+            value,
+            'HTML'
+            /* BypassType.Html */
+          )
+        ) {
           return unwrapSafeValue(value);
         }
         return _sanitizeHtml(this._doc, String(value)).toString();
       case SecurityContext.STYLE:
-        if (allowSanitizationBypassAndThrow(
-          value,
-          "Style"
-          /* BypassType.Style */
-        )) {
+        if (
+          allowSanitizationBypassAndThrow(
+            value,
+            'Style'
+            /* BypassType.Style */
+          )
+        ) {
           return unwrapSafeValue(value);
         }
         return value;
       case SecurityContext.SCRIPT:
-        if (allowSanitizationBypassAndThrow(
-          value,
-          "Script"
-          /* BypassType.Script */
-        )) {
+        if (
+          allowSanitizationBypassAndThrow(
+            value,
+            'Script'
+            /* BypassType.Script */
+          )
+        ) {
           return unwrapSafeValue(value);
         }
-        throw new RuntimeError(5200, (typeof ngDevMode === "undefined" || ngDevMode) && "unsafe value used in a script context");
+        throw new RuntimeError(
+          5200,
+          (typeof ngDevMode === 'undefined' || ngDevMode) && 'unsafe value used in a script context'
+        );
       case SecurityContext.URL:
-        if (allowSanitizationBypassAndThrow(
-          value,
-          "URL"
-          /* BypassType.Url */
-        )) {
+        if (
+          allowSanitizationBypassAndThrow(
+            value,
+            'URL'
+            /* BypassType.Url */
+          )
+        ) {
           return unwrapSafeValue(value);
         }
         return _sanitizeUrl(String(value));
       case SecurityContext.RESOURCE_URL:
-        if (allowSanitizationBypassAndThrow(
-          value,
-          "ResourceURL"
-          /* BypassType.ResourceUrl */
-        )) {
+        if (
+          allowSanitizationBypassAndThrow(
+            value,
+            'ResourceURL'
+            /* BypassType.ResourceUrl */
+          )
+        ) {
           return unwrapSafeValue(value);
         }
-        throw new RuntimeError(5201, (typeof ngDevMode === "undefined" || ngDevMode) && `unsafe value used in a resource URL context (see ${XSS_SECURITY_URL})`);
+        throw new RuntimeError(
+          5201,
+          (typeof ngDevMode === 'undefined' || ngDevMode) &&
+            `unsafe value used in a resource URL context (see ${XSS_SECURITY_URL})`
+        );
       default:
-        throw new RuntimeError(5202, (typeof ngDevMode === "undefined" || ngDevMode) && `Unexpected SecurityContext ${ctx} (see ${XSS_SECURITY_URL})`);
+        throw new RuntimeError(
+          5202,
+          (typeof ngDevMode === 'undefined' || ngDevMode) &&
+            `Unexpected SecurityContext ${ctx} (see ${XSS_SECURITY_URL})`
+        );
     }
   }
   bypassSecurityTrustHtml(value) {
@@ -8606,29 +10001,43 @@ _DomSanitizerImpl.ɵprov = ɵɵdefineInjectable({
     }
     return r;
   },
-  providedIn: "root"
+  providedIn: 'root'
 });
 var DomSanitizerImpl = _DomSanitizerImpl;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DomSanitizerImpl, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root",
-      useFactory: domSanitizerImplFactory,
-      deps: [Injector]
-    }]
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      DomSanitizerImpl,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'root',
+              useFactory: domSanitizerImplFactory,
+              deps: [Injector]
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [DOCUMENT]
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 var HydrationFeatureKind;
-(function(HydrationFeatureKind2) {
-  HydrationFeatureKind2[HydrationFeatureKind2["NoHttpTransferCache"] = 0] = "NoHttpTransferCache";
-  HydrationFeatureKind2[HydrationFeatureKind2["HttpTransferCacheOptions"] = 1] = "HttpTransferCacheOptions";
+(function (HydrationFeatureKind2) {
+  HydrationFeatureKind2[(HydrationFeatureKind2['NoHttpTransferCache'] = 0)] = 'NoHttpTransferCache';
+  HydrationFeatureKind2[(HydrationFeatureKind2['HttpTransferCacheOptions'] = 1)] = 'HttpTransferCacheOptions';
 })(HydrationFeatureKind || (HydrationFeatureKind = {}));
 function hydrationFeature(ɵkind, ɵproviders = [], ɵoptions = {}) {
   return {
@@ -8643,38 +10052,54 @@ function withHttpTransferCacheOptions(options) {
   return hydrationFeature(HydrationFeatureKind.HttpTransferCacheOptions, withHttpTransferCache(options));
 }
 function provideZoneJsCompatibilityDetector() {
-  return [{
-    provide: ENVIRONMENT_INITIALIZER,
-    useValue: () => {
-      const ngZone = inject(NgZone);
-      if (ngZone.constructor !== NgZone) {
-        const console2 = inject(Console);
-        const message = formatRuntimeError(-5e3, "Angular detected that hydration was enabled for an application that uses a custom or a noop Zone.js implementation. This is not yet a fully supported configuration.");
-        console2.warn(message);
-      }
-    },
-    multi: true
-  }];
+  return [
+    {
+      provide: ENVIRONMENT_INITIALIZER,
+      useValue: () => {
+        const ngZone = inject(NgZone);
+        if (ngZone.constructor !== NgZone) {
+          const console2 = inject(Console);
+          const message = formatRuntimeError(
+            -5e3,
+            'Angular detected that hydration was enabled for an application that uses a custom or a noop Zone.js implementation. This is not yet a fully supported configuration.'
+          );
+          console2.warn(message);
+        }
+      },
+      multi: true
+    }
+  ];
 }
 function provideClientHydration(...features) {
   const providers = [];
   const featuresKind = /* @__PURE__ */ new Set();
   const hasHttpTransferCacheOptions = featuresKind.has(HydrationFeatureKind.HttpTransferCacheOptions);
-  for (const {
-    ɵproviders,
-    ɵkind
-  } of features) {
+  for (const { ɵproviders, ɵkind } of features) {
     featuresKind.add(ɵkind);
     if (ɵproviders.length) {
       providers.push(ɵproviders);
     }
   }
-  if (typeof ngDevMode !== "undefined" && ngDevMode && featuresKind.has(HydrationFeatureKind.NoHttpTransferCache) && hasHttpTransferCacheOptions) {
-    throw new Error("Configuration error: found both withHttpTransferCacheOptions() and withNoHttpTransferCache() in the same call to provideClientHydration(), which is a contradiction.");
+  if (
+    typeof ngDevMode !== 'undefined' &&
+    ngDevMode &&
+    featuresKind.has(HydrationFeatureKind.NoHttpTransferCache) &&
+    hasHttpTransferCacheOptions
+  ) {
+    throw new Error(
+      'Configuration error: found both withHttpTransferCacheOptions() and withNoHttpTransferCache() in the same call to provideClientHydration(), which is a contradiction.'
+    );
   }
-  return makeEnvironmentProviders([typeof ngDevMode !== "undefined" && ngDevMode ? provideZoneJsCompatibilityDetector() : [], withDomHydration(), featuresKind.has(HydrationFeatureKind.NoHttpTransferCache) || hasHttpTransferCacheOptions ? [] : withHttpTransferCache({}), providers]);
+  return makeEnvironmentProviders([
+    typeof ngDevMode !== 'undefined' && ngDevMode ? provideZoneJsCompatibilityDetector() : [],
+    withDomHydration(),
+    featuresKind.has(HydrationFeatureKind.NoHttpTransferCache) || hasHttpTransferCacheOptions
+      ? []
+      : withHttpTransferCache({}),
+    providers
+  ]);
 }
-var VERSION2 = new Version("17.1.0");
+var VERSION2 = new Version('17.1.0');
 var makeStateKey2 = makeStateKey;
 var TransferState2 = TransferState;
 
