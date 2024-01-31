@@ -214,7 +214,16 @@ export class Device {
     protocol_profile: ProtocolProfile;
     timestamp: string;
 
-    constructor(ip_address: string, mac_address: string, guid: string, info_sets: unknown, device_class: DeviceClass, device_categories: DeviceCategories, protocol_profile: ProtocolProfile, timestamp: string) {
+    constructor(
+        ip_address: string,
+        mac_address: string,
+        guid: string,
+        info_sets: unknown,
+        device_class: DeviceClass,
+        device_categories: DeviceCategories,
+        protocol_profile: ProtocolProfile,
+        timestamp: string
+    ) {
         this.ip_address = ip_address;
         this.mac_address = mac_address;
         this.guid = guid;

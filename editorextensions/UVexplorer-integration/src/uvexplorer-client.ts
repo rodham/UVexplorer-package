@@ -1,4 +1,4 @@
-import {EditorClient, isTextXHRResponse, XHRRequest, XHRResponse} from "lucid-extension-sdk";
+import { EditorClient, isTextXHRResponse, XHRRequest, XHRResponse } from 'lucid-extension-sdk';
 import {
     Device,
     DeviceListRequest,
@@ -6,16 +6,16 @@ import {
     NetworkRequest,
     NetworkSummariesResponse,
     NetworkSummary
-} from "../model/uvexplorer-model";
+} from '../model/uvexplorer-model';
 
 export class UVExplorerClient {
     private readonly basePath: string = '/public/api/v1';
 
-    constructor(private client: EditorClient) { }
+    constructor(private client: EditorClient) {}
 
     public async openSession(serverUrl: string, apiKey: string): Promise<string> {
         const url = serverUrl + this.basePath + '/session';
-        const response = await this.sendXHRRequest(url, apiKey,'POST');
+        const response = await this.sendXHRRequest(url, apiKey, 'POST');
         if (isTextXHRResponse(response)) {
             return response.responseText;
         }
@@ -32,7 +32,7 @@ export class UVExplorerClient {
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
         if (isTextXHRResponse(response)) {
             //eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            const networkSummariesResponse: NetworkSummariesResponse = JSON.parse(response.responseText)
+            const networkSummariesResponse: NetworkSummariesResponse = JSON.parse(response.responseText);
             return networkSummariesResponse.network_summaries;
         }
         return [];
@@ -49,13 +49,17 @@ export class UVExplorerClient {
         await this.sendXHRRequest(url, sessionGuid, 'DELETE');
     }
 
-    public async listDevices(serverUrl: string, sessionGuid: string, deviceListRequest: DeviceListRequest): Promise<Device[]> {
+    public async listDevices(
+        serverUrl: string,
+        sessionGuid: string,
+        deviceListRequest: DeviceListRequest
+    ): Promise<Device[]> {
         const url = serverUrl + this.basePath + '/device/list';
-        const data = JSON.stringify(deviceListRequest)
-        const response = await this.sendXHRRequest(url, sessionGuid, 'POST', data)
+        const data = JSON.stringify(deviceListRequest);
+        const response = await this.sendXHRRequest(url, sessionGuid, 'POST', data);
         if (isTextXHRResponse(response)) {
             //eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            const deviceListResponse: DeviceListResponse = JSON.parse(response.responseText)
+            const deviceListResponse: DeviceListResponse = JSON.parse(response.responseText);
             return deviceListResponse.devices;
         }
         return [];
@@ -68,7 +72,7 @@ export class UVExplorerClient {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`
                 },
                 data: data
             };
