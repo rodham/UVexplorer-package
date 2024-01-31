@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import {SessionInfo} from "../../../model/uvexplorer-model";
 import {NgIf} from "@angular/common";
 import {LoginComponent} from "./login/login.component";
-import {JsonSerializable} from "lucid-extension-sdk";
 
 @Component({
   selector: 'app-root',

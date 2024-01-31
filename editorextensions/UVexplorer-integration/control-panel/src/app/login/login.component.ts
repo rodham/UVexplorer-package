@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from "@angular/forms";
 import { SessionInfo } from "../../../../model/uvexplorer-model";
+import {isOpenSessionMessage} from "../../../../model/iframe-message";
 
 @Component({
   selector: 'login',
@@ -12,13 +13,15 @@ export class LoginComponent {
   title = 'login';
   serverUrl = ''; //https://server.uvexplorer.com:5189/
   apiKey = ''; //4aff2a87-e76a-4fbc-a699-7c6db610cd88
-  receivedSettingsFromParent: boolean = false;
+  receivedSettingsFromParent = false;
 
   constructor() {
     window.addEventListener('message', (e) => {
-      console.log(e.data['apiKey']);
-      this.apiKey = e.data['apiKey'];
-      this.serverUrl = e.data['serverUrl'];
+      if (isOpenSessionMessage(e.data)) {
+        console.log(e.data.apiKey);
+        this.apiKey = e.data.apiKey;
+        this.serverUrl = e.data.serverUrl;
+      }
     })
   }
 
@@ -37,7 +40,9 @@ export class LoginComponent {
 
       if (!this.receivedSettingsFromParent) {
         const result = await response.text();
+        console.log(result);
         parent.postMessage({
+          'action': 'openSession',
           'apiKey': this.apiKey,
           'serverUrl': this.serverUrl
         }, '*');
