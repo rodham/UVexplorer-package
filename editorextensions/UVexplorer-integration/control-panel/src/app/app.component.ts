@@ -1,13 +1,20 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {SessionInfo} from "../../../model/uvexplorer-model";
+import {NgIf} from "@angular/common";
+import {LoginComponent} from "./login/login.component";
+import {JsonSerializable} from "lucid-extension-sdk";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  imports: [NgIf, LoginComponent],
+  templateUrl: './app.component.html'
 })
 export class AppComponent {
   title = 'control-panel';
+  sessionInfo: SessionInfo = { serverUrl: '', sessionGuid: '', networkGuid: '' };
+
+  public setSessionInfo(sessionInfo: SessionInfo):void {
+    this.sessionInfo = sessionInfo
+  }
 }
