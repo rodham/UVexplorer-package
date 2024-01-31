@@ -34,5 +34,5 @@
         "outDir": "bin"
     },
     "files": ["resources/resource.d.ts"],
-    "include": ["src/**/*", "model/*"],
+    "include": ["src/**/*", "model/*"]
 }

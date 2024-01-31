@@ -11,229 +11,226 @@ import { TopoMapComponentListener } from './TopoMapComponent';
 import { DeviceLinkEdge } from '../dtos/topology/DeviceLinkEdge';
 import { LayoutSettings, LayoutType, LayoutDirection } from '../dtos/topology/LayoutSettings';
 
-
 export class DeviceGroupNodeRenderer implements IMapRenderer {
-	private static iconOffset = 3;
-	private map: TopoMap;
+    private static iconOffset = 3;
+    private map: TopoMap;
 
-	constructor(private listener: TopoMapComponentListener) {
-		return;
-	}
+    constructor(private listener: TopoMapComponentListener) {
+        return;
+    }
 
-	public setMap(map: TopoMap) {
-		this.map = map;
-	}
+    public setMap(map: TopoMap) {
+        this.map = map;
+    }
 
-	public render(ctx: CanvasRenderingContext2D): void {
-		if (!this.map) return;
-		if (!TopoImageLibrary.isLoaded) return;
-			
-		this.map.deviceGroupNodes.forEach((node: DeviceGroupNode) => {
-			var x = node.x;
-			var y = node.y;
+    public render(ctx: CanvasRenderingContext2D): void {
+        if (!this.map) return;
+        if (!TopoImageLibrary.isLoaded) return;
 
-			var nodeImage = DeviceGroupNodeUtil.getDeviceGroupImage(node);
-			ctx.drawImage(nodeImage, node.x, node.y);
-			let fullDisplayName: string = node.displayName + " (" + node.deviceCount + ")"
+        this.map.deviceGroupNodes.forEach((node: DeviceGroupNode) => {
+            var x = node.x;
+            var y = node.y;
 
-			CanvasExtensions.drawLabel(ctx, node.centerX, node.bottom + 18, fullDisplayName);
-			
-			if (node.selected) {
-				node.selected = false;
-				
-				ctx.strokeStyle = "lime";
-				ctx.lineWidth = 3;
-				ctx.strokeRect(node.x, node.y, node.width, node.height);
-			}
+            var nodeImage = DeviceGroupNodeUtil.getDeviceGroupImage(node);
+            ctx.drawImage(nodeImage, node.x, node.y);
+            let fullDisplayName: string = node.displayName + ' (' + node.deviceCount + ')';
 
-		}, this);
-	}
+            CanvasExtensions.drawLabel(ctx, node.centerX, node.bottom + 18, fullDisplayName);
 
-	getMouseOverLabels(point: Point, scale: number): MouseOverLabel[] {
-		return [];
-	}
+            if (node.selected) {
+                node.selected = false;
 
-	getAllLabels(): MouseOverLabel[] {
-		return [];
-	}
+                ctx.strokeStyle = 'lime';
+                ctx.lineWidth = 3;
+                ctx.strokeRect(node.x, node.y, node.width, node.height);
+            }
+        }, this);
+    }
 
-	private dragNode: DeviceGroupNode;
-	private startPoint: Point;
-	private startNodePosition: Point;
+    getMouseOverLabels(point: Point, scale: number): MouseOverLabel[] {
+        return [];
+    }
 
-	handleClick(point: Point, scale: number): boolean {
-		this.dragNode = null;
-		return this.map.deviceGroupNodes.some((node: DeviceGroupNode) => {
-			if (Rectangle.contains(node, point)) {
-				this.dragNode = node;
-				this.startPoint = point;
-				this.startNodePosition = { x: node.x, y: node.y };
-				return true;
-			}
-			return false;
-		});
-	}
+    getAllLabels(): MouseOverLabel[] {
+        return [];
+    }
 
-	handleMove(point: Point, scale: number): void {
-		if (this.dragNode && this.startPoint && this.startNodePosition) {
-			let deltaX = point.x - this.startPoint.x;
-			let deltaY = point.y - this.startPoint.y;
+    private dragNode: DeviceGroupNode;
+    private startPoint: Point;
+    private startNodePosition: Point;
 
-			this.dragNode.x = this.startNodePosition.x + deltaX;
-			this.dragNode.y = this.startNodePosition.y + deltaY;
+    handleClick(point: Point, scale: number): boolean {
+        this.dragNode = null;
+        return this.map.deviceGroupNodes.some((node: DeviceGroupNode) => {
+            if (Rectangle.contains(node, point)) {
+                this.dragNode = node;
+                this.startPoint = point;
+                this.startNodePosition = { x: node.x, y: node.y };
+                return true;
+            }
+            return false;
+        });
+    }
 
-			this.dragNode.centerX = this.dragNode.x + (this.dragNode.width / 2);
+    handleMove(point: Point, scale: number): void {
+        if (this.dragNode && this.startPoint && this.startNodePosition) {
+            let deltaX = point.x - this.startPoint.x;
+            let deltaY = point.y - this.startPoint.y;
 
-			this.dragNode.bottom = this.dragNode.y + this.dragNode.height;
+            this.dragNode.x = this.startNodePosition.x + deltaX;
+            this.dragNode.y = this.startNodePosition.y + deltaY;
 
-			this.adjustDisplayEdges(this.dragNode);
-		}
-	}
+            this.dragNode.centerX = this.dragNode.x + this.dragNode.width / 2;
 
-	private adjustDisplayEdges(dragNode: DeviceGroupNode): void {
-		this.map.displayEdges.forEach((dispEdge: DisplayEdge) => {
-			dispEdge.deviceLinkEdges.forEach((linkEdge: DeviceLinkEdge) => {
-				let connStart: Point = {
-					x: dragNode.x + dragNode.width / 2,
-					y: dragNode.y + dragNode.height / 2
-				};
+            this.dragNode.bottom = this.dragNode.y + this.dragNode.height;
 
-				let localConn = linkEdge.localConnection;
-				let remoteConn = linkEdge.remoteConnection;
+            this.adjustDisplayEdges(this.dragNode);
+        }
+    }
 
-				if (localConn.nodeId == dragNode.nodeId) {
-					localConn.start = connStart;
-				}
-				if (remoteConn.nodeId == dragNode.nodeId) {
-					remoteConn.start = connStart;
-				}
+    private adjustDisplayEdges(dragNode: DeviceGroupNode): void {
+        this.map.displayEdges.forEach((dispEdge: DisplayEdge) => {
+            dispEdge.deviceLinkEdges.forEach((linkEdge: DeviceLinkEdge) => {
+                let connStart: Point = {
+                    x: dragNode.x + dragNode.width / 2,
+                    y: dragNode.y + dragNode.height / 2
+                };
 
-				this.adjustDeviceGroupConnections(linkEdge);
-			});
-		});
-	}
+                let localConn = linkEdge.localConnection;
+                let remoteConn = linkEdge.remoteConnection;
 
-	private adjustDeviceGroupConnections(linkEdge: DeviceLinkEdge): void {
-		let localConnStart = linkEdge.localConnection.start;
-		let remoteConnStart = linkEdge.remoteConnection.start;
+                if (localConn.nodeId == dragNode.nodeId) {
+                    localConn.start = connStart;
+                }
+                if (remoteConn.nodeId == dragNode.nodeId) {
+                    remoteConn.start = connStart;
+                }
 
-		let nodeMid = this.midPoint(localConnStart, remoteConnStart);
+                this.adjustDeviceGroupConnections(linkEdge);
+            });
+        });
+    }
 
-		let localConnMid = this.anglePoint(localConnStart, nodeMid, this.map.layoutSettings);
-		let remoteConnMid = this.anglePoint(remoteConnStart, nodeMid, this.map.layoutSettings);
+    private adjustDeviceGroupConnections(linkEdge: DeviceLinkEdge): void {
+        let localConnStart = linkEdge.localConnection.start;
+        let remoteConnStart = linkEdge.remoteConnection.start;
 
-		let localConnEnd = {
-			x: nodeMid.x,
-			y: nodeMid.y
-		};
-		let remoteConnEnd = {
-			x: nodeMid.x,
-			y: nodeMid.y
-		};
+        let nodeMid = this.midPoint(localConnStart, remoteConnStart);
 
-		linkEdge.localConnection.mid = localConnMid;
-		linkEdge.remoteConnection.mid = remoteConnMid;
+        let localConnMid = this.anglePoint(localConnStart, nodeMid, this.map.layoutSettings);
+        let remoteConnMid = this.anglePoint(remoteConnStart, nodeMid, this.map.layoutSettings);
 
-		linkEdge.localConnection.end = localConnEnd;
-		linkEdge.remoteConnection.end = remoteConnEnd;
-	}
+        let localConnEnd = {
+            x: nodeMid.x,
+            y: nodeMid.y
+        };
+        let remoteConnEnd = {
+            x: nodeMid.x,
+            y: nodeMid.y
+        };
 
-	public midPoint(a: Point, b: Point): Point {
-		return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
-	}
+        linkEdge.localConnection.mid = localConnMid;
+        linkEdge.remoteConnection.mid = remoteConnMid;
 
-	public anglePoint(nodePoint: Point, edgePoint: Point, layoutSettings: LayoutSettings): Point {
-		if (layoutSettings.layoutType != LayoutType.Hierarchical ||
-			layoutSettings.hierarchicalSettings.useStraightLinks) {
-			return this.midPoint(nodePoint, edgePoint);
-		}
-		else {
-			switch (layoutSettings.hierarchicalSettings.layoutDirection) {
-				case LayoutDirection.Right:
-				case LayoutDirection.Left:
-					return { x: edgePoint.x, y: nodePoint.y };
-				case LayoutDirection.Up:
-				case LayoutDirection.Down:
-					return { x: nodePoint.x, y: edgePoint.y };
-				default:
-					return { x: 0, y: 0 };
-			}
-		}
-	}
+        linkEdge.localConnection.end = localConnEnd;
+        linkEdge.remoteConnection.end = remoteConnEnd;
+    }
 
-	handleUp(): void {
+    public midPoint(a: Point, b: Point): Point {
+        return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+    }
 
-		this.listener.onMoveNode(this.dragNode.nodeId, this.dragNode.x, this.dragNode.y);
+    public anglePoint(nodePoint: Point, edgePoint: Point, layoutSettings: LayoutSettings): Point {
+        if (
+            layoutSettings.layoutType != LayoutType.Hierarchical ||
+            layoutSettings.hierarchicalSettings.useStraightLinks
+        ) {
+            return this.midPoint(nodePoint, edgePoint);
+        } else {
+            switch (layoutSettings.hierarchicalSettings.layoutDirection) {
+                case LayoutDirection.Right:
+                case LayoutDirection.Left:
+                    return { x: edgePoint.x, y: nodePoint.y };
+                case LayoutDirection.Up:
+                case LayoutDirection.Down:
+                    return { x: nodePoint.x, y: edgePoint.y };
+                default:
+                    return { x: 0, y: 0 };
+            }
+        }
+    }
 
-		this.dragNode = null;
-		this.startPoint = null;
-		this.startNodePosition = null;
-	}
+    handleUp(): void {
+        this.listener.onMoveNode(this.dragNode.nodeId, this.dragNode.x, this.dragNode.y);
 
-	handleDoubleClick(point: Point, scale: number): boolean {
-		//return this.map.deviceNodes.some((node: DeviceNode) => {
-		//	if (node.id > 0 && Rectangle.contains(node, point)) {
-		//		DetailsDialog.open(`/controls/layer2device.htm?id=${node.id}`, "Device Details");
-		//		return true;
-		//	}
-		//	return false;
-		//});
+        this.dragNode = null;
+        this.startPoint = null;
+        this.startNodePosition = null;
+    }
 
-		return this.map.deviceGroupNodes.some((node: DeviceGroupNode) => {
-			if (Rectangle.contains(node, point)) {
-				if (node.deviceGroupGuid && this.listener) {
-					this.listener.onDeviceGroupDoubleClick(node.deviceGroupGuid);
-				}		
-				return true;
-			}
-			return false;
-		});
-	}
+    handleDoubleClick(point: Point, scale: number): boolean {
+        //return this.map.deviceNodes.some((node: DeviceNode) => {
+        //	if (node.id > 0 && Rectangle.contains(node, point)) {
+        //		DetailsDialog.open(`/controls/layer2device.htm?id=${node.id}`, "Device Details");
+        //		return true;
+        //	}
+        //	return false;
+        //});
 
-	handleHover(point: Point, viewPoint:Point): boolean {
-		//return this.map.deviceNodes.some((node: DeviceNode) => {
-		//	if (node.id > 0 && Rectangle.contains(node, point)) {
-		//		var mouse = { left: viewPoint.x - 5, top: viewPoint.y - 5, width: 0, height: 0};
-		//		var $obj = $('<obj/>',
-		//			{
-		//				id: node.id,
-		//				'class': 'devicemenu device',
-		//				href: 'device.htm?id=' + node.id,
-		//				css: {
-		//					'background-image': 'background-image:url(/icons/devices/switch_1.png)'
-		//				},
-		//				text: node.displayName
-		//			});
-		//		$.fn.ptip.show.apply($obj[0], [mouse]);
-		//		return true;
-		//	}
-		//	return false;
-		//});
+        return this.map.deviceGroupNodes.some((node: DeviceGroupNode) => {
+            if (Rectangle.contains(node, point)) {
+                if (node.deviceGroupGuid && this.listener) {
+                    this.listener.onDeviceGroupDoubleClick(node.deviceGroupGuid);
+                }
+                return true;
+            }
+            return false;
+        });
+    }
 
-		return true;
-	}
+    handleHover(point: Point, viewPoint: Point): boolean {
+        //return this.map.deviceNodes.some((node: DeviceNode) => {
+        //	if (node.id > 0 && Rectangle.contains(node, point)) {
+        //		var mouse = { left: viewPoint.x - 5, top: viewPoint.y - 5, width: 0, height: 0};
+        //		var $obj = $('<obj/>',
+        //			{
+        //				id: node.id,
+        //				'class': 'devicemenu device',
+        //				href: 'device.htm?id=' + node.id,
+        //				css: {
+        //					'background-image': 'background-image:url(/icons/devices/switch_1.png)'
+        //				},
+        //				text: node.displayName
+        //			});
+        //		$.fn.ptip.show.apply($obj[0], [mouse]);
+        //		return true;
+        //	}
+        //	return false;
+        //});
 
-	handleContextMenu(point: Point, scale: number, ev: MouseEvent): boolean {
-		let deviceGroups: DeviceGroupNode[] = this.hitTest(point, scale);
+        return true;
+    }
 
-		if (deviceGroups.length > 0) {
-			this.listener.onContextMenu("group", deviceGroups, ev);
-			return true;
-		}
+    handleContextMenu(point: Point, scale: number, ev: MouseEvent): boolean {
+        let deviceGroups: DeviceGroupNode[] = this.hitTest(point, scale);
 
-		return false;
-	}
+        if (deviceGroups.length > 0) {
+            this.listener.onContextMenu('group', deviceGroups, ev);
+            return true;
+        }
 
-	hitTest(point: Point, scale: number): DeviceGroupNode[] {
-		let groups: DeviceGroupNode[] = [];
+        return false;
+    }
 
-		this.map.deviceGroupNodes.forEach((node: DeviceGroupNode) => {
-			if (Rectangle.contains(node, point)) {
-				groups.push(node);
-			}
-		});
+    hitTest(point: Point, scale: number): DeviceGroupNode[] {
+        let groups: DeviceGroupNode[] = [];
 
-		return groups;
-	}
+        this.map.deviceGroupNodes.forEach((node: DeviceGroupNode) => {
+            if (Rectangle.contains(node, point)) {
+                groups.push(node);
+            }
+        });
 
+        return groups;
+    }
 }

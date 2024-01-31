@@ -11,179 +11,177 @@ import { TopoMapComponentListener } from './TopoMapComponent';
 import { DeviceLinkEdge } from '../dtos/topology/DeviceLinkEdge';
 import { LayoutSettings, LayoutType, LayoutDirection } from '../dtos/topology/LayoutSettings';
 
-
 export class HubNodeRenderer implements IMapRenderer {
-	private map : TopoMap;
+    private map: TopoMap;
 
-	constructor(private listener: TopoMapComponentListener) {
-		return;
-	}
+    constructor(private listener: TopoMapComponentListener) {
+        return;
+    }
 
-	public setMap(map: TopoMap): void {
-		this.map = map;
-	}
+    public setMap(map: TopoMap): void {
+        this.map = map;
+    }
 
-	public render(ctx: CanvasRenderingContext2D): void {
-		if (!this.map) return;
-		if (!TopoImageLibrary.isLoaded) return;
-			
-		this.map.hubNodes.forEach((node: HubNode) => {
-			var hubImage = HubNodeUtil.getImage(node);
-			ctx.drawImage(hubImage, node.x, node.y);
-			CanvasExtensions.drawLabel(ctx, node.centerX, node.bottom + 14, node.label);
-		});
-	}
+    public render(ctx: CanvasRenderingContext2D): void {
+        if (!this.map) return;
+        if (!TopoImageLibrary.isLoaded) return;
 
-	getMouseOverLabels(point: Point, scale:number): MouseOverLabel[] {
-		return [];
-	}
+        this.map.hubNodes.forEach((node: HubNode) => {
+            var hubImage = HubNodeUtil.getImage(node);
+            ctx.drawImage(hubImage, node.x, node.y);
+            CanvasExtensions.drawLabel(ctx, node.centerX, node.bottom + 14, node.label);
+        });
+    }
 
-	getAllLabels(): MouseOverLabel[] {
-		return [];
-	}
+    getMouseOverLabels(point: Point, scale: number): MouseOverLabel[] {
+        return [];
+    }
 
-	private dragNode: HubNode;
-	private startPoint: Point;
-	private startNodePosition: Point;
+    getAllLabels(): MouseOverLabel[] {
+        return [];
+    }
 
-	handleClick(point: Point, scale: number): boolean {
-		this.dragNode = null;
-		return this.map.hubNodes.some((node: HubNode) => {
-			if (Rectangle.contains(node, point)) {
-				this.dragNode = node;
-				this.startPoint = point;
-				this.startNodePosition = { x: node.x, y: node.y };
-				return true;
-			}
-			return false;
-		});
-	}
+    private dragNode: HubNode;
+    private startPoint: Point;
+    private startNodePosition: Point;
 
-	handleMove(point: Point, scale: number): void {
-		if (this.dragNode && this.startPoint && this.startNodePosition) {
-			let deltaX = point.x - this.startPoint.x;
-			let deltaY = point.y - this.startPoint.y;
+    handleClick(point: Point, scale: number): boolean {
+        this.dragNode = null;
+        return this.map.hubNodes.some((node: HubNode) => {
+            if (Rectangle.contains(node, point)) {
+                this.dragNode = node;
+                this.startPoint = point;
+                this.startNodePosition = { x: node.x, y: node.y };
+                return true;
+            }
+            return false;
+        });
+    }
 
-			this.dragNode.x = this.startNodePosition.x + deltaX;
-			this.dragNode.y = this.startNodePosition.y + deltaY;
+    handleMove(point: Point, scale: number): void {
+        if (this.dragNode && this.startPoint && this.startNodePosition) {
+            let deltaX = point.x - this.startPoint.x;
+            let deltaY = point.y - this.startPoint.y;
 
-			this.dragNode.centerX = this.dragNode.x + (this.dragNode.width / 2);
+            this.dragNode.x = this.startNodePosition.x + deltaX;
+            this.dragNode.y = this.startNodePosition.y + deltaY;
 
-			this.dragNode.bottom = this.dragNode.y + this.dragNode.height;
+            this.dragNode.centerX = this.dragNode.x + this.dragNode.width / 2;
 
-			this.adjustDisplayEdges(this.dragNode);
-		}
-	}
+            this.dragNode.bottom = this.dragNode.y + this.dragNode.height;
 
-	private adjustDisplayEdges(dragNode: HubNode): void {
-		this.map.displayEdges.forEach((dispEdge: DisplayEdge) => {
-			dispEdge.deviceLinkEdges.forEach((linkEdge: DeviceLinkEdge) => {
-				let connStart: Point = {
-					x: dragNode.x + dragNode.width / 2,
-					y: dragNode.y + dragNode.height / 2
-				};
+            this.adjustDisplayEdges(this.dragNode);
+        }
+    }
 
-				let localConn = linkEdge.localConnection;
-				let remoteConn = linkEdge.remoteConnection;
+    private adjustDisplayEdges(dragNode: HubNode): void {
+        this.map.displayEdges.forEach((dispEdge: DisplayEdge) => {
+            dispEdge.deviceLinkEdges.forEach((linkEdge: DeviceLinkEdge) => {
+                let connStart: Point = {
+                    x: dragNode.x + dragNode.width / 2,
+                    y: dragNode.y + dragNode.height / 2
+                };
 
-				if (localConn.nodeId == dragNode.nodeId) {
-					localConn.start = connStart;
-				}
-				if (remoteConn.nodeId == dragNode.nodeId) {
-					remoteConn.start = connStart;
-				}
+                let localConn = linkEdge.localConnection;
+                let remoteConn = linkEdge.remoteConnection;
 
-				this.adjustDeviceConnections(linkEdge);
-			});
-		});
-	}
+                if (localConn.nodeId == dragNode.nodeId) {
+                    localConn.start = connStart;
+                }
+                if (remoteConn.nodeId == dragNode.nodeId) {
+                    remoteConn.start = connStart;
+                }
 
-	private adjustDeviceConnections(linkEdge: DeviceLinkEdge): void {
-		let localConnStart = linkEdge.localConnection.start;
-		let remoteConnStart = linkEdge.remoteConnection.start;
+                this.adjustDeviceConnections(linkEdge);
+            });
+        });
+    }
 
-		let nodeMid = this.midPoint(localConnStart, remoteConnStart);
+    private adjustDeviceConnections(linkEdge: DeviceLinkEdge): void {
+        let localConnStart = linkEdge.localConnection.start;
+        let remoteConnStart = linkEdge.remoteConnection.start;
 
-		let localConnMid = this.anglePoint(localConnStart, nodeMid, this.map.layoutSettings);
-		let remoteConnMid = this.anglePoint(remoteConnStart, nodeMid, this.map.layoutSettings);
+        let nodeMid = this.midPoint(localConnStart, remoteConnStart);
 
-		let localConnEnd = {
-			x: nodeMid.x,
-			y: nodeMid.y
-		};
-		let remoteConnEnd = {
-			x: nodeMid.x,
-			y: nodeMid.y
-		};
+        let localConnMid = this.anglePoint(localConnStart, nodeMid, this.map.layoutSettings);
+        let remoteConnMid = this.anglePoint(remoteConnStart, nodeMid, this.map.layoutSettings);
 
-		linkEdge.localConnection.mid = localConnMid;
-		linkEdge.remoteConnection.mid = remoteConnMid;
+        let localConnEnd = {
+            x: nodeMid.x,
+            y: nodeMid.y
+        };
+        let remoteConnEnd = {
+            x: nodeMid.x,
+            y: nodeMid.y
+        };
 
-		linkEdge.localConnection.end = localConnEnd;
-		linkEdge.remoteConnection.end = remoteConnEnd;
-	}
+        linkEdge.localConnection.mid = localConnMid;
+        linkEdge.remoteConnection.mid = remoteConnMid;
 
-	public midPoint(a: Point, b: Point): Point {
-		return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
-	}
+        linkEdge.localConnection.end = localConnEnd;
+        linkEdge.remoteConnection.end = remoteConnEnd;
+    }
 
-	public anglePoint(nodePoint: Point, edgePoint: Point, layoutSettings: LayoutSettings): Point {
-		if (layoutSettings.layoutType != LayoutType.Hierarchical ||
-			layoutSettings.hierarchicalSettings.useStraightLinks) {
-			return this.midPoint(nodePoint, edgePoint);
-		}
-		else {
-			switch (layoutSettings.hierarchicalSettings.layoutDirection) {
-				case LayoutDirection.Right:
-				case LayoutDirection.Left:
-					return { x: edgePoint.x, y: nodePoint.y };
-				case LayoutDirection.Up:
-				case LayoutDirection.Down:
-					return { x: nodePoint.x, y: edgePoint.y };
-				default:
-					return { x: 0, y: 0 };
-			}
-		}
-	}
+    public midPoint(a: Point, b: Point): Point {
+        return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+    }
 
-	handleUp(): void {
+    public anglePoint(nodePoint: Point, edgePoint: Point, layoutSettings: LayoutSettings): Point {
+        if (
+            layoutSettings.layoutType != LayoutType.Hierarchical ||
+            layoutSettings.hierarchicalSettings.useStraightLinks
+        ) {
+            return this.midPoint(nodePoint, edgePoint);
+        } else {
+            switch (layoutSettings.hierarchicalSettings.layoutDirection) {
+                case LayoutDirection.Right:
+                case LayoutDirection.Left:
+                    return { x: edgePoint.x, y: nodePoint.y };
+                case LayoutDirection.Up:
+                case LayoutDirection.Down:
+                    return { x: nodePoint.x, y: edgePoint.y };
+                default:
+                    return { x: 0, y: 0 };
+            }
+        }
+    }
 
-		this.listener.onMoveNode(this.dragNode.nodeId, this.dragNode.x, this.dragNode.y);
+    handleUp(): void {
+        this.listener.onMoveNode(this.dragNode.nodeId, this.dragNode.x, this.dragNode.y);
 
-		this.dragNode = null;
-		this.startPoint = null;
-		this.startNodePosition = null;
-	}
+        this.dragNode = null;
+        this.startPoint = null;
+        this.startNodePosition = null;
+    }
 
-	handleDoubleClick(point: Point, scale: number): boolean {
-		return false;
-	}
+    handleDoubleClick(point: Point, scale: number): boolean {
+        return false;
+    }
 
-	handleHover(point: Point, viewPoint: Point): boolean {
-		return false;
-	}
+    handleHover(point: Point, viewPoint: Point): boolean {
+        return false;
+    }
 
-	handleContextMenu(point: Point, scale: number, ev: MouseEvent): boolean {
-		let hubs: HubNode[] = this.hitTest(point, scale);
+    handleContextMenu(point: Point, scale: number, ev: MouseEvent): boolean {
+        let hubs: HubNode[] = this.hitTest(point, scale);
 
-		if (hubs.length > 0) {
-			this.listener.onContextMenu("hub", hubs, ev);
-			return true;
-		}
+        if (hubs.length > 0) {
+            this.listener.onContextMenu('hub', hubs, ev);
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	hitTest(point: Point, scale: number): HubNode[] {
-		let hubs: HubNode[] = [];
+    hitTest(point: Point, scale: number): HubNode[] {
+        let hubs: HubNode[] = [];
 
-		this.map.hubNodes.forEach((node: HubNode) => {
-			if (Rectangle.contains(node, point)) {
-				hubs.push(node);
-			}
-		});
+        this.map.hubNodes.forEach((node: HubNode) => {
+            if (Rectangle.contains(node, point)) {
+                hubs.push(node);
+            }
+        });
 
-		return hubs;
-	}
-
+        return hubs;
+    }
 }
