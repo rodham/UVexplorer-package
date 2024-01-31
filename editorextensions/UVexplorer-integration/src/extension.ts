@@ -1,6 +1,6 @@
-import {EditorClient, JsonSerializable, Menu, Modal} from 'lucid-extension-sdk';
-import {isOpenSessionMessage} from "../model/iframe-message";
-import {UVExplorerClient} from "./uvexplorer-client";
+import { EditorClient, JsonSerializable, Menu, Modal } from 'lucid-extension-sdk';
+import { isOpenSessionMessage } from '../model/iframe-message';
+import { UVExplorerClient } from './uvexplorer-client';
 
 class UVexplorerModal extends Modal {
     private uvexplorerClient: UVExplorerClient;
@@ -20,13 +20,12 @@ class UVexplorerModal extends Modal {
         const apiKey = settings.get('apiKey');
         const serverUrl = settings.get('serverUrl');
 
-
         if (apiKey !== undefined && serverUrl !== undefined) {
-            console.log('sending key to iframe', settings.get('apiKey'))
+            console.log('sending key to iframe', settings.get('apiKey'));
             await this.sendMessage({
-                'action': 'openSession',
-                'apiKey': apiKey,
-                'serverUrl': serverUrl
+                action: 'openSession',
+                apiKey: apiKey,
+                serverUrl: serverUrl
             });
         }
     }

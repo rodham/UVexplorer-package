@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormsModule } from "@angular/forms";
-import { SessionInfo } from "../../../../model/uvexplorer-model";
-import {isOpenSessionMessage} from "../../../../model/iframe-message";
+import { FormsModule } from '@angular/forms';
+import { SessionInfo } from '../../../../model/uvexplorer-model';
+import { isOpenSessionMessage } from '../../../../model/iframe-message';
 
 @Component({
   selector: 'login',
@@ -21,7 +21,7 @@ export class LoginComponent {
         this.apiKey = e.data.apiKey;
         this.serverUrl = e.data.serverUrl;
       }
-    })
+    });
   }
 
   login() {
@@ -29,12 +29,15 @@ export class LoginComponent {
       return;
     }
 
-    parent.postMessage({
-      'action': 'openSession',
-      'apiKey': this.apiKey,
-      'serverUrl': this.serverUrl
-    }, '*');
-    console.log("Successfully sent message to parent")
+    parent.postMessage(
+      {
+        action: 'openSession',
+        apiKey: this.apiKey,
+        serverUrl: this.serverUrl
+      },
+      '*'
+    );
+    console.log('Successfully sent message to parent');
   }
 
   @Output() onLogin = new EventEmitter<SessionInfo>();
