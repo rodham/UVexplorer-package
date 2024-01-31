@@ -3,3 +3,4 @@ resources/*
 webpack.config.js
 .eslintrc.js
 bin/*
+model/bundle/*
