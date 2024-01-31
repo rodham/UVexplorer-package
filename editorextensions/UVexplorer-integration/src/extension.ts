@@ -1,14 +1,18 @@
 import {EditorClient, JsonSerializable, Menu, Modal} from 'lucid-extension-sdk';
 import {isOpenSessionMessage} from "../model/iframe-message";
+import {UVExplorerClient} from "./uvexplorer-client";
 
-class HelloWorldModal extends Modal {
+class UVexplorerModal extends Modal {
+    private uvexplorerClient: UVExplorerClient;
     constructor(client: EditorClient) {
         super(client, {
-            title: 'Hello world',
+            title: 'UVexplorer',
             width: 800,
             height: 600,
-            url: 'http://localhost:4200'
+            url: 'http://localhost:4200/login'
         });
+
+        this.uvexplorerClient = new UVExplorerClient(client);
     }
 
     public async checkSettings() {
@@ -31,6 +35,10 @@ class HelloWorldModal extends Modal {
         if (isOpenSessionMessage(message)) {
             const apiKey: string = message.apiKey;
             const serverUrl: string = message.serverUrl;
+
+            const sessionGuid: string = await this.uvexplorerClient.openSession(serverUrl, apiKey);
+            console.log(sessionGuid);
+
             await this.openSession(apiKey, serverUrl);
         }
     }
@@ -45,11 +53,33 @@ class HelloWorldModal extends Modal {
     }
 }
 
+class FirstModal extends Modal {
+    constructor(client: EditorClient) {
+        super(client, {
+            title: 'First',
+            width: 800,
+            height: 600,
+            url: 'http://localhost:4200/first'
+        });
+    }
+}
+
+class SecondModal extends Modal {
+    constructor(client: EditorClient) {
+        super(client, {
+            title: 'Second',
+            width: 800,
+            height: 600,
+            url: 'http://localhost:4200/second'
+        });
+    }
+}
+
 const client = new EditorClient();
 const menu = new Menu(client);
 
-client.registerAction('hello', () => {
-    const modal = new HelloWorldModal(client);
+client.registerAction('login', () => {
+    const modal = new UVexplorerModal(client);
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     modal.checkSettings();
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -57,7 +87,28 @@ client.registerAction('hello', () => {
 });
 
 menu.addDropdownMenuItem({
-    label: 'Say Hello',
-    action: 'hello'
+    label: 'Login',
+    action: 'login'
 });
 
+client.registerAction('first', () => {
+    const modal = new FirstModal(client);
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    modal.show();
+});
+
+menu.addDropdownMenuItem({
+    label: 'First',
+    action: 'first'
+});
+
+client.registerAction('second', () => {
+    const modal = new SecondModal(client);
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    modal.show();
+});
+
+menu.addDropdownMenuItem({
+    label: 'Second',
+    action: 'second'
+});

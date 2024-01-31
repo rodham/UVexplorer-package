@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "test-editor-extension": "npx lucid-package test-editor-extension UVexplorer-integration"
+  }
+}

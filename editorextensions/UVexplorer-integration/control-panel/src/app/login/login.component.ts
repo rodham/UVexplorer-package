@@ -13,7 +13,6 @@ export class LoginComponent {
   title = 'login';
   serverUrl = ''; //https://server.uvexplorer.com:5189/
   apiKey = ''; //4aff2a87-e76a-4fbc-a699-7c6db610cd88
-  receivedSettingsFromParent = false;
 
   constructor() {
     window.addEventListener('message', (e) => {
@@ -26,32 +25,16 @@ export class LoginComponent {
   }
 
   async login() {
-    try {
-      if (this.serverUrl === '' || this.apiKey === '') {
-        return;
-      }
-
-      const response = await fetch(this.serverUrl + 'public/api/v1/session', {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer ' + this.apiKey
-        }
-      });
-
-      if (!this.receivedSettingsFromParent) {
-        const result = await response.text();
-        console.log(result);
-        parent.postMessage({
-          'action': 'openSession',
-          'apiKey': this.apiKey,
-          'serverUrl': this.serverUrl
-        }, '*');
-        console.log("Successfully sent message to parent")
-      }
-    } catch (error) {
-      console.log('Error: ',error);
-      throw error;
+    if (this.serverUrl === '' || this.apiKey === '') {
+      return;
     }
+
+    parent.postMessage({
+      'action': 'openSession',
+      'apiKey': this.apiKey,
+      'serverUrl': this.serverUrl
+    }, '*');
+    console.log("Successfully sent message to parent")
   }
 
   @Output() onLogin = new EventEmitter<SessionInfo>();
