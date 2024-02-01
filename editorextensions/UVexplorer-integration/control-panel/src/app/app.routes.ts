@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { SecondComponent } from './SecondComponent/second.component';
 import { FirstComponent } from './FirstComponent/first.component';
-import { LoginComponent } from './login/login.component';
+import { NetworksComponent } from './networks/networks.component';
 
 export const routes: Routes = [
   {
@@ -13,7 +13,7 @@ export const routes: Routes = [
     component: SecondComponent
   },
   {
-    path: 'login',
-    component: LoginComponent
+    path: 'networks',
+    component: NetworksComponent
   }
 ];
