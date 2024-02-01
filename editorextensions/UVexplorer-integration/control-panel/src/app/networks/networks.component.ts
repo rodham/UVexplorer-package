@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NetworkSummary } from '../../../../model/uvexplorer-model';
 import { NgForOf } from '@angular/common';
+import { isListNetworksMessage } from '../../../../model/message';
 
 @Component({
   selector: 'networks',
@@ -11,8 +12,20 @@ import { NgForOf } from '@angular/common';
 })
 export class NetworksComponent {
   title = 'networks';
-  networks: NetworkSummary[] = [];
+  network_summaries: NetworkSummary[] = [];
   selectedNetwork = '';
+
+  constructor() {
+    window.addEventListener('message', (e) => {
+      console.log('Received a message from the parent.')
+      console.log(e.data)
+      if (isListNetworksMessage(e.data)) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        this.network_summaries = JSON.parse(e.data.network_summaries);
+      }
+    });
+  }
+
 
   loadNetwork() {
     parent.postMessage(
@@ -22,6 +35,5 @@ export class NetworksComponent {
       },
       '*'
     );
-    console.log('Successfully sent message to parent');
   }
 }

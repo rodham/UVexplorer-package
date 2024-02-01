@@ -1,4 +1,4 @@
-import { EditorClient, Menu, Modal } from 'lucid-extension-sdk';
+import { EditorClient, Menu, Modal, Viewport } from 'lucid-extension-sdk';
 import { UVexplorerModal } from './uvexplorer-modal';
 
 class FirstModal extends Modal {
@@ -25,22 +25,24 @@ class SecondModal extends Modal {
 
 const client = new EditorClient();
 const menu = new Menu(client);
+const viewport: Viewport = new Viewport(client);
 
 client.registerAction('loadNetwork', async () => {
-    const modal = new UVexplorerModal(client);
+    const modal = new UVexplorerModal(client, viewport);
+
+    // Configuring settings using the showPackageSettingsModal() did not work locally
+    // await modal.configureSetting('apiKey');
+    // await modal.configureSetting('serverUrl');
 
     const additionalSettings: Map<string, string> = new Map<string, string>();
     additionalSettings.set('apiKey', '4aff2a87-e76a-4fbc-a699-7c6db610cd88');
     additionalSettings.set('serverUrl', 'https://server.uvexplorer.com:5189');
     await client.setPackageSettings(additionalSettings);
 
-    // await modal.configureSetting('apiKey');
-    // await modal.configureSetting('serverUrl');
     await modal.loadSettings();
     await modal.openSession();
-    await modal.listNetworks();
-
     await modal.show();
+    await modal.listNetworks();
 });
 
 menu.addDropdownMenuItem({
@@ -67,3 +69,9 @@ menu.addDropdownMenuItem({
     label: 'Second',
     action: 'second'
 });
+
+async function init() {
+    await client.loadBlockClasses(['LucidCardBlock']);
+}
+
+void init();

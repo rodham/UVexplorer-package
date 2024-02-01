@@ -43,7 +43,7 @@ export class UVExplorerClient {
     }
 
     public async loadNetwork(serverUrl: string, sessionGuid: string, networkRequest: NetworkRequest): Promise<void> {
-        const url = serverUrl + this.basePath + '/network/networks';
+        const url = serverUrl + this.basePath + '/network/load';
         const data = JSON.stringify(networkRequest);
         await this.sendXHRRequest(url, sessionGuid, 'POST', data);
     }

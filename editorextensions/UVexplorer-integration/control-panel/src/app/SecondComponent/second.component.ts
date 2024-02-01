@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
+  selector: 'second',
   standalone: true,
   imports: [],
   templateUrl: './second.component.html',
