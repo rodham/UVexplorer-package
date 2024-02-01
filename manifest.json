@@ -22,5 +22,19 @@
     }
   ],
   "shapeLibraries": [],
-  "oauthProviders": []
+  "oauthProviders": [],
+  "settings": [
+    {
+      "name": "apiKey",
+      "label": "UVexplorer API Key",
+      "description": "API Keys can be found or generated from within UVexplorer.",
+      "type": "string"
+    },
+    {
+      "name": "serverUrl",
+      "label": "UVexplorer Server URL",
+      "description": "The URL of your UVexplorer server.",
+      "type": "string"
+    }
+  ]
 }

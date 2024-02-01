@@ -2,9 +2,12 @@ import { EditorClient, isTextXHRResponse, XHRRequest, XHRResponse } from 'lucid-
 import {
     Device,
     DeviceListRequest,
-    DeviceListResponse,
+    InfoSet,
+    isDeviceCategoryListResponse,
+    isDeviceListResponse,
+    isInfoSetListResponse,
+    isNetworkSummariesResponse,
     NetworkRequest,
-    NetworkSummariesResponse,
     NetworkSummary
 } from '../model/uvexplorer-model';
 
@@ -31,15 +34,16 @@ export class UVExplorerClient {
         const url = serverUrl + this.basePath + '/network/list';
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
         if (isTextXHRResponse(response)) {
-            //eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            const networkSummariesResponse: NetworkSummariesResponse = JSON.parse(response.responseText);
-            return networkSummariesResponse.network_summaries;
+            const data: unknown = JSON.parse(response.responseText)
+            if (isNetworkSummariesResponse(data)) {
+                return data.network_summaries;
+            }
         }
         return [];
     }
 
     public async loadNetwork(serverUrl: string, sessionGuid: string, networkRequest: NetworkRequest): Promise<void> {
-        const url = serverUrl + this.basePath + '/network/load';
+        const url = serverUrl + this.basePath + '/network/networks';
         const data = JSON.stringify(networkRequest);
         await this.sendXHRRequest(url, sessionGuid, 'POST', data);
     }
@@ -58,9 +62,36 @@ export class UVExplorerClient {
         const data = JSON.stringify(deviceListRequest);
         const response = await this.sendXHRRequest(url, sessionGuid, 'POST', data);
         if (isTextXHRResponse(response)) {
-            //eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            const deviceListResponse: DeviceListResponse = JSON.parse(response.responseText);
-            return deviceListResponse.devices;
+            const data: unknown = JSON.parse(response.responseText);
+            if (isDeviceListResponse(data)) {
+                return data.devices;
+            }
+        }
+        return [];
+    }
+
+    public async listDeviceCategories(serverUrl: string, sessionGuid: string,): Promise<string[]> {
+        const url = serverUrl + this.basePath + '/device/category/list';
+        const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
+        if (isTextXHRResponse(response)) {
+            const data: unknown = JSON.parse(response.responseText);
+            if (isDeviceCategoryListResponse(data)){
+                return data.device_categories;
+
+            }
+        }
+        return [];
+    }
+
+    public async listDeviceInfoSets(serverUrl: string, sessionGuid: string,): Promise<InfoSet[]> {
+        const url = serverUrl + this.basePath + '/device/infoset/list';
+        const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
+        if (isTextXHRResponse(response)) {
+            const data: unknown = JSON.parse(response.responseText);
+            if (isInfoSetListResponse(data)) {
+                return data.info_sets;
+
+            }
         }
         return [];
     }
