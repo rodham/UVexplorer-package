@@ -17,15 +17,14 @@ export class NetworksComponent {
 
   constructor() {
     window.addEventListener('message', (e) => {
-      console.log('Received a message from the parent.')
-      console.log(e.data)
+      console.log('Received a message from the parent.');
+      console.log(e.data);
       if (isListNetworksMessage(e.data)) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         this.network_summaries = JSON.parse(e.data.network_summaries);
       }
     });
   }
-
 
   loadNetwork() {
     parent.postMessage(

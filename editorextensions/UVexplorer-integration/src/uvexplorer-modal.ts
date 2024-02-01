@@ -27,7 +27,7 @@ export class UVexplorerModal extends Modal {
         if (!settings.get(setting)) {
             if (await this.client.canEditPackageSettings()) {
                 await this.client.alert(
-                    `You have not configured the ${setting}. You will now be prompted to complete that configuration.`,
+                    `You have not configured the ${setting}. You will now be prompted to complete that configuration.`
                 );
                 await this.client.showPackageSettingsModal();
                 settings = await this.client.getPackageSettings();
@@ -36,7 +36,7 @@ export class UVexplorerModal extends Modal {
                 }
             } else {
                 await this.client.alert(
-                    `Your account has not configured the ${setting}. Talk with your Lucid account administrator to complete configuration.`,
+                    `Your account has not configured the ${setting}. Talk with your Lucid account administrator to complete configuration.`
                 );
             }
         }
@@ -65,12 +65,12 @@ export class UVexplorerModal extends Modal {
 
     async listNetworks() {
         const networks = await this.uvexplorerClient.listNetworks(this.serverUrl, this.sessionGuid);
-        const filteredNetworks = networks.filter(n => n.name !== "");
+        const filteredNetworks = networks.filter((n) => n.name !== '');
         console.log(`Successfully retrieved network list.`);
         await this.sendMessage({
             action: 'listNetworks',
             network_summaries: JSON.stringify(filteredNetworks)
-        })
+        });
     }
 
     async loadNetwork(networkGuid: string) {
@@ -80,11 +80,11 @@ export class UVexplorerModal extends Modal {
     }
 
     protected async messageFromFrame(message: JsonSerializable) {
-        console.log('Received a message from the child.')
-        console.log(message)
+        console.log('Received a message from the child.');
+        console.log(message);
         if (isLoadNetworkMessage(message)) {
-            await this.loadNetwork(message.network_guid)
-            await this.demo(message.network_guid)
+            await this.loadNetwork(message.network_guid);
+            await this.demo(message.network_guid);
         }
     }
 
@@ -93,11 +93,11 @@ export class UVexplorerModal extends Modal {
         const page = this.viewport.getCurrentPage();
         if (page != undefined) {
             const oldBlocks = page.allBlocks.map((entry) => {
-                return entry
+                return entry;
             });
             oldBlocks.forEach((block) => {
-                block.delete()
-            })
+                block.delete();
+            });
 
             const { x, y, w, h } = this.viewport.getVisibleRect();
             const center_x = x + w / 2;
@@ -122,7 +122,4 @@ export class UVexplorerModal extends Modal {
         await this.closeSession();
         this.hide();
     }
-
-
-
 }

@@ -34,7 +34,7 @@ export class UVExplorerClient {
         const url = serverUrl + this.basePath + '/network/list';
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
         if (isTextXHRResponse(response)) {
-            const data: unknown = JSON.parse(response.responseText)
+            const data: unknown = JSON.parse(response.responseText);
             if (isNetworkSummariesResponse(data)) {
                 return data.network_summaries;
             }
@@ -70,27 +70,25 @@ export class UVExplorerClient {
         return [];
     }
 
-    public async listDeviceCategories(serverUrl: string, sessionGuid: string,): Promise<string[]> {
+    public async listDeviceCategories(serverUrl: string, sessionGuid: string): Promise<string[]> {
         const url = serverUrl + this.basePath + '/device/category/list';
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
         if (isTextXHRResponse(response)) {
             const data: unknown = JSON.parse(response.responseText);
-            if (isDeviceCategoryListResponse(data)){
+            if (isDeviceCategoryListResponse(data)) {
                 return data.device_categories;
-
             }
         }
         return [];
     }
 
-    public async listDeviceInfoSets(serverUrl: string, sessionGuid: string,): Promise<InfoSet[]> {
+    public async listDeviceInfoSets(serverUrl: string, sessionGuid: string): Promise<InfoSet[]> {
         const url = serverUrl + this.basePath + '/device/infoset/list';
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
         if (isTextXHRResponse(response)) {
             const data: unknown = JSON.parse(response.responseText);
             if (isInfoSetListResponse(data)) {
                 return data.info_sets;
-
             }
         }
         return [];

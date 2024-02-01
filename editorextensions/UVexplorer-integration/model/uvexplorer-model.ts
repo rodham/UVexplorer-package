@@ -31,8 +31,6 @@ export function isInfoSetListResponse(data: unknown): data is InfoSetListRespons
     );
 }
 
-
-
 export class NetworkRequest {
     network_guid: string;
     agent_guid?: string;
@@ -124,12 +122,12 @@ interface IpScope {
 }
 
 interface DeviceCategoryFilter {
-    category_filter_type: "All" | "Any";
+    category_filter_type: 'All' | 'Any';
     category_names: string[];
 }
 
 export class DeviceFilter {
-    include_scope: "NoDevices" | "AllDevices" | "AllNetworkDevices" | "AllSnmpDevices";
+    include_scope: 'NoDevices' | 'AllDevices' | 'AllNetworkDevices' | 'AllSnmpDevices';
     device_names?: string[];
     ip_scopes?: IpScope[];
     device_categories?: DeviceCategoryFilter;
@@ -137,7 +135,7 @@ export class DeviceFilter {
     system_oids?: string[];
 
     constructor(data: {
-        include_scope: "NoDevices" | "AllDevices" | "AllNetworkDevices" | "AllSnmpDevices";
+        include_scope: 'NoDevices' | 'AllDevices' | 'AllNetworkDevices' | 'AllSnmpDevices';
         device_names?: string[];
         ip_scopes?: IpScope[];
         device_categories?: DeviceCategoryFilter;
