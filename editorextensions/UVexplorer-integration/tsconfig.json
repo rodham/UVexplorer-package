@@ -1,4 +1,5 @@
 {
+    "composite": true,
     "compilerOptions": {
         "declaration": true,
         "emitDecoratorMetadata": true,
@@ -21,7 +22,6 @@
         "strictNullChecks": true,
         "strictPropertyInitialization": true,
         "target": "ES2017",
-        "types": [],
         "lib": [
             "es5",
             "es6",

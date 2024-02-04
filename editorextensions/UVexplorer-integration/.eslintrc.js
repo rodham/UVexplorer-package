@@ -8,7 +8,8 @@ module.exports = {
     plugins: ['@typescript-eslint'],
     parser: '@typescript-eslint/parser',
     parserOptions: {
-        project: true,
+        project: ['./tsconfig.eslint.json'],
+        // project: true,
         tsconfigRootDir: __dirname
     },
     root: true,
@@ -18,7 +19,7 @@ module.exports = {
             extends: ['plugin:@typescript-eslint/disable-type-checked']
         },
         {
-            files: ['**/*.test.js', '**/*.spec.ts', '**/*.test.ts'],
+            files: ['**/*.test.js', '**/*.test.ts', 'test/**/*'],
             env: {
                 jest: true
             },
@@ -31,7 +32,15 @@ module.exports = {
                 'jest/prefer-to-have-length': 'warn',
                 'jest/valid-expect': 'error'
             }
+        },
+        {
+            files: ['**/*.spec.ts'],
+            plugins: ['jasmine'],
+            env: {
+                jasmine: true
+            },
+            extends: ['plugin:jasmine/recommended']
         }
     ],
-    ignorePatterns: ['*.d.ts']
+    ignorePatterns: ['*.d.ts', '*.config.ts']
 };
