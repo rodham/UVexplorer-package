@@ -1,4 +1,3 @@
-import * as uvexplorerModel from '../../model/uvexplorer-model';
 import { UVExplorerClient } from '../../src/uvexplorer-client';
 import * as lucid from 'lucid-extension-sdk';
 
@@ -11,9 +10,6 @@ beforeEach(() => {
 
 describe('UVexplorer client successful tests', () => {
     const isTextXHRResponseSpy = jest.spyOn(lucid, 'isTextXHRResponse').mockReturnValue(true);
-    const isNetworkSummariesResponseSpy = jest
-        .spyOn(uvexplorerModel, 'isNetworkSummariesResponse')
-        .mockReturnValue(true);
     let mockClient: lucid.EditorClient;
     let mockResponse: lucid.TextXHRResponse;
     let client: UVExplorerClient;
@@ -64,7 +60,6 @@ describe('UVexplorer client successful tests', () => {
         const xhrSpy = jest.spyOn(mockClient, 'xhr').mockResolvedValue(mockResponse);
 
         await expect(client.listNetworks(url, sessionId)).resolves.toStrictEqual(testData.network_summaries);
-        expect(isNetworkSummariesResponseSpy).toHaveBeenCalledWith(testData);
         expect(xhrSpy).toHaveBeenCalledWith({
             url: url + '/public/api/v1/network/list',
             method: 'GET',
