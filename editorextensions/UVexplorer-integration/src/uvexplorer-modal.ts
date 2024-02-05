@@ -7,6 +7,7 @@ import {
     createOrRetrieveDeviceCollection,
     createOrRetrieveNetworkSource
 } from './data-collections';
+import { NetworkDeviceBlock } from './network-device-shape';
 
 export class UVexplorerModal extends Modal {
     private viewport: Viewport;
@@ -101,5 +102,11 @@ export class UVexplorerModal extends Modal {
             const source = await this.loadNetwork(message.name, message.network_guid);
             await this.loadDevices(source);
         }
+    }
+
+    async loadDeviceShapes() {
+        const newBlock = new NetworkDeviceBlock("0", this.client);
+        await newBlock.createCustomBlock();
+        console.log("Tried to create a new block");
     }
 }

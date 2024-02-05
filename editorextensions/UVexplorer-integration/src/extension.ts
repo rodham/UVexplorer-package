@@ -72,7 +72,7 @@ menu.addDropdownMenuItem({
 
 async function init() {
     await client.loadBlockClasses(['LucidCardBlock']);
-    await client.loadBlockClasses(['FirstBlock']);
+    await client.loadBlockClasses(['NetworkDeviceBlock']);
 }
 
 void init();

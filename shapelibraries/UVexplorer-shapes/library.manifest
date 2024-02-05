@@ -1,9 +1,9 @@
 {
-    "name": "Test Library",
+    "name": "UVexplorer Shape Library",
     "shapes": [
         {
-            "shape": "first",
-            "name": "Test Shape",
+            "shape": "networkDevice",
+            "name": "Network Device",
             "defaults": {
                 "width": 150,
                 "height": 150
