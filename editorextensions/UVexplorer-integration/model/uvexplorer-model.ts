@@ -1,15 +1,35 @@
-export interface DeviceCategoryListResponse {
-    device_categories: string[];
+export interface DeviceDetailsResponse {
+    deviceGuid: string;
+    displayName: string;
+    infoSets: DeviceDetailsInfoSet[];
 }
 
-export function isDeviceCategoryListResponse(data: unknown): data is DeviceCategoryListResponse {
-    return (
-        typeof data === 'object' &&
-        data !== null &&
-        'device_categories' in data &&
-        Array.isArray(data.device_categories) &&
-        data.device_categories.every((category: unknown) => typeof category === 'string')
-    );
+interface DeviceDetailsInfoSet {
+    infoSetName: string;
+    title: string;
+    columns: Column[];
+    entries: Entry[];
+}
+
+interface Column {
+    field: string;
+    header: string;
+    type: string;
+    visible: boolean;
+}
+
+interface Entry {
+    groupKey: string;
+    values: Value[];
+}
+
+interface Value {
+    value: string;
+    tagText: string;
+}
+
+export interface DeviceCategoryListResponse {
+    device_categories: string[];
 }
 
 export interface InfoSet {
@@ -19,16 +39,6 @@ export interface InfoSet {
 
 export interface InfoSetListResponse {
     info_sets: InfoSet[];
-}
-
-export function isInfoSetListResponse(data: unknown): data is InfoSetListResponse {
-    return (
-        typeof data === 'object' &&
-        data !== null &&
-        'info_sets' in data &&
-        Array.isArray(data.info_sets) &&
-        data.info_sets.every((infoSet: unknown) => typeof infoSet === 'object' && infoSet !== null)
-    );
 }
 
 export class NetworkRequest {
@@ -47,16 +57,6 @@ export class NetworkRequest {
 
 export interface NetworkSummariesResponse {
     network_summaries: NetworkSummary[];
-}
-
-export function isNetworkSummariesResponse(data: unknown): data is NetworkSummariesResponse {
-    return (
-        typeof data === 'object' &&
-        data !== null &&
-        'network_summaries' in data &&
-        Array.isArray(data.network_summaries) &&
-        data.network_summaries.every((summary: unknown) => typeof summary === 'object' && summary !== null)
-    );
 }
 
 export interface NetworkSummary {
@@ -151,6 +151,102 @@ export class DeviceFilter {
     }
 }
 
+// ConnectedDevicesRequest
+export class ConnectedDevicesRequest {
+    device_guids: string[];
+    device_filter?: DeviceFilter;
+    info_set_names?: string[];
+
+    constructor(device_guids: string[], device_filter: DeviceFilter, info_set_names: string[]) {
+        this.device_guids = device_guids;
+        this.device_filter = device_filter;
+        this.info_set_names = info_set_names;
+    }
+}
+
+// TopoMapRequest
+interface LayoutSettings {
+    layoutType: 'Manual' | 'Radial' | 'Hierarchical' | 'Ring';
+    useStraightLinks: boolean;
+    showLayer2Links: boolean;
+    showVirtualLinks: boolean;
+    showWirelessLinks: boolean;
+    showIpPhoneLinks: boolean;
+    showLinkLabels: boolean;
+    radialSettings?: {
+        minRadius: number;
+        maxRadius: number;
+        maxAngle: number;
+        maximizeRoot: boolean;
+    };
+    hierarchicalSettings?: {
+        levelSpacing: number;
+        useStraightLinks: boolean;
+        nodeSpacing: number;
+        layoutDirection: 'Left' | 'Right' | 'Up' | 'Down';
+        rootAlignment: 'Left' | 'Center' | 'Right';
+    };
+    ringSettings?: {
+        minRadius: number;
+        maxRadius: number;
+        maxAngle: number;
+        maximizeRoot: boolean;
+    };
+}
+
+interface DrawSettings {
+    shortDeviceNames: boolean;
+    deviceTrimLeft: boolean;
+    deviceTrimRight: boolean;
+    deviceTrimLeftChar: string;
+    deviceTrimRightChar: string;
+    deviceTrimRightCount: number;
+    deviceTrimLeftCount: number;
+    shortIfNames: boolean;
+    hideVendorImage: boolean;
+    hidePlatformImage: boolean;
+    deviceDisplaySetting: 'Default' | 'Hostname' | 'IpAddress' | 'HostnameAndIpAddress';
+    standardPen: PenPattern;
+    lagPen: PenPattern;
+    manualPen: PenPattern;
+    associatedPen: PenPattern;
+    multiPen: PenPattern;
+    stpForwardingPen: PenPattern;
+    stpBlockingPen: PenPattern;
+}
+
+interface PenPattern {
+    color: {
+        red: number;
+        green: number;
+        blue: number;
+    };
+    width: number;
+    dashStyle: 'Solid' | 'Dash' | 'Dot' | 'DashDot' | 'DashDotDot';
+}
+
+export class TopoMapRequest {
+    deviceGuids?: string[];
+    primaryDeviceFilter?: DeviceFilter;
+    connectedDeviceFilter?: DeviceFilter;
+    layoutSettings: LayoutSettings;
+    drawSettings: DrawSettings;
+
+    constructor(
+        deviceGuids: string[],
+        primaryDeviceFilter: DeviceFilter,
+        connectedDeviceFilter: DeviceFilter,
+        layoutSettings: LayoutSettings,
+        drawSettings: DrawSettings
+    ) {
+        this.deviceGuids = deviceGuids;
+        this.primaryDeviceFilter = primaryDeviceFilter;
+        this.connectedDeviceFilter = connectedDeviceFilter;
+        this.layoutSettings = layoutSettings;
+        this.drawSettings = drawSettings;
+    }
+}
+
 // DeviceListRequest
 export class DeviceListRequest {
     device_filter?: DeviceFilter;
@@ -168,7 +264,7 @@ interface CollectorProfileEntry {
     source_name: string;
 }
 
-interface DeviceClass {
+export interface DeviceClass {
     collector_profile: {
         entries: CollectorProfileEntry[];
     };
@@ -179,7 +275,7 @@ interface DeviceCategoryEntry {
     source_name: string;
 }
 
-interface DeviceCategories {
+export interface DeviceCategories {
     entries: DeviceCategoryEntry[];
 }
 
@@ -188,7 +284,7 @@ interface ProtocolProfileEntry {
     protocol_settings: unknown;
 }
 
-interface ProtocolProfile {
+export interface ProtocolProfile {
     entries: ProtocolProfileEntry[];
 }
 
@@ -196,17 +292,7 @@ export interface DeviceListResponse {
     devices: Device[];
 }
 
-export function isDeviceListResponse(data: unknown): data is DeviceListResponse {
-    return (
-        typeof data === 'object' &&
-        data !== null &&
-        'devices' in data &&
-        Array.isArray(data.devices) &&
-        data.devices.every((device: unknown) => typeof device === 'object' && device !== null)
-    );
-}
-
-export interface Device {
+export class Device {
     ip_address: string;
     mac_address: string;
     guid: string;
@@ -215,4 +301,24 @@ export interface Device {
     device_categories: DeviceCategories;
     protocol_profile: ProtocolProfile;
     timestamp: string;
+
+    constructor(
+        ip_address: string,
+        mac_address: string,
+        guid: string,
+        info_sets: unknown,
+        device_class: DeviceClass,
+        device_categories: DeviceCategories,
+        protocol_profile: ProtocolProfile,
+        timestamp: string
+    ) {
+        this.ip_address = ip_address;
+        this.mac_address = mac_address;
+        this.guid = guid;
+        this.info_sets = info_sets;
+        this.device_class = device_class;
+        this.device_categories = device_categories;
+        this.protocol_profile = protocol_profile;
+        this.timestamp = timestamp;
+    }
 }

@@ -1,7 +1,12 @@
-import { CardBlockProxy, EditorClient, JsonSerializable, Modal, Viewport } from 'lucid-extension-sdk';
+import { DataSourceProxy, EditorClient, JsonSerializable, Modal, Viewport } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvexplorer-client';
 import { isLoadNetworkMessage } from '../model/message';
-import { NetworkRequest } from '../model/uvexplorer-model';
+import { DeviceListRequest, NetworkRequest } from '../model/uvexplorer-model';
+import {
+    addDevicesToCollection,
+    createOrRetrieveDeviceCollection,
+    createOrRetrieveNetworkSource
+} from './data-collections';
 
 export class UVexplorerModal extends Modal {
     private viewport: Viewport;
@@ -73,53 +78,28 @@ export class UVexplorerModal extends Modal {
         });
     }
 
-    async loadNetwork(networkGuid: string) {
-        const networkRequest = new NetworkRequest(networkGuid);
+    async loadNetwork(name: string, guid: string) {
+        const networkRequest = new NetworkRequest(guid);
         await this.uvexplorerClient.loadNetwork(this.serverUrl, this.sessionGuid, networkRequest);
-        console.log(`Successfully loaded network: ${networkGuid}`);
+        const source = createOrRetrieveNetworkSource(name, guid);
+        console.log(`Successfully loaded network: ${name}`);
+        return source;
+    }
+
+    async loadDevices(source: DataSourceProxy) {
+        const collection = createOrRetrieveDeviceCollection(source);
+        const deviceListRequest = new DeviceListRequest();
+        const devices = await this.uvexplorerClient.listDevices(this.serverUrl, this.sessionGuid, deviceListRequest);
+        addDevicesToCollection(collection, devices);
+        console.log(`Successfully loaded devices: ${source.getName()}`);
     }
 
     protected async messageFromFrame(message: JsonSerializable) {
         console.log('Received a message from the child.');
         console.log(message);
         if (isLoadNetworkMessage(message)) {
-            await this.loadNetwork(message.network_guid);
-            await this.demo(message.network_guid);
+            const source = await this.loadNetwork(message.name, message.network_guid);
+            await this.loadDevices(source);
         }
-    }
-
-    // TODO: Delete this demo code when development continues
-    async demo(networkGuid: string) {
-        const page = this.viewport.getCurrentPage();
-        if (page != undefined) {
-            const oldBlocks = page.allBlocks.map((entry) => {
-                return entry;
-            });
-            oldBlocks.forEach((block) => {
-                block.delete();
-            });
-
-            const { x, y, w, h } = this.viewport.getVisibleRect();
-            const center_x = x + w / 2;
-            const center_y = y + h / 2;
-
-            //why here?
-            const block = page.addBlock({
-                className: 'LucidCardBlock',
-                boundingBox: {
-                    x: center_x,
-                    y: center_y,
-                    w: w / 30,
-                    h: h / 20
-                }
-            });
-
-            if (block instanceof CardBlockProxy) {
-                block.setTitle('Success!');
-                block.setDescription(`Loaded network: ${networkGuid}`);
-            }
-        }
-        await this.closeSession();
-        this.hide();
     }
 }

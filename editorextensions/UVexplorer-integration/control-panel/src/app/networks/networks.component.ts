@@ -13,7 +13,14 @@ import { isListNetworksMessage } from '../../../../model/message';
 export class NetworksComponent {
   title = 'networks';
   network_summaries: NetworkSummary[] = [];
-  selectedNetwork = '';
+  selectedNetwork: NetworkSummary = {
+    guid: '',
+    name: '',
+    description: '',
+    agent_summaries: [],
+    created_time: '',
+    modified_time: ''
+  };
 
   constructor() {
     window.addEventListener('message', (e) => {
@@ -30,7 +37,8 @@ export class NetworksComponent {
     parent.postMessage(
       {
         action: 'loadNetwork',
-        network_guid: this.selectedNetwork
+        name: this.selectedNetwork.name,
+        network_guid: this.selectedNetwork.guid
       },
       '*'
     );

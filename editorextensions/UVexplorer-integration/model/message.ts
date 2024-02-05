@@ -17,6 +17,7 @@ export function isListNetworksMessage(message: unknown): message is ListNetworks
 
 export interface LoadNetworkMessage {
     action: 'loadNetwork';
+    name: string;
     network_guid: string;
 }
 
@@ -26,6 +27,8 @@ export function isLoadNetworkMessage(message: unknown): message is LoadNetworkMe
         message !== null &&
         'action' in message &&
         typeof message.action === 'string' &&
+        'name' in message &&
+        typeof message.name === 'string' &&
         message.action === 'loadNetwork' &&
         'network_guid' in message &&
         typeof message.network_guid === 'string'
