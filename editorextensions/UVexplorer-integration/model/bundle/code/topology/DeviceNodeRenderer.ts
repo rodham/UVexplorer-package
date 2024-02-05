@@ -11,253 +11,250 @@ import { TopoMapComponentListener } from './TopoMapComponent';
 import { DeviceLinkEdge } from '../dtos/topology/DeviceLinkEdge';
 import { LayoutSettings, LayoutType, LayoutDirection } from '../dtos/topology/LayoutSettings';
 
+
 export class DeviceNodeRenderer implements IMapRenderer {
-    private static iconOffset = 3;
-    private map: TopoMap;
+	private static iconOffset = 3;
+	private map: TopoMap;
 
-    constructor(private listener: TopoMapComponentListener) {
-        return;
-    }
+	constructor(private listener: TopoMapComponentListener) {
+		return;
+	}
 
-    public setMap(map: TopoMap) {
-        this.map = map;
-    }
+	public setMap(map: TopoMap) {
+		this.map = map;
+	}
 
-    public render(ctx: CanvasRenderingContext2D): void {
-        if (!this.map) return;
-        if (!TopoImageLibrary.isLoaded) return;
+	public render(ctx: CanvasRenderingContext2D): void {
+		if (!this.map) return;
+		if (!TopoImageLibrary.isLoaded) return;
 
-        this.map.deviceNodes.forEach((node: DeviceNode) => {
-            var x = node.x;
-            var y = node.y;
+		this.map.deviceNodes.forEach((node: DeviceNode) => {
+			var x = node.x;
+			var y = node.y;
 
-            var nodeImage = DeviceNodeUtil.getCategoryImage(node);
+			var nodeImage = DeviceNodeUtil.getCategoryImage(node);
 
-            var statusBackground = DeviceNodeUtil.getStatusBackgroundImage(node);
-            if (statusBackground != null) {
-                var imageWidth = nodeImage.width;
-                var offset = (statusBackground.width - imageWidth) / 2;
-                ctx.drawImage(
-                    statusBackground,
-                    x - offset,
-                    y - offset,
-                    statusBackground.width,
-                    statusBackground.height
-                );
-            }
+			var statusBackground = DeviceNodeUtil.getStatusBackgroundImage(node);
+			if (statusBackground != null) {
+				var imageWidth = nodeImage.width;
+				var offset = (statusBackground.width - imageWidth) / 2;
+				ctx.drawImage(statusBackground, x - offset, y - offset, statusBackground.width, statusBackground.height);
+			}
 
-            ctx.drawImage(nodeImage, node.x, node.y);
+			ctx.drawImage(nodeImage, node.x, node.y);
 
-            var vendorImage = DeviceNodeUtil.getVendorImage(node);
-            if (vendorImage != null) {
-                var vX = x + nodeImage.width + DeviceNodeRenderer.iconOffset - vendorImage.width;
-                var vY = y + nodeImage.height + DeviceNodeRenderer.iconOffset - vendorImage.height;
-                ctx.drawImage(vendorImage, vX, vY, vendorImage.width, vendorImage.height);
-            }
+			var vendorImage = DeviceNodeUtil.getVendorImage(node);
+			if (vendorImage != null) {
+				var vX = x + nodeImage.width + DeviceNodeRenderer.iconOffset - vendorImage.width;
+				var vY = y + nodeImage.height + DeviceNodeRenderer.iconOffset - vendorImage.height;
+				ctx.drawImage(vendorImage, vX, vY, vendorImage.width, vendorImage.height);
+			}
 
-            var statusImage = DeviceNodeUtil.getStatusIconImage(node);
-            if (statusImage != null) {
-                var vX = x - statusImage.width / 2;
-                var vY = y + nodeImage.height + DeviceNodeRenderer.iconOffset - statusImage.height;
-                ctx.drawImage(statusImage, vX, vY, statusImage.width, statusImage.height);
-            }
+			var statusImage = DeviceNodeUtil.getStatusIconImage(node);
+			if (statusImage != null) {
+				var vX = x - statusImage.width / 2;
+				var vY = y + nodeImage.height + DeviceNodeRenderer.iconOffset - statusImage.height;
+				ctx.drawImage(statusImage, vX, vY, statusImage.width, statusImage.height);
+			}
 
-            CanvasExtensions.drawLabel(ctx, node.centerX, node.bottom + 18, node.displayName);
+			CanvasExtensions.drawLabel(ctx, node.centerX, node.bottom + 18, node.displayName);
 
-            if (node.selected) {
-                node.selected = false;
+			if (node.selected) {
+				node.selected = false;
 
-                ctx.strokeStyle = 'lime';
-                ctx.lineWidth = 3;
-                ctx.strokeRect(node.x, node.y, node.width, node.height);
-            }
-        }, this);
-    }
+				ctx.strokeStyle = "lime";
+				ctx.lineWidth = 3;
+				ctx.strokeRect(node.x, node.y, node.width, node.height);
+			}
 
-    getMouseOverLabels(point: Point, scale: number): MouseOverLabel[] {
-        return [];
-    }
+		}, this);
+	}
 
-    getAllLabels(): MouseOverLabel[] {
-        return [];
-    }
+	getMouseOverLabels(point: Point, scale: number): MouseOverLabel[] {
+		return [];
+	}
 
-    private dragNode: DeviceNode;
-    private startPoint: Point;
-    private startNodePosition: Point;
+	getAllLabels(): MouseOverLabel[] {
+		return [];
+	}
 
-    handleClick(point: Point, scale: number): boolean {
-        this.dragNode = null;
-        return this.map.deviceNodes.some((node: DeviceNode) => {
-            if (Rectangle.contains(node, point)) {
-                this.dragNode = node;
-                this.startPoint = point;
-                this.startNodePosition = { x: node.x, y: node.y };
-                return true;
-            }
-            return false;
-        });
-    }
+	private dragNode: DeviceNode;
+	private startPoint: Point;
+	private startNodePosition: Point;
 
-    handleMove(point: Point, scale: number): void {
-        if (this.dragNode && this.startPoint && this.startNodePosition) {
-            let deltaX = point.x - this.startPoint.x;
-            let deltaY = point.y - this.startPoint.y;
+	handleClick(point: Point, scale: number): boolean {
+		this.dragNode = null;
+		return this.map.deviceNodes.some((node: DeviceNode) => {
+			if (Rectangle.contains(node, point)) {
+				this.dragNode = node;
+				this.startPoint = point;
+				this.startNodePosition = { x: node.x, y: node.y };
+				return true;
+			}
+			return false;
+		});
+	}
 
-            this.dragNode.x = this.startNodePosition.x + deltaX;
-            this.dragNode.y = this.startNodePosition.y + deltaY;
+	handleMove(point: Point, scale: number): void {
+		if (this.dragNode && this.startPoint && this.startNodePosition) {
+			let deltaX = point.x - this.startPoint.x;
+			let deltaY = point.y - this.startPoint.y;
 
-            this.dragNode.centerX = this.dragNode.x + this.dragNode.width / 2;
+			this.dragNode.x = this.startNodePosition.x + deltaX;
+			this.dragNode.y = this.startNodePosition.y + deltaY;
 
-            this.dragNode.bottom = this.dragNode.y + this.dragNode.height;
+			this.dragNode.centerX = this.dragNode.x + (this.dragNode.width / 2);
 
-            this.adjustDisplayEdges(this.dragNode);
-        }
-    }
+			this.dragNode.bottom = this.dragNode.y + this.dragNode.height;
 
-    private adjustDisplayEdges(dragNode: DeviceNode): void {
-        this.map.displayEdges.forEach((dispEdge: DisplayEdge) => {
-            dispEdge.deviceLinkEdges.forEach((linkEdge: DeviceLinkEdge) => {
-                let connStart: Point = {
-                    x: dragNode.x + dragNode.width / 2,
-                    y: dragNode.y + dragNode.height / 2
-                };
+			this.adjustDisplayEdges(this.dragNode);
+		}
+	}
 
-                let localConn = linkEdge.localConnection;
-                let remoteConn = linkEdge.remoteConnection;
+	private adjustDisplayEdges(dragNode: DeviceNode): void {
+		this.map.displayEdges.forEach((dispEdge: DisplayEdge) => {
+			dispEdge.deviceLinkEdges.forEach((linkEdge: DeviceLinkEdge) => {
+				let connStart: Point = {
+					x: dragNode.x + dragNode.width / 2,
+					y: dragNode.y + dragNode.height / 2
+				};
 
-                if (localConn.nodeId == dragNode.nodeId) {
-                    localConn.start = connStart;
-                }
-                if (remoteConn.nodeId == dragNode.nodeId) {
-                    remoteConn.start = connStart;
-                }
+				let localConn = linkEdge.localConnection;
+				let remoteConn = linkEdge.remoteConnection;
 
-                this.adjustDeviceConnections(linkEdge);
-            });
-        });
-    }
+				if (localConn.nodeId == dragNode.nodeId) {
+					localConn.start = connStart;
+				}
+				if (remoteConn.nodeId == dragNode.nodeId) {
+					remoteConn.start = connStart;
+				}
 
-    private adjustDeviceConnections(linkEdge: DeviceLinkEdge): void {
-        let localConnStart = linkEdge.localConnection.start;
-        let remoteConnStart = linkEdge.remoteConnection.start;
+				this.adjustDeviceConnections(linkEdge);
+			});
+		});
+	}
 
-        let nodeMid = this.midPoint(localConnStart, remoteConnStart);
+	private adjustDeviceConnections(linkEdge: DeviceLinkEdge): void {
+		let localConnStart = linkEdge.localConnection.start;
+		let remoteConnStart = linkEdge.remoteConnection.start;
 
-        let localConnMid = this.anglePoint(localConnStart, nodeMid, this.map.layoutSettings);
-        let remoteConnMid = this.anglePoint(remoteConnStart, nodeMid, this.map.layoutSettings);
+		let nodeMid = this.midPoint(localConnStart, remoteConnStart);
 
-        let localConnEnd = {
-            x: nodeMid.x,
-            y: nodeMid.y
-        };
-        let remoteConnEnd = {
-            x: nodeMid.x,
-            y: nodeMid.y
-        };
+		let localConnMid = this.anglePoint(localConnStart, nodeMid, this.map.layoutSettings);
+		let remoteConnMid = this.anglePoint(remoteConnStart, nodeMid, this.map.layoutSettings);
 
-        linkEdge.localConnection.mid = localConnMid;
-        linkEdge.remoteConnection.mid = remoteConnMid;
+		let localConnEnd = {
+			x: nodeMid.x,
+			y: nodeMid.y
+		};
+		let remoteConnEnd = {
+			x: nodeMid.x,
+			y: nodeMid.y
+		};
 
-        linkEdge.localConnection.end = localConnEnd;
-        linkEdge.remoteConnection.end = remoteConnEnd;
-    }
+		linkEdge.localConnection.mid = localConnMid;
+		linkEdge.remoteConnection.mid = remoteConnMid;
 
-    public midPoint(a: Point, b: Point): Point {
-        return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
-    }
+		linkEdge.localConnection.end = localConnEnd;
+		linkEdge.remoteConnection.end = remoteConnEnd;
+	}
 
-    public anglePoint(nodePoint: Point, edgePoint: Point, layoutSettings: LayoutSettings): Point {
-        if (
-            layoutSettings.layoutType != LayoutType.Hierarchical ||
-            layoutSettings.hierarchicalSettings.useStraightLinks
-        ) {
-            return this.midPoint(nodePoint, edgePoint);
-        } else {
-            switch (layoutSettings.hierarchicalSettings.layoutDirection) {
-                case LayoutDirection.Right:
-                case LayoutDirection.Left:
-                    return { x: edgePoint.x, y: nodePoint.y };
-                case LayoutDirection.Up:
-                case LayoutDirection.Down:
-                    return { x: nodePoint.x, y: edgePoint.y };
-                default:
-                    return { x: 0, y: 0 };
-            }
-        }
-    }
+	public midPoint(a: Point, b: Point): Point {
+		return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+	}
 
-    handleUp(): void {
-        this.listener.onMoveNode(this.dragNode.nodeId, this.dragNode.x, this.dragNode.y);
+	public anglePoint(nodePoint: Point, edgePoint: Point, layoutSettings: LayoutSettings): Point {
+		if (layoutSettings.layoutType != LayoutType.Hierarchical ||
+			layoutSettings.hierarchicalSettings.useStraightLinks) {
+			return this.midPoint(nodePoint, edgePoint);
+		}
+		else {
+			switch (layoutSettings.hierarchicalSettings.layoutDirection) {
+				case LayoutDirection.Right:
+				case LayoutDirection.Left:
+					return { x: edgePoint.x, y: nodePoint.y };
+				case LayoutDirection.Up:
+				case LayoutDirection.Down:
+					return { x: nodePoint.x, y: edgePoint.y };
+				default:
+					return { x: 0, y: 0 };
+			}
+		}
+	}
 
-        this.dragNode = null;
-        this.startPoint = null;
-        this.startNodePosition = null;
-    }
+	handleUp(): void {
 
-    handleDoubleClick(point: Point, scale: number): boolean {
-        //return this.map.deviceNodes.some((node: DeviceNode) => {
-        //	if (node.id > 0 && Rectangle.contains(node, point)) {
-        //		DetailsDialog.open(`/controls/layer2device.htm?id=${node.id}`, "Device Details");
-        //		return true;
-        //	}
-        //	return false;
-        //});
+		this.listener.onMoveNode(this.dragNode.nodeId, this.dragNode.x, this.dragNode.y);
 
-        return this.map.deviceNodes.some((node: DeviceNode) => {
-            if (Rectangle.contains(node, point)) {
-                if (node.deviceGuid && this.listener) {
-                    this.listener.onDeviceDoubleClick(node.deviceGuid);
-                }
-                return true;
-            }
-            return false;
-        });
-    }
+		this.dragNode = null;
+		this.startPoint = null;
+		this.startNodePosition = null;
+	}
 
-    handleHover(point: Point, viewPoint: Point): boolean {
-        //return this.map.deviceNodes.some((node: DeviceNode) => {
-        //	if (node.id > 0 && Rectangle.contains(node, point)) {
-        //		var mouse = { left: viewPoint.x - 5, top: viewPoint.y - 5, width: 0, height: 0};
-        //		var $obj = $('<obj/>',
-        //			{
-        //				id: node.id,
-        //				'class': 'devicemenu device',
-        //				href: 'device.htm?id=' + node.id,
-        //				css: {
-        //					'background-image': 'background-image:url(/icons/devices/switch_1.png)'
-        //				},
-        //				text: node.displayName
-        //			});
-        //		$.fn.ptip.show.apply($obj[0], [mouse]);
-        //		return true;
-        //	}
-        //	return false;
-        //});
+	handleDoubleClick(point: Point, scale: number): boolean {
+		//return this.map.deviceNodes.some((node: DeviceNode) => {
+		//	if (node.id > 0 && Rectangle.contains(node, point)) {
+		//		DetailsDialog.open(`/controls/layer2device.htm?id=${node.id}`, "Device Details");
+		//		return true;
+		//	}
+		//	return false;
+		//});
 
-        return true;
-    }
+		return this.map.deviceNodes.some((node: DeviceNode) => {
+			if (Rectangle.contains(node, point)) {
+				if (node.deviceGuid && this.listener) {
+					this.listener.onDeviceDoubleClick(node.deviceGuid);
+				}
+				return true;
+			}
+			return false;
+		});
+	}
 
-    handleContextMenu(point: Point, scale: number, ev: MouseEvent): boolean {
-        let devices: DeviceNode[] = this.hitTest(point, scale);
+	handleHover(point: Point, viewPoint:Point): boolean {
+		//return this.map.deviceNodes.some((node: DeviceNode) => {
+		//	if (node.id > 0 && Rectangle.contains(node, point)) {
+		//		var mouse = { left: viewPoint.x - 5, top: viewPoint.y - 5, width: 0, height: 0};
+		//		var $obj = $('<obj/>',
+		//			{
+		//				id: node.id,
+		//				'class': 'devicemenu device',
+		//				href: 'device.htm?id=' + node.id,
+		//				css: {
+		//					'background-image': 'background-image:url(/icons/devices/switch_1.png)'
+		//				},
+		//				text: node.displayName
+		//			});
+		//		$.fn.ptip.show.apply($obj[0], [mouse]);
+		//		return true;
+		//	}
+		//	return false;
+		//});
 
-        if (devices.length > 0) {
-            this.listener.onContextMenu('device', devices, ev);
-            return true;
-        }
+		return true;
+	}
 
-        return false;
-    }
+	handleContextMenu(point: Point, scale: number, ev: MouseEvent): boolean {
+		let devices: DeviceNode[] = this.hitTest(point, scale);
 
-    hitTest(point: Point, scale: number): DeviceNode[] {
-        let devices: DeviceNode[] = [];
+		if (devices.length > 0) {
+			this.listener.onContextMenu("device", devices, ev);
+			return true;
+		}
 
-        this.map.deviceNodes.forEach((node: DeviceNode) => {
-            if (Rectangle.contains(node, point)) {
-                devices.push(node);
-            }
-        });
+		return false;
+	}
 
-        return devices;
-    }
+	hitTest(point: Point, scale: number): DeviceNode[] {
+		let devices: DeviceNode[] = [];
+
+		this.map.deviceNodes.forEach((node: DeviceNode) => {
+			if (Rectangle.contains(node, point)) {
+				devices.push(node);
+			}
+		});
+
+		return devices;
+	}
+
 }

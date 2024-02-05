@@ -23,13 +23,14 @@
         "target": "ES2017",
         "types": [],
         "lib": [
-            "es5",
-            "es6",
-            "ES2016.Array.Include",
-            "ES2017.String",
-            "ES2018.Promise",
-            "ES2017.Object",
-            "esnext.asynciterable"
+          "es5",
+          "es6",
+          "ES2016.Array.Include",
+          "ES2017.String",
+          "ES2018.Promise",
+          "ES2017.Object",
+          "esnext.asynciterable",
+          "dom"
         ],
         "outDir": "bin"
     },
