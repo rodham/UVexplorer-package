@@ -1,6 +1,46 @@
-import { EditorClient, JsonSerializable, Menu, Modal } from 'lucid-extension-sdk';
+import { CustomBlockProxy, EditorClient, JsonSerializable, Menu, Modal, Viewport } from 'lucid-extension-sdk';
 import { isOpenSessionMessage } from '../model/iframe-message';
 import { UVExplorerClient } from './uvexplorer-client';
+
+async function init() {
+    await client.loadBlockClasses(['FirstBlock']);
+}
+
+void init();
+
+const client = new EditorClient();
+const menu = new Menu(client);
+const viewport = new Viewport(client);
+
+const library = "UVexplorer-shapes";
+const shape = 'first';
+
+class FirstBlock extends CustomBlockProxy {
+    private static library = "UVexplorer-shapes";
+    private static shape = 'first';
+    private static data: String;
+
+    constructor(id: string, client: EditorClient, data: String) {
+        super(id, client);
+        FirstBlock.data = data;
+    }
+
+    public async createCustomBlock() {
+        var customBlockDef = await client.getCustomShapeDefinition(library, shape);
+    
+        if (!customBlockDef) {
+            return;
+        }
+    
+        const page = viewport.getCurrentPage();
+        if (page != undefined) {
+            const customBlock = page.addBlock(customBlockDef);
+            customBlock.shapeData.set("make", "Microsoft");  // This is how I can change the logo dynamically
+            customBlock.shapeData.set("deviceType", "Phone");
+            console.log("Created shape: " + FirstBlock.data);
+        }
+    }
+}
 
 class UVexplorerModal extends Modal {
     private uvexplorerClient: UVExplorerClient;
@@ -39,6 +79,9 @@ class UVexplorerModal extends Modal {
             console.log(sessionGuid);
 
             await this.openSession(apiKey, serverUrl);
+
+            const newBlock = new FirstBlock("0", client, message.serverUrl);
+            newBlock.createCustomBlock();
         }
     }
 
@@ -73,9 +116,6 @@ class SecondModal extends Modal {
         });
     }
 }
-
-const client = new EditorClient();
-const menu = new Menu(client);
 
 client.registerAction('login', () => {
     const modal = new UVexplorerModal(client);

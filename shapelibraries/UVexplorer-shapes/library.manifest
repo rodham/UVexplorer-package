@@ -1,0 +1,13 @@
+{
+    "name": "Test Library",
+    "shapes": [
+        {
+            "shape": "first",
+            "name": "Test Shape",
+            "defaults": {
+                "width": 150,
+                "height": 150
+            }
+        }
+    ]
+}
