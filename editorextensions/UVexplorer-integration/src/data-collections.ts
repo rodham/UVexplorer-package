@@ -1,26 +1,31 @@
 import { Device, DeviceCategories, DeviceClass, ProtocolProfile } from '../model/uvexplorer-model';
 import {
-    CollectionProxy, DataItemProxy,
+    CollectionProxy,
+    DataItemProxy,
     DataProxy,
     DataSourceProxy,
     EditorClient,
-    ScalarFieldTypeEnum, SerializedFieldType
+    ScalarFieldTypeEnum,
+    SerializedFieldType
 } from 'lucid-extension-sdk';
 
 const client = new EditorClient();
 const data = new DataProxy(client);
 
-export function createOrRetrieveNetworkSource(name: string, guid:string) {
+export function createOrRetrieveNetworkSource(name: string, guid: string) {
     for (const [, source] of data.dataSources) {
         if (source.getSourceConfig().guid === guid) {
-            return source
+            return source;
         }
     }
-    return data.addDataSource(name, {'guid': guid})
+    return data.addDataSource(name, { guid: guid });
 }
 
 function toSnakeCase(val: string): string {
-    return val.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, '_').toLowerCase();
+    return val
+        .replace(/[^a-zA-Z0-9 ]/g, '')
+        .replace(/\s+/g, '_')
+        .toLowerCase();
 }
 
 export function createOrRetrieveDeviceCollection(source: DataSourceProxy) {
@@ -40,27 +45,27 @@ export function createOrRetrieveDeviceCollection(source: DataSourceProxy) {
             { name: 'protocol_profile', type: ScalarFieldTypeEnum.STRING },
             { name: 'timestamp', type: ScalarFieldTypeEnum.STRING }
         ],
-        primaryKey: ['guid'],
+        primaryKey: ['guid']
     });
 }
 
 export function addDevicesToCollection(collection: CollectionProxy, devices: Device[]) {
     collection.patchItems({
-        added: devices.map((d)=> deviceToRecord(d))
+        added: devices.map((d) => deviceToRecord(d))
     });
 }
 
 export function deviceToRecord(device: Device): Record<string, SerializedFieldType> {
     return {
-        'guid': device.guid,
-        'ip_address': device.ip_address,
-        'mac_address': device.mac_address,
-        'info_sets': JSON.stringify(device.info_sets),
-        'device_class': JSON.stringify(device.device_class),
-        'device_categories': JSON.stringify(device.device_categories),
-        'protocol_profile': JSON.stringify(device.protocol_profile),
-        'timestamp': device.timestamp
-    }
+        guid: device.guid,
+        ip_address: device.ip_address,
+        mac_address: device.mac_address,
+        info_sets: JSON.stringify(device.info_sets),
+        device_class: JSON.stringify(device.device_class),
+        device_categories: JSON.stringify(device.device_categories),
+        protocol_profile: JSON.stringify(device.protocol_profile),
+        timestamp: device.timestamp
+    };
 }
 
 export function itemToDevice(item: DataItemProxy): Device {
@@ -69,11 +74,11 @@ export function itemToDevice(item: DataItemProxy): Device {
         item.fields.get('mac_address')?.toString() ?? '',
         item.fields.get('guid')?.toString() ?? '',
         JSON.parse(item.fields.get('info_sets')?.toString() ?? ''),
-        (JSON.parse(item.fields.get('device_class')?.toString() ?? '') as DeviceClass),
-        (JSON.parse(item.fields.get('device_categories')?.toString() ?? '') as DeviceCategories),
-        (JSON.parse(item.fields.get('protocol_profile')?.toString() ?? '') as ProtocolProfile),
+        JSON.parse(item.fields.get('device_class')?.toString() ?? '') as DeviceClass,
+        JSON.parse(item.fields.get('device_categories')?.toString() ?? '') as DeviceCategories,
+        JSON.parse(item.fields.get('protocol_profile')?.toString() ?? '') as ProtocolProfile,
         item.fields.get('timestamp')?.toString() ?? ''
-    )
+    );
 }
 
 export function collectionToDevices(collection: CollectionProxy): Device[] {

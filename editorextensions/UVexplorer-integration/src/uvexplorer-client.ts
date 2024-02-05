@@ -38,7 +38,7 @@ export class UVExplorerClient {
         const url = serverUrl + this.basePath + '/network/list';
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
         if (isTextXHRResponse(response)) {
-            const networkSummariesResponse= JSON.parse(response.responseText) as NetworkSummariesResponse;
+            const networkSummariesResponse = JSON.parse(response.responseText) as NetworkSummariesResponse;
             return networkSummariesResponse.network_summaries;
         }
         return [];
@@ -84,13 +84,17 @@ export class UVExplorerClient {
         const url = serverUrl + this.basePath + '/device/infoset/list';
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
         if (isTextXHRResponse(response)) {
-            const infoSetListResponse= JSON.parse(response.responseText) as InfoSetListResponse;
+            const infoSetListResponse = JSON.parse(response.responseText) as InfoSetListResponse;
             return infoSetListResponse.info_sets;
         }
         return [];
     }
 
-    public async listDeviceDetails(serverUrl: string, sessionGuid: string, deviceGuid: string): Promise<DeviceDetailsResponse | undefined> {
+    public async listDeviceDetails(
+        serverUrl: string,
+        sessionGuid: string,
+        deviceGuid: string
+    ): Promise<DeviceDetailsResponse | undefined> {
         const url = serverUrl + this.basePath + `/device/details/${deviceGuid}`;
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
         if (isTextXHRResponse(response)) {
@@ -99,23 +103,31 @@ export class UVExplorerClient {
         return undefined;
     }
 
-    public async listConnectedDevices(serverUrl: string, sessionGuid: string, connectedDevicesRequest: ConnectedDevicesRequest): Promise<Device[]> {
+    public async listConnectedDevices(
+        serverUrl: string,
+        sessionGuid: string,
+        connectedDevicesRequest: ConnectedDevicesRequest
+    ): Promise<Device[]> {
         const url = serverUrl + this.basePath + `/device/connected`;
         const body = JSON.stringify(connectedDevicesRequest);
         const response = await this.sendXHRRequest(url, sessionGuid, 'POST', body);
         if (isTextXHRResponse(response)) {
             const deviceListResponse = JSON.parse(response.responseText) as DeviceListResponse;
-            return deviceListResponse.devices
+            return deviceListResponse.devices;
         }
         return [];
     }
 
-    public async getTopoMap(serverUrl: string, sessionGuid: string, topoMapRequest: TopoMapRequest): Promise<TopoMap | undefined> {
+    public async getTopoMap(
+        serverUrl: string,
+        sessionGuid: string,
+        topoMapRequest: TopoMapRequest
+    ): Promise<TopoMap | undefined> {
         const url = serverUrl + this.basePath + `/device/topomap`;
         const body = JSON.stringify(topoMapRequest);
         const response = await this.sendXHRRequest(url, sessionGuid, 'POST', body);
         if (isTextXHRResponse(response)) {
-            return JSON.parse(response.responseText) as TopoMap
+            return JSON.parse(response.responseText) as TopoMap;
         }
         return undefined;
     }

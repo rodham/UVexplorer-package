@@ -166,7 +166,7 @@ export class ConnectedDevicesRequest {
 
 // TopoMapRequest
 interface LayoutSettings {
-    layoutType: "Manual" | "Radial" | "Hierarchical" | "Ring";
+    layoutType: 'Manual' | 'Radial' | 'Hierarchical' | 'Ring';
     useStraightLinks: boolean;
     showLayer2Links: boolean;
     showVirtualLinks: boolean;
@@ -183,8 +183,8 @@ interface LayoutSettings {
         levelSpacing: number;
         useStraightLinks: boolean;
         nodeSpacing: number;
-        layoutDirection: "Left" | "Right" | "Up" | "Down";
-        rootAlignment: "Left" | "Center" | "Right";
+        layoutDirection: 'Left' | 'Right' | 'Up' | 'Down';
+        rootAlignment: 'Left' | 'Center' | 'Right';
     };
     ringSettings?: {
         minRadius: number;
@@ -205,7 +205,7 @@ interface DrawSettings {
     shortIfNames: boolean;
     hideVendorImage: boolean;
     hidePlatformImage: boolean;
-    deviceDisplaySetting: "Default" | "Hostname" | "IpAddress" | "HostnameAndIpAddress";
+    deviceDisplaySetting: 'Default' | 'Hostname' | 'IpAddress' | 'HostnameAndIpAddress';
     standardPen: PenPattern;
     lagPen: PenPattern;
     manualPen: PenPattern;
@@ -222,7 +222,7 @@ interface PenPattern {
         blue: number;
     };
     width: number;
-    dashStyle: "Solid" | "Dash" | "Dot" | "DashDot" | "DashDotDot";
+    dashStyle: 'Solid' | 'Dash' | 'Dot' | 'DashDot' | 'DashDotDot';
 }
 
 export class TopoMapRequest {
@@ -232,8 +232,13 @@ export class TopoMapRequest {
     layoutSettings: LayoutSettings;
     drawSettings: DrawSettings;
 
-
-    constructor(deviceGuids: string[], primaryDeviceFilter: DeviceFilter, connectedDeviceFilter: DeviceFilter, layoutSettings: LayoutSettings, drawSettings: DrawSettings) {
+    constructor(
+        deviceGuids: string[],
+        primaryDeviceFilter: DeviceFilter,
+        connectedDeviceFilter: DeviceFilter,
+        layoutSettings: LayoutSettings,
+        drawSettings: DrawSettings
+    ) {
         this.deviceGuids = deviceGuids;
         this.primaryDeviceFilter = primaryDeviceFilter;
         this.connectedDeviceFilter = connectedDeviceFilter;
@@ -297,7 +302,16 @@ export class Device {
     protocol_profile: ProtocolProfile;
     timestamp: string;
 
-    constructor(ip_address: string, mac_address: string, guid: string, info_sets: unknown, device_class: DeviceClass, device_categories: DeviceCategories, protocol_profile: ProtocolProfile, timestamp: string) {
+    constructor(
+        ip_address: string,
+        mac_address: string,
+        guid: string,
+        info_sets: unknown,
+        device_class: DeviceClass,
+        device_categories: DeviceCategories,
+        protocol_profile: ProtocolProfile,
+        timestamp: string
+    ) {
         this.ip_address = ip_address;
         this.mac_address = mac_address;
         this.guid = guid;
