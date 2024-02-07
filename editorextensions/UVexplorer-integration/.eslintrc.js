@@ -10,10 +10,10 @@ module.exports = {
     plugins: ['@typescript-eslint'],
     parser: '@typescript-eslint/parser',
     parserOptions: {
-        project: true,
+        project: ['tsconfig.json', 'test/tsconfig.json'],
         tsconfigRootDir: __dirname
     },
-    root: ['./tsconfig.json', './test/tsconfig.json'],
+    root: true,
     overrides: [
         {
             files: ['*.js'],
