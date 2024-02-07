@@ -34,3 +34,5 @@ jobs:
         with:
           commit_message: Apply prettier formatting changes
           branch: ${{ github.head_ref }}
+      - name: Jest Tests
+        run: npm run test
