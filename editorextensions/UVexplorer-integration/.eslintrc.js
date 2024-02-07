@@ -13,7 +13,7 @@ module.exports = {
         project: true,
         tsconfigRootDir: __dirname
     },
-    root: true,
+    root: ['./tsconfig.json', './test/tsconfig.json'],
     overrides: [
         {
             files: ['*.js'],
