@@ -19,8 +19,8 @@ export interface DeviceGroupNode extends IRectangle {
 }
 
 export class DeviceGroupNodeUtil {
-    public static getDeviceGroupImage(deviceGroupNode: DeviceGroupNode): HTMLImageElement {
-        let result: HTMLImageElement = null;
+    public static getDeviceGroupImage(deviceGroupNode: DeviceGroupNode): HTMLImageElement | null {
+        let result: HTMLImageElement | null = null;
 
         if (!!deviceGroupNode) {
             result = this.findUnkownImage('net-device');

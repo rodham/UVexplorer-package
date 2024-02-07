@@ -65,9 +65,9 @@ export interface DrawSettings {
 }
 
 export class EffectiveDrawSettings {
-    public color: string;
-    public width: number;
-    public lineDash: number[];
+    public color?: string;
+    public width?: number;
+    public lineDash?: number[];
 }
 
 export enum DisplayEdgeType {
@@ -86,7 +86,7 @@ export class DisplayEdge {
     public deviceLinkEdges: DeviceLinkEdge[];
     public deviceLinks: DeviceLink[];
     public monitorState: MonitorState;
-    private _effectiveDrawSettings: EffectiveDrawSettings;
+    private _effectiveDrawSettings: EffectiveDrawSettings | null | undefined;
 
     private static StatusLineWidth: number;
     private static UpPen: PenPattern;
@@ -148,7 +148,7 @@ export class DisplayEdge {
     }
 
     private setEffectivePenPattern(settings: EffectiveDrawSettings, type: DisplayEdgeType): void {
-        let penPattern: PenPattern = null;
+        let penPattern: PenPattern | null = null;
 
         if (this.monitorState == MonitorState.NoData) {
             switch (this.type) {
@@ -278,21 +278,21 @@ export class DisplayEdge {
 }
 
 export class DisplayEdgeSet {
-    private map: Object;
+    private map: Map<string, DisplayEdge>;
 
     constructor(private drawSettings: DrawSettings) {
-        this.map = {};
+        this.map = new Map<string, DisplayEdge>();
     }
 
     public get(pt1: Point, pt2: Point): DisplayEdge {
         let key1 = DisplayEdge.makeKey(pt1, pt2);
-        let value1 = this.map[key1];
+        let value1 = this.map.get(key1);
         if (value1 !== undefined) {
             return value1;
         }
 
         let key2 = DisplayEdge.makeKey(pt2, pt1);
-        let value2 = this.map[key2];
+        let value2 = this.map.get(key2);
         if (value2 !== undefined) {
             return value2;
         }
@@ -300,20 +300,26 @@ export class DisplayEdgeSet {
         let newValue = new DisplayEdge(this.drawSettings);
         newValue.pt1 = { x: pt1.x, y: pt1.y };
         newValue.pt2 = { x: pt2.x, y: pt2.y };
-        this.map[key1] = newValue;
+        this.map.set(key1, newValue);
         return newValue;
     }
 
-    public forEach(f: (DisplayEdge) => void): void {
+    public forEach(f: (d: DisplayEdge) => void): void {
         for (const key in this.map) {
-            f(this.map[key]);
+            const val = this.map.get(key);
+            if (val !== undefined) {
+                f(val);
+            }
         }
     }
 
-    public some(f: (DisplayEdge) => boolean): boolean {
+    public some(f: (d: DisplayEdge) => boolean): boolean {
         for (const key in this.map) {
-            if (f(this.map[key])) {
-                return true;
+            const val = this.map.get(key);
+            if (val !== undefined) {
+                if (f(val)) {
+                    return true;
+                }
             }
         }
         return false;

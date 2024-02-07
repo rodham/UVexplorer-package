@@ -5,7 +5,7 @@ import { ImageType } from './TopoImageKey';
 
 export class TopoImageLibrary {
     public static findImage(key: TopoImageKey): HTMLImageElement {
-        return TopoImageLibrary.instance._findImage(key);
+        return TopoImageLibrary.instance._findImage(key) ?? new HTMLImageElement();
     }
 
     public static get isLoaded(): boolean {
@@ -24,7 +24,7 @@ export class TopoImageLibrary {
         return TopoImageLibrary._instance;
     }
 
-    private _isLoaded: boolean;
+    private _isLoaded: boolean = false;
     public systemImages: TopoImageMap;
     public userImages: TopoImageMap;
 
@@ -41,15 +41,15 @@ export class TopoImageLibrary {
         this.userImages.addEntry(imageEntry);
     }
 
-    private _findImage(key: TopoImageKey): HTMLImageElement {
+    private _findImage(key: TopoImageKey): HTMLImageElement | null {
         if (key != null) {
-            var entry: TopoImageEntry = null;
+            let entry: TopoImageEntry | null = null;
 
             entry = this.userImages.findEntry(key);
-            if (entry != null) return entry.image;
+            if (entry != null) return entry.image ?? null;
 
             entry = this.systemImages.findEntry(key);
-            if (entry != null) return entry.image;
+            if (entry != null) return entry.image ?? null;
         }
 
         return null;

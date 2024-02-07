@@ -8,7 +8,7 @@ export class TopoImageMap {
         this._topoImages = [];
     }
 
-    public findEntry(key: TopoImageKey): TopoImageEntry {
+    public findEntry(key: TopoImageKey): TopoImageEntry | null {
         var result = null;
 
         this._topoImages.some((entry) => {
