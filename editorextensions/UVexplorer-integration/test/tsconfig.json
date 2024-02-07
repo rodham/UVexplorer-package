@@ -1,4 +1,5 @@
 {
+    "extends": "../tsconfig.json",
     "compilerOptions": {
         "declaration": true,
         "emitDecoratorMetadata": true,
@@ -21,7 +22,7 @@
         "strictNullChecks": true,
         "strictPropertyInitialization": true,
         "target": "ESNext",
-        "types": ["node"],
+        "types": ["node", "jest"],
         "lib": [
             "es5",
             "es6",
@@ -33,6 +34,5 @@
         ],
         "outDir": "bin"
     },
-    "files": ["resources/resource.d.ts"],
-    "include": ["src/**/*", "model/*"]
+    "include": ["__tests__/**/*.ts", "__mocks__/**/*.ts"]
 }

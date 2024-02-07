@@ -1,5 +1,6 @@
 import { EditorClient, Menu, Modal, Viewport } from 'lucid-extension-sdk';
 import { UVexplorerModal } from './uvexplorer-modal';
+import { showConnectedDevices, uvDeviceSelected } from './actions/devices';
 
 class FirstModal extends Modal {
     constructor(client: EditorClient) {
@@ -26,6 +27,19 @@ class SecondModal extends Modal {
 const client = new EditorClient();
 const menu = new Menu(client);
 const viewport: Viewport = new Viewport(client);
+
+client.registerAction('uvDeviceSelected', () => {
+    console.log('First in uvDeviceSelected');
+    return uvDeviceSelected(viewport);
+});
+
+client.registerAction('showConnectedDevices', () => showConnectedDevices(viewport));
+
+menu.addContextMenuItem({
+    label: 'Show connected devices',
+    action: 'showConnectedDevices',
+    visibleAction: 'uvDeviceSelected'
+});
 
 client.registerAction('loadNetwork', async () => {
     const modal = new UVexplorerModal(client, viewport);
