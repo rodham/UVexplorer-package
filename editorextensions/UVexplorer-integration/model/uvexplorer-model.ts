@@ -68,7 +68,7 @@ export interface NetworkSummary {
     agent_summaries: AgentSummary[];
 }
 
-interface AgentSummary {
+export interface AgentSummary {
     guid: string;
     created_time: string;
     modified_time: string;
@@ -77,7 +77,7 @@ interface AgentSummary {
     discovery_summaries: DiscoverySummary[];
 }
 
-interface DiscoverySummary {
+export interface DiscoverySummary {
     guid: string;
     created_time: string;
     modified_time: string;
@@ -85,7 +85,7 @@ interface DiscoverySummary {
     discovery_run_summaries: DiscoveryRunSummary[];
 }
 
-interface DiscoveryRunSummary {
+export interface DiscoveryRunSummary {
     guid: string;
     start_time: string;
     end_time: string;
