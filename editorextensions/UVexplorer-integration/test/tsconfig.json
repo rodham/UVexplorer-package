@@ -1,4 +1,5 @@
 {
+    "extends": "../tsconfig.json",
     "compilerOptions": {
         "declaration": true,
         "emitDecoratorMetadata": true,
@@ -21,7 +22,7 @@
         "strictNullChecks": true,
         "strictPropertyInitialization": true,
         "target": "ESNext",
-        "types": ["node"],
+        "types": ["node", "jest"],
         "lib": [
             "es5",
             "es6",
@@ -29,11 +30,9 @@
             "ES2017.String",
             "ES2018.Promise",
             "ES2017.Object",
-            "esnext.asynciterable",
-            "dom"
+            "esnext.asynciterable"
         ],
         "outDir": "bin"
     },
-    "files": ["resources/resource.d.ts"],
-    "include": ["src/**/*", "model/*"]
+    "include": ["__tests__/**/*.ts", "__mocks__/**/*.ts"]
 }

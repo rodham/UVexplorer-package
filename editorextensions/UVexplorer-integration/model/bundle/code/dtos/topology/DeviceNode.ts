@@ -51,7 +51,7 @@ export enum DeviceState {
 
 export class DeviceNodeUtil {
     public static getCategoryImage(deviceNode: DeviceNode): HTMLImageElement {
-        let result: HTMLImageElement = null;
+        let result: HTMLImageElement | null = null;
 
         if (!!deviceNode.categories && !!deviceNode.categories.entries) {
             deviceNode.categories.entries.some((entry: DeviceCategoriesEntry) => {
@@ -59,6 +59,7 @@ export class DeviceNodeUtil {
                     result = DeviceNodeUtil.findCategoryImage(entry.categoryName);
                     return !!result;
                 }
+                return false;
             });
 
             if (!result) {
@@ -85,7 +86,7 @@ export class DeviceNodeUtil {
     }
 
     public static getVendorImage(deviceNode: DeviceNode): HTMLImageElement {
-        let result: HTMLImageElement = null;
+        let result: HTMLImageElement | null = null;
 
         result = TopoImageLibrary.findImage({
             type: ImageType.Vendor,
