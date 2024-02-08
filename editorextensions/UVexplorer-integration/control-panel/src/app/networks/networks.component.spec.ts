@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { NetworksComponent } from './networks.component';
-import { NetworkSummary, AgentSummary, DiscoverySummary, DiscoveryRunSummary, NetworkRequest } from '../../../../model/uvexplorer-model';
+import { NetworkSummary, AgentSummary, DiscoverySummary, DiscoveryRunSummary } from '../../../../model/uvexplorer-model';
+import { LoadNetworkMessage } from '../../../../model/message';
 
 describe('NetworksComponent', () => {
   beforeEach(async () => {
@@ -27,13 +28,14 @@ describe('NetworksComponent', () => {
     const fixture = TestBed.createComponent(NetworksComponent);
     const component = fixture.componentInstance;
 
-    let postMessageSpy: jasmine.Spy<(message: any, targetOrigin: string) => void> = spyOn(
+    const postMessageSpy: jasmine.Spy<(message: LoadNetworkMessage, targetOrigin: string) => void> = spyOn(
       window.parent,
       'postMessage',
     );
 
     component.selectedNetwork = buildNetworkSummary();
     component.loadNetwork();
+
     expect(postMessageSpy).toHaveBeenCalledWith({
       action: 'loadNetwork',
       name: component.selectedNetwork.name,
@@ -60,13 +62,13 @@ describe('NetworksComponent', () => {
 
 function buildNetworkSummary(): NetworkSummary {
 
-  let discoveryRunSummary: DiscoveryRunSummary = {
+  const discoveryRunSummary: DiscoveryRunSummary = {
     guid: "",
     start_time: "",
     end_time: ""
   };
 
-  let discoverySummary: DiscoverySummary = {
+  const discoverySummary: DiscoverySummary = {
     guid: "",
     created_time: "",
     modified_time: "",
@@ -74,7 +76,7 @@ function buildNetworkSummary(): NetworkSummary {
     discovery_run_summaries: [discoveryRunSummary]
   };
 
-  let agentSummary: AgentSummary = {
+  const agentSummary: AgentSummary = {
     guid: "",
     created_time: "",
     modified_time: "",
@@ -84,7 +86,7 @@ function buildNetworkSummary(): NetworkSummary {
   };
 
 
-  let networkSummary: NetworkSummary = {
+  const networkSummary: NetworkSummary = {
     guid : "some random guid",
     created_time: "created time",
     modified_time: "modified time",
