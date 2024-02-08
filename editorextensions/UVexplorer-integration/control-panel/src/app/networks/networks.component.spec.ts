@@ -1,6 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { NetworksComponent } from './networks.component';
-import { NetworkSummary, AgentSummary, DiscoverySummary, DiscoveryRunSummary } from '../../../../model/uvexplorer-model';
+import {
+  NetworkSummary,
+  AgentSummary,
+  DiscoverySummary,
+  DiscoveryRunSummary
+} from '../../../../model/uvexplorer-model';
 import { LoadNetworkMessage } from '../../../../model/message';
 
 describe('NetworksComponent', () => {
@@ -30,17 +35,20 @@ describe('NetworksComponent', () => {
 
     const postMessageSpy: jasmine.Spy<(message: LoadNetworkMessage, targetOrigin: string) => void> = spyOn(
       window.parent,
-      'postMessage',
+      'postMessage'
     );
 
     component.selectedNetwork = buildNetworkSummary();
     component.loadNetwork();
 
-    expect(postMessageSpy).toHaveBeenCalledWith({
-      action: 'loadNetwork',
-      name: component.selectedNetwork.name,
-      network_guid: component.selectedNetwork.guid
-    }, '*');
+    expect(postMessageSpy).toHaveBeenCalledWith(
+      {
+        action: 'loadNetwork',
+        name: component.selectedNetwork.name,
+        network_guid: component.selectedNetwork.guid
+      },
+      '*'
+    );
   });
   /*it('should catch message event', () => {
     const fixture = TestBed.createComponent(NetworksComponent);
@@ -56,42 +64,38 @@ describe('NetworksComponent', () => {
     fixture.detectChanges();
     expect(component.network_summaries).toEqual([networkSummary]);
   });*/
-
-
 });
 
 function buildNetworkSummary(): NetworkSummary {
-
   const discoveryRunSummary: DiscoveryRunSummary = {
-    guid: "",
-    start_time: "",
-    end_time: ""
+    guid: '',
+    start_time: '',
+    end_time: ''
   };
 
   const discoverySummary: DiscoverySummary = {
-    guid: "",
-    created_time: "",
-    modified_time: "",
-    name: "",
+    guid: '',
+    created_time: '',
+    modified_time: '',
+    name: '',
     discovery_run_summaries: [discoveryRunSummary]
   };
 
   const agentSummary: AgentSummary = {
-    guid: "",
-    created_time: "",
-    modified_time: "",
-    name: "",
-    description: "",
+    guid: '',
+    created_time: '',
+    modified_time: '',
+    name: '',
+    description: '',
     discovery_summaries: [discoverySummary]
   };
 
-
   const networkSummary: NetworkSummary = {
-    guid : "some random guid",
-    created_time: "created time",
-    modified_time: "modified time",
-    name: "test network",
-    description: "network description",
+    guid: 'some random guid',
+    created_time: 'created time',
+    modified_time: 'modified time',
+    name: 'test network',
+    description: 'network description',
     agent_summaries: [agentSummary]
   };
 
