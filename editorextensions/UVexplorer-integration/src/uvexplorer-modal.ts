@@ -125,7 +125,7 @@ export class UVexplorerModal extends Modal {
             }
         }
 
-        return "";
+        return "unknown-device";
     }
 
     async createDeviceMap() {
@@ -134,7 +134,7 @@ export class UVexplorerModal extends Modal {
 
         devices.forEach(device => {
             const info_sets = JSON.parse(JSON.stringify(device.info_sets));
-            let company = "";
+            let company = "unknown-make";
             if (info_sets.product_info != undefined) {
                 company = info_sets.product_info.vendor;
             }
