@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { NetworksComponent } from './networks.component';
-import { NetworkSummary, AgentSummary, DiscoverySummary, DiscoveryRunSummary } from '../../../../model/uvexplorer-model';
+import { NetworkSummary, AgentSummary, DiscoverySummary, DiscoveryRunSummary, NetworkRequest } from '../../../../model/uvexplorer-model';
 
 describe('NetworksComponent', () => {
   beforeEach(async () => {
@@ -40,6 +40,22 @@ describe('NetworksComponent', () => {
       network_guid: component.selectedNetwork.guid
     }, '*');
   });
+  /*it('should catch message event', () => {
+    const fixture = TestBed.createComponent(NetworksComponent);
+    const component = fixture.componentInstance;
+
+    component.trigger
+    spyOnProperty(component, 'handleMessageEvent').and.callThrough();
+    let networkSummary = buildNetworkSummary();
+    let event = new  CustomEvent("message", {"detail" : {
+      "action" : "listNetworks",
+      "network_summaries": [networkSummary]}});
+    window.dispatchEvent(event);
+    fixture.detectChanges();
+    expect(component.network_summaries).toEqual([networkSummary]);
+  });*/
+
+
 });
 
 function buildNetworkSummary(): NetworkSummary {
