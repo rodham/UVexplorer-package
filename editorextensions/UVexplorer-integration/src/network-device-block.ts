@@ -1,4 +1,4 @@
-import { CustomBlockProxy, EditorClient, Viewport } from 'lucid-extension-sdk';
+import { CustomBlockProxy, EditorClient, SerializedDataError, SerializedFieldType, Viewport } from 'lucid-extension-sdk';
 
 export class NetworkDeviceBlock extends CustomBlockProxy {
     private viewport: Viewport;
@@ -10,7 +10,7 @@ export class NetworkDeviceBlock extends CustomBlockProxy {
         this.viewport = new Viewport(client);
     }
 
-    public async createCustomBlock() {
+    public async createCustomBlock(company: string, deviceType: string) {
         var customBlockDef = await this.client.getCustomShapeDefinition(this.library, this.shape);
     
         if (!customBlockDef) {
@@ -20,9 +20,8 @@ export class NetworkDeviceBlock extends CustomBlockProxy {
         const page = this.viewport.getCurrentPage();
         if (page != undefined) {
             const customBlock = page.addBlock(customBlockDef);
-            customBlock.shapeData.set("make", "Microsoft");  // This is how I can change the logo dynamically
-            customBlock.shapeData.set("deviceType", "Phone");
-            console.log("Created New Block");
+            customBlock.shapeData.set("make", company);  // This is how I can change the logo dynamically
+            customBlock.shapeData.set("deviceType", deviceType);
         }
     }
 }
