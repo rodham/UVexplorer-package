@@ -3,7 +3,7 @@ import { DeviceGroupNode } from './DeviceGroupNode';
 import { HubNode } from './HubNode';
 import { DeviceLink } from './DeviceLink';
 import { DeviceLinkEdge } from './DeviceLinkEdge';
-import { LayoutSettings } from './LayoutSettings';
+import { isLayoutSettings, LayoutSettings } from './LayoutSettings';
 import { Point } from './Point';
 import { MonitorState } from './DeviceConnection';
 
@@ -26,10 +26,60 @@ export interface TopoMap {
     displayEdges: DisplayEdgeSet;
 }
 
+export function isTopoMap(obj: unknown): obj is TopoMap {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'layoutSettings' in obj &&
+        isLayoutSettings(obj.layoutSettings) &&
+        'drawSettings' in obj &&
+        isDrawSettings(obj.drawSettings) &&
+        'deviceNodes' in obj &&
+        Array.isArray(obj.deviceNodes) &&
+        'deviceGroupNodes' in obj &&
+        Array.isArray(obj.deviceGroupNodes) &&
+        'hubNodes' in obj &&
+        Array.isArray(obj.hubNodes) &&
+        'deviceLinks' in obj &&
+        Array.isArray(obj.deviceLinks) &&
+        'width' in obj &&
+        typeof obj.width === 'number' &&
+        'height' in obj &&
+        typeof obj.height === 'number' &&
+        'left' in obj &&
+        typeof obj.left === 'number' &&
+        'right' in obj &&
+        typeof obj.right === 'number' &&
+        'top' in obj &&
+        typeof obj.top === 'number' &&
+        'bottom' in obj &&
+        typeof obj.bottom === 'number' &&
+        'centerX' in obj &&
+        typeof obj.centerX === 'number' &&
+        'centerY' in obj &&
+        typeof obj.centerY === 'number' &&
+        'displayEdges' in obj &&
+        isDisplayEdgeSet(obj.displayEdges)
+    );
+}
+
 export interface Color {
     red: number;
     green: number;
     blue: number;
+}
+
+export function isColor(obj: any): obj is Color {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'red' in obj &&
+        typeof obj.red === 'number' &&
+        'green' in obj &&
+        typeof obj.green === 'number' &&
+        'blue' in obj &&
+        typeof obj.blue === 'number'
+    );
 }
 
 export enum DashStyle {
@@ -45,6 +95,19 @@ export interface PenPattern {
     color: Color;
     width: number;
     dashStyle: DashStyle;
+}
+
+export function isPenPattern(obj: any): obj is PenPattern {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'color' in obj &&
+        isColor(obj.color) &&
+        'width' in obj &&
+        typeof obj.width === 'number' &&
+        'dashStyle' in obj &&
+        typeof obj.dashStyle === 'number'
+    );
 }
 
 export interface DrawSettings {
@@ -64,10 +127,57 @@ export interface DrawSettings {
     multiPen: PenPattern;
 }
 
+export function isDrawSettings(obj: any): obj is DrawSettings {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'shortDeviceNames' in obj &&
+        typeof obj.shortDeviceNames === 'boolean' &&
+        'deviceTrimLeft' in obj &&
+        typeof obj.deviceTrimLeft === 'boolean' &&
+        'deviceTrimRight' in obj &&
+        typeof obj.deviceTrimRight === 'boolean' &&
+        'deviceTrimLeftChar' in obj &&
+        typeof obj.deviceTrimLeftChar === 'string' &&
+        'deviceTrimRightChar' in obj &&
+        typeof obj.deviceTrimRightChar === 'string' &&
+        'deviceTrimLeftCount' in obj &&
+        typeof obj.deviceTrimLeftCount === 'number' &&
+        'deviceTrimRightCount' in obj &&
+        typeof obj.deviceTrimRightCount === 'number' &&
+        'shortIfNames' in obj &&
+        typeof obj.shortIfNames === 'boolean' &&
+        'standardPen' in obj &&
+        isPenPattern(obj.standardPen) &&
+        'lagPen' in obj &&
+        isPenPattern(obj.lagPen) &&
+        'manualPen' in obj &&
+        isPenPattern(obj.manualPen) &&
+        'associatedPen' in obj &&
+        isPenPattern(obj.associatedPen) &&
+        'multiPen' in obj &&
+        isPenPattern(obj.multiPen)
+    );
+}
+
 export class EffectiveDrawSettings {
     public color?: string;
     public width?: number;
     public lineDash?: number[];
+}
+
+export function isEffectiveDrawSettings(obj: any): obj is EffectiveDrawSettings {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'color' in obj &&
+        typeof obj.color === 'string' &&
+        'width' in obj &&
+        typeof obj.width === 'number' &&
+        'lineDash' in obj &&
+        Array.isArray(obj.lineDash) &&
+        obj.lineDash.every((u: unknown) => typeof u === 'number')
+    );
 }
 
 export enum DisplayEdgeType {
@@ -324,4 +434,15 @@ export class DisplayEdgeSet {
         }
         return false;
     }
+}
+
+export function isDisplayEdgeSet(obj: unknown): obj is DisplayEdgeSet {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        obj instanceof DisplayEdgeSet &&
+        typeof obj.get === 'function' &&
+        typeof obj.forEach === 'function' &&
+        typeof obj.some === 'function'
+    );
 }

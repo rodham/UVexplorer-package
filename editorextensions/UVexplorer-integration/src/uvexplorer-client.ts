@@ -2,18 +2,19 @@ import { EditorClient, isTextXHRResponse, XHRRequest, XHRResponse } from 'lucid-
 import {
     ConnectedDevicesRequest,
     Device,
-    DeviceCategoryListResponse,
     DeviceDetailsResponse,
     DeviceListRequest,
-    DeviceListResponse,
     InfoSet,
-    InfoSetListResponse,
+    isDeviceCategoryListResponse,
+    isDeviceDetailsResponse,
+    isDeviceListResponse,
+    isInfoSetListResponse,
+    isNetworkSummariesResponse,
     NetworkRequest,
-    NetworkSummariesResponse,
     NetworkSummary,
     TopoMapRequest
 } from '../model/uvexplorer-model';
-import { TopoMap } from '../model/bundle/code/dtos/topology/TopoMap';
+import { isTopoMap, TopoMap } from '../model/bundle/code/dtos/topology/TopoMap';
 
 export class UVExplorerClient {
     private readonly basePath: string = '/public/api/v1';
@@ -25,23 +26,31 @@ export class UVExplorerClient {
         const response = await this.sendXHRRequest(url, apiKey, 'POST');
         if (isTextXHRResponse(response)) {
             return response.responseText;
+        } else {
+            throw new Error('Response was not a TextXHRResponse.');
         }
-        return '';
     }
 
     public async closeSession(serverUrl: string, sessionGuid: string): Promise<void> {
         const url = serverUrl + this.basePath + '/session';
-        await this.sendXHRRequest(url, sessionGuid, 'DELETE');
+        const response = await this.sendXHRRequest(url, sessionGuid, 'DELETE');
+        if (response.status !== 200) {
+            throw new Error('Session close was unsuccessful.');
+        }
     }
 
     public async listNetworks(serverUrl: string, sessionGuid: string): Promise<NetworkSummary[]> {
         const url = serverUrl + this.basePath + '/network/list';
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
         if (isTextXHRResponse(response)) {
-            const networkSummariesResponse = JSON.parse(response.responseText) as NetworkSummariesResponse;
-            return networkSummariesResponse.network_summaries;
+            if (isNetworkSummariesResponse(response)) {
+                return response.network_summaries;
+            } else {
+                throw new Error('Response was not a NetworkSummariesResponse');
+            }
+        } else {
+            throw new Error('Response was not a TextXHRResponse.');
         }
-        return [];
     }
 
     public async loadNetwork(serverUrl: string, sessionGuid: string, networkRequest: NetworkRequest): Promise<void> {
@@ -64,30 +73,42 @@ export class UVExplorerClient {
         const data = JSON.stringify(deviceListRequest);
         const response = await this.sendXHRRequest(url, sessionGuid, 'POST', data);
         if (isTextXHRResponse(response)) {
-            const deviceListResponse = JSON.parse(response.responseText) as DeviceListResponse;
-            return deviceListResponse.devices;
+            if (isDeviceListResponse(response)) {
+                return response.devices;
+            } else {
+                throw new Error('Response was not a DeviceListResponse.');
+            }
+        } else {
+            throw new Error('Response was not a TextXHRResponse.');
         }
-        return [];
     }
 
     public async listDeviceCategories(serverUrl: string, sessionGuid: string): Promise<string[]> {
         const url = serverUrl + this.basePath + '/device/category/list';
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
         if (isTextXHRResponse(response)) {
-            const deviceCategoryListResponse = JSON.parse(response.responseText) as DeviceCategoryListResponse;
-            return deviceCategoryListResponse.device_categories;
+            if (isDeviceCategoryListResponse(response)) {
+                return response.device_categories;
+            } else {
+                throw new Error('Response was not a DeviceCategoryListResponse.');
+            }
+        } else {
+            throw new Error('Response was not a TextXHRResponse.');
         }
-        return [];
     }
 
     public async listDeviceInfoSets(serverUrl: string, sessionGuid: string): Promise<InfoSet[]> {
         const url = serverUrl + this.basePath + '/device/infoset/list';
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
         if (isTextXHRResponse(response)) {
-            const infoSetListResponse = JSON.parse(response.responseText) as InfoSetListResponse;
-            return infoSetListResponse.info_sets;
+            if (isInfoSetListResponse(response)) {
+                return response.info_sets;
+            } else {
+                throw new Error('Response was not an InfoSetListResponse.');
+            }
+        } else {
+            throw new Error('Response was not a TextXHRResponse.');
         }
-        return [];
     }
 
     public async listDeviceDetails(
@@ -98,9 +119,14 @@ export class UVExplorerClient {
         const url = serverUrl + this.basePath + `/device/details/${deviceGuid}`;
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
         if (isTextXHRResponse(response)) {
-            return JSON.parse(response.responseText) as DeviceDetailsResponse;
+            if (isDeviceDetailsResponse(response)) {
+                return response;
+            } else {
+                throw new Error('Response was not a DeviceDetailsResponse.');
+            }
+        } else {
+            throw new Error('Response was not a TextXHRResponse.');
         }
-        return undefined;
     }
 
     public async listConnectedDevices(
@@ -112,10 +138,14 @@ export class UVExplorerClient {
         const body = JSON.stringify(connectedDevicesRequest);
         const response = await this.sendXHRRequest(url, sessionGuid, 'POST', body);
         if (isTextXHRResponse(response)) {
-            const deviceListResponse = JSON.parse(response.responseText) as DeviceListResponse;
-            return deviceListResponse.devices;
+            if (isDeviceListResponse(response)) {
+                return response.devices;
+            } else {
+                throw new Error('Response was not a DeviceListResponse.');
+            }
+        } else {
+            throw new Error('Response was not a TextXHRResponse.');
         }
-        return [];
     }
 
     public async getTopoMap(
@@ -127,9 +157,14 @@ export class UVExplorerClient {
         const body = JSON.stringify(topoMapRequest);
         const response = await this.sendXHRRequest(url, sessionGuid, 'POST', body);
         if (isTextXHRResponse(response)) {
-            return JSON.parse(response.responseText) as TopoMap;
+            if (isTopoMap(response)) {
+                return response;
+            } else {
+                throw new Error('Response was not a TopoMap.');
+            }
+        } else {
+            throw new Error('Response was not a TextXHRResponse.');
         }
-        return undefined;
     }
 
     private async sendXHRRequest(url: string, token: string, method: string, data?: string): Promise<XHRResponse> {
@@ -143,10 +178,35 @@ export class UVExplorerClient {
                 },
                 data: data
             };
-            return await this.client.xhr(request);
+            const response = await this.client.xhr(request);
+            this.checkStatusCode(response);
+            return response;
         } catch (error) {
             console.log('Error:', error);
             throw error;
+        }
+    }
+
+    private checkStatusCode(response: XHRResponse) {
+        switch (response.status) {
+            case 200: {
+                break;
+            }
+            case 400: {
+                throw new Error('Bad Request.');
+            }
+            case 401: {
+                throw new Error('Unauthorized.');
+            }
+            case 404: {
+                throw new Error('Not Found.');
+            }
+            case 409: {
+                throw new Error('Conflict.');
+            }
+            case 422: {
+                throw new Error('Unprocessable Entity (a network has not been loaded).');
+            }
         }
     }
 }

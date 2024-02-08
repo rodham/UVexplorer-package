@@ -70,4 +70,31 @@ describe('UVexplorer client successful tests', () => {
             data: undefined
         });
     });
+
+    it('should error when list networks call does not return network summaries', async () => {
+        const url = 'test';
+        const sessionId = '1234567890';
+        const testData = {
+            error: 'not found'
+        };
+        mockResponse = {
+            responseText: JSON.stringify(testData),
+            responseFormat: 'utf8',
+            url: 'testUrl',
+            status: 404,
+            headers: {}
+        };
+        const xhrSpy = jest.spyOn(mockClient, 'xhr').mockResolvedValue(mockResponse);
+
+        await client.listNetworks(url, sessionId);
+        expect(xhrSpy).toHaveBeenCalledWith({
+            url: url + '/public/api/v1/network/list',
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${sessionId}`
+            },
+            data: undefined
+        });
+    });
 });
