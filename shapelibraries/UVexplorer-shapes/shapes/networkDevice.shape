@@ -16,17 +16,9 @@
             "type": "file",
             "path": "devices/ip_camera_cctv.png"
         },
-        "laptop": {
-            "type": "file",
-            "path": "devices/laptop.png"
-        },
         "networkDevice": {
             "type": "file",
             "path": "devices/network-device.png"
-        },
-        "p2pBridge": {
-            "type": "file",
-            "path": "devices/P2PBridge.png"
         },
         "phoneManager": {
             "type": "file",
@@ -48,17 +40,9 @@
             "type": "file",
             "path": "devices/server.png"
         },
-        "storage": {
-            "type": "file",
-            "path": "devices/Storage.png"
-        },
         "switch": {
             "type": "file",
             "path": "devices/switch.png"
-        },
-        "UPS": {
-            "type": "file",
-            "path": "devices/UPS.png"
         },
         "virtualPortGroup": {
             "type": "file",
@@ -71,10 +55,6 @@
         "vmHost": {
             "type": "file",
             "path": "devices/VM-Host.png"
-        },
-        "vswitch": {
-            "type": "file",
-            "path": "devices/vswitch.png"
         },
         "wirelessAP": {
             "type": "file",
@@ -156,10 +136,6 @@
             "type": "file",
             "path": "companies/juniper.png"
         },
-        "lantechLogo": {
-            "type": "file",
-            "path": "companies/lantech.png"
-        },
         "mellanoxLogo": {
             "type": "file",
             "path": "companies/mellanox.png"
@@ -171,10 +147,6 @@
         "microsoftLogo": {
             "type": "file",
             "path": "companies/microsoft.png"
-        },
-        "mikrotikLogo": {
-            "type": "file",
-            "path": "companies/mikrotik.png"
         },
         "motorolaLogo": {
             "type": "file",
@@ -191,10 +163,6 @@
         "ruckusLogo": {
             "type": "file",
             "path": "companies/ruckus.png"
-        },
-        "siemensLogo": {
-            "type": "file",
-            "path": "companies/siemens.png"
         },
         "tpLinkLogo": {
             "type": "file",
@@ -1230,31 +1198,6 @@
             "style": {
                 "fill": {
                     "type": "image",
-                    "ref": "lantechLogo",
-                    "mode": "stretch"
-                },
-                "stroke":{
-                    "width": 0
-                }
-            },
-            "geometry": [
-                {
-                    "type": "rect",
-                    "condition": "=@make = 'Lantech'"
-                }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
-        },
-        {
-            "style": {
-                "fill": {
-                    "type": "image",
                     "ref": "mellanoxLogo",
                     "mode": "stretch"
                 },
@@ -1316,31 +1259,6 @@
                 {
                     "type": "rect",
                     "condition": "=@make = 'Microsoft'"
-                }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
-        },
-        {
-            "style": {
-                "fill": {
-                    "type": "image",
-                    "ref": "mikrotikLogo",
-                    "mode": "stretch"
-                },
-                "stroke":{
-                    "width": 0
-                }
-            },
-            "geometry": [
-                {
-                    "type": "rect",
-                    "condition": "=@make = 'Mikrotik'"
                 }
             ],
             "bounds": {
@@ -1441,31 +1359,6 @@
                 {
                     "type": "rect",
                     "condition": "=@make = 'Ruckus Wireless'"
-                }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
-        },
-        {
-            "style": {
-                "fill": {
-                    "type": "image",
-                    "ref": "siemensLogo",
-                    "mode": "stretch"
-                },
-                "stroke":{
-                    "width": 0
-                }
-            },
-            "geometry": [
-                {
-                    "type": "rect",
-                    "condition": "=@make = 'Siemens'"
                 }
             ],
             "bounds": {
