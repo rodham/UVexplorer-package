@@ -1,14 +1,12 @@
-import { DataSourceProxy, EditorClient, JsonObject, JsonSerializable, Modal, SerializedDataError, SerializedFieldType, Viewport, isJsonSerializable } from 'lucid-extension-sdk';
+import { DataSourceProxy, EditorClient, JsonSerializable, Modal, Viewport } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvexplorer-client';
 import { isLoadNetworkMessage } from '../model/message';
 import { DeviceListRequest, NetworkRequest } from '../model/uvexplorer-model';
 import {
     addDevicesToCollection,
     createOrRetrieveDeviceCollection,
-    createOrRetrieveNetworkSource,
-    deviceToRecord
+    createOrRetrieveNetworkSource
 } from './data-collections';
-import { NetworkDeviceBlock } from './network-device-block';
 
 export class UVexplorerModal extends Modal {
     private viewport: Viewport;
@@ -96,75 +94,12 @@ export class UVexplorerModal extends Modal {
         console.log(`Successfully loaded devices: ${source.getName()}`);
     }
 
-    private findCategory(deviceTypes: Set<string>) {
-        let orderedPrimaryCategories = [
-            'net-device',
-            'firewall',
-            'router',
-            'switch',
-            'printer',
-            'wireless-controller',
-            'wireless-ap',
-            'virtual-server',
-            'virtual-switch',
-            'virtual-port-group',
-            'ip-phone',
-            'ip-phone-manager',
-            'server',
-            'workstation',
-            'windows',
-            'windows-server',
-            'ip_camera_cctv',
-            'virtual-port-group',
-            'wireless-client'
-        ];
-
-        for (const category of orderedPrimaryCategories) {
-            if (deviceTypes.has(category)) {
-                return category;
-            }
-        }
-
-        return "unknown-device";
-    }
-
-    async createDeviceMap() {
-        const deviceListRequest = new DeviceListRequest();
-        const devices = await this.uvexplorerClient.listDevices(this.serverUrl, this.sessionGuid, deviceListRequest);
-
-        devices.forEach(device => {
-            const info_sets = JSON.parse(JSON.stringify(device.info_sets));
-            let company = "unknown-make";
-            if (info_sets.product_info != undefined) {
-                company = info_sets.product_info.vendor;
-            }
-
-            const deviceTypes: Set<string> = new Set();
-            device["device_categories"]["entries"].forEach(type => {
-                deviceTypes.add(type["device_category"]);
-            });
-
-            const deviceType = this.findCategory(deviceTypes);
-
-            this.createDeviceShape(company, deviceType);
-        });
-        
-        console.log("Created device map");
-    }
-
-    async createDeviceShape(company: string, deviceType: string) {
-        const newBlock = new NetworkDeviceBlock("0", this.client);
-        await newBlock.createCustomBlock(company, deviceType);
-    }
-
     protected async messageFromFrame(message: JsonSerializable) {
         console.log('Received a message from the child.');
         console.log(message);
         if (isLoadNetworkMessage(message)) {
             const source = await this.loadNetwork(message.name, message.network_guid);
             await this.loadDevices(source);
-
-            await this.createDeviceMap();
         }
     }
 }
