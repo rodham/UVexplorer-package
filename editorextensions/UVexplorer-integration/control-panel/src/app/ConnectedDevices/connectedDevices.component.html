@@ -1,0 +1,24 @@
+<div class="flex h-screen">
+  <!-- Connected Devices list-->
+  <div class="p-4 border-r">
+    <h1 class="border-b mb-4 pb-2 font-bold">Connected Devices</h1>
+    <div *ngIf="isLoading; else elseBlock">
+      <p id="loadingText">Loading...</p>
+    </div>
+    <ng-template #elseBlock>
+      <div *ngFor="let device of connectedDevices" class="mb-4">
+        <label class="flex items-center">
+          <span class="text-lg">{{ device.ip_address }}</span>
+        </label>
+      </div>
+      <button (click)="addDevices()" class="bg-blue-500 text-white py-2 px-4 rounded">Add Devices</button>
+    </ng-template>
+    <!-- <div *ngFor="let network of network_summaries" class="mb-4"> -->
+    <!--   <label class="flex items-center"> -->
+    <!--     <input type="radio" name="selectedNetwork" [(ngModel)]="selectedNetwork" [value]="network" class="mr-2" /> -->
+    <!--     <span class="text-lg">{{ network.name }}</span> -->
+    <!--   </label> -->
+    <!-- </div> -->
+    <!-- <button (click)="loadNetwork()" class="bg-blue-500 text-white py-2 px-4 rounded">Load Network</button> -->
+  </div>
+</div>

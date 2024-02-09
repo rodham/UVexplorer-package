@@ -1,8 +1,8 @@
-import { UVExplorerClient } from '../../src/uvexplorer-client';
+import { UVExplorerClient } from '@uvx/uvx-client';
 import * as lucid from 'lucid-extension-sdk';
 
 jest.mock('lucid-extension-sdk');
-jest.mock('../../model/uvexplorer-model');
+jest.mock('@model/uvexplorer-model');
 
 beforeEach(() => {
     jest.resetModules();

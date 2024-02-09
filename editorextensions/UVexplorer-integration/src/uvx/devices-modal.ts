@@ -1,12 +1,12 @@
 import { DataSourceProxy, EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
-import { isLoadNetworkMessage } from '../model/message';
-import { DeviceListRequest, NetworkRequest } from '../model/uvexplorer-model';
+import { isLoadNetworkMessage } from '@model/message';
+import { DeviceListRequest, NetworkRequest } from '@model/uvexplorer-model';
 import { UVXModal } from './uvx-modal';
 import {
     addDevicesToCollection,
     createOrRetrieveDeviceCollection,
     createOrRetrieveNetworkSource
-} from './data-collections';
+} from '../data-collections';
 
 export class UVexplorerModal extends UVXModal {
     private viewport: Viewport;

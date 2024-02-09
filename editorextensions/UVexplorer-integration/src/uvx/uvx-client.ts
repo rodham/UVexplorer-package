@@ -12,8 +12,8 @@ import {
     NetworkSummariesResponse,
     NetworkSummary,
     TopoMapRequest
-} from '../model/uvexplorer-model';
-import { TopoMap } from '../model/bundle/code/dtos/topology/TopoMap';
+} from '@model/uvexplorer-model';
+import { TopoMap } from '@model/bundle/code/dtos/topology/TopoMap';
 
 export class UVExplorerClient {
     private readonly basePath: string = '/public/api/v1';

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NetworkSummary } from '../../../../model/uvexplorer-model';
+import { NetworkSummary } from '@model/uvexplorer-model';
 import { NgForOf } from '@angular/common';
-import { isListNetworksMessage } from '../../../../model/message';
+import { isListNetworksMessage } from '@model/message';
 
 @Component({
   selector: 'networks',

@@ -1,4 +1,4 @@
-import { Device, DeviceCategories, DeviceClass, ProtocolProfile } from '../model/uvexplorer-model';
+import { Device, DeviceCategories, DeviceClass, ProtocolProfile } from '@model/uvexplorer-model';
 import {
     CollectionProxy,
     DataItemProxy,
