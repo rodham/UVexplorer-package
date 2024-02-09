@@ -3,11 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { NetworkSummary } from '../../../../model/uvexplorer-model';
 import { NgForOf } from '@angular/common';
 import { isListNetworksMessage } from '../../../../model/message';
+import { DevicesComponent } from '../devices/devices.component';
 
 @Component({
   selector: 'networks',
   standalone: true,
-  imports: [FormsModule, NgForOf],
+  imports: [FormsModule, NgForOf, DevicesComponent],
   templateUrl: './networks.component.html'
 })
 export class NetworksComponent {

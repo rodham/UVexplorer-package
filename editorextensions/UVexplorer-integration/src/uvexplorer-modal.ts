@@ -1,6 +1,6 @@
 import { DataSourceProxy, EditorClient, JsonSerializable, Modal, Viewport } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvexplorer-client';
-import { isLoadNetworkMessage } from '../model/message';
+import { isLoadNetworkMessage, isSelectedDevicesMessage } from '../model/message';
 import { DeviceListRequest, NetworkRequest } from '../model/uvexplorer-model';
 import {
     addDevicesToCollection,
@@ -91,6 +91,10 @@ export class UVexplorerModal extends Modal {
         const deviceListRequest = new DeviceListRequest();
         const devices = await this.uvexplorerClient.listDevices(this.serverUrl, this.sessionGuid, deviceListRequest);
         addDevicesToCollection(collection, devices);
+        await this.sendMessage({
+            action: 'listDevices',
+            devices: JSON.stringify(devices)
+        });
         console.log(`Successfully loaded devices: ${source.getName()}`);
     }
 
@@ -100,6 +104,9 @@ export class UVexplorerModal extends Modal {
         if (isLoadNetworkMessage(message)) {
             const source = await this.loadNetwork(message.name, message.network_guid);
             await this.loadDevices(source);
+        }
+        else if (isSelectedDevicesMessage(message)) {
+            console.log(message.devices);
         }
     }
 }

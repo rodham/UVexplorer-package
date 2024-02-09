@@ -34,3 +34,37 @@ export function isLoadNetworkMessage(message: unknown): message is LoadNetworkMe
         typeof message.network_guid === 'string'
     );
 }
+
+export interface ListDevicesMessage {
+    action: 'listDevices';
+    devices: string;
+}
+
+export function isListDevicesMessage(message: unknown): message is ListDevicesMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        message.action === 'listDevices' &&
+        'devices' in message &&
+        typeof message.devices === 'string'
+    );
+}
+
+export interface SelectedDevicesMessage {
+    action: 'selectDevices';
+    devices: string;
+}
+
+export function isSelectedDevicesMessage(message: unknown): message is SelectedDevicesMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        message.action === 'selectDevices' &&
+        'devices' in message &&
+        typeof message.devices === 'string'
+    );
+}

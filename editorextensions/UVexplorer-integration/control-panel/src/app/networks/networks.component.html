@@ -1,13 +1,16 @@
-<div class="flex h-screen">
-  <!-- Network List-->
-  <div class="p-4 border-r">
-    <h1 class="border-b mb-4 pb-2 font-bold">My Networks</h1>
-    <div *ngFor="let network of network_summaries" class="mb-4">
-      <label class="flex items-center">
-        <input type="radio" name="selectedNetwork" [(ngModel)]="selectedNetwork" [value]="network" class="mr-2" />
-        <span class="text-lg">{{ network.name }}</span>
-      </label>
+<div class="flex flex-row">
+  <div class="flex h-screen">
+    <!-- Network List-->
+    <div class="p-4 border-r">
+      <h1 class="border-b mb-4 pb-2 font-bold">My Networks</h1>
+      <div *ngFor="let network of network_summaries" class="mb-4">
+        <label class="flex items-center">
+          <input type="radio" name="selectedNetwork" [(ngModel)]="selectedNetwork" [value]="network" class="mr-2" />
+          <span class="text-lg">{{ network.name }}</span>
+        </label>
+      </div>
+      <button (click)="loadNetwork()" class="bg-blue-500 text-white py-2 px-4 rounded">Load Network</button>
     </div>
-    <button (click)="loadNetwork()" class="bg-blue-500 text-white py-2 px-4 rounded">Load Network</button>
   </div>
+  <app-devices></app-devices>
 </div>
