@@ -1,4 +1,4 @@
-import { EditorClient, isTextXHRResponse, XHRRequest, XHRResponse } from 'lucid-extension-sdk';
+import { EditorClient, isTextXHRResponse, TextXHRResponse, XHRRequest, XHRResponse } from 'lucid-extension-sdk';
 import {
     ConnectedDevicesRequest,
     Device,
@@ -24,11 +24,7 @@ export class UVExplorerClient {
     public async openSession(serverUrl: string, apiKey: string): Promise<string> {
         const url = serverUrl + this.basePath + '/session';
         const response = await this.sendXHRRequest(url, apiKey, 'POST');
-        if (isTextXHRResponse(response)) {
-            return response.responseText;
-        } else {
-            throw new Error('Response was not a TextXHRResponse.');
-        }
+        return response.responseText;
     }
 
     public async closeSession(serverUrl: string, sessionGuid: string): Promise<void> {
@@ -42,15 +38,11 @@ export class UVExplorerClient {
     public async listNetworks(serverUrl: string, sessionGuid: string): Promise<NetworkSummary[]> {
         const url = serverUrl + this.basePath + '/network/list';
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
-        if (isTextXHRResponse(response)) {
-            const networkSummariesResponse: unknown = JSON.parse(response.responseText);
-            if (isNetworkSummariesResponse(networkSummariesResponse)) {
-                return networkSummariesResponse.network_summaries;
-            } else {
-                throw new Error('Response was not a NetworkSummariesResponse');
-            }
+        const networkSummariesResponse: unknown = this.parseResponseJSON(response.responseText);
+        if (isNetworkSummariesResponse(networkSummariesResponse)) {
+            return networkSummariesResponse.network_summaries;
         } else {
-            throw new Error('Response was not a TextXHRResponse.');
+            throw new Error('Response was not a NetworkSummariesResponse.');
         }
     }
 
@@ -73,42 +65,33 @@ export class UVExplorerClient {
         const url = serverUrl + this.basePath + '/device/list';
         const data = JSON.stringify(deviceListRequest);
         const response = await this.sendXHRRequest(url, sessionGuid, 'POST', data);
-        if (isTextXHRResponse(response)) {
-            if (isDeviceListResponse(response)) {
-                return response.devices;
-            } else {
-                throw new Error('Response was not a DeviceListResponse.');
-            }
+        const deviceListResponse: unknown = this.parseResponseJSON(response.responseText);
+        if (isDeviceListResponse(deviceListResponse)) {
+            return deviceListResponse.devices;
         } else {
-            throw new Error('Response was not a TextXHRResponse.');
+            throw new Error('Response was not a DeviceListResponse.');
         }
     }
 
     public async listDeviceCategories(serverUrl: string, sessionGuid: string): Promise<string[]> {
         const url = serverUrl + this.basePath + '/device/category/list';
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
-        if (isTextXHRResponse(response)) {
-            if (isDeviceCategoryListResponse(response)) {
-                return response.device_categories;
-            } else {
-                throw new Error('Response was not a DeviceCategoryListResponse.');
-            }
+        const deviceCategoryResponse: unknown = this.parseResponseJSON(response.responseText);
+        if (isDeviceCategoryListResponse(deviceCategoryResponse)) {
+            return deviceCategoryResponse.device_categories;
         } else {
-            throw new Error('Response was not a TextXHRResponse.');
+            throw new Error('Response was not a DeviceCategoryListResponse.');
         }
     }
 
     public async listDeviceInfoSets(serverUrl: string, sessionGuid: string): Promise<InfoSet[]> {
         const url = serverUrl + this.basePath + '/device/infoset/list';
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
-        if (isTextXHRResponse(response)) {
-            if (isInfoSetListResponse(response)) {
-                return response.info_sets;
-            } else {
-                throw new Error('Response was not an InfoSetListResponse.');
-            }
+        const infoSetListResponse: unknown = this.parseResponseJSON(response.responseText);
+        if (isInfoSetListResponse(infoSetListResponse)) {
+            return infoSetListResponse.info_sets;
         } else {
-            throw new Error('Response was not a TextXHRResponse.');
+            throw new Error('Response was not an InfoSetListResponse.');
         }
     }
 
@@ -119,15 +102,13 @@ export class UVExplorerClient {
     ): Promise<DeviceDetailsResponse | undefined> {
         const url = serverUrl + this.basePath + `/device/details/${deviceGuid}`;
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
-        if (isTextXHRResponse(response)) {
-            if (isDeviceDetailsResponse(response)) {
-                return response;
-            } else {
-                throw new Error('Response was not a DeviceDetailsResponse.');
-            }
+        const deviceDetailsResponse: unknown = this.parseResponseJSON(response.responseText);
+        if (isDeviceDetailsResponse(deviceDetailsResponse)) {
+            return deviceDetailsResponse;
         } else {
-            throw new Error('Response was not a TextXHRResponse.');
+            throw new Error('Response was not a DeviceDetailsResponse.');
         }
+
     }
 
     public async listConnectedDevices(
@@ -138,15 +119,13 @@ export class UVExplorerClient {
         const url = serverUrl + this.basePath + `/device/connected`;
         const body = JSON.stringify(connectedDevicesRequest);
         const response = await this.sendXHRRequest(url, sessionGuid, 'POST', body);
-        if (isTextXHRResponse(response)) {
-            if (isDeviceListResponse(response)) {
-                return response.devices;
-            } else {
-                throw new Error('Response was not a DeviceListResponse.');
-            }
+        const deviceListResponse: unknown = this.parseResponseJSON(response.responseText);
+        if (isDeviceListResponse(deviceListResponse)) {
+            return deviceListResponse.devices;
         } else {
-            throw new Error('Response was not a TextXHRResponse.');
+            throw new Error('Response was not a DeviceListResponse.');
         }
+
     }
 
     public async getTopoMap(
@@ -157,18 +136,15 @@ export class UVExplorerClient {
         const url = serverUrl + this.basePath + `/device/topomap`;
         const body = JSON.stringify(topoMapRequest);
         const response = await this.sendXHRRequest(url, sessionGuid, 'POST', body);
-        if (isTextXHRResponse(response)) {
-            if (isTopoMap(response)) {
-                return response;
-            } else {
-                throw new Error('Response was not a TopoMap.');
-            }
+        const topoMap: unknown = this.parseResponseJSON(response.responseText);
+        if (isTopoMap(topoMap)) {
+            return topoMap;
         } else {
-            throw new Error('Response was not a TextXHRResponse.');
+            throw new Error('Response was not a TopoMap.');
         }
     }
 
-    private async sendXHRRequest(url: string, token: string, method: string, data?: string): Promise<XHRResponse> {
+    private async sendXHRRequest(url: string, token: string, method: string, data?: string): Promise<TextXHRResponse> {
         try {
             const request: XHRRequest = {
                 url: url,
@@ -181,14 +157,25 @@ export class UVExplorerClient {
             };
             const response = await this.client.xhr(request);
             this.checkStatusCode(response);
-            return response;
+            if (isTextXHRResponse(response)) {
+                return response;
+            }
+            throw Error('Response was not a TextXHRResponse.')
         } catch (error) {
             console.log('Error:', error);
             throw error;
         }
     }
 
-    private checkStatusCode(response: XHRResponse) {
+    public parseResponseJSON(responseText: string) : unknown {
+        try {
+            return JSON.parse(responseText)
+        } catch (e) {
+            throw new Error('Error parsing response JSON: ' + e)
+        }
+    }
+
+    public checkStatusCode(response: XHRResponse) {
         switch (response.status) {
             case 200: {
                 break;
