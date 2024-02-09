@@ -198,7 +198,7 @@ export function isNetworkSummary(obj: unknown): obj is NetworkSummary {
     );
 }
 
-interface AgentSummary {
+export interface AgentSummary {
     guid: string;
     created_time: string;
     modified_time: string;
@@ -227,7 +227,7 @@ function isAgentSummary(obj: unknown): obj is AgentSummary {
     );
 }
 
-interface DiscoverySummary {
+export interface DiscoverySummary {
     guid: string;
     created_time: string;
     modified_time: string;
@@ -253,7 +253,7 @@ function isDiscoverySummary(obj: unknown): obj is DiscoverySummary {
     );
 }
 
-interface DiscoveryRunSummary {
+export interface DiscoveryRunSummary {
     guid: string;
     start_time: string;
     end_time: string;
