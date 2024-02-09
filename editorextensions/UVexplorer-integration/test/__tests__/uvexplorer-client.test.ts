@@ -107,7 +107,7 @@ describe('UVexplorer client tests', () => {
             jest.spyOn(mockClient, 'xhr').mockResolvedValue(mockResponse);
             jest.spyOn(model, 'isNetworkSummariesResponse').mockReturnValue(false);
 
-            expect(await client.listNetworks(url, sessionId)).toThrow('Response was not a NetworkSummariesResponse.');
+            await expect(client.listNetworks(url, sessionId)).rejects.toThrow('Response was not a NetworkSummariesResponse.');
         });
     });
 
