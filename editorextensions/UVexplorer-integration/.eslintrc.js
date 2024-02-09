@@ -7,7 +7,26 @@ module.exports = {
     env: {
         node: true
     },
-    plugins: ['@typescript-eslint'],
+    plugins: ['@typescript-eslint', 'import'],
+    rules: {
+        'import/no-unresolved': 'error'
+    },
+    settings: {
+        'import/parsers': {
+            '@typescript-eslint/parser': ['.ts']
+        },
+        'import/resolver': {
+            typescript: {
+                alwaysTryTypes: true,
+                project: [
+                    './tsconfig.json',
+                    './test/tsconfig.json',
+                    './control-panel/tsconfig.json',
+                    './control-panel/tsconfig.spec.json'
+                ]
+            }
+        }
+    },
     parser: '@typescript-eslint/parser',
     parserOptions: {
         project: [

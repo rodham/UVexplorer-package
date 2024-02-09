@@ -32,7 +32,12 @@
             "esnext.asynciterable",
             "dom"
         ],
-        "outDir": "bin"
+        "outDir": "bin",
+        "paths": {
+            "@model/*": ["./model/*"],
+            "@uvx/*": ["./src/uvx/*"],
+            "@actions/*": ["./src/actions/*"]
+        }
     },
     "files": ["resources/resource.d.ts"],
     "include": ["src/**/*", "model/*"]
