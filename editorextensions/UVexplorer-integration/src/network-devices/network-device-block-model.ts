@@ -16,7 +16,7 @@ export class NetworkDeviceBlockModel extends CustomBlockProxy {
     }
 
     public async drawBlock() {
-        var customBlockDef = await this.client.getCustomShapeDefinition(this.library, this.shape);
+        const customBlockDef = await this.client.getCustomShapeDefinition(this.library, this.shape);
     
         if (!customBlockDef) {
             return;
