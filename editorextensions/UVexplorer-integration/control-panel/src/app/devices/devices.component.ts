@@ -20,15 +20,15 @@ export class DevicesComponent {
       console.log(e.data);
       if (isListDevicesMessage(e.data)) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        this.devices = JSON.parse(e.data.devices)
-        console.log("Received devices in component");
+        this.devices = JSON.parse(e.data.devices);
+        console.log('Received devices in component');
       }
     });
   }
 
   protected toggleDeviceSelect(device: Device) {
     if (this.selectedDevices.includes(device)) {
-      const index = this.selectedDevices.findIndex(obj => obj === device);
+      const index = this.selectedDevices.findIndex((obj) => obj === device);
       this.selectedDevices.splice(index, 1);
       return;
     }
@@ -37,9 +37,12 @@ export class DevicesComponent {
   }
 
   protected selectDevices() {
-    parent.postMessage({
-      action: 'selectDevices',
-      devices: JSON.stringify(this.selectedDevices)
-    }, '*');
+    parent.postMessage(
+      {
+        action: 'selectDevices',
+        devices: JSON.stringify(this.selectedDevices)
+      },
+      '*'
+    );
   }
 }

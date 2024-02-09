@@ -4,11 +4,42 @@ export interface DeviceDetailsResponse {
     infoSets: DeviceDetailsInfoSet[];
 }
 
+export function isDeviceDetailsResponse(obj: unknown): obj is DeviceDetailsResponse {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'deviceGuid' in obj &&
+        typeof obj.deviceGuid === 'string' &&
+        'displayName' in obj &&
+        typeof obj.displayName === 'string' &&
+        'infoSets' in obj &&
+        Array.isArray(obj.infoSets) &&
+        obj.infoSets.every(isDeviceDetailsInfoSet)
+    );
+}
+
 interface DeviceDetailsInfoSet {
     infoSetName: string;
     title: string;
     columns: Column[];
     entries: Entry[];
+}
+
+function isDeviceDetailsInfoSet(obj: unknown): obj is DeviceDetailsInfoSet {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'infoSetName' in obj &&
+        typeof obj.infoSetName === 'string' &&
+        'title' in obj &&
+        typeof obj.title === 'string' &&
+        'columns' in obj &&
+        Array.isArray(obj.columns) &&
+        obj.columns.every(isColumn) &&
+        'entries' in obj &&
+        Array.isArray(obj.entries) &&
+        obj.entries.every(isEntry)
+    );
 }
 
 interface Column {
@@ -18,9 +49,36 @@ interface Column {
     visible: boolean;
 }
 
+function isColumn(obj: unknown): obj is Column {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'field' in obj &&
+        typeof obj.field === 'string' &&
+        'header' in obj &&
+        typeof obj.header === 'string' &&
+        'type' in obj &&
+        typeof obj.type === 'string' &&
+        'visible' in obj &&
+        typeof obj.visible === 'boolean'
+    );
+}
+
 interface Entry {
     groupKey: string;
     values: Value[];
+}
+
+function isEntry(obj: unknown): obj is Entry {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'groupKey' in obj &&
+        typeof obj.groupKey === 'string' &&
+        'values' in obj &&
+        Array.isArray(obj.values) &&
+        obj.values.every(isValue)
+    );
 }
 
 interface Value {
@@ -28,8 +86,29 @@ interface Value {
     tagText: string;
 }
 
+function isValue(obj: unknown): obj is Value {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'value' in obj &&
+        typeof obj.value === 'string' &&
+        'tagText' in obj &&
+        typeof obj.tagText === 'string'
+    );
+}
+
 export interface DeviceCategoryListResponse {
     device_categories: string[];
+}
+
+export function isDeviceCategoryListResponse(obj: unknown): obj is DeviceCategoryListResponse {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'device_categories' in obj &&
+        Array.isArray(obj.device_categories) &&
+        obj.device_categories.every((category: unknown) => typeof category === 'string')
+    );
 }
 
 export interface InfoSet {
@@ -37,8 +116,29 @@ export interface InfoSet {
     description: string;
 }
 
+function isInfoSet(obj: unknown): obj is Value {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'name' in obj &&
+        typeof obj.name === 'string' &&
+        'description' in obj &&
+        typeof obj.description === 'string'
+    );
+}
+
 export interface InfoSetListResponse {
     info_sets: InfoSet[];
+}
+
+export function isInfoSetListResponse(obj: unknown): obj is InfoSetListResponse {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'info_sets' in obj &&
+        Array.isArray(obj.info_sets) &&
+        obj.info_sets.every(isInfoSet)
+    );
 }
 
 export class NetworkRequest {
@@ -59,6 +159,16 @@ export interface NetworkSummariesResponse {
     network_summaries: NetworkSummary[];
 }
 
+export function isNetworkSummariesResponse(obj: unknown): obj is NetworkSummariesResponse {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'network_summaries' in obj &&
+        Array.isArray(obj.network_summaries) &&
+        obj.network_summaries.every(isNetworkSummary)
+    );
+}
+
 export interface NetworkSummary {
     guid: string;
     created_time: string;
@@ -66,6 +176,26 @@ export interface NetworkSummary {
     name: string;
     description: string;
     agent_summaries: AgentSummary[];
+}
+
+export function isNetworkSummary(obj: unknown): obj is NetworkSummary {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'guid' in obj &&
+        typeof obj.guid === 'string' &&
+        'created_time' in obj &&
+        typeof obj.created_time === 'string' &&
+        'modified_time' in obj &&
+        typeof obj.modified_time === 'string' &&
+        'name' in obj &&
+        typeof obj.name === 'string' &&
+        'description' in obj &&
+        typeof obj.description === 'string' &&
+        'agent_summaries' in obj &&
+        Array.isArray(obj.agent_summaries) &&
+        obj.agent_summaries.every(isAgentSummary)
+    );
 }
 
 export interface AgentSummary {
@@ -77,6 +207,26 @@ export interface AgentSummary {
     discovery_summaries: DiscoverySummary[];
 }
 
+function isAgentSummary(obj: unknown): obj is AgentSummary {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'guid' in obj &&
+        typeof obj.guid === 'string' &&
+        'created_time' in obj &&
+        typeof obj.created_time === 'string' &&
+        'modified_time' in obj &&
+        typeof obj.modified_time === 'string' &&
+        'name' in obj &&
+        typeof obj.name === 'string' &&
+        'description' in obj &&
+        typeof obj.description === 'string' &&
+        'discovery_summaries' in obj &&
+        Array.isArray(obj.discovery_summaries) &&
+        obj.discovery_summaries.every(isDiscoverySummary)
+    );
+}
+
 export interface DiscoverySummary {
     guid: string;
     created_time: string;
@@ -85,10 +235,41 @@ export interface DiscoverySummary {
     discovery_run_summaries: DiscoveryRunSummary[];
 }
 
+function isDiscoverySummary(obj: unknown): obj is DiscoverySummary {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'guid' in obj &&
+        typeof obj.guid === 'string' &&
+        'created_time' in obj &&
+        typeof obj.created_time === 'string' &&
+        'modified_time' in obj &&
+        typeof obj.modified_time === 'string' &&
+        'name' in obj &&
+        typeof obj.name === 'string' &&
+        'discovery_run_summaries' in obj &&
+        Array.isArray(obj.discovery_run_summaries) &&
+        obj.discovery_run_summaries.every(isDiscoveryRunSummary)
+    );
+}
+
 export interface DiscoveryRunSummary {
     guid: string;
     start_time: string;
     end_time: string;
+}
+
+function isDiscoveryRunSummary(obj: unknown): obj is DiscoveryRunSummary {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'guid' in obj &&
+        typeof obj.guid === 'string' &&
+        'start_time' in obj &&
+        typeof obj.start_time === 'string' &&
+        'end_time' in obj &&
+        typeof obj.end_time === 'string'
+    );
 }
 
 // DeviceFilter
@@ -264,10 +445,34 @@ interface CollectorProfileEntry {
     source_name: string;
 }
 
+function isCollectorProfileEntry(obj: unknown): obj is CollectorProfileEntry {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'collector_name' in obj &&
+        typeof obj.collector_name === 'string' &&
+        'source_name' in obj &&
+        typeof obj.source_name === 'string'
+    );
+}
+
 export interface DeviceClass {
-    collector_profile: {
+    collector_profile?: {
         entries: CollectorProfileEntry[];
     };
+}
+
+function isDeviceClass(obj: unknown): obj is DeviceClass {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        (!('collector_profile' in obj) ||
+            (typeof obj.collector_profile === 'object' &&
+                obj.collector_profile !== null &&
+                'entries' in obj.collector_profile &&
+                Array.isArray(obj.collector_profile.entries) &&
+                obj.collector_profile.entries.every(isCollectorProfileEntry)))
+    );
 }
 
 interface DeviceCategoryEntry {
@@ -275,8 +480,29 @@ interface DeviceCategoryEntry {
     source_name: string;
 }
 
+function isDeviceCategoryEntry(obj: unknown): obj is DeviceCategoryEntry {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'device_category' in obj &&
+        typeof obj.device_category === 'string' &&
+        'source_name' in obj &&
+        typeof obj.source_name === 'string'
+    );
+}
+
 export interface DeviceCategories {
     entries: DeviceCategoryEntry[];
+}
+
+function isDeviceCategories(obj: unknown): obj is DeviceCategories {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'entries' in obj &&
+        Array.isArray(obj.entries) &&
+        obj.entries.every(isDeviceCategoryEntry)
+    );
 }
 
 interface ProtocolProfileEntry {
@@ -284,12 +510,43 @@ interface ProtocolProfileEntry {
     protocol_settings: unknown;
 }
 
+function isProtocolProfileEntry(obj: unknown): obj is ProtocolProfileEntry {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'protocol_name' in obj &&
+        typeof obj.protocol_name === 'string' &&
+        'protocol_settings' in obj &&
+        typeof obj.protocol_settings === 'object' // Adjust this condition based on the actual structure of protocol_settings
+    );
+}
+
 export interface ProtocolProfile {
     entries: ProtocolProfileEntry[];
 }
 
+function isProtocolProfile(obj: unknown): obj is ProtocolProfile {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'entries' in obj &&
+        Array.isArray(obj.entries) &&
+        obj.entries.every(isProtocolProfileEntry)
+    );
+}
+
 export interface DeviceListResponse {
     devices: Device[];
+}
+
+export function isDeviceListResponse(obj: unknown): obj is DeviceListResponse {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'devices' in obj &&
+        Array.isArray(obj.devices) &&
+        obj.devices.every(isDevice)
+    );
 }
 
 export class Device {
@@ -321,4 +578,26 @@ export class Device {
         this.protocol_profile = protocol_profile;
         this.timestamp = timestamp;
     }
+}
+
+export function isDevice(obj: unknown): obj is Device {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'ip_address' in obj &&
+        typeof obj.ip_address === 'string' &&
+        'mac_address' in obj &&
+        typeof obj.mac_address === 'string' &&
+        'guid' in obj &&
+        typeof obj.guid === 'string' &&
+        'info_sets' in obj && // Adjust this condition based on the actual structure of info_sets
+        'device_class' in obj &&
+        isDeviceClass(obj.device_class) &&
+        'device_categories' in obj &&
+        isDeviceCategories(obj.device_categories) &&
+        'protocol_profile' in obj &&
+        isProtocolProfile(obj.protocol_profile) &&
+        'timestamp' in obj &&
+        typeof obj.timestamp === 'string'
+    );
 }

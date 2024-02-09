@@ -18,6 +18,7 @@ export interface DeviceCategories {
 
 export interface DeviceNode extends IRectangle {
     id: number;
+    groupId: number;
     deviceGuid: string;
     nodeId: number;
     displayName: string;
@@ -36,7 +37,7 @@ export interface DeviceNode extends IRectangle {
     bottom: number;
     width: number;
     height: number;
-    selected: boolean;
+    selected?: boolean;
 }
 
 export enum DeviceState {
