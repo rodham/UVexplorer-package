@@ -107,7 +107,11 @@ export class UVexplorerModal extends Modal {
         try {
             const collection = createOrRetrieveDeviceCollection(source);
             const deviceListRequest = new DeviceListRequest();
-            const devices = await this.uvexplorerClient.listDevices(this.serverUrl, this.sessionGuid, deviceListRequest);
+            const devices = await this.uvexplorerClient.listDevices(
+                this.serverUrl,
+                this.sessionGuid,
+                deviceListRequest
+            );
             addDevicesToCollection(collection, devices);
             console.log(`Successfully loaded devices: ${source.getName()}`);
         } catch (e) {
@@ -123,7 +127,7 @@ export class UVexplorerModal extends Modal {
             if (source !== undefined) {
                 await this.loadDevices(source);
             } else {
-                console.error(`Could not load network: ${message.name}`)
+                console.error(`Could not load network: ${message.name}`);
             }
         }
     }

@@ -43,8 +43,9 @@ export class UVExplorerClient {
         const url = serverUrl + this.basePath + '/network/list';
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
         if (isTextXHRResponse(response)) {
-            if (isNetworkSummariesResponse(response)) {
-                return response.network_summaries;
+            const networkSummariesResponse: unknown = JSON.parse(response.responseText);
+            if (isNetworkSummariesResponse(networkSummariesResponse)) {
+                return networkSummariesResponse.network_summaries;
             } else {
                 throw new Error('Response was not a NetworkSummariesResponse');
             }

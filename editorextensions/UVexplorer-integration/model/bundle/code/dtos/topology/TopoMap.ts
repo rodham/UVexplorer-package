@@ -13,6 +13,7 @@ export interface TopoMap {
     deviceNodes: DeviceNode[];
     deviceGroupNodes: DeviceGroupNode[];
     hubNodes: HubNode[];
+    imageNodes: unknown; //TODO: Find out this typing. The example request was [].
     deviceLinks: DeviceLink[];
     width: number;
     height: number;
@@ -23,7 +24,7 @@ export interface TopoMap {
     centerX: number;
     centerY: number;
 
-    displayEdges: DisplayEdgeSet;
+    displayEdges?: DisplayEdgeSet;
 }
 
 export function isTopoMap(obj: unknown): obj is TopoMap {
@@ -40,6 +41,8 @@ export function isTopoMap(obj: unknown): obj is TopoMap {
         Array.isArray(obj.deviceGroupNodes) &&
         'hubNodes' in obj &&
         Array.isArray(obj.hubNodes) &&
+        'imageNodes' in obj &&
+        Array.isArray(obj.imageNodes) && // Adjust the typing once known
         'deviceLinks' in obj &&
         Array.isArray(obj.deviceLinks) &&
         'width' in obj &&
@@ -58,8 +61,7 @@ export function isTopoMap(obj: unknown): obj is TopoMap {
         typeof obj.centerX === 'number' &&
         'centerY' in obj &&
         typeof obj.centerY === 'number' &&
-        'displayEdges' in obj &&
-        isDisplayEdgeSet(obj.displayEdges)
+        ('displayEdges' in obj ? isDisplayEdgeSet(obj.displayEdges) : true)
     );
 }
 
@@ -119,12 +121,17 @@ export interface DrawSettings {
     deviceTrimLeftCount: number;
     deviceTrimRightCount: number;
     shortIfNames: boolean;
+    hideVendorImage: boolean;
+    hidePlatformImage: boolean;
+    deviceDisplaySetting: number; //TODO: Find out what this is. Is it an enum?
 
     standardPen: PenPattern;
     lagPen: PenPattern;
     manualPen: PenPattern;
     associatedPen: PenPattern;
     multiPen: PenPattern;
+    stpForwardingPen: PenPattern;
+    stpBlockingPen: PenPattern;
 }
 
 export function isDrawSettings(obj: any): obj is DrawSettings {
@@ -147,6 +154,12 @@ export function isDrawSettings(obj: any): obj is DrawSettings {
         typeof obj.deviceTrimRightCount === 'number' &&
         'shortIfNames' in obj &&
         typeof obj.shortIfNames === 'boolean' &&
+        'hideVendorImage' in obj &&
+        typeof obj.hideVendorImage === 'boolean' &&
+        'hidePlatformImage' in obj &&
+        typeof obj.hidePlatformImage === 'boolean' &&
+        'deviceDisplaySetting' in obj &&
+        typeof obj.deviceDisplaySetting === 'number' &&
         'standardPen' in obj &&
         isPenPattern(obj.standardPen) &&
         'lagPen' in obj &&
@@ -156,7 +169,11 @@ export function isDrawSettings(obj: any): obj is DrawSettings {
         'associatedPen' in obj &&
         isPenPattern(obj.associatedPen) &&
         'multiPen' in obj &&
-        isPenPattern(obj.multiPen)
+        isPenPattern(obj.multiPen) &&
+        'stpForwardingPen' in obj &&
+        isPenPattern(obj.stpForwardingPen) &&
+        'stpBlockingPen' in obj &&
+        isPenPattern(obj.stpBlockingPen)
     );
 }
 

@@ -457,7 +457,7 @@ function isCollectorProfileEntry(obj: unknown): obj is CollectorProfileEntry {
 }
 
 export interface DeviceClass {
-    collector_profile: {
+    collector_profile?: {
         entries: CollectorProfileEntry[];
     };
 }
@@ -466,12 +466,12 @@ function isDeviceClass(obj: unknown): obj is DeviceClass {
     return (
         typeof obj === 'object' &&
         obj !== null &&
-        'collector_profile' in obj &&
-        typeof obj.collector_profile === 'object' &&
-        obj.collector_profile !== null &&
-        'entries' in obj.collector_profile &&
-        Array.isArray(obj.collector_profile.entries) &&
-        obj.collector_profile.entries.every(isCollectorProfileEntry)
+        (!('collector_profile' in obj) ||
+            (typeof obj.collector_profile === 'object' &&
+                obj.collector_profile !== null &&
+                'entries' in obj.collector_profile &&
+                Array.isArray(obj.collector_profile.entries) &&
+                obj.collector_profile.entries.every(isCollectorProfileEntry)))
     );
 }
 
@@ -580,7 +580,7 @@ export class Device {
     }
 }
 
-function isDevice(obj: unknown): obj is Device {
+export function isDevice(obj: unknown): obj is Device {
     return (
         typeof obj === 'object' &&
         obj !== null &&
