@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NetworkSummary } from '../../../../model/uvexplorer-model';
-import { NgForOf } from '@angular/common';
+import { NgForOf, NgIf } from '@angular/common';
 import { isListNetworksMessage } from '../../../../model/message';
+import { DevicesComponent } from '../devices/devices.component';
 
 @Component({
   selector: 'networks',
   standalone: true,
-  imports: [FormsModule, NgForOf],
+  imports: [FormsModule, NgForOf, NgIf, DevicesComponent],
   templateUrl: './networks.component.html'
 })
 export class NetworksComponent {
@@ -21,6 +22,7 @@ export class NetworksComponent {
     created_time: '',
     modified_time: ''
   };
+  network_loaded = false;
 
   constructor() {
     window.addEventListener('message', (e) => {
@@ -42,5 +44,7 @@ export class NetworksComponent {
       },
       '*'
     );
+
+    this.network_loaded = true;
   }
 }
