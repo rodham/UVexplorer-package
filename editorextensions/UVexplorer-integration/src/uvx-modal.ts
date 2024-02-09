@@ -1,4 +1,4 @@
-import { EditorClient, Modal, Viewport } from 'lucid-extension-sdk';
+import { EditorClient, Modal } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvexplorer-client';
 
 export abstract class UVXModal extends Modal {
