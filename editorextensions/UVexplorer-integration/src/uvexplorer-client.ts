@@ -108,7 +108,6 @@ export class UVExplorerClient {
         } else {
             throw new Error('Response was not a DeviceDetailsResponse.');
         }
-
     }
 
     public async listConnectedDevices(
@@ -125,7 +124,6 @@ export class UVExplorerClient {
         } else {
             throw new Error('Response was not a DeviceListResponse.');
         }
-
     }
 
     public async getTopoMap(
@@ -160,18 +158,18 @@ export class UVExplorerClient {
             if (isTextXHRResponse(response)) {
                 return response;
             }
-            throw Error('Response was not a TextXHRResponse.')
+            throw Error('Response was not a TextXHRResponse.');
         } catch (error) {
             console.log('Error:', error);
             throw error;
         }
     }
 
-    public parseResponseJSON(responseText: string) : unknown {
+    public parseResponseJSON(responseText: string): unknown {
         try {
-            return JSON.parse(responseText)
+            return JSON.parse(responseText);
         } catch (e) {
-            throw new Error('Error parsing response JSON: ' + e)
+            throw new Error('Error parsing response JSON: ' + e);
         }
     }
 

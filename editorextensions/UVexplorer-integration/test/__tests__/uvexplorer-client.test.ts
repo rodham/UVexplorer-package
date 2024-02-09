@@ -22,7 +22,7 @@ describe('UVexplorer client tests', () => {
         status,
         headers: {},
         responseFormat: 'utf8',
-        responseText: responseText,
+        responseText: responseText
     });
 
     beforeEach(() => {
@@ -94,9 +94,7 @@ describe('UVexplorer client tests', () => {
                 },
                 data: undefined
             });
-            expect(isNetworkSummariesResponseSpy).toHaveBeenCalledWith(
-                JSON.parse(mockResponse.responseText)
-            );
+            expect(isNetworkSummariesResponseSpy).toHaveBeenCalledWith(JSON.parse(mockResponse.responseText));
         });
 
         it('should error when list networks call does not return network summaries', async () => {
@@ -107,25 +105,11 @@ describe('UVexplorer client tests', () => {
             jest.spyOn(mockClient, 'xhr').mockResolvedValue(mockResponse);
             jest.spyOn(model, 'isNetworkSummariesResponse').mockReturnValue(false);
 
-            await expect(client.listNetworks(url, sessionId)).rejects.toThrow('Response was not a NetworkSummariesResponse.');
+            await expect(client.listNetworks(url, sessionId)).rejects.toThrow(
+                'Response was not a NetworkSummariesResponse.'
+            );
         });
     });
-
-    // describe('loadNetwork tests', () => {});
-    //
-    // describe('unloadNetwork tests', () => {});
-    //
-    // describe('listDevices tests', () => {});
-    //
-    // describe('listDeviceCategories tests', () => {});
-    //
-    // describe('listDeviceInfoSets tests', () => {});
-    //
-    // describe('listDeviceDetails tests', () => {});
-    //
-    // describe('listConnectedDevices tests', () => {});
-    //
-    // describe('getTopoMap tests', () => {});
 
     describe('parseResponseJSON tests', () => {
         it('should parse valid JSON without errors', () => {
@@ -140,11 +124,10 @@ describe('UVexplorer client tests', () => {
         });
     });
 
-
     describe('checkStatusCode tests', () => {
         it('handles status code 200', () => {
             const response = createXHRResponse(200);
-            expect(() => (response)).not.toThrow();
+            expect(() => response).not.toThrow();
         });
 
         it.each([
@@ -152,7 +135,7 @@ describe('UVexplorer client tests', () => {
             [401, 'Unauthorized.'],
             [404, 'Not Found.'],
             [409, 'Conflict.'],
-            [422, 'Unprocessable Entity (a network has not been loaded).'],
+            [422, 'Unprocessable Entity (a network has not been loaded).']
         ])('throws error for status code %i', (statusCode, errorMessage) => {
             const response = createXHRResponse(statusCode);
             expect(() => client.checkStatusCode(response)).toThrow(errorMessage);
