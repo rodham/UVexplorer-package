@@ -1,7 +1,7 @@
-import { CustomBlockProxy, EditorClient, Viewport } from "lucid-extension-sdk";
+import { CustomBlockProxy, EditorClient, Viewport } from 'lucid-extension-sdk';
 
 export class NetworkDeviceBlockModel extends CustomBlockProxy {
-    private library = "UVexplorer-shapes";
+    private library = 'UVexplorer-shapes';
     private shape = 'networkDevice';
 
     private company: string;
@@ -17,16 +17,16 @@ export class NetworkDeviceBlockModel extends CustomBlockProxy {
 
     public async drawBlock() {
         const customBlockDef = await this.client.getCustomShapeDefinition(this.library, this.shape);
-    
+
         if (!customBlockDef) {
             return;
         }
-    
+
         const page = this.viewport.getCurrentPage();
         if (page != undefined) {
             const customBlock = page.addBlock(customBlockDef);
-            customBlock.shapeData.set("make", this.company);
-            customBlock.shapeData.set("deviceType", this.deviceType);
+            customBlock.shapeData.set('make', this.company);
+            customBlock.shapeData.set('deviceType', this.deviceType);
         }
     }
 }
