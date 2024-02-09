@@ -18,6 +18,26 @@ export abstract class UVXModal extends Modal {
         this.uvexplorerClient = new UVExplorerClient(client);
     }
 
+    public async configureSetting(setting: string) {
+        let settings = await this.client.getPackageSettings();
+        if (!settings.get(setting)) {
+            if (await this.client.canEditPackageSettings()) {
+                await this.client.alert(
+                    `You have not configured the ${setting}. You will now be prompted to complete that configuration.`
+                );
+                await this.client.showPackageSettingsModal();
+                settings = await this.client.getPackageSettings();
+                if (!settings.get(setting)) {
+                    return;
+                }
+            } else {
+                await this.client.alert(
+                    `Your account has not configured the ${setting}. Talk with your Lucid account administrator to complete configuration.`
+                );
+            }
+        }
+    }
+
     public async loadSettings() {
         const settings = await this.client.getPackageSettings();
         const apiKey = settings.get('apiKey');
@@ -30,12 +50,20 @@ export abstract class UVXModal extends Modal {
     }
 
     async openSession() {
-        this.sessionGuid = await this.uvexplorerClient.openSession(this.serverUrl, this.apiKey);
-        console.log(`Successfully opened a session: ${this.sessionGuid}`);
+        try {
+            this.sessionGuid = await this.uvexplorerClient.openSession(this.serverUrl, this.apiKey);
+            console.log(`Successfully opened a session: ${this.sessionGuid}`);
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     async closeSession() {
-        await this.uvexplorerClient.closeSession(this.serverUrl, this.sessionGuid);
-        console.log(`Successfully closed the session.`);
+        try {
+            await this.uvexplorerClient.closeSession(this.serverUrl, this.sessionGuid);
+            console.log(`Successfully closed the session.`);
+        } catch (e) {
+            console.error(e);
+        }
     }
 }
