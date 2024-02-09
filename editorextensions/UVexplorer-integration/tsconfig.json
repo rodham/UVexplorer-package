@@ -34,7 +34,7 @@
         ],
         "outDir": "bin",
         "paths": {
-            "@model/*": ["./model/*"],
+            "model/*": ["./model/*"],
             "@uvx/*": ["./src/uvx/*"],
             "@actions/*": ["./src/actions/*"]
         }

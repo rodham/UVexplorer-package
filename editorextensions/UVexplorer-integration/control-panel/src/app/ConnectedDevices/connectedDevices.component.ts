@@ -1,7 +1,7 @@
 import { NgForOf, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { Device } from '@model/uvexplorer-model';
-import { isListConnectedDevicesMessage } from '@model/message';
+import { Device } from 'model/uvexplorer-model';
+import { isListConnectedDevicesMessage } from 'model/message';
 
 @Component({
   selector: 'connected-devices',

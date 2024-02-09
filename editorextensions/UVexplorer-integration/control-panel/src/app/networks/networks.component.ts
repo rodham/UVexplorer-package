@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NetworkSummary } from '@model/uvexplorer-model';
-import { isListNetworksMessage } from '@model/message';
+import { NetworkSummary } from 'model/uvexplorer-model';
+import { isListNetworksMessage } from 'model/message';
 import { NgForOf, NgIf } from '@angular/common';
 import { DevicesComponent } from '../devices/devices.component';
 

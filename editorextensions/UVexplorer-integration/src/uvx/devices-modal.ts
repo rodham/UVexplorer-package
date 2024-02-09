@@ -1,6 +1,6 @@
 import { DataSourceProxy, EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
-import { isLoadNetworkMessage, isSelectedDevicesMessage } from '@model/message';
-import { DeviceListRequest, NetworkRequest } from '@model/uvexplorer-model';
+import { isLoadNetworkMessage, isSelectedDevicesMessage } from 'model/message';
+import { DeviceListRequest, NetworkRequest } from 'model/uvexplorer-model';
 import { UVXModal } from './uvx-modal';
 import {
     addDevicesToCollection,

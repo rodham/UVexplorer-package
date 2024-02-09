@@ -7,8 +7,8 @@ import {
     isInfoSetListResponse,
     isNetworkSummariesResponse,
     isNetworkSummary
-} from '../../model/uvexplorer-model';
-import { isTopoMap } from '../../model/bundle/code/dtos/topology/TopoMap';
+} from 'model/uvexplorer-model';
+import { isTopoMap } from 'model/bundle/code/dtos/topology/TopoMap';
 
 describe('UVexplorer model tests', () => {
     describe('isNetworkSummariesResponse tests', () => {
