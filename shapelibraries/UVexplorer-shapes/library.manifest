@@ -1,0 +1,13 @@
+{
+    "name": "UVexplorer Shape Library",
+    "shapes": [
+        {
+            "shape": "networkDevice",
+            "name": "Network Device",
+            "defaults": {
+                "width": 150,
+                "height": 150
+            }
+        }
+    ]
+}

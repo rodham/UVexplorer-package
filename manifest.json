@@ -21,7 +21,13 @@
       ]
     }
   ],
-  "shapeLibraries": [],
+  "shapeLibraries": [
+    {
+      "name": "UVexplorer-shapes",
+      "product": "chart",
+      "lcszPath": "shapelibraries/UVexplorer-shapes.lcsz"
+    }
+  ],
   "oauthProviders": [],
   "settings": [
     {
