@@ -105,15 +105,19 @@ export class UVexplorerModal extends Modal {
 
     async loadDevices(source: DataSourceProxy) {
         try {
-          const collection = createOrRetrieveDeviceCollection(source);
-          const deviceListRequest = new DeviceListRequest();
-          const devices = await this.uvexplorerClient.listDevices(this.serverUrl, this.sessionGuid, deviceListRequest);
-          addDevicesToCollection(collection, devices);
-          await this.sendMessage({
-              action: 'listDevices',
-              devices: JSON.stringify(devices)
-          });
-          console.log(`Successfully loaded devices: ${source.getName()}`);
+            const collection = createOrRetrieveDeviceCollection(source);
+            const deviceListRequest = new DeviceListRequest();
+            const devices = await this.uvexplorerClient.listDevices(
+                this.serverUrl,
+                this.sessionGuid,
+                deviceListRequest
+            );
+            addDevicesToCollection(collection, devices);
+            await this.sendMessage({
+                action: 'listDevices',
+                devices: JSON.stringify(devices)
+            });
+            console.log(`Successfully loaded devices: ${source.getName()}`);
         } catch (e) {
             console.error(e);
         }
@@ -129,8 +133,7 @@ export class UVexplorerModal extends Modal {
             } else {
                 console.error(`Could not load network: ${message.name}`);
             }
-        }
-        else if (isSelectedDevicesMessage(message)) {
+        } else if (isSelectedDevicesMessage(message)) {
             console.log(message.devices);
         }
     }
