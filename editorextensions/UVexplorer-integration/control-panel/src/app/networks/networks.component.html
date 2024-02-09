@@ -1,4 +1,4 @@
-<div class="flex flex-row">
+<div class="flex flex-row" *ngIf="!network_loaded">
   <div class="flex h-screen">
     <!-- Network List-->
     <div class="p-4 border-r">
@@ -12,5 +12,6 @@
       <button (click)="loadNetwork()" class="bg-blue-500 text-white py-2 px-4 rounded">Load Network</button>
     </div>
   </div>
-  <app-devices></app-devices>
 </div>
+<app-devices></app-devices>
+
