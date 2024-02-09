@@ -22,7 +22,7 @@ export class NetworksComponent {
     created_time: '',
     modified_time: ''
   };
-  network_loaded: boolean = false;
+  network_loaded = false;
 
   constructor() {
     window.addEventListener('message', (e) => {
