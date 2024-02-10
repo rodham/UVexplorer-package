@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
-import { isListDevicesMessage } from '../../../../model/message';
-import { Device } from '../../../../model/uvexplorer-model';
+import { isListDevicesMessage } from 'model/message';
+import { Device } from 'model/uvexplorer-model';
 
 @Component({
   selector: 'app-devices',

@@ -1,6 +1,6 @@
 import { EditorClient, Menu, Modal, Viewport } from 'lucid-extension-sdk';
-import { UVexplorerModal } from './uvexplorer-modal';
-import { showConnectedDevices, uvDeviceSelected } from './actions/devices';
+import { UVexplorerModal } from '@uvx/devices-modal';
+import { showConnectedDevices, uvDeviceSelected } from '@actions/devices';
 
 class FirstModal extends Modal {
     constructor(client: EditorClient) {
@@ -33,7 +33,7 @@ client.registerAction('uvDeviceSelected', () => {
     return uvDeviceSelected(viewport);
 });
 
-client.registerAction('showConnectedDevices', () => showConnectedDevices(viewport));
+client.registerAction('showConnectedDevices', () => showConnectedDevices(viewport, client));
 
 menu.addContextMenuItem({
     label: 'Show connected devices',

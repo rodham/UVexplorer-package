@@ -1,4 +1,4 @@
-import { uvDeviceSelected, showConnectedDevices } from '../../../src/actions/devices';
+import { uvDeviceSelected, showConnectedDevices } from '@actions/devices';
 import * as lucid from 'lucid-extension-sdk';
 
 jest.mock('lucid-extension-sdk');
@@ -8,9 +8,10 @@ beforeEach(() => {
 });
 
 describe('Device actions success tests', () => {
+    const mockClient = new lucid.EditorClient();
     const mockSelection = [
-        new lucid.BlockProxy('1', {} as lucid.EditorClient),
-        new lucid.BlockProxy('1', {} as lucid.EditorClient)
+        new lucid.BlockProxy('1', mockClient),
+        new lucid.BlockProxy('1', mockClient)
     ] as lucid.ItemProxy[];
     const mockViewport = {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -30,7 +31,7 @@ describe('Device actions success tests', () => {
     describe('showConnectedDevices tests', () => {
         it('should call console.log with selected items', () => {
             const logSpy = jest.spyOn(console, 'log');
-            showConnectedDevices(mockViewport);
+            showConnectedDevices(mockViewport, mockClient);
             expect(logSpy).toHaveBeenCalledWith('Selection:', mockSelection);
         });
     });

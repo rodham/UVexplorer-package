@@ -1,3 +1,5 @@
+import { Device } from './uvexplorer-model';
+
 export interface ListNetworksMessage {
     action: 'listNetworks';
     network_summaries: string;
@@ -35,6 +37,24 @@ export function isLoadNetworkMessage(message: unknown): message is LoadNetworkMe
     );
 }
 
+export interface GetConnectedDevicesMessage {
+    action: 'getConnectedDevices';
+    device_guids: string[];
+}
+
+export function isGetConnectedDevicesMessage(message: unknown): message is GetConnectedDevicesMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        message.action === 'getConnectedDevices' &&
+        'device_guids' in message &&
+        Array.isArray(message.device_guids) &&
+        message.device_guids.every((d) => typeof d === 'string')
+    );
+}
+
 export interface ListDevicesMessage {
     action: 'listDevices';
     devices: string;
@@ -49,6 +69,24 @@ export function isListDevicesMessage(message: unknown): message is ListDevicesMe
         message.action === 'listDevices' &&
         'devices' in message &&
         typeof message.devices === 'string'
+    );
+}
+
+export interface ListConnectedDevicesMessage {
+    action: 'listConnectedDevices';
+    devices: Device[];
+}
+
+export function isListConnectedDevicesMessage(message: unknown): message is ListConnectedDevicesMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        message.action === 'listConnectedDevices' &&
+        'devices' in message &&
+        Array.isArray(message.devices) &&
+        message.devices.every((d) => d instanceof Device)
     );
 }
 
