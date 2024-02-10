@@ -1,5 +1,5 @@
 import { EditorClient, Menu, Modal, Viewport } from 'lucid-extension-sdk';
-import { UVexplorerModal } from '@uvx/devices-modal';
+import { DevicesModal } from '@uvx/devices-modal';
 import { showConnectedDevices, uvDeviceSelected } from '@actions/devices';
 
 class FirstModal extends Modal {
@@ -42,7 +42,7 @@ menu.addContextMenuItem({
 });
 
 client.registerAction('loadNetwork', async () => {
-    const modal = new UVexplorerModal(client, viewport);
+    const modal = new DevicesModal(client, viewport);
 
     // Configuring settings using the showPackageSettingsModal() did not work locally
     // await modal.configureSetting('apiKey');

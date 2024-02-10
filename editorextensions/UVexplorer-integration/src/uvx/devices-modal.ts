@@ -5,15 +5,16 @@ import { UVXModal } from './uvx-modal';
 import {
     addDevicesToCollection,
     createOrRetrieveDeviceCollection,
-    createOrRetrieveNetworkSource
+    createOrRetrieveNetworkSource,
+    deleteDevicesFromCollection,
+    updatePageMap
 } from '../data-collections';
 
-export class UVexplorerModal extends UVXModal {
+export class DevicesModal extends UVXModal {
     private viewport: Viewport;
 
     constructor(client: EditorClient, viewport: Viewport) {
         super(client);
-
         this.viewport = viewport;
     }
 
@@ -36,6 +37,10 @@ export class UVexplorerModal extends UVXModal {
             const networkRequest = new NetworkRequest(guid);
             await this.uvexplorerClient.loadNetwork(this.serverUrl, this.sessionGuid, networkRequest);
             const source = createOrRetrieveNetworkSource(name, guid);
+            const page = this.viewport.getCurrentPage();
+            if (page !== undefined) {
+                updatePageMap(page.id, guid);
+            }
             console.log(`Successfully loaded network: ${name}`);
             return source;
         } catch (e) {
@@ -53,6 +58,7 @@ export class UVexplorerModal extends UVXModal {
                 this.sessionGuid,
                 deviceListRequest
             );
+            deleteDevicesFromCollection(collection); // TODO: Replace once updateDevicesInCollection Function is implemented
             addDevicesToCollection(collection, devices);
             await this.sendMessage({
                 action: 'listDevices',
