@@ -175,7 +175,7 @@ export interface NetworkSummary {
     modified_time: string;
     name: string;
     description: string;
-    agent_summaries: AgentSummary[];
+    agent_summaries?: AgentSummary[];
 }
 
 export function isNetworkSummary(obj: unknown): obj is NetworkSummary {
@@ -192,9 +192,9 @@ export function isNetworkSummary(obj: unknown): obj is NetworkSummary {
         typeof obj.name === 'string' &&
         'description' in obj &&
         typeof obj.description === 'string' &&
-        'agent_summaries' in obj &&
-        Array.isArray(obj.agent_summaries) &&
-        obj.agent_summaries.every(isAgentSummary)
+        ('agent_summaries' in obj
+            ? Array.isArray(obj.agent_summaries) && obj.agent_summaries.every(isAgentSummary)
+            : true)
     );
 }
 
@@ -492,16 +492,14 @@ function isDeviceCategoryEntry(obj: unknown): obj is DeviceCategoryEntry {
 }
 
 export interface DeviceCategories {
-    entries: DeviceCategoryEntry[];
+    entries?: DeviceCategoryEntry[];
 }
 
 function isDeviceCategories(obj: unknown): obj is DeviceCategories {
     return (
         typeof obj === 'object' &&
         obj !== null &&
-        'entries' in obj &&
-        Array.isArray(obj.entries) &&
-        obj.entries.every(isDeviceCategoryEntry)
+        ('entries' in obj ? Array.isArray(obj.entries) && obj.entries.every(isDeviceCategoryEntry) : true)
     );
 }
 
@@ -558,6 +556,7 @@ export class Device {
     device_categories: DeviceCategories;
     protocol_profile: ProtocolProfile;
     timestamp: string;
+    custom_name?: string;
 
     constructor(
         ip_address: string,
@@ -567,7 +566,8 @@ export class Device {
         device_class: DeviceClass,
         device_categories: DeviceCategories,
         protocol_profile: ProtocolProfile,
-        timestamp: string
+        timestamp: string,
+        custom_name?: string
     ) {
         this.ip_address = ip_address;
         this.mac_address = mac_address;
@@ -577,6 +577,7 @@ export class Device {
         this.device_categories = device_categories;
         this.protocol_profile = protocol_profile;
         this.timestamp = timestamp;
+        this.custom_name = custom_name;
     }
 }
 
@@ -598,6 +599,7 @@ export function isDevice(obj: unknown): obj is Device {
         'protocol_profile' in obj &&
         isProtocolProfile(obj.protocol_profile) &&
         'timestamp' in obj &&
-        typeof obj.timestamp === 'string'
+        typeof obj.timestamp === 'string' &&
+        ('custom_name' in obj ? typeof obj.custom_name === 'string' : true)
     );
 }
