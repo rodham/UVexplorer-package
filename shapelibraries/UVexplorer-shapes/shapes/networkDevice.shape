@@ -210,14 +210,7 @@
                     "type": "rect",
                     "condition": "=@deviceType = 'router'"
                 }
-            ],
-            "bounds": {
-                "x": 0,
-                "y": 0,
-                "absolute": "xywh",
-                "w": 150,
-                "h": 150
-            }
+            ]
         },
         {
             "style": {
@@ -235,14 +228,7 @@
                     "type": "rect",
                     "condition": "=@deviceType = 'switch'"
                 }
-            ],
-            "bounds": {
-                "x": 0,
-                "y": 0,
-                "absolute": "xywh",
-                "w": 150,
-                "h": 150
-            }
+            ]
         },
         {
             "style": {
@@ -260,14 +246,7 @@
                     "type": "rect",
                     "condition": "=@deviceType = 'server'"
                 }
-            ],
-            "bounds": {
-                "x": 0,
-                "y": 0,
-                "absolute": "xywh",
-                "w": 150,
-                "h": 150
-            }
+            ]
         },
         {
             "style": {
@@ -285,14 +264,7 @@
                     "type": "rect",
                     "condition": "=@deviceType = 'firewall'"
                 }
-            ],
-            "bounds": {
-                "x": 0,
-                "y": 0,
-                "absolute": "xywh",
-                "w": 150,
-                "h": 150
-            }
+            ]
         },
         {
             "style": {
@@ -310,14 +282,7 @@
                     "type": "rect",
                     "condition": "=@deviceType = 'ip-phone'"
                 }
-            ],
-            "bounds": {
-                "x": 0,
-                "y": 0,
-                "absolute": "xywh",
-                "w": 150,
-                "h": 150
-            }
+            ]
         },
         {
             "style": {
@@ -335,14 +300,7 @@
                     "type": "rect",
                     "condition": "=@deviceType = 'ip-phone-manager'"
                 }
-            ],
-            "bounds": {
-                "x": 0,
-                "y": 0,
-                "absolute": "xywh",
-                "w": 150,
-                "h": 150
-            }
+            ]
         },
         {
             "style": {
@@ -360,14 +318,7 @@
                     "type": "rect",
                     "condition": "=@deviceType = 'ip-camera-cctv'"
                 }
-            ],
-            "bounds": {
-                "x": 0,
-                "y": 0,
-                "absolute": "xywh",
-                "w": 150,
-                "h": 150
-            }
+            ]
         },
         {
             "style": {
@@ -385,14 +336,7 @@
                     "type": "rect",
                     "condition": "=@deviceType = 'windows'"
                 }
-            ],
-            "bounds": {
-                "x": 0,
-                "y": 0,
-                "absolute": "xywh",
-                "w": 150,
-                "h": 150
-            }
+            ]
         },
         {
             "style": {
@@ -410,14 +354,7 @@
                     "type": "rect",
                     "condition": "=@deviceType = 'windows-server'"
                 }
-            ],
-            "bounds": {
-                "x": 0,
-                "y": 0,
-                "absolute": "xywh",
-                "w": 150,
-                "h": 150
-            }
+            ]
         },
         {
             "style": {
@@ -435,14 +372,7 @@
                     "type": "rect",
                     "condition": "=@deviceType = 'printer'"
                 }
-            ],
-            "bounds": {
-                "x": 0,
-                "y": 0,
-                "absolute": "xywh",
-                "w": 150,
-                "h": 150
-            }
+            ]
         },
         {
             "style": {
@@ -460,14 +390,7 @@
                     "type": "rect",
                     "condition": "=@deviceType = 'hub'"
                 }
-            ],
-            "bounds": {
-                "x": 0,
-                "y": 0,
-                "absolute": "xywh",
-                "w": 150,
-                "h": 150
-            }
+            ]
         },
         {
             "style": {
@@ -485,14 +408,7 @@
                     "type": "rect",
                     "condition": "=@deviceType = 'wireless-ap'"
                 }
-            ],
-            "bounds": {
-                "x": 0,
-                "y": 0,
-                "absolute": "xywh",
-                "w": 150,
-                "h": 150
-            }
+            ]
         },
         {
             "style": {
@@ -510,14 +426,7 @@
                     "type": "rect",
                     "condition": "=@deviceType = 'wireless-controller'"
                 }
-            ],
-            "bounds": {
-                "x": 0,
-                "y": 0,
-                "absolute": "xywh",
-                "w": 150,
-                "h": 150
-            }
+            ]
         },
         {
             "style": {
@@ -535,14 +444,7 @@
                     "type": "rect",
                     "condition": "=@deviceType = 'workstation'"
                 }
-            ],
-            "bounds": {
-                "x": 0,
-                "y": 0,
-                "absolute": "xywh",
-                "w": 150,
-                "h": 150
-            }
+            ]
         },
         {
             "style": {
@@ -560,14 +462,7 @@
                     "type": "rect",
                     "condition": "=@deviceType = 'net-device'"
                 }
-            ],
-            "bounds": {
-                "x": 0,
-                "y": 0,
-                "absolute": "xywh",
-                "w": 150,
-                "h": 150
-            }
+            ]
         },
         {
             "style": {
@@ -585,14 +480,7 @@
                     "type": "rect",
                     "condition": "=@deviceType = 'wireless-client'"
                 }
-            ],
-            "bounds": {
-                "x": 0,
-                "y": 0,
-                "absolute": "xywh",
-                "w": 150,
-                "h": 150
-            }
+            ]
         },
         {
             "style": {
@@ -610,14 +498,7 @@
                     "type": "rect",
                     "condition": "=@deviceType = 'virtual-server'"
                 }
-            ],
-            "bounds": {
-                "x": 0,
-                "y": 0,
-                "absolute": "xywh",
-                "w": 150,
-                "h": 150
-            }
+            ]
         },
         {
             "style": {
@@ -635,14 +516,7 @@
                     "type": "rect",
                     "condition": "=@deviceType = 'virtual-switch'"
                 }
-            ],
-            "bounds": {
-                "x": 0,
-                "y": 0,
-                "absolute": "xywh",
-                "w": 150,
-                "h": 150
-            }
+            ]
         },
         {
             "style": {
@@ -660,14 +534,7 @@
                     "type": "rect",
                     "condition": "=@deviceType = 'virtual-port-group'"
                 }
-            ],
-            "bounds": {
-                "x": 0,
-                "y": 0,
-                "absolute": "xywh",
-                "w": 150,
-                "h": 150
-            }
+            ]
         },
         {
             "style": {
@@ -685,14 +552,7 @@
                     "type": "rect",
                     "condition": "=@deviceType = 'unknown-device'"
                 }
-            ],
-            "bounds": {
-                "x": 0,
-                "y": 0,
-                "absolute": "xywh",
-                "w": 150,
-                "h": 150
-            }
+            ]
         },
         {
             "style": {
@@ -710,14 +570,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Apple'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -735,14 +588,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Arista Networks'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -760,14 +606,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Aruba'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -785,14 +624,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Avaya'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -810,14 +642,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Brocade Communications Systems LLC'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -835,14 +660,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Foundry'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -860,14 +678,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Checkpoint Systems, Inc.'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -885,14 +696,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Check Point Software Technologies'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -910,14 +714,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Cisco'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -935,14 +732,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Dell'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -960,14 +750,7 @@
                     "type": "rect",
                     "condition": "=@make = 'D-Link'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -985,14 +768,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Enterasys'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1010,14 +786,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Extreme'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1035,14 +804,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Fortinet, Inc.'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1060,14 +822,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Hewlett Packard'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1085,14 +840,7 @@
                     "type": "rect",
                     "condition": "=@make = 'HPN Supply Chain'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1110,14 +858,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Hirschmann Automation'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1135,14 +876,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Hirschmann Automation and Control GmbH'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1160,14 +894,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Huawei'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1185,14 +912,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Juniper'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1210,14 +930,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Mellanox Technologies, Inc.'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1235,14 +948,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Meraki'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1260,14 +966,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Microsoft'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1285,14 +984,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Motorola'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1310,14 +1002,7 @@
                     "type": "rect",
                     "condition": "=@make = 'NETGEAR'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1335,14 +1020,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Rockwell Automation'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1360,14 +1038,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Ruckus Wireless'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1385,14 +1056,7 @@
                     "type": "rect",
                     "condition": "=@make = 'TP-LINK TECHNOLOGIES CO.,LTD.'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1410,14 +1074,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Ubiquiti'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1435,14 +1092,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Ubiquiti Networks Inc.'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1460,14 +1110,7 @@
                     "type": "rect",
                     "condition": "=@make = 'VMware'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1485,14 +1128,7 @@
                     "type": "rect",
                     "condition": "=@make = 'VMware, Inc'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1510,14 +1146,7 @@
                     "type": "rect",
                     "condition": "=@make = 'VMware, Inc.'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1535,14 +1164,7 @@
                     "type": "rect",
                     "condition": "=@make = 'Westermo'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         },
         {
             "style": {
@@ -1560,14 +1182,7 @@
                     "type": "rect",
                     "condition": "=@make = 'unknown-make'"
                 }
-            ],
-            "bounds": {
-                "x": 100,
-                "y": 100,
-                "absolute": "xywh",
-                "w": 50,
-                "h": 50
-            }
+            ]
         }
     ]
 }
