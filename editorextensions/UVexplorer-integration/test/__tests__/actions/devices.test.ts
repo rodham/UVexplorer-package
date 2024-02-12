@@ -13,7 +13,7 @@ describe('Device actions success tests', () => {
     const mockClient = new lucid.EditorClient();
     const mockSelection = [
         new lucid.BlockProxy('1', mockClient),
-        new lucid.BlockProxy('1', mockClient),
+        new lucid.BlockProxy('1', mockClient)
     ] as lucid.ItemProxy[];
     const mockViewport = {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
