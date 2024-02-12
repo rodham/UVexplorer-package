@@ -7,7 +7,6 @@ const menu = new Menu(client);
 const viewport: Viewport = new Viewport(client);
 
 client.registerAction('uvDeviceSelected', () => {
-    console.log('First in uvDeviceSelected');
     return uvDeviceSelected(viewport);
 });
 

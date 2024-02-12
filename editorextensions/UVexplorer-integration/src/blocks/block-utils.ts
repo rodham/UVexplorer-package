@@ -1,10 +1,19 @@
-import { BlockProxy, EditorClient, PageProxy, Viewport } from 'lucid-extension-sdk';
+import { BlockProxy, CustomBlockProxy, EditorClient, ItemProxy, PageProxy, Viewport } from 'lucid-extension-sdk';
 import { Device } from 'model/uvexplorer-model';
 import { DeviceNode } from 'model/bundle/code/dtos/topology/DeviceNode';
 import { DeviceLink } from 'model/bundle/code/dtos/topology/DeviceLink';
 
 const LIBRARY = 'UVexplorer-shapes';
-const SHAPE = 'networkDevice'
+const SHAPE = 'networkDevice';
+
+export function isNetworkDeviceBlock(item: ItemProxy) {
+    if (item instanceof CustomBlockProxy) {
+        if (item.isFromStencil(LIBRARY, SHAPE)) {
+            return true;
+        }
+    }
+    return false;
+}
 
 function findCategory(deviceTypes: Set<string>) {
     const orderedPrimaryCategories = [
@@ -138,3 +147,5 @@ function connectBlocks(block1: BlockProxy, block2: BlockProxy) {
         },
     });
 }
+
+
