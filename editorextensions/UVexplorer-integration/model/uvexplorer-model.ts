@@ -418,7 +418,7 @@ export class TopoMapRequest {
         drawSettings: DrawSettings,
         deviceGuids?: string[],
         primaryDeviceFilter?: DeviceFilter,
-        connectedDeviceFilter?: DeviceFilter,
+        connectedDeviceFilter?: DeviceFilter
     ) {
         this.deviceGuids = deviceGuids;
         this.primaryDeviceFilter = primaryDeviceFilter;
@@ -428,7 +428,7 @@ export class TopoMapRequest {
     }
 }
 
-export function createTopoMapRequest(devices: Device[]) : TopoMapRequest {
+export function createTopoMapRequest(devices: Device[]): TopoMapRequest {
     return new TopoMapRequest(
         {
             layoutType: 'Hierarchical',
@@ -460,81 +460,82 @@ export function createTopoMapRequest(devices: Device[]) : TopoMapRequest {
         },
         {
             shortDeviceNames: false,
-                deviceTrimLeft: false,
-                deviceTrimRight: false,
-                deviceTrimLeftChar: '.',
-                deviceTrimRightChar: '.',
-                deviceTrimRightCount: 1,
-                deviceTrimLeftCount: 1,
-                shortIfNames: false,
-                hideVendorImage: false,
-                hidePlatformImage: false,
-                deviceDisplaySetting: 'Default',
-                standardPen: {
+            deviceTrimLeft: false,
+            deviceTrimRight: false,
+            deviceTrimLeftChar: '.',
+            deviceTrimRightChar: '.',
+            deviceTrimRightCount: 1,
+            deviceTrimLeftCount: 1,
+            shortIfNames: false,
+            hideVendorImage: false,
+            hidePlatformImage: false,
+            deviceDisplaySetting: 'Default',
+            standardPen: {
                 color: {
                     red: 0,
-                        green: 0,
-                        blue: 0
+                    green: 0,
+                    blue: 0
                 },
                 width: 1,
-                    dashStyle: 'Solid'
+                dashStyle: 'Solid'
             },
             lagPen: {
                 color: {
                     red: 0,
-                        green: 0,
-                        blue: 0
+                    green: 0,
+                    blue: 0
                 },
                 width: 1,
-                    dashStyle: 'Solid'
+                dashStyle: 'Solid'
             },
             manualPen: {
                 color: {
                     red: 0,
-                        green: 0,
-                        blue: 0
+                    green: 0,
+                    blue: 0
                 },
                 width: 1,
-                    dashStyle: 'Solid'
+                dashStyle: 'Solid'
             },
             associatedPen: {
                 color: {
                     red: 0,
-                        green: 0,
-                        blue: 0
+                    green: 0,
+                    blue: 0
                 },
                 width: 1,
-                    dashStyle: 'Solid'
+                dashStyle: 'Solid'
             },
             multiPen: {
                 color: {
                     red: 0,
-                        green: 0,
-                        blue: 0
+                    green: 0,
+                    blue: 0
                 },
                 width: 1,
-                    dashStyle: 'Solid'
+                dashStyle: 'Solid'
             },
             stpForwardingPen: {
                 color: {
                     red: 0,
-                        green: 0,
-                        blue: 0
+                    green: 0,
+                    blue: 0
                 },
                 width: 1,
-                    dashStyle: 'Solid'
+                dashStyle: 'Solid'
             },
             stpBlockingPen: {
                 color: {
                     red: 0,
-                        green: 0,
-                        blue: 0
+                    green: 0,
+                    blue: 0
                 },
                 width: 1,
-                    dashStyle: 'Solid'
+                dashStyle: 'Solid'
             }
         },
-        devices.map((d) => d.guid))
+        devices.map((d) => d.guid)
+    );
 }
 
 // DeviceListRequest

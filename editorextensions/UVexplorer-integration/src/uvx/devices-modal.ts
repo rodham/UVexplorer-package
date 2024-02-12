@@ -1,11 +1,6 @@
 import { DataSourceProxy, EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
 import { isLoadNetworkMessage, isSelectedDevicesMessage, selectedDevicesMessageToDevices } from 'model/message';
-import {
-    createTopoMapRequest,
-    Device,
-    DeviceListRequest,
-    NetworkRequest
-} from 'model/uvexplorer-model';
+import { createTopoMapRequest, Device, DeviceListRequest, NetworkRequest } from 'model/uvexplorer-model';
 import { UVXModal } from './uvx-modal';
 import {
     addDevicesToCollection,
@@ -80,17 +75,12 @@ export class DevicesModal extends UVXModal {
     async loadTopoMap(devices: Device[]): Promise<TopoMap | undefined> {
         try {
             const topoMapRequest = createTopoMapRequest(devices);
-            return await this.uvexplorerClient.getTopoMap(
-                this.serverUrl,
-                this.sessionGuid,
-                topoMapRequest
-            )
+            return await this.uvexplorerClient.getTopoMap(this.serverUrl, this.sessionGuid, topoMapRequest);
         } catch (e) {
             console.error(e);
             return undefined;
         }
     }
-
 
     protected async messageFromFrame(message: JsonSerializable) {
         console.log('Received a message from the child.');
@@ -109,10 +99,8 @@ export class DevicesModal extends UVXModal {
                 await drawBlocks(this.client, this.viewport, devices, topoMap.deviceNodes);
                 drawLinks(this.client, this.viewport, topoMap.deviceLinks);
             } else {
-                console.error('Could not load topo map data.')
+                console.error('Could not load topo map data.');
             }
         }
     }
-
-
 }

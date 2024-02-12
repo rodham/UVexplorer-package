@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
-import {
-  isListDevicesMessage,
-  listDevicesMessageToDevices
-} from 'model/message';
+import { isListDevicesMessage, listDevicesMessageToDevices } from 'model/message';
 import { Device, isDevice } from 'model/uvexplorer-model';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, RowSelectedEvent } from 'ag-grid-community';
