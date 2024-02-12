@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
 import {
   isListDevicesMessage,
-  listDevicesMessageToDevices,
-  listNetworksMessageToNetworkSummaries
+  listDevicesMessageToDevices
 } from '../../../../model/message';
 import { Device, isDevice } from '../../../../model/uvexplorer-model';
 import { AgGridAngular } from 'ag-grid-angular';
