@@ -55,6 +55,13 @@ export function addDevicesToCollection(collection: CollectionProxy, devices: Dev
     });
 }
 
+export function deleteDevicesFromCollection(collection: CollectionProxy) {
+    const guids = collection.items.keys();
+    collection.patchItems({
+        deleted: guids
+    });
+}
+
 export function deviceToRecord(device: Device): Record<string, SerializedFieldType> {
     return {
         guid: device.guid,
@@ -87,4 +94,61 @@ export function collectionToDevices(collection: CollectionProxy): Device[] {
         devices.push(itemToDevice(collection.items.get(key)));
     }
     return devices;
+}
+
+export function createOrRetrievePageMapSource() {
+    for (const [, source] of data.dataSources) {
+        if (source.getSourceConfig().id === 'PageMap') {
+            return source;
+        }
+    }
+    return data.addDataSource('PageMap', { id: 'PageMap' });
+}
+
+export function createOrRetrievePageMapCollection() {
+    const source = createOrRetrievePageMapSource();
+    for (const [, collection] of source.collections) {
+        if (collection.getName() === 'page_map') {
+            return collection;
+        }
+    }
+    return source.addCollection('page_map', {
+        fields: [
+            { name: 'page_id', type: ScalarFieldTypeEnum.STRING },
+            { name: 'network_guid', type: ScalarFieldTypeEnum.STRING }
+        ],
+        primaryKey: ['page_id']
+    });
+}
+
+export function updatePageMap(pageId: string, networkGuid: string) {
+    const collection = createOrRetrievePageMapCollection();
+
+    for (const [key, item] of collection.items) {
+        if (item.fields.get('page_id') === pageId) {
+            const map = new Map<string, Record<string, SerializedFieldType>>();
+            map.set(key, { page_id: pageId, network_guid: networkGuid });
+            collection.patchItems({
+                changed: map
+            });
+            return;
+        }
+    }
+
+    collection.patchItems({
+        added: [{ page_id: pageId, network_guid: networkGuid }]
+    });
+}
+
+export function getNetworkForPage(pageId: string): string {
+    const collection = createOrRetrievePageMapCollection();
+    for (const [, item] of collection.items) {
+        if (item.fields.get('page_id') === pageId) {
+            const networkGuid: SerializedFieldType = item.fields.get('network_guid');
+            if (typeof networkGuid === 'string') {
+                return networkGuid.toString();
+            }
+        }
+    }
+    throw new Error('Could not retrieve the network associated with the current page.');
 }

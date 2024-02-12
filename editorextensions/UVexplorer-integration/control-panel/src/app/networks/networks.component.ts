@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NetworkSummary } from 'model/uvexplorer-model';
-import { isListNetworksMessage } from 'model/message';
+import { isListNetworksMessage, listNetworksMessageToNetworkSummaries } from 'model/message';
 import { NgForOf, NgIf } from '@angular/common';
 import { DevicesComponent } from '../devices/devices.component';
 
@@ -28,9 +28,12 @@ export class NetworksComponent {
     window.addEventListener('message', (e) => {
       console.log('Received a message from the parent.');
       console.log(e.data);
-      if (isListNetworksMessage(e.data)) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        this.network_summaries = JSON.parse(e.data.network_summaries);
+      try {
+        if (isListNetworksMessage(e.data)) {
+          this.network_summaries = listNetworksMessageToNetworkSummaries(e.data);
+        }
+      } catch (e) {
+        console.error(e);
       }
     });
   }

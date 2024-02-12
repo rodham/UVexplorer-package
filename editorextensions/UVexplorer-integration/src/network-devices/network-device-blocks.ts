@@ -65,9 +65,11 @@ export class NetworkDeviceBlocks {
 
     private getDeviceType(device: Device) {
         const deviceTypes = new Set<string>();
-        device.device_categories.entries.forEach((type) => {
-            deviceTypes.add(type.device_category);
-        });
+        if (device.device_categories.entries !== undefined) {
+            device.device_categories.entries.forEach((type) => {
+                deviceTypes.add(type.device_category);
+            });
+        }
 
         const deviceType = this.findCategory(deviceTypes);
         return deviceType;

@@ -1,4 +1,4 @@
-import { Device } from './uvexplorer-model';
+import { Device, isNetworkSummary, NetworkSummary } from './uvexplorer-model';
 
 export interface ListNetworksMessage {
     action: 'listNetworks';
@@ -15,6 +15,14 @@ export function isListNetworksMessage(message: unknown): message is ListNetworks
         'network_summaries' in message &&
         typeof message.network_summaries === 'string'
     );
+}
+
+export function listNetworksMessageToNetworkSummaries(message: ListNetworksMessage): NetworkSummary[] {
+    const networkSummaries: unknown = JSON.parse(message.network_summaries);
+    if (Array.isArray(networkSummaries) && networkSummaries.every(isNetworkSummary)) {
+        return networkSummaries;
+    }
+    throw new Error('Could not parse network summaries from message.');
 }
 
 export interface LoadNetworkMessage {
