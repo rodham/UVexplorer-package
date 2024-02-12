@@ -1,11 +1,7 @@
-import { EditorClient, Viewport } from 'lucid-extension-sdk';
+import { BlockProxy, EditorClient, PageProxy, Viewport } from 'lucid-extension-sdk';
 import { Device } from 'model/uvexplorer-model';
-import {
-    createOrRetrieveDeviceCollection,
-    createOrRetrieveNetworkSource,
-    getNetworkForPage
-} from '../data-collections';
 import { DeviceNode } from 'model/bundle/code/dtos/topology/DeviceNode';
+import { DeviceLink } from 'model/bundle/code/dtos/topology/DeviceLink';
 
 const LIBRARY = 'UVexplorer-shapes';
 const SHAPE = 'networkDevice'
@@ -84,20 +80,61 @@ export async function drawBlocks(client: EditorClient, viewport: Viewport, devic
 
             const block = page.addBlock({
                 ...customBlockDef,
-                boundingBox: { x: deviceNode[0].x, y: deviceNode[0].y, w: 150, h: 150 }
+                boundingBox: { x: deviceNode[0].x, y: deviceNode[0].y, w: 50, h: 50 }
             });
             block.shapeData.set('make', getCompany(device));
             block.shapeData.set('deviceType', getDeviceType(device));
+            block.shapeData.set('guid', device.guid);
 
-            const networkGuid = getNetworkForPage(page.id);
-            const source = createOrRetrieveNetworkSource('', networkGuid);
-            const collection = createOrRetrieveDeviceCollection(source);
-
-            block.setReferenceKey('device_reference_key', {
-                collectionId: collection.id,
-                primaryKey: device.guid,
-                readonly: true,
-            });
+            // TODO: Figure out why setting the reference key throws JSON parsing errors
+            // const networkGuid = getNetworkForPage(page.id);
+            // const source = createOrRetrieveNetworkSource('', networkGuid);
+            // const collection = createOrRetrieveDeviceCollection(source);
+            // block.setReferenceKey('device_reference_key', {
+            //     collectionId: collection.id,
+            //     primaryKey: device.guid,
+            //     readonly: true,
+            // });
         }
     }
+}
+
+function getBlockFromGuid(page: PageProxy, guid: string): BlockProxy | undefined {
+    for (const block of page.blocks.values()) {
+        if (block.shapeData.get('guid') === guid) {
+            return block;
+        }
+    }
+    return undefined;
+}
+
+export function drawLinks(client: EditorClient, viewport: Viewport, deviceLinks: DeviceLink[]) {
+    const page = viewport.getCurrentPage();
+    if (page !== undefined) {
+        for (const link of deviceLinks) {
+            for (const linkMembers of link.linkMembers) {
+                console.log(linkMembers);
+                const deviceBlock = getBlockFromGuid(page, linkMembers.deviceGuid);
+                const connectedDeviceBlock = getBlockFromGuid(page, linkMembers.connectedDeviceGuid);
+                if (deviceBlock !== undefined && connectedDeviceBlock !== undefined) {
+                    connectBlocks(deviceBlock, connectedDeviceBlock);
+                }
+            }
+        }
+    }
+}
+
+function connectBlocks(block1: BlockProxy, block2: BlockProxy) {
+    block1.getPage().addLine({
+        endpoint1: {
+            connection: block1,
+            linkX: 0.5,
+            linkY: 1,
+        },
+        endpoint2: {
+            connection: block2,
+            linkX: 0.5,
+            linkY: 0,
+        },
+    });
 }

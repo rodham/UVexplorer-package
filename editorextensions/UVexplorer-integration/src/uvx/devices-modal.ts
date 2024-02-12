@@ -14,7 +14,7 @@ import {
     deleteDevicesFromCollection,
     updatePageMap
 } from '../data-collections';
-import { drawBlocks } from '@blocks/block-utils';
+import { drawBlocks, drawLinks } from '@blocks/block-utils';
 import { TopoMap } from 'model/bundle/code/dtos/topology/TopoMap';
 
 export class DevicesModal extends UVXModal {
@@ -107,6 +107,7 @@ export class DevicesModal extends UVXModal {
             const topoMap = await this.loadTopoMap(devices);
             if (topoMap !== undefined) {
                 await drawBlocks(this.client, this.viewport, devices, topoMap.deviceNodes);
+                drawLinks(this.client, this.viewport, topoMap.deviceLinks);
             } else {
                 console.error('Could not load topo map data.')
             }

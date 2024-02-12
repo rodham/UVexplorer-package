@@ -1,28 +1,6 @@
-import { EditorClient, Menu, Modal, Viewport } from 'lucid-extension-sdk';
+import { EditorClient, Menu, Viewport } from 'lucid-extension-sdk';
 import { DevicesModal } from '@uvx/devices-modal';
 import { showConnectedDevices, uvDeviceSelected } from '@actions/devices';
-
-class FirstModal extends Modal {
-    constructor(client: EditorClient) {
-        super(client, {
-            title: 'First',
-            width: 800,
-            height: 600,
-            url: 'http://localhost:4200/first'
-        });
-    }
-}
-
-class SecondModal extends Modal {
-    constructor(client: EditorClient) {
-        super(client, {
-            title: 'Second',
-            width: 800,
-            height: 600,
-            url: 'http://localhost:4200/second'
-        });
-    }
-}
 
 const client = new EditorClient();
 const menu = new Menu(client);
@@ -44,7 +22,7 @@ menu.addContextMenuItem({
 client.registerAction('loadNetwork', async () => {
     const modal = new DevicesModal(client, viewport);
 
-    // Configuring settings using the showPackageSettingsModal() did not work locally
+    // TODO: Add back when deploying. Package settings config did not save locally.
     // await modal.configureSetting('apiKey');
     // await modal.configureSetting('serverUrl');
 
@@ -64,28 +42,7 @@ menu.addDropdownMenuItem({
     action: 'loadNetwork'
 });
 
-client.registerAction('first', async () => {
-    const modal = new FirstModal(client);
-    await modal.show();
-});
-
-menu.addDropdownMenuItem({
-    label: 'First',
-    action: 'first'
-});
-
-client.registerAction('second', async () => {
-    const modal = new SecondModal(client);
-    await modal.show();
-});
-
-menu.addDropdownMenuItem({
-    label: 'Second',
-    action: 'second'
-});
-
 async function init() {
-    await client.loadBlockClasses(['LucidCardBlock']);
     await client.loadBlockClasses(['NetworkDeviceBlock']);
 }
 

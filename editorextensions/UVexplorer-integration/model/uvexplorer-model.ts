@@ -431,7 +431,7 @@ export class TopoMapRequest {
 export function createTopoMapRequest(devices: Device[]) : TopoMapRequest {
     return new TopoMapRequest(
         {
-            layoutType: 'Manual',
+            layoutType: 'Hierarchical',
             radialSettings: {
                 minRadius: 0,
                 maxRadius: 0,
@@ -439,9 +439,9 @@ export function createTopoMapRequest(devices: Device[]) : TopoMapRequest {
                 maximizeRoot: true
             },
             hierarchicalSettings: {
-                levelSpacing: 0,
+                levelSpacing: 100,
                 useStraightLinks: true,
-                nodeSpacing: 0,
+                nodeSpacing: 100,
                 layoutDirection: 'Down',
                 rootAlignment: 'Center'
             },

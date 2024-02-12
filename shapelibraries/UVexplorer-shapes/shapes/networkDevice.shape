@@ -187,10 +187,18 @@
     },
     "properties": [
         {
-            "name": 'make', "label": 'Make', "type": "string", "default": "unknown-make", "constraints": []
+            "name": "make",
+            "label": "Make",
+            "type": "string",
+            "default": "unknown-make",
+            "constraints": []
         },
         {
-            "name": 'deviceType', "label": 'DeviceType', "type": "string", "default": "unknown-device", "constraints": []
+            "name": "deviceType",
+            "label": "DeviceType",
+            "type": "string",
+            "default": "unknown-device",
+            "constraints": []
         }
     ],
     "shapes": [
