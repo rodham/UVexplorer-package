@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
-import { isListDevicesMessage } from '../../../../model/message';
-import { Device } from '../../../../model/uvexplorer-model';
+import {
+  isListDevicesMessage,
+  listDevicesMessageToDevices,
+  listNetworksMessageToNetworkSummaries
+} from '../../../../model/message';
+import { Device, isDevice } from '../../../../model/uvexplorer-model';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, RowSelectedEvent } from 'ag-grid-community';
 
@@ -23,8 +27,7 @@ export class DevicesComponent {
       console.log('Received a message from the parent.');
       console.log(e.data);
       if (isListDevicesMessage(e.data)) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        this.devices = JSON.parse(e.data.devices);
+        this.devices = listDevicesMessageToDevices(e.data);
         console.log('Received devices in component');
       }
     });
@@ -56,14 +59,12 @@ export class DevicesComponent {
   ];
 
   protected onRowSelected(event: RowSelectedEvent) {
-    if (event.node.isSelected() && event.node.data instanceof Device) {
+    if (event.node.isSelected() && isDevice(event.node.data)) {
       this.selectedDevices.push(event.node.data);
     } else {
       const index = this.selectedDevices.findIndex((obj) => obj === event.node.data);
       this.selectedDevices.splice(index, 1);
     }
-
-    console.log('Selected length ', this.selectedDevices.length);
   }
 
   protected selectDevices() {
