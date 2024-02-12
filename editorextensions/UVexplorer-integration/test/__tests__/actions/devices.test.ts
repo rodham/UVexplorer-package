@@ -1,7 +1,9 @@
 import { uvDeviceSelected, showConnectedDevices } from '@actions/devices';
 import * as lucid from 'lucid-extension-sdk';
+import * as block from '@blocks/block-utils';
 
 jest.mock('lucid-extension-sdk');
+jest.mock('@blocks/block-utils');
 
 beforeEach(() => {
     jest.resetModules();
@@ -24,6 +26,7 @@ describe('Device actions success tests', () => {
 
     describe('uvDeviceSelected tests', () => {
         it('should be true when multiple uvDevices are selected', () => {
+            jest.spyOn(block, 'isNetworkDeviceBlock').mockReturnValue(true);
             expect(uvDeviceSelected(mockViewport)).toBeTruthy();
         });
     });

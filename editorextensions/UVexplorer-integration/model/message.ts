@@ -1,4 +1,4 @@
-import { Device, isNetworkSummary, NetworkSummary } from './uvexplorer-model';
+import { Device, isDevice, isNetworkSummary, NetworkSummary } from './uvexplorer-model';
 
 export interface ListNetworksMessage {
     action: 'listNetworks';
@@ -80,6 +80,14 @@ export function isListDevicesMessage(message: unknown): message is ListDevicesMe
     );
 }
 
+export function listDevicesMessageToDevices(message: ListDevicesMessage): Device[] {
+    const devices: unknown = JSON.parse(message.devices);
+    if (Array.isArray(devices) && devices.every(isDevice)) {
+        return devices;
+    }
+    throw new Error('Could not parse devices from message.');
+}
+
 export interface ListConnectedDevicesMessage {
     action: 'listConnectedDevices';
     devices: Device[];
@@ -113,4 +121,12 @@ export function isSelectedDevicesMessage(message: unknown): message is SelectedD
         'devices' in message &&
         typeof message.devices === 'string'
     );
+}
+
+export function selectedDevicesMessageToDevices(message: SelectedDevicesMessage): Device[] {
+    const devices: unknown = JSON.parse(message.devices);
+    if (Array.isArray(devices) && devices.every(isDevice)) {
+        return devices;
+    }
+    throw new Error('Could not parse devices from message.');
 }
