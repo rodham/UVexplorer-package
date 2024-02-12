@@ -75,7 +75,12 @@ function getDeviceType(device: Device) {
     return findCategory(deviceTypes);
 }
 
-export async function drawBlocks(client: EditorClient, viewport: Viewport, devices: Device[], deviceNodes: DeviceNode[]) {
+export async function drawBlocks(
+    client: EditorClient,
+    viewport: Viewport,
+    devices: Device[],
+    deviceNodes: DeviceNode[]
+) {
     const customBlockDef = await client.getCustomShapeDefinition(LIBRARY, SHAPE);
 
     if (!customBlockDef) {
@@ -85,7 +90,7 @@ export async function drawBlocks(client: EditorClient, viewport: Viewport, devic
     const page = viewport.getCurrentPage();
     if (page != undefined) {
         for (const device of devices) {
-            const deviceNode = deviceNodes.filter(node => node.deviceGuid === device.guid);
+            const deviceNode = deviceNodes.filter((node) => node.deviceGuid === device.guid);
 
             const block = page.addBlock({
                 ...customBlockDef,
@@ -138,14 +143,12 @@ function connectBlocks(block1: BlockProxy, block2: BlockProxy) {
         endpoint1: {
             connection: block1,
             linkX: 0.5,
-            linkY: 1,
+            linkY: 1
         },
         endpoint2: {
             connection: block2,
             linkX: 0.5,
-            linkY: 0,
-        },
+            linkY: 0
+        }
     });
 }
-
-

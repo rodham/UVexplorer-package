@@ -126,11 +126,7 @@ export class UVExplorerClient {
         }
     }
 
-    public async getTopoMap(
-        serverUrl: string,
-        sessionGuid: string,
-        topoMapRequest: TopoMapRequest
-    ): Promise<TopoMap> {
+    public async getTopoMap(serverUrl: string, sessionGuid: string, topoMapRequest: TopoMapRequest): Promise<TopoMap> {
         const url = serverUrl + this.basePath + `/device/topomap`;
         const body = JSON.stringify(topoMapRequest);
         const response = await this.sendXHRRequest(url, sessionGuid, 'POST', body);

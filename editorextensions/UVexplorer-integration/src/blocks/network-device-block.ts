@@ -1,4 +1,4 @@
-import { CustomBlockProxy} from 'lucid-extension-sdk';
+import { CustomBlockProxy } from 'lucid-extension-sdk';
 
 export class NetworkDeviceBlock extends CustomBlockProxy {
     public static library = 'UVexplorer-shapes';

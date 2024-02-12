@@ -88,7 +88,6 @@ export function listDevicesMessageToDevices(message: ListDevicesMessage): Device
     throw new Error('Could not parse devices from message.');
 }
 
-
 export interface ListConnectedDevicesMessage {
     action: 'listConnectedDevices';
     devices: Device[];
