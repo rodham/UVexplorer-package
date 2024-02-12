@@ -338,7 +338,7 @@ export class ConnectedDevicesRequest {
     device_filter?: DeviceFilter;
     info_set_names?: string[];
 
-    constructor(device_guids: string[], device_filter: DeviceFilter, info_set_names: string[]) {
+    constructor(device_guids: string[], device_filter?: DeviceFilter, info_set_names?: string[]) {
         this.device_guids = device_guids;
         this.device_filter = device_filter;
         this.info_set_names = info_set_names;

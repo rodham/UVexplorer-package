@@ -27,11 +27,14 @@ export class ConnectedDevicesComponent {
   }
 
   addDevices() {
-    // TODO: add selected connected devices and maybe not pass full device objects in message (maybe guids?)
+    const deviceGuids = this.connectedDevices.map((d) => {
+      return d.guid;
+    });
+    // TODO: be able to select just some devices or filter in some way
     parent.postMessage(
       {
         action: 'addDevices',
-        devices: this.connectedDevices
+        devices: deviceGuids
       },
       '*'
     );

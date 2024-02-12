@@ -33,7 +33,7 @@ client.registerAction('uvDeviceSelected', () => {
     return uvDeviceSelected(viewport);
 });
 
-client.registerAction('showConnectedDevices', () => showConnectedDevices(viewport, client));
+client.registerAction('showConnectedDevices', async () => await showConnectedDevices(viewport, client));
 
 menu.addContextMenuItem({
     label: 'Show connected devices',

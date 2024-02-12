@@ -12,7 +12,7 @@ export class UVexplorerModal extends UVXModal {
     private viewport: Viewport;
 
     constructor(client: EditorClient, viewport: Viewport) {
-        super(client);
+        super(client, 'networks');
 
         this.viewport = viewport;
     }

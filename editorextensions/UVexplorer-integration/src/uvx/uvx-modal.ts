@@ -7,12 +7,12 @@ export abstract class UVXModal extends Modal {
     protected apiKey = '';
     protected sessionGuid = '';
 
-    constructor(client: EditorClient) {
+    constructor(client: EditorClient, path: string) {
         super(client, {
             title: 'UVexplorer',
             width: 800,
             height: 600,
-            url: 'http://localhost:4200/networks'
+            url: `http://localhost:4200/${path}`
         });
 
         this.uvexplorerClient = new UVExplorerClient(client);

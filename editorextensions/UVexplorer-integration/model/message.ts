@@ -106,3 +106,21 @@ export function isSelectedDevicesMessage(message: unknown): message is SelectedD
         typeof message.devices === 'string'
     );
 }
+
+export interface AddDevicesMessage {
+    action: 'addDevices';
+    devices: string[];
+}
+
+export function isAddDevicesMessage(message: unknown): message is AddDevicesMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        message.action === 'addDevices' &&
+        'devices' in message &&
+        Array.isArray(message.devices) &&
+        message.devices.every((d) => typeof d === 'string')
+    );
+}
