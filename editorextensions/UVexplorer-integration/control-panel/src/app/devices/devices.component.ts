@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
 import { isListDevicesMessage } from '../../../../model/message';
-import { Device, DeviceCategories } from '../../../../model/uvexplorer-model';
+import { Device } from '../../../../model/uvexplorer-model';
 import { AgGridAngular } from 'ag-grid-angular';
-import { ColDef, RowSelectedEvent, ICellRenderer } from 'ag-grid-community';
+import { ColDef, RowSelectedEvent } from 'ag-grid-community';
 
 @Component({
   selector: 'app-devices',
