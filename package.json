@@ -1,8 +1,5 @@
 {
   "scripts": {
     "test-editor-extension": "npx lucid-package test-editor-extension UVexplorer-integration"
-  },
-  "devDependencies": {
-    "tsconfig-paths-webpack-plugin": "^4.1.0"
   }
 }
