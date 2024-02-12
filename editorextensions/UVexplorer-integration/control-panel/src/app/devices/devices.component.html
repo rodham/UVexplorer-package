@@ -1,15 +1,14 @@
 <div *ngIf="devices">
-  <div class="flex flex-col" *ngFor="let device of devices">
-    <div class="flex flex-row space-x-1.5">
-      <input type="checkbox" id="selectDevice" (click)="toggleDeviceSelect(device)" />
-      <span>{{ device.mac_address }}</span>
-      <span>{{ device.ip_address }}</span>
-      <span *ngFor="let device_category of device.device_categories.entries">{{
-        device_category.device_category
-      }}</span>
-    </div>
-  </div>
-  <button (click)="selectDevices()" class="bg-blue-500 text-white py-2 px-4 rounded" [hidden]="devices.length === 0">
+  <ag-grid-angular
+    style="width: 100%; height: 550px;"
+    [class]="themeClass"
+    [rowData]="devices"
+    [columnDefs]="columnDefs"
+    [rowSelection]="rowSelection"
+    (rowSelected)="onRowSelected($event)"
+  >
+  </ag-grid-angular>
+  <button (click)="selectDevices()" class="bg-blue-500 text-white py-2 px-4 rounded mx-2 mt-1" [hidden]="devices.length === 0">
     Select Devices
   </button>
 </div>
