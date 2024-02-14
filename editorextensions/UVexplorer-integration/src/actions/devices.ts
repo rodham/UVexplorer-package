@@ -10,7 +10,6 @@ export function uvDeviceSelected(viewport: Viewport): boolean {
     return isCorrectSelection;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function showConnectedDevices(viewport: Viewport, client: EditorClient): Promise<void> {
     const selection = viewport.getSelectedItems();
     // TODO: add the connected devices for each of the selected items

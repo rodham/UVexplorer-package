@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { SecondComponent } from './SecondComponent/second.component';
 import { FirstComponent } from './FirstComponent/first.component';
 import { NetworksComponent } from './networks/networks.component';
+import { ConnectedDevicesComponent } from './ConnectedDevices/connectedDevices.component';
 
 export const routes: Routes = [
   {
@@ -15,5 +16,9 @@ export const routes: Routes = [
   {
     path: 'networks',
     component: NetworksComponent
+  },
+  {
+    path: 'connected-devices',
+    component: ConnectedDevicesComponent
   }
 ];

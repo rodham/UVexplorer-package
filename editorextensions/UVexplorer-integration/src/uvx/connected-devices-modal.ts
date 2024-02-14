@@ -8,7 +8,7 @@ export class ConnectedDevicesModal extends UVXModal {
     deviceGuids: string[];
 
     constructor(client: EditorClient, viewport: Viewport, deviceGuids: string[]) {
-        super(client, 'connecteddevices');
+        super(client, 'connected-devices');
         this.viewport = viewport;
         this.deviceGuids = deviceGuids;
     }
@@ -25,7 +25,7 @@ export class ConnectedDevicesModal extends UVXModal {
             this.sessionGuid,
             connectedDevicesRequest
         );
-        console.log(devices);
+        console.log('Devices to send to modal', devices);
         await this.sendMessage({
             action: 'listConnectedDevices',
             devices: JSON.stringify(devices)

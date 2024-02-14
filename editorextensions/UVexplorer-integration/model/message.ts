@@ -1,4 +1,4 @@
-import { Device, isNetworkSummary, NetworkSummary } from './uvexplorer-model';
+import { isNetworkSummary, NetworkSummary } from './uvexplorer-model';
 
 export interface ListNetworksMessage {
     action: 'listNetworks';
@@ -82,7 +82,7 @@ export function isListDevicesMessage(message: unknown): message is ListDevicesMe
 
 export interface ListConnectedDevicesMessage {
     action: 'listConnectedDevices';
-    devices: Device[];
+    devices: string;
 }
 
 export function isListConnectedDevicesMessage(message: unknown): message is ListConnectedDevicesMessage {
@@ -93,8 +93,7 @@ export function isListConnectedDevicesMessage(message: unknown): message is List
         typeof message.action === 'string' &&
         message.action === 'listConnectedDevices' &&
         'devices' in message &&
-        Array.isArray(message.devices) &&
-        message.devices.every((d) => d instanceof Device)
+        typeof message.devices === 'string'
     );
 }
 
