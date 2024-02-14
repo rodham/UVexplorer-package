@@ -49,7 +49,7 @@ function findCategory(deviceTypes: Set<string>) {
 
 function getCompany(device: Device) {
     const info_sets = device.info_sets;
-    let company = 'unknown';
+    let company = '';
     if (typeof info_sets === 'object' && info_sets !== null) {
         if (
             'product_info' in info_sets &&
@@ -61,7 +61,14 @@ function getCompany(device: Device) {
             }
         }
     }
-    return companyNameMap.get(company);
+
+    if (companyNameMap.has(company)) {
+        return companyNameMap.get(company);
+    }
+    else {
+        console.log("Error: Unknown company name");
+        return 'unknown';
+    }
 }
 
 function getDeviceType(device: Device) {
