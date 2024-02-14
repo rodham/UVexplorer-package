@@ -32,9 +32,9 @@ describe('Device actions success tests', () => {
     });
 
     describe('showConnectedDevices tests', () => {
-        it('should call console.log with selected items', () => {
+        it('should call console.log with selected items', async () => {
             const logSpy = jest.spyOn(console, 'log');
-            showConnectedDevices(mockViewport, mockClient);
+            await showConnectedDevices(mockViewport, mockClient);
             expect(logSpy).toHaveBeenCalledWith('Selection:', mockSelection);
         });
     });
