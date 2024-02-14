@@ -414,11 +414,11 @@ export class TopoMapRequest {
     drawSettings: DrawSettings;
 
     constructor(
-        deviceGuids: string[],
-        primaryDeviceFilter: DeviceFilter,
-        connectedDeviceFilter: DeviceFilter,
         layoutSettings: LayoutSettings,
-        drawSettings: DrawSettings
+        drawSettings: DrawSettings,
+        deviceGuids?: string[],
+        primaryDeviceFilter?: DeviceFilter,
+        connectedDeviceFilter?: DeviceFilter
     ) {
         this.deviceGuids = deviceGuids;
         this.primaryDeviceFilter = primaryDeviceFilter;
@@ -426,6 +426,116 @@ export class TopoMapRequest {
         this.layoutSettings = layoutSettings;
         this.drawSettings = drawSettings;
     }
+}
+
+export function createTopoMapRequest(devices: Device[]): TopoMapRequest {
+    return new TopoMapRequest(
+        {
+            layoutType: 'Hierarchical',
+            radialSettings: {
+                minRadius: 0,
+                maxRadius: 0,
+                maxAngle: 0,
+                maximizeRoot: true
+            },
+            hierarchicalSettings: {
+                levelSpacing: 100,
+                useStraightLinks: true,
+                nodeSpacing: 100,
+                layoutDirection: 'Down',
+                rootAlignment: 'Center'
+            },
+            ringSettings: {
+                minRadius: 0,
+                maxRadius: 0,
+                maxAngle: 0,
+                maximizeRoot: true
+            },
+            showIpPhoneLinks: true,
+            showLayer2Links: true,
+            showLinkLabels: true,
+            showVirtualLinks: true,
+            showWirelessLinks: true,
+            useStraightLinks: true
+        },
+        {
+            shortDeviceNames: false,
+            deviceTrimLeft: false,
+            deviceTrimRight: false,
+            deviceTrimLeftChar: '.',
+            deviceTrimRightChar: '.',
+            deviceTrimRightCount: 1,
+            deviceTrimLeftCount: 1,
+            shortIfNames: false,
+            hideVendorImage: false,
+            hidePlatformImage: false,
+            deviceDisplaySetting: 'Default',
+            standardPen: {
+                color: {
+                    red: 0,
+                    green: 0,
+                    blue: 0
+                },
+                width: 1,
+                dashStyle: 'Solid'
+            },
+            lagPen: {
+                color: {
+                    red: 0,
+                    green: 0,
+                    blue: 0
+                },
+                width: 1,
+                dashStyle: 'Solid'
+            },
+            manualPen: {
+                color: {
+                    red: 0,
+                    green: 0,
+                    blue: 0
+                },
+                width: 1,
+                dashStyle: 'Solid'
+            },
+            associatedPen: {
+                color: {
+                    red: 0,
+                    green: 0,
+                    blue: 0
+                },
+                width: 1,
+                dashStyle: 'Solid'
+            },
+            multiPen: {
+                color: {
+                    red: 0,
+                    green: 0,
+                    blue: 0
+                },
+                width: 1,
+                dashStyle: 'Solid'
+            },
+            stpForwardingPen: {
+                color: {
+                    red: 0,
+                    green: 0,
+                    blue: 0
+                },
+                width: 1,
+                dashStyle: 'Solid'
+            },
+            stpBlockingPen: {
+                color: {
+                    red: 0,
+                    green: 0,
+                    blue: 0
+                },
+                width: 1,
+                dashStyle: 'Solid'
+            }
+        },
+        devices.map((d) => d.guid)
+    );
 }
 
 // DeviceListRequest

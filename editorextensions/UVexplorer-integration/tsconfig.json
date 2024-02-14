@@ -36,7 +36,8 @@
         "paths": {
             "model/*": ["./model/*"],
             "@uvx/*": ["./src/uvx/*"],
-            "@actions/*": ["./src/actions/*"]
+            "@actions/*": ["./src/actions/*"],
+            "@blocks/*": ["./src/blocks/*"]
         }
     },
     "files": ["resources/resource.d.ts"],

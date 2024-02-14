@@ -79,10 +79,10 @@ export function isHierarchicalLayoutSettings(obj: unknown): obj is HierarchicalL
         'nodeSpacing' in obj &&
         typeof obj.nodeSpacing === 'number' &&
         'layoutDirection' in obj &&
-        typeof obj.layoutDirection === 'string' &&
+        typeof obj.layoutDirection === 'number' &&
         Object.values(LayoutDirection).includes(obj.layoutDirection) &&
         'rootAlignment' in obj &&
-        typeof obj.rootAlignment === 'string' &&
+        typeof obj.rootAlignment === 'number' &&
         Object.values(RootAlignment).includes(obj.rootAlignment) &&
         'useStraightLinks' in obj &&
         typeof obj.useStraightLinks === 'boolean'
