@@ -428,7 +428,7 @@ export class TopoMapRequest {
     }
 }
 
-export function createTopoMapRequest(devices: Device[]): TopoMapRequest {
+export function createTopoMapRequest(deviceGuids: string[]): TopoMapRequest {
     return new TopoMapRequest(
         {
             layoutType: 'Hierarchical',
@@ -534,7 +534,7 @@ export function createTopoMapRequest(devices: Device[]): TopoMapRequest {
                 dashStyle: 'Solid'
             }
         },
-        devices.map((d) => d.guid)
+        deviceGuids
     );
 }
 

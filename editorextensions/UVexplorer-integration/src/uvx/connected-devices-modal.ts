@@ -1,7 +1,9 @@
 import { EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
 import { UVXModal } from './uvx-modal';
 import { ConnectedDevicesRequest, NetworkRequest } from 'model/uvexplorer-model';
-import { isAddDevicesMessage } from 'model/message';
+import { isAddDevicesMessage, devicesMessageToDevices } from 'model/message';
+import { getNetworkForPage } from '../data-collections';
+import { drawBlocks, drawLinks } from '@blocks/block-utils';
 
 export class ConnectedDevicesModal extends UVXModal {
     viewport: Viewport;
@@ -15,7 +17,10 @@ export class ConnectedDevicesModal extends UVXModal {
 
     async loadConnectedDevices() {
         // TODO: make api call to get connected devices assuming there will be some function to get network guid for me
-        const networkGuid = '82ec3a03-4653-43e2-8363-995b93af5227';
+        // const networkGuid = '82ec3a03-4653-43e2-8363-995b93af5227';
+        const pageId = this.viewport.getCurrentPage()?.id;
+        if (!pageId) throw Error();
+        const networkGuid = getNetworkForPage(pageId);
         const networkRequest = new NetworkRequest(networkGuid);
         await this.uvexplorerClient.loadNetwork(this.serverUrl, this.sessionGuid, networkRequest);
         // TODO: now make api call to get connected devices
@@ -38,6 +43,16 @@ export class ConnectedDevicesModal extends UVXModal {
             console.log('Message was of addDevices type');
             // TODO: get topo map with device guids from message
             // TODO: add the devices to the doc
+            // const deviceGuids = message.devices;
+            const devices = devicesMessageToDevices(message);
+            const deviceGuids = devices.map((d) => d.guid);
+            const topoMap = await this.loadTopoMap(deviceGuids);
+            if (topoMap !== undefined) {
+                await drawBlocks(this.client, this.viewport, devices, topoMap.deviceNodes);
+                drawLinks(this.client, this.viewport, topoMap.deviceLinks);
+            } else {
+                console.error('Could not load topo map data.');
+            }
             await this.closeSession();
             this.hide();
         }

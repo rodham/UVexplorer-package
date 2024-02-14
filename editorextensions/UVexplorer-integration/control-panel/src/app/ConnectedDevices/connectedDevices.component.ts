@@ -36,14 +36,11 @@ export class ConnectedDevicesComponent {
   }
 
   addDevices() {
-    const deviceGuids = this.connectedDevices.map((d) => {
-      return d.guid;
-    });
     // TODO: be able to select just some devices or filter in some way
     parent.postMessage(
       {
         action: 'addDevices',
-        devices: deviceGuids
+        devices: this.connectedDevices
       },
       '*'
     );

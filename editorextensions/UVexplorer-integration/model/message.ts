@@ -45,6 +45,11 @@ export function isLoadNetworkMessage(message: unknown): message is LoadNetworkMe
     );
 }
 
+export interface DevicesMessage {
+    action: string;
+    devices: string;
+}
+
 export interface GetConnectedDevicesMessage {
     action: 'getConnectedDevices';
     device_guids: string[];
@@ -63,9 +68,8 @@ export function isGetConnectedDevicesMessage(message: unknown): message is GetCo
     );
 }
 
-export interface ListDevicesMessage {
+export interface ListDevicesMessage extends DevicesMessage {
     action: 'listDevices';
-    devices: string;
 }
 
 export function isListDevicesMessage(message: unknown): message is ListDevicesMessage {
@@ -88,9 +92,8 @@ export function listDevicesMessageToDevices(message: ListDevicesMessage): Device
     throw new Error('Could not parse devices from message.');
 }
 
-export interface ListConnectedDevicesMessage {
+export interface ListConnectedDevicesMessage extends DevicesMessage {
     action: 'listConnectedDevices';
-    devices: string;
 }
 
 export function isListConnectedDevicesMessage(message: unknown): message is ListConnectedDevicesMessage {
@@ -105,9 +108,8 @@ export function isListConnectedDevicesMessage(message: unknown): message is List
     );
 }
 
-export interface SelectedDevicesMessage {
+export interface SelectedDevicesMessage extends DevicesMessage {
     action: 'selectDevices';
-    devices: string;
 }
 
 export function isSelectedDevicesMessage(message: unknown): message is SelectedDevicesMessage {
@@ -122,9 +124,8 @@ export function isSelectedDevicesMessage(message: unknown): message is SelectedD
     );
 }
 
-export interface AddDevicesMessage {
+export interface AddDevicesMessage extends DevicesMessage {
     action: 'addDevices';
-    devices: string[];
 }
 
 export function isAddDevicesMessage(message: unknown): message is AddDevicesMessage {
@@ -135,12 +136,11 @@ export function isAddDevicesMessage(message: unknown): message is AddDevicesMess
         typeof message.action === 'string' &&
         message.action === 'addDevices' &&
         'devices' in message &&
-        Array.isArray(message.devices) &&
-        message.devices.every((d) => typeof d === 'string')
+        typeof message.devices === 'string'
     );
 }
 
-export function selectedDevicesMessageToDevices(message: SelectedDevicesMessage): Device[] {
+export function devicesMessageToDevices(message: DevicesMessage): Device[] {
     const devices: unknown = JSON.parse(message.devices);
     if (Array.isArray(devices) && devices.every(isDevice)) {
         return devices;
