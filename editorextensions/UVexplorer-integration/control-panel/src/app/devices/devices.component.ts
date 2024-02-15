@@ -37,17 +37,17 @@ export class DevicesComponent {
       headerName: 'IP Address',
       headerCheckboxSelection: true,
       checkboxSelection: true,
-      filter: 'agTextColumnFilter',
+      filter: 'agTextColumnFilter'
     },
     {
       field: 'mac_address',
       headerName: 'MAC Address',
-      filter: 'agTextColumnFilter',
+      filter: 'agTextColumnFilter'
     },
     {
       field: 'custom_name',
       headerName: 'Custom Name',
-      filter: 'agTextColumnFilter',
+      filter: 'agTextColumnFilter'
     },
     {
       field: 'device_categories',
@@ -65,14 +65,16 @@ export class DevicesComponent {
       this.selectedDevices.splice(index, 1);
     }
 
-    console.log("Selected length ", this.selectedDevices.length);
+    console.log('Selected length ', this.selectedDevices.length);
   }
 
   protected selectDevices() {
     parent.postMessage(
-    {
-      action: 'selectDevices',
-      devices: JSON.stringify(this.selectedDevices)
-    }, '*');
+      {
+        action: 'selectDevices',
+        devices: JSON.stringify(this.selectedDevices)
+      },
+      '*'
+    );
   }
 }
