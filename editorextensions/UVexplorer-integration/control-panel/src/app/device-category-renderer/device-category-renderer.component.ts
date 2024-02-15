@@ -14,7 +14,7 @@ export class DeviceCategoryRendererComponent implements ICellRendererAngularComp
     if (!params.data!.device_categories.entries) {
       return;
     }
-    const categories: DeviceCategoryEntry[] = params.data!.device_categories.entries!;
+    const categories: DeviceCategoryEntry[] = params.data!.device_categories.entries;
     this.displayValue = categories[0].device_category;
     for (let i = 1; i < categories.length; i++) {
       if (categories[i].device_category == "") {
@@ -24,6 +24,7 @@ export class DeviceCategoryRendererComponent implements ICellRendererAngularComp
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
   refresh(params: ICellRendererParams<any, any, any>): boolean {
     return false;
   }
