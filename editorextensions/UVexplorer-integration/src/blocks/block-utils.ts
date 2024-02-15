@@ -66,7 +66,7 @@ function getCompany(device: Device) {
         return companyNameMap.get(company);
     }
     else {
-        console.log("Error: Unknown company name");
+        console.error("Unknown company name");
         return 'unknown';
     }
 }
