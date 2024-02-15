@@ -27,10 +27,10 @@ describe('block-utils success test', () => {
             // TODO: Check if number of AddBlock calls is what we expect
             expect(blocks.drawBlocks(mockClient, mockViewport, devices, deviceNodes)).toBeUndefined();
         });
-        it('should have correct company and deviceType for each block when given data with this information', () => {
-            jest.spyOn(blocks, 'isNetworkDeviceBlock').mockReturnValue(true);
-            //TODO: Check the return values of getCompany and getDeviceTypt
-        });
+        // it('should have correct company and deviceType for each block when given data with this information', () => {
+        //     jest.spyOn(blocks, 'isNetworkDeviceBlock').mockReturnValue(true);
+        //     //TODO: Check the return values of getCompany and getDeviceTypt
+        // });
     });
 
     describe('drawLinks tests', () => {

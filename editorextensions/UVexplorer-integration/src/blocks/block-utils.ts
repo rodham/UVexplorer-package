@@ -160,7 +160,7 @@ function connectBlocks(block1: BlockProxy, block2: BlockProxy) {
     });
 }
 
-const deviceTypeNameMap: Map<string, string> = new Map([
+const deviceTypeNameMap: Map<string, string> = new Map<string, string>([
     ['router', 'router'],
     ['switch', 'switch'],
     ['server', 'server'],
@@ -183,7 +183,7 @@ const deviceTypeNameMap: Map<string, string> = new Map([
     ['', 'unknown']
 ]);
 
-const companyNameMap: Map<string, string> = new Map([
+const companyNameMap: Map<string, string> = new Map<string, string>([
     ['Arista Networks', 'arista'],
     ['Cisco', 'cisco'],
     ['Meraki', 'meraki'],
