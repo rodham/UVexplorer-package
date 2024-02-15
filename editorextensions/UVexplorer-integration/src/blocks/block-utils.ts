@@ -40,16 +40,16 @@ function findCategory(deviceTypes: Set<string>) {
 
     for (const category of orderedPrimaryCategories) {
         if (deviceTypes.has(category)) {
-            return category;
+            return deviceTypeNameMap.get(category);
         }
     }
 
-    return 'unknown-device';
+    return 'unknown';
 }
 
 function getCompany(device: Device) {
     const info_sets = device.info_sets;
-    let company = 'unknown-make';
+    let company = '';
     if (typeof info_sets === 'object' && info_sets !== null) {
         if (
             'product_info' in info_sets &&
@@ -61,7 +61,13 @@ function getCompany(device: Device) {
             }
         }
     }
-    return company;
+
+    if (companyNameMap.has(company)) {
+        return companyNameMap.get(company);
+    } else {
+        console.error('Unknown company name');
+        return 'unknown';
+    }
 }
 
 function getDeviceType(device: Device) {
@@ -96,9 +102,9 @@ export async function drawBlocks(
                 ...customBlockDef,
                 boundingBox: { x: deviceNode[0].x, y: deviceNode[0].y, w: 50, h: 50 }
             });
-            block.shapeData.set('make', getCompany(device));
-            block.shapeData.set('deviceType', getDeviceType(device));
-            block.shapeData.set('guid', device.guid);
+            block.shapeData.set('Make', getCompany(device));
+            block.shapeData.set('DeviceType', getDeviceType(device));
+            block.shapeData.set('Guid', device.guid);
 
             // TODO: Figure out why setting the reference key throws JSON parsing errors
             // const networkGuid = getNetworkForPage(page.id);
@@ -115,7 +121,7 @@ export async function drawBlocks(
 
 function getBlockFromGuid(page: PageProxy, guid: string): BlockProxy | undefined {
     for (const block of page.blocks.values()) {
-        if (block.shapeData.get('guid') === guid) {
+        if (block.shapeData.get('Guid') === guid) {
             return block;
         }
     }
@@ -152,3 +158,64 @@ function connectBlocks(block1: BlockProxy, block2: BlockProxy) {
         }
     });
 }
+
+const deviceTypeNameMap: Map<string, string> = new Map<string, string>([
+    ['router', 'router'],
+    ['switch', 'switch'],
+    ['server', 'server'],
+    ['firewall', 'firewall'],
+    ['ip-phone', 'phone'],
+    ['ip-phone-manager', 'phoneManager'],
+    ['ip_camera_cctv', 'ipCameraCctv'],
+    ['windows', 'workstation'],
+    ['windows-server', 'server'],
+    ['printer', 'printer'],
+    ['hub', 'hub'],
+    ['wireless-ap', 'wirelessAP'],
+    ['wireless-controller', 'wirelessController'],
+    ['workstation', 'workstation'],
+    ['net-device', 'networkDevice'],
+    ['wireless-client', 'wirelessClient'],
+    ['virtual-server', 'server'],
+    ['virtual-switch', 'switch'],
+    ['virtual-port-group', 'virtualPortGroup'],
+    ['', 'unknown']
+]);
+
+const companyNameMap: Map<string, string> = new Map<string, string>([
+    ['Arista Networks', 'arista'],
+    ['Cisco', 'cisco'],
+    ['Meraki', 'meraki'],
+    ['Microsoft', 'microsoft'],
+    ['Dell', 'dell'],
+    ['Hewlett Packard', 'hewlettPackard'],
+    ['HPN Supply Chain', 'hewlettPackard'],
+    ['Hirschmann Automation', 'hirschmann'],
+    ['Hirschmann Automation and Control GmbH', 'hirschmann'],
+    ['Huawei', 'huawei'],
+    ['Juniper', 'juniper'],
+    ['VMware', 'vmware'],
+    ['VMware, Inc', 'vmware'],
+    ['VMware, Inc.', 'vmware'],
+    ['Aruba', 'aruba'],
+    ['Motorola', 'motorola'],
+    ['Apple', 'apple'],
+    ['Avaya', 'avaya'],
+    ['Brocade Communications Systems LLC', 'brocade'],
+    ['Extreme', 'extreme'],
+    ['Enterasys', 'enterasys'],
+    ['Westermo', 'westermo'],
+    ['NETGEAR', 'netgear'],
+    ['Ruckus Wireless', 'ruckus'],
+    ['Rockwell Automation', 'rockwella'],
+    ['Checkpoint Systems, Inc.', 'checkpoint'],
+    ['Check Point Software Technologies', 'checkpoint'],
+    ['D-Link', 'dlink'],
+    ['Ubiquiti Networks Inc.', 'ubiquiti'],
+    ['Ubiquiti', 'ubiquiti'],
+    ['Mellanox Technologies, Inc.', 'mellanox'],
+    ['Fortinet, Inc.', 'fortinet'],
+    ['Foundry', 'brocade'],
+    ['TP-LINK TECHNOLOGIES CO.,LTD.', 'tpLink'],
+    ['', 'unknown']
+]);

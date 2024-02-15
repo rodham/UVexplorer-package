@@ -72,111 +72,111 @@
       "type": "file",
       "path": "devices/printer.png"
     },
-    "appleLogo": {
+    "apple": {
       "type": "file",
       "path": "companies/apple.png"
     },
-    "aristaLogo": {
+    "arista": {
       "type": "file",
       "path": "companies/arista.png"
     },
-    "arubaLogo": {
+    "aruba": {
       "type": "file",
       "path": "companies/aruba.png"
     },
-    "avayaLogo": {
+    "avaya": {
       "type": "file",
       "path": "companies/avaya.png"
     },
-    "brocadeLogo": {
+    "brocade": {
       "type": "file",
       "path": "companies/brocade.png"
     },
-    "checkpointLogo": {
+    "checkpoint": {
       "type": "file",
       "path": "companies/checkpoint.png"
     },
-    "ciscoLogo": {
+    "cisco": {
       "type": "file",
       "path": "companies/cisco.png"
     },
-    "dellLogo": {
+    "dell": {
       "type": "file",
       "path": "companies/dell.png"
     },
-    "dlinkLogo": {
+    "dlink": {
       "type": "file",
       "path": "companies/dlink.png"
     },
-    "enterasysLogo": {
+    "enterasys": {
       "type": "file",
       "path": "companies/enterasys.png"
     },
-    "extremeLogo": {
+    "extreme": {
       "type": "file",
       "path": "companies/extreme.png"
     },
-    "fortinetLogo": {
+    "fortinet": {
       "type": "file",
       "path": "companies/fortinet.png"
     },
-    "hewlettPackardLogo": {
+    "hewlettPackard": {
       "type": "file",
       "path": "companies/hewlett-packard.png"
     },
-    "hirschmannLogo": {
+    "hirschmann": {
       "type": "file",
       "path": "companies/hirschmann.png"
     },
-    "huaweiLogo": {
+    "huawei": {
       "type": "file",
       "path": "companies/huawei.png"
     },
-    "juniperLogo": {
+    "juniper": {
       "type": "file",
       "path": "companies/juniper.png"
     },
-    "mellanoxLogo": {
+    "mellanox": {
       "type": "file",
       "path": "companies/mellanox.png"
     },
-    "merakiLogo": {
+    "meraki": {
       "type": "file",
       "path": "companies/meraki.png"
     },
-    "microsoftLogo": {
+    "microsoft": {
       "type": "file",
       "path": "companies/microsoft.png"
     },
-    "motorolaLogo": {
+    "motorola": {
       "type": "file",
       "path": "companies/motorola.png"
     },
-    "netgearLogo": {
+    "netgear": {
       "type": "file",
       "path": "companies/netgear.png"
     },
-    "rockwellaLogo": {
+    "rockwella": {
       "type": "file",
       "path": "companies/rockwella.png"
     },
-    "ruckusLogo": {
+    "ruckus": {
       "type": "file",
       "path": "companies/ruckus.png"
     },
-    "tpLinkLogo": {
+    "tpLink": {
       "type": "file",
       "path": "companies/tp-link.png"
     },
-    "ubiquitiLogo": {
+    "ubiquiti": {
       "type": "file",
       "path": "companies/ubiquiti.png"
     },
-    "vmwareLogo": {
+    "vmware": {
       "type": "file",
       "path": "companies/vmware.png"
     },
-    "westermoLogo": {
+    "westermo": {
       "type": "file",
       "path": "companies/westermo.png"
     },
@@ -187,18 +187,22 @@
   },
   "properties": [
     {
-      "name": "make",
+      "name": "Make",
       "label": "Make",
       "type": "string",
-      "default": "unknown-make",
-      "constraints": []
+      "default": "unknown"
     },
     {
-      "name": "deviceType",
+      "name": "DeviceType",
       "label": "DeviceType",
       "type": "string",
-      "default": "unknown-device",
-      "constraints": []
+      "default": "unknown"
+    },
+    {
+      "name": "Guid",
+      "label": "Guid",
+      "type": "string",
+      "default": ""
     }
   ],
   "shapes": [
@@ -216,52 +220,16 @@
       "geometry": [
         {
           "type": "rect",
-          "condition": "=@deviceType = 'router'"
-        }
-      ]
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "switch",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@deviceType = 'switch'"
+          "condition": "=@DeviceType = 'router'"
         }
       ],
-            "bounds": {
-              "x": 0,
-              "y": 0,
-              "absolute": "xywh",
-              "w": 50,
-              "h": 50
-            }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "server",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@deviceType = 'server'"
-        }
-      ]
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "absolute": "xywh",
+        "w": "=@Width",
+        "h": "=@Height"
+      }
     },
     {
       "style": {
@@ -277,9 +245,16 @@
       "geometry": [
         {
           "type": "rect",
-          "condition": "=@deviceType = 'firewall'"
+          "condition": "=@DeviceType = 'firewall'"
         }
-      ]
+      ],
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "absolute": "xywh",
+        "w": "=@Width",
+        "h": "=@Height"
+      }
     },
     {
       "style": {
@@ -295,9 +270,16 @@
       "geometry": [
         {
           "type": "rect",
-          "condition": "=@deviceType = 'ip-phone'"
+          "condition": "=@DeviceType = 'phone'"
         }
-      ]
+      ],
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "absolute": "xywh",
+        "w": "=@Width",
+        "h": "=@Height"
+      }
     },
     {
       "style": {
@@ -313,9 +295,16 @@
       "geometry": [
         {
           "type": "rect",
-          "condition": "=@deviceType = 'ip-phone-manager'"
+          "condition": "=@DeviceType = 'phoneManager'"
         }
-      ]
+      ],
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "absolute": "xywh",
+        "w": "=@Width",
+        "h": "=@Height"
+      }
     },
     {
       "style": {
@@ -331,45 +320,16 @@
       "geometry": [
         {
           "type": "rect",
-          "condition": "=@deviceType = 'ip-camera-cctv'"
+          "condition": "=@DeviceType = 'ipCameraCctv'"
         }
-      ]
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "workstation",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@deviceType = 'windows'"
-        }
-      ]
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "server",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@deviceType = 'windows-server'"
-        }
-      ]
+      ],
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "absolute": "xywh",
+        "w": "=@Width",
+        "h": "=@Height"
+      }
     },
     {
       "style": {
@@ -385,9 +345,16 @@
       "geometry": [
         {
           "type": "rect",
-          "condition": "=@deviceType = 'printer'"
+          "condition": "=@DeviceType = 'printer'"
         }
-      ]
+      ],
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "absolute": "xywh",
+        "w": "=@Width",
+        "h": "=@Height"
+      }
     },
     {
       "style": {
@@ -403,9 +370,16 @@
       "geometry": [
         {
           "type": "rect",
-          "condition": "=@deviceType = 'hub'"
+          "condition": "=@DeviceType = 'hub'"
         }
-      ]
+      ],
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "absolute": "xywh",
+        "w": "=@Width",
+        "h": "=@Height"
+      }
     },
     {
       "style": {
@@ -421,9 +395,16 @@
       "geometry": [
         {
           "type": "rect",
-          "condition": "=@deviceType = 'wireless-ap'"
+          "condition": "=@DeviceType = 'wirelessAP'"
         }
-      ]
+      ],
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "absolute": "xywh",
+        "w": "=@Width",
+        "h": "=@Height"
+      }
     },
     {
       "style": {
@@ -439,9 +420,16 @@
       "geometry": [
         {
           "type": "rect",
-          "condition": "=@deviceType = 'wireless-controller'"
+          "condition": "=@DeviceType = 'wirelessController'"
         }
-      ]
+      ],
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "absolute": "xywh",
+        "w": "=@Width",
+        "h": "=@Height"
+      }
     },
     {
       "style": {
@@ -457,9 +445,16 @@
       "geometry": [
         {
           "type": "rect",
-          "condition": "=@deviceType = 'workstation'"
+          "condition": "=@DeviceType = 'workstation'"
         }
-      ]
+      ],
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "absolute": "xywh",
+        "w": "=@Width",
+        "h": "=@Height"
+      }
     },
     {
       "style": {
@@ -475,9 +470,16 @@
       "geometry": [
         {
           "type": "rect",
-          "condition": "=@deviceType = 'net-device'"
+          "condition": "=@DeviceType = 'networkDevice'"
         }
-      ]
+      ],
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "absolute": "xywh",
+        "w": "=@Width",
+        "h": "=@Height"
+      }
     },
     {
       "style": {
@@ -493,9 +495,16 @@
       "geometry": [
         {
           "type": "rect",
-          "condition": "=@deviceType = 'wireless-client'"
+          "condition": "=@DeviceType = 'wirelessClient'"
         }
-      ]
+      ],
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "absolute": "xywh",
+        "w": "=@Width",
+        "h": "=@Height"
+      }
     },
     {
       "style": {
@@ -511,9 +520,16 @@
       "geometry": [
         {
           "type": "rect",
-          "condition": "=@deviceType = 'virtual-server'"
+          "condition": "=@DeviceType = 'server'"
         }
-      ]
+      ],
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "absolute": "xywh",
+        "w": "=@Width",
+        "h": "=@Height"
+      }
     },
     {
       "style": {
@@ -529,9 +545,16 @@
       "geometry": [
         {
           "type": "rect",
-          "condition": "=@deviceType = 'virtual-switch'"
+          "condition": "=@DeviceType = 'switch'"
         }
-      ]
+      ],
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "absolute": "xywh",
+        "w": "=@Width",
+        "h": "=@Height"
+      }
     },
     {
       "style": {
@@ -547,876 +570,15 @@
       "geometry": [
         {
           "type": "rect",
-          "condition": "=@deviceType = 'virtual-port-group'"
-        }
-      ]
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "unknown",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@deviceType = 'unknown-device'"
-        }
-      ]
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "appleLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Apple'"
+          "condition": "=@DeviceType = 'virtualPortGroup'"
         }
       ],
       "bounds": {
-        "x": 30,
-        "y": 30,
+        "x": 0,
+        "y": 0,
         "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "aristaLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Arista Networks'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "arubaLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Aruba'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "avayaLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Avaya'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "brocadeLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Brocade Communications Systems LLC'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "brocadeLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Foundry'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "checkpointLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Checkpoint Systems, Inc.'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "checkpointLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Check Point Software Technologies'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "ciscoLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Cisco'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "dellLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Dell'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "dlinkLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'D-Link'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "enterasysLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Enterasys'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "extremeLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Extreme'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "fortinetLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Fortinet, Inc.'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "hewlettPackardLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Hewlett Packard'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "hewlettPackardLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'HPN Supply Chain'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "hirschmannLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Hirschmann Automation'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "hirschmannLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Hirschmann Automation and Control GmbH'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "huaweiLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Huawei'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "juniperLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Juniper'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "mellanoxLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Mellanox Technologies, Inc.'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "merakiLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Meraki'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "microsoftLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Microsoft'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "motorolaLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Motorola'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "netgearLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'NETGEAR'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "rockwellaLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Rockwell Automation'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "ruckusLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Ruckus Wireless'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "tpLinkLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'TP-LINK TECHNOLOGIES CO.,LTD.'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "ubiquitiLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Ubiquiti'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "ubiquitiLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Ubiquiti Networks Inc.'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "vmwareLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'VMware'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "vmwareLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'VMware, Inc'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "vmwareLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'VMware, Inc.'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
-          "ref": "westermoLogo",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@make = 'Westermo'"
-        }
-      ],
-      "bounds": {
-        "x": 30,
-        "y": 30,
-        "absolute": "xywh",
-        "w": 20,
-        "h": 20
+        "w": "=@Width",
+        "h": "=@Height"
       }
     },
     {
@@ -1433,15 +595,743 @@
       "geometry": [
         {
           "type": "rect",
-          "condition": "=@make = 'unknown-make'"
+          "condition": "=@DeviceType = 'unknown'"
         }
       ],
       "bounds": {
-        "x": 30,
-        "y": 30,
+        "x": 0,
+        "y": 0,
         "absolute": "xywh",
-        "w": 20,
-        "h": 20
+        "w": "=@Width",
+        "h": "=@Height"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "apple",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'apple'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "arista",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'arista'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "aruba",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'aruba'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "avaya",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'avaya'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "brocade",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'brocade'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "checkpoint",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'checkpoint'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "cisco",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'cisco'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "dell",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'dell'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "dlink",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'dlink'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "enterasys",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'enterasys'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "extreme",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'extreme'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "fortinet",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'fortinet'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "hewlettPackard",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'hewlettPackard'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "hirschmann",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'hirschmann'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "huawei",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'huawei'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "juniper",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'juniper'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "mellanox",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'mellanox'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "meraki",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'meraki'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "microsoft",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'microsoft'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "motorola",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'motorola'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "netgear",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'netgear'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "rockwella",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'rockwella'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "ruckus",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'ruckus'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "tpLink",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'tpLink'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "ubiquiti",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'ubiquiti'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "vmware",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'vmware'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "westermo",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'westermo'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
+      }
+    },
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "unknown",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect",
+          "condition": "=@Make = 'unknown'"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width",
+        "y": "=@Height",
+        "anchor": "bottom-right",
+        "absolute": "xywh",
+        "w": "=@Width * (1/3)",
+        "h": "=@Height * (1/3)"
       }
     }
   ]
