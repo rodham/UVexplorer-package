@@ -1,3 +1,4 @@
+// import 'dotenv/config';
 import { EditorClient, Menu, Viewport } from 'lucid-extension-sdk';
 import { DevicesModal } from '@uvx/devices-modal';
 import { showConnectedDevices, uvDeviceSelected } from '@actions/devices';
@@ -10,7 +11,7 @@ client.registerAction('uvDeviceSelected', () => {
     return uvDeviceSelected(viewport);
 });
 
-client.registerAction('showConnectedDevices', () => showConnectedDevices(viewport, client));
+client.registerAction('showConnectedDevices', async () => await showConnectedDevices(viewport, client));
 
 menu.addContextMenuItem({
     label: 'Show connected devices',
@@ -26,8 +27,10 @@ client.registerAction('loadNetwork', async () => {
     // await modal.configureSetting('serverUrl');
 
     const additionalSettings: Map<string, string> = new Map<string, string>();
-    additionalSettings.set('apiKey', '4aff2a87-e76a-4fbc-a699-7c6db610cd88');
-    additionalSettings.set('serverUrl', 'https://server.uvexplorer.com:5189');
+    // const apiKey = process.env.UVX_API_KEY ?? '';
+    // const serverUrl = process.env.UVX_BASE_URL ?? '';
+    additionalSettings.set('apiKey', '');
+    additionalSettings.set('serverUrl', '');
     await client.setPackageSettings(additionalSettings);
 
     await modal.loadSettings();
