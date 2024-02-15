@@ -585,7 +585,7 @@ function isDeviceClass(obj: unknown): obj is DeviceClass {
     );
 }
 
-interface DeviceCategoryEntry {
+export interface DeviceCategoryEntry {
     device_category: string;
     source_name: string;
 }
