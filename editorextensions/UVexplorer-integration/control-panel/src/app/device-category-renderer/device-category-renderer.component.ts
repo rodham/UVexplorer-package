@@ -5,7 +5,7 @@ import { Device, DeviceCategoryEntry } from 'model/uvexplorer-model';
 
 @Component({
   standalone: true,
-  template: '<span>{{ this.displayValue }}</span>',
+  template: '<span>{{ this.displayValue }}</span>'
 })
 export class DeviceCategoryRendererComponent implements ICellRendererAngularComp {
   public displayValue!: string;
@@ -17,10 +17,10 @@ export class DeviceCategoryRendererComponent implements ICellRendererAngularComp
     const categories: DeviceCategoryEntry[] = params.data!.device_categories.entries;
     this.displayValue = categories[0].device_category;
     for (let i = 1; i < categories.length; i++) {
-      if (categories[i].device_category == "") {
+      if (categories[i].device_category == '') {
         continue;
       }
-      this.displayValue += "," + categories[i].device_category;
+      this.displayValue += ',' + categories[i].device_category;
     }
   }
 

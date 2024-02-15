@@ -9,9 +9,8 @@ describe('DeviceCategoryRendererComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [DeviceCategoryRendererComponent]
-    })
-    .compileComponents();
-    
+    }).compileComponents();
+
     fixture = TestBed.createComponent(DeviceCategoryRendererComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
