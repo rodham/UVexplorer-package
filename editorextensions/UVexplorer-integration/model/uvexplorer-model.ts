@@ -338,7 +338,7 @@ export class ConnectedDevicesRequest {
     device_filter?: DeviceFilter;
     info_set_names?: string[];
 
-    constructor(device_guids: string[], device_filter: DeviceFilter, info_set_names: string[]) {
+    constructor(device_guids: string[], device_filter?: DeviceFilter, info_set_names?: string[]) {
         this.device_guids = device_guids;
         this.device_filter = device_filter;
         this.info_set_names = info_set_names;
@@ -428,7 +428,7 @@ export class TopoMapRequest {
     }
 }
 
-export function createTopoMapRequest(devices: Device[]): TopoMapRequest {
+export function createTopoMapRequest(deviceGuids: string[]): TopoMapRequest {
     return new TopoMapRequest(
         {
             layoutType: 'Hierarchical',
@@ -534,7 +534,7 @@ export function createTopoMapRequest(devices: Device[]): TopoMapRequest {
                 dashStyle: 'Solid'
             }
         },
-        devices.map((d) => d.guid)
+        deviceGuids
     );
 }
 
@@ -585,7 +585,7 @@ function isDeviceClass(obj: unknown): obj is DeviceClass {
     );
 }
 
-interface DeviceCategoryEntry {
+export interface DeviceCategoryEntry {
     device_category: string;
     source_name: string;
 }

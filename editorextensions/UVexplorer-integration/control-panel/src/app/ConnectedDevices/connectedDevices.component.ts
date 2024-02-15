@@ -1,6 +1,6 @@
 import { NgForOf, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { Device } from 'model/uvexplorer-model';
+import { Device, isDevice } from 'model/uvexplorer-model';
 import { isListConnectedDevicesMessage } from 'model/message';
 
 @Component({
@@ -16,18 +16,27 @@ export class ConnectedDevicesComponent {
 
   constructor() {
     window.addEventListener('message', (m) => {
-      console.log('Received message from parent');
-      if (!m.data || typeof m.data !== 'string') throw Error();
-      const data = JSON.parse(m.data) as object;
-      if (isListConnectedDevicesMessage(data)) {
-        this.connectedDevices = data.devices;
-        this.isLoading = false;
+      console.log('Received message from parent', m);
+      if (!m.data) throw Error();
+      if (typeof m.data !== 'object') {
+        console.log("Message data wasn't object");
+        throw Error();
+      }
+      if (isListConnectedDevicesMessage(m.data)) {
+        const devices: unknown = JSON.parse(m.data.devices);
+        if (Array.isArray(devices) && devices.every((d) => isDevice(d))) {
+          this.connectedDevices = devices as Device[];
+          console.log('Modal received devices');
+          this.isLoading = false;
+        } else {
+          console.log("Devices wasn't array of devices");
+        }
       }
     });
   }
 
   addDevices() {
-    // TODO: add selected connected devices and maybe not pass full device objects in message (maybe guids?)
+    // TODO: be able to select just some devices or filter in some way
     parent.postMessage(
       {
         action: 'addDevices',

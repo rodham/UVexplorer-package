@@ -4,6 +4,7 @@ import { isListDevicesMessage, listDevicesMessageToDevices } from 'model/message
 import { Device, isDevice } from 'model/uvexplorer-model';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, RowSelectedEvent } from 'ag-grid-community';
+import { DeviceCategoryRendererComponent } from '../device-category-renderer/device-category-renderer.component';
 
 @Component({
   selector: 'app-devices',
@@ -48,9 +49,10 @@ export class DevicesComponent {
       filter: 'agTextColumnFilter'
     },
     {
-      field: 'timestamp',
-      headerName: 'Timestamp',
-      filter: 'agTextColumnFilter'
+      field: 'device_categories',
+      headerName: 'Categories',
+      filter: 'agTextColumnFilter',
+      cellRenderer: DeviceCategoryRendererComponent
     }
   ];
 
