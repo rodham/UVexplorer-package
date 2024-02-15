@@ -1,6 +1,6 @@
 import { DataSourceProxy, EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
-import { isLoadNetworkMessage, isSelectedDevicesMessage, selectedDevicesMessageToDevices } from 'model/message';
-import { createTopoMapRequest, Device, DeviceListRequest, NetworkRequest } from 'model/uvexplorer-model';
+import { isLoadNetworkMessage, isSelectedDevicesMessage, devicesMessageToDevices } from 'model/message';
+import { DeviceListRequest, NetworkRequest } from 'model/uvexplorer-model';
 import { UVXModal } from './uvx-modal';
 import {
     addDevicesToCollection,
@@ -10,13 +10,13 @@ import {
     updatePageMap
 } from '../data-collections';
 import { drawBlocks, drawLinks } from '@blocks/block-utils';
-import { TopoMap } from 'model/bundle/code/dtos/topology/TopoMap';
 
 export class DevicesModal extends UVXModal {
     private viewport: Viewport;
 
     constructor(client: EditorClient, viewport: Viewport) {
-        super(client);
+        super(client, 'networks');
+
         this.viewport = viewport;
     }
 
@@ -72,16 +72,6 @@ export class DevicesModal extends UVXModal {
         }
     }
 
-    async loadTopoMap(devices: Device[]): Promise<TopoMap | undefined> {
-        try {
-            const topoMapRequest = createTopoMapRequest(devices);
-            return await this.uvexplorerClient.getTopoMap(this.serverUrl, this.sessionGuid, topoMapRequest);
-        } catch (e) {
-            console.error(e);
-            return undefined;
-        }
-    }
-
     protected async messageFromFrame(message: JsonSerializable) {
         console.log('Received a message from the child.');
         console.log(message);
@@ -93,8 +83,9 @@ export class DevicesModal extends UVXModal {
                 console.error(`Could not load network: ${message.name}`);
             }
         } else if (isSelectedDevicesMessage(message)) {
-            const devices = selectedDevicesMessageToDevices(message);
-            const topoMap = await this.loadTopoMap(devices);
+            const devices = devicesMessageToDevices(message);
+            const deviceGuids = devices.map((d) => d.guid);
+            const topoMap = await this.loadTopoMap(deviceGuids);
             if (topoMap !== undefined) {
                 await drawBlocks(this.client, this.viewport, devices, topoMap.deviceNodes);
                 drawLinks(this.client, this.viewport, topoMap.deviceLinks);
