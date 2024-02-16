@@ -19,7 +19,7 @@ import {
 
 const LIBRARY = 'UVexplorer-shapes';
 const SHAPE = 'networkDevice';
-const DEVICE_REFERENCE_KEY = 'device_reference_key'
+const DEVICE_REFERENCE_KEY = 'device_reference_key';
 
 export function isNetworkDeviceBlock(item: ItemProxy) {
     if (item instanceof CustomBlockProxy) {
