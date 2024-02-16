@@ -22,10 +22,10 @@ describe('block-utils success test', () => {
     });
 
     describe('drawBlocks tests', () => {
-        it('should draw same number of blocks as devices when any number of devices are given', () => {
+        it('should draw same number of blocks as devices when any number of devices are given', async () => {
             jest.spyOn(blocks, 'isNetworkDeviceBlock').mockReturnValue(true);
             // TODO: Check if number of AddBlock calls is what we expect
-            expect(blocks.drawBlocks(mockClient, mockViewport, devices, deviceNodes)).toBeUndefined();
+            await expect(blocks.drawBlocks(mockClient, mockViewport, devices, deviceNodes)).resolves.toBeUndefined();
         });
         // it('should have correct company and deviceType for each block when given data with this information', () => {
         //     jest.spyOn(blocks, 'isNetworkDeviceBlock').mockReturnValue(true);
