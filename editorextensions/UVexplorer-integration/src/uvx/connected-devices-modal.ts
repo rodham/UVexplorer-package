@@ -19,7 +19,7 @@ export class ConnectedDevicesModal extends UVXModal {
         // TODO: make api call to get connected devices assuming there will be some function to get network guid for me
         // const networkGuid = '82ec3a03-4653-43e2-8363-995b93af5227';
         const pageId = this.viewport.getCurrentPage()?.id;
-        if (!pageId) throw Error();
+        if (!pageId) throw Error('No page id found');
         const networkGuid = getNetworkForPage(pageId);
         const networkRequest = new NetworkRequest(networkGuid);
         await this.uvexplorerClient.loadNetwork(this.serverUrl, this.sessionGuid, networkRequest);
@@ -35,6 +35,7 @@ export class ConnectedDevicesModal extends UVXModal {
             action: 'listDevices',
             devices: JSON.stringify(devices)
         });
+        console.log('Done sending message');
     }
 
     protected async messageFromFrame(message: JsonSerializable) {
