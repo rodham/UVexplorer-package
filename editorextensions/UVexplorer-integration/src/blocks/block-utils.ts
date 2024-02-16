@@ -14,8 +14,7 @@ import {
     createOrRetrieveDeviceCollection,
     createOrRetrieveNetworkSource,
     getNetworkForPage,
-    itemToDevice,
-    removeQuotationMarks
+    itemToDevice
 } from '../data-collections';
 
 const LIBRARY = 'UVexplorer-shapes';
@@ -138,7 +137,7 @@ export function getBlockFromGuid(page: PageProxy, guid: string): BlockProxy | un
         for (const [key, val] of block.referenceKeys) {
             if (key === 'device_reference_key') {
                 if (typeof val.primaryKey === 'string') {
-                    if (removeQuotationMarks(val.primaryKey) === guid) {
+                    if (itemToDevice(val.getItem()).guid === guid) {
                         return block;
                     }
                 }
@@ -152,7 +151,7 @@ export function getGuidFromBlock(block: BlockProxy): string | undefined {
     for (const [key, val] of block.referenceKeys) {
         if (key === 'device_reference_key') {
             if (typeof val.primaryKey === 'string') {
-                return removeQuotationMarks(val.primaryKey);
+                return itemToDevice(val.getItem()).guid;
             }
         }
     }

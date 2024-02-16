@@ -28,10 +28,6 @@ function toSnakeCase(val: string): string {
         .toLowerCase();
 }
 
-export function removeQuotationMarks(val: string): string {
-    return val.replace(/['"]/g, '');
-}
-
 export function createOrRetrieveDeviceCollection(source: DataSourceProxy) {
     for (const [, collection] of source.collections) {
         if (collection.getName() === `${toSnakeCase(source.getName())}_device`) {
