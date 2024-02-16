@@ -1,4 +1,12 @@
-import { BlockProxy, CustomBlockProxy, EditorClient, ItemProxy, PageProxy, Viewport } from 'lucid-extension-sdk';
+import {
+    BlockProxy,
+    CustomBlockProxy,
+    EditorClient,
+    ItemProxy,
+    LineShape,
+    PageProxy,
+    Viewport
+} from 'lucid-extension-sdk';
 import { Device } from 'model/uvexplorer-model';
 import { DeviceNode } from 'model/bundle/code/dtos/topology/DeviceNode';
 import { DeviceLink } from 'model/bundle/code/dtos/topology/DeviceLink';
@@ -145,18 +153,21 @@ export function drawLinks(client: EditorClient, viewport: Viewport, deviceLinks:
 }
 
 function connectBlocks(block1: BlockProxy, block2: BlockProxy) {
-    block1.getPage().addLine({
+    const line = block1.getPage().addLine({
         endpoint1: {
             connection: block1,
             linkX: 0.5,
-            linkY: 1
+            linkY: 1,
+            style: 'none'
         },
         endpoint2: {
             connection: block2,
             linkX: 0.5,
-            linkY: 0
+            linkY: 0,
+            style: 'none'
         }
     });
+    line.setShape(LineShape.Diagonal);
 }
 
 const deviceTypeNameMap: Map<string, string> = new Map<string, string>([

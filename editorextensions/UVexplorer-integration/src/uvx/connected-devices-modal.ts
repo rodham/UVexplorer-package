@@ -1,7 +1,7 @@
 import { EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
 import { UVXModal } from './uvx-modal';
 import { ConnectedDevicesRequest, NetworkRequest } from 'model/uvexplorer-model';
-import { isAddDevicesMessage, devicesMessageToDevices } from 'model/message';
+import { isSelectedDevicesMessage } from 'model/message';
 import { getNetworkForPage } from '../data-collections';
 import { drawBlocks, drawLinks } from '@blocks/block-utils';
 
@@ -10,7 +10,7 @@ export class ConnectedDevicesModal extends UVXModal {
     deviceGuids: string[];
 
     constructor(client: EditorClient, viewport: Viewport, deviceGuids: string[]) {
-        super(client, 'connected-devices');
+        super(client, 'devices');
         this.viewport = viewport;
         this.deviceGuids = deviceGuids;
     }
@@ -23,7 +23,7 @@ export class ConnectedDevicesModal extends UVXModal {
         const networkGuid = getNetworkForPage(pageId);
         const networkRequest = new NetworkRequest(networkGuid);
         await this.uvexplorerClient.loadNetwork(this.serverUrl, this.sessionGuid, networkRequest);
-        // TODO: now make api call to get connected devices
+        // now make api call to get connected devices
         const connectedDevicesRequest = new ConnectedDevicesRequest(this.deviceGuids);
         const devices = await this.uvexplorerClient.listConnectedDevices(
             this.serverUrl,
@@ -32,22 +32,24 @@ export class ConnectedDevicesModal extends UVXModal {
         );
         console.log('Devices to send to modal', devices);
         await this.sendMessage({
-            action: 'listConnectedDevices',
+            action: 'listDevices',
             devices: JSON.stringify(devices)
         });
     }
 
     protected async messageFromFrame(message: JsonSerializable) {
         console.log('Received message from child', message);
-        if (isAddDevicesMessage(message)) {
+        if (isSelectedDevicesMessage(message)) {
             console.log('Message was of addDevices type');
             // TODO: get topo map with device guids from message
             // TODO: add the devices to the doc
             // const deviceGuids = message.devices;
-            const devices = devicesMessageToDevices(message);
-            const deviceGuids = devices.map((d) => d.guid);
+            const devices = message.devices;
+            const deviceGuids: string[] = devices.map((d) => d.guid);
+            console.log('Device guids for topo map', deviceGuids);
             const topoMap = await this.loadTopoMap(deviceGuids);
             if (topoMap !== undefined) {
+                console.log('Topomap res', topoMap);
                 await drawBlocks(this.client, this.viewport, devices, topoMap.deviceNodes);
                 drawLinks(this.client, this.viewport, topoMap.deviceLinks);
             } else {

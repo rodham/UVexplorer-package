@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
-import { isListDevicesMessage, listDevicesMessageToDevices } from 'model/message';
+import { devicesFromSerializableDevicesMessage, isListDevicesMessage } from 'model/message';
 import { Device, isDevice } from 'model/uvexplorer-model';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, RowSelectedEvent } from 'ag-grid-community';
+import { DeviceCategoryRendererComponent } from '../device-category-renderer/device-category-renderer.component';
 
 @Component({
   selector: 'app-devices',
@@ -23,7 +24,7 @@ export class DevicesComponent {
       console.log('Received a message from the parent.');
       console.log(e.data);
       if (isListDevicesMessage(e.data)) {
-        this.devices = listDevicesMessageToDevices(e.data);
+        this.devices = devicesFromSerializableDevicesMessage(e.data);
         console.log('Received devices in component');
       }
     });
@@ -48,9 +49,10 @@ export class DevicesComponent {
       filter: 'agTextColumnFilter'
     },
     {
-      field: 'timestamp',
-      headerName: 'Timestamp',
-      filter: 'agTextColumnFilter'
+      field: 'device_categories',
+      headerName: 'Categories',
+      filter: 'agTextColumnFilter',
+      cellRenderer: DeviceCategoryRendererComponent
     }
   ];
 
@@ -67,7 +69,7 @@ export class DevicesComponent {
     parent.postMessage(
       {
         action: 'selectDevices',
-        devices: JSON.stringify(this.selectedDevices)
+        devices: this.selectedDevices
       },
       '*'
     );

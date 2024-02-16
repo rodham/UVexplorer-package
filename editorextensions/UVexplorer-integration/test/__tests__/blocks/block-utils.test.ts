@@ -52,7 +52,7 @@ describe('block-utils success test', () => {
     });
 
     describe('drawBlocks tests', () => {
-        it('should draw same number of blocks as devices when any number of devices are given', () => {
+        it('should draw same number of blocks as devices when any number of devices are given', async () => {
             jest.spyOn(blocks, 'isNetworkDeviceBlock').mockReturnValue(true);
             const addBlockSpy = jest.spyOn(mockPage, 'addBlock');
             blocks.drawBlocks(mockClient, mockViewport, devices, deviceNodes);
