@@ -10,9 +10,16 @@ import {
 import { Device } from 'model/uvexplorer-model';
 import { DeviceNode } from 'model/bundle/code/dtos/topology/DeviceNode';
 import { DeviceLink } from 'model/bundle/code/dtos/topology/DeviceLink';
+import {
+    createOrRetrieveDeviceCollection,
+    createOrRetrieveNetworkSource,
+    getNetworkForPage,
+    itemToDevice
+} from '../data-collections';
 
 const LIBRARY = 'UVexplorer-shapes';
 const SHAPE = 'networkDevice';
+const DEVICE_REFERENCE_KEY = 'device_reference_key';
 
 export function isNetworkDeviceBlock(item: ItemProxy) {
     if (item instanceof CustomBlockProxy) {
@@ -112,25 +119,37 @@ export async function drawBlocks(
             });
             block.shapeData.set('Make', getCompany(device));
             block.shapeData.set('DeviceType', getDeviceType(device));
-            block.shapeData.set('Guid', device.guid);
 
             // TODO: Figure out why setting the reference key throws JSON parsing errors
-            // const networkGuid = getNetworkForPage(page.id);
-            // const source = createOrRetrieveNetworkSource('', networkGuid);
-            // const collection = createOrRetrieveDeviceCollection(source);
-            // block.setReferenceKey('device_reference_key', {
-            //     collectionId: collection.id,
-            //     primaryKey: device.guid,
-            //     readonly: true,
-            // });
+            const networkGuid = getNetworkForPage(page.id);
+            const source = createOrRetrieveNetworkSource('', networkGuid);
+            const collection = createOrRetrieveDeviceCollection(source);
+            block.setReferenceKey(DEVICE_REFERENCE_KEY, {
+                collectionId: collection.id,
+                primaryKey: `"${device.guid}"`,
+                readonly: true
+            });
         }
     }
 }
 
-function getBlockFromGuid(page: PageProxy, guid: string): BlockProxy | undefined {
+export function getBlockFromGuid(page: PageProxy, guid: string): BlockProxy | undefined {
     for (const block of page.blocks.values()) {
-        if (block.shapeData.get('Guid') === guid) {
-            return block;
+        for (const [key, val] of block.referenceKeys) {
+            if (key === DEVICE_REFERENCE_KEY) {
+                if (itemToDevice(val.getItem()).guid === guid) {
+                    return block;
+                }
+            }
+        }
+    }
+    return undefined;
+}
+
+export function getDeviceFromBlock(block: BlockProxy): Device | undefined {
+    for (const [key, val] of block.referenceKeys) {
+        if (key === DEVICE_REFERENCE_KEY) {
+            return itemToDevice(val.getItem());
         }
     }
     return undefined;
