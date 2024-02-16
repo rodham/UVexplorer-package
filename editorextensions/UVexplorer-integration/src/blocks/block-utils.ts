@@ -19,6 +19,7 @@ import {
 
 const LIBRARY = 'UVexplorer-shapes';
 const SHAPE = 'networkDevice';
+const DEVICE_REFERENCE_KEY = 'device_reference_key'
 
 export function isNetworkDeviceBlock(item: ItemProxy) {
     if (item instanceof CustomBlockProxy) {
@@ -123,7 +124,7 @@ export async function drawBlocks(
             const networkGuid = getNetworkForPage(page.id);
             const source = createOrRetrieveNetworkSource('', networkGuid);
             const collection = createOrRetrieveDeviceCollection(source);
-            block.setReferenceKey('device_reference_key', {
+            block.setReferenceKey(DEVICE_REFERENCE_KEY, {
                 collectionId: collection.id,
                 primaryKey: `"${device.guid}"`,
                 readonly: true
@@ -135,7 +136,7 @@ export async function drawBlocks(
 export function getBlockFromGuid(page: PageProxy, guid: string): BlockProxy | undefined {
     for (const block of page.blocks.values()) {
         for (const [key, val] of block.referenceKeys) {
-            if (key === 'device_reference_key') {
+            if (key === DEVICE_REFERENCE_KEY) {
                 if (itemToDevice(val.getItem()).guid === guid) {
                     return block;
                 }
@@ -147,7 +148,7 @@ export function getBlockFromGuid(page: PageProxy, guid: string): BlockProxy | un
 
 export function getDeviceFromBlock(block: BlockProxy): Device | undefined {
     for (const [key, val] of block.referenceKeys) {
-        if (key === 'device_reference_key') {
+        if (key === DEVICE_REFERENCE_KEY) {
             return itemToDevice(val.getItem());
         }
     }
