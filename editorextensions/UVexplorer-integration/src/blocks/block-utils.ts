@@ -161,7 +161,7 @@ export function getGuidFromBlock(block: BlockProxy): string | undefined {
 
 export function getDeviceFromBlock(block: BlockProxy): Device | undefined {
     for (const [key, val] of block.referenceKeys) {
-        if (key === 'device_reference_key'){
+        if (key === 'device_reference_key') {
             return itemToDevice(val.getItem());
         }
     }
