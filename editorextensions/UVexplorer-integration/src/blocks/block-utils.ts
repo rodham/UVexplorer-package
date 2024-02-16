@@ -161,15 +161,7 @@ export function getGuidFromBlock(block: BlockProxy): string | undefined {
 export function getDeviceFromBlock(block: BlockProxy): Device | undefined {
     for (const [key, val] of block.referenceKeys) {
         if (key === 'device_reference_key'){
-            if (typeof val.collectionId === 'string') {
-                const networkGuid = getNetworkForPage(block.getPage().id);
-                const networkSource = createOrRetrieveNetworkSource('', networkGuid);
-                const collection = networkSource.collections.get(val.collectionId);
-                if (typeof val.primaryKey === 'string') {
-                    const deviceEntry = collection.items.get(val.primaryKey);
-                    return itemToDevice(deviceEntry);
-                }
-            }
+            return itemToDevice(val.getItem());
         }
     }
 
