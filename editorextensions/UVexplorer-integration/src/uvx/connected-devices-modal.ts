@@ -46,9 +46,10 @@ export class ConnectedDevicesModal extends UVXModal {
             // TODO: add the devices to the doc
             // const deviceGuids = message.devices;
             const devices = message.devices;
-            const deviceGuids: string[] = devices.map((d) => d.guid);
-            console.log('Device guids for topo map', deviceGuids);
-            const topoMap = await this.loadTopoMap(deviceGuids);
+            const newDeviceGuids: string[] = devices.map((d) => d.guid);
+            const topoMapGuids = newDeviceGuids.concat(this.deviceGuids);
+            console.log('Device guids for topo map', topoMapGuids);
+            const topoMap = await this.loadTopoMap(topoMapGuids);
             if (topoMap !== undefined) {
                 console.log('Topomap res', topoMap);
                 await drawBlocks(this.client, this.viewport, devices, topoMap.deviceNodes);
