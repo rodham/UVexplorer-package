@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
-import { isListDevicesMessage, listDevicesMessageToDevices } from 'model/message';
+import { devicesFromSerializableDevicesMessage, isListDevicesMessage } from 'model/message';
 import { Device, isDevice } from 'model/uvexplorer-model';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, RowSelectedEvent } from 'ag-grid-community';
@@ -24,7 +24,7 @@ export class DevicesComponent {
       console.log('Received a message from the parent.');
       console.log(e.data);
       if (isListDevicesMessage(e.data)) {
-        this.devices = listDevicesMessageToDevices(e.data);
+        this.devices = devicesFromSerializableDevicesMessage(e.data);
         console.log('Received devices in component');
       }
     });
@@ -69,7 +69,7 @@ export class DevicesComponent {
     parent.postMessage(
       {
         action: 'selectDevices',
-        devices: JSON.stringify(this.selectedDevices)
+        devices: this.selectedDevices
       },
       '*'
     );

@@ -1,7 +1,7 @@
 import { NgForOf, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { Device, isDevice } from 'model/uvexplorer-model';
-import { isListConnectedDevicesMessage } from 'model/message';
+import { Device } from 'model/uvexplorer-model';
+import { devicesFromSerializableDevicesMessage, isSerializableDevicesMessage } from 'model/message';
 
 @Component({
   selector: 'connected-devices',
@@ -22,14 +22,13 @@ export class ConnectedDevicesComponent {
         console.log("Message data wasn't object");
         throw Error();
       }
-      if (isListConnectedDevicesMessage(m.data)) {
-        const devices: unknown = JSON.parse(m.data.devices);
-        if (Array.isArray(devices) && devices.every((d) => isDevice(d))) {
-          this.connectedDevices = devices as Device[];
+      if (isSerializableDevicesMessage(m.data)) {
+        try {
+          this.connectedDevices = devicesFromSerializableDevicesMessage(m.data);
           console.log('Modal received devices');
           this.isLoading = false;
-        } else {
-          console.log("Devices wasn't array of devices");
+        } catch (e) {
+          console.log('Error getting devices from serializable devices message', e);
         }
       }
     });
@@ -39,7 +38,7 @@ export class ConnectedDevicesComponent {
     // TODO: be able to select just some devices or filter in some way
     parent.postMessage(
       {
-        action: 'addDevices',
+        action: 'selectDevices',
         devices: this.connectedDevices
       },
       '*'
