@@ -136,22 +136,9 @@ export function getBlockFromGuid(page: PageProxy, guid: string): BlockProxy | un
     for (const block of page.blocks.values()) {
         for (const [key, val] of block.referenceKeys) {
             if (key === 'device_reference_key') {
-                if (typeof val.primaryKey === 'string') {
-                    if (itemToDevice(val.getItem()).guid === guid) {
-                        return block;
-                    }
+                if (itemToDevice(val.getItem()).guid === guid) {
+                    return block;
                 }
-            }
-        }
-    }
-    return undefined;
-}
-
-export function getGuidFromBlock(block: BlockProxy): string | undefined {
-    for (const [key, val] of block.referenceKeys) {
-        if (key === 'device_reference_key') {
-            if (typeof val.primaryKey === 'string') {
-                return itemToDevice(val.getItem()).guid;
             }
         }
     }
@@ -164,7 +151,6 @@ export function getDeviceFromBlock(block: BlockProxy): Device | undefined {
             return itemToDevice(val.getItem());
         }
     }
-
     return undefined;
 }
 
