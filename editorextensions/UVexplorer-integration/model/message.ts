@@ -45,9 +45,45 @@ export function isLoadNetworkMessage(message: unknown): message is LoadNetworkMe
     );
 }
 
-export interface DevicesMessage {
+export interface SerializableDevicesMessage {
     action: string;
     devices: string;
+}
+
+export function isSerializableDevicesMessage(message: unknown): message is SerializableDevicesMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        'devices' in message &&
+        typeof message.devices === 'string'
+    );
+}
+
+export function devicesFromSerializableDevicesMessage(message: SerializableDevicesMessage) {
+    const devices: unknown = JSON.parse(message.devices);
+    if (Array.isArray(devices) && devices.every(isDevice)) {
+        return devices;
+    }
+    throw new Error('Could not parse devices from message.');
+}
+
+export interface DevicesMessage {
+    action: string;
+    devices: Device[];
+}
+
+export function isDevicesMessage(message: unknown): message is DevicesMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        'devices' in message &&
+        Array.isArray(message.devices) &&
+        message.devices.every(isDevice)
+    );
 }
 
 export interface GetConnectedDevicesMessage {
@@ -68,44 +104,12 @@ export function isGetConnectedDevicesMessage(message: unknown): message is GetCo
     );
 }
 
-export interface ListDevicesMessage extends DevicesMessage {
+export interface ListDevicesMessage extends SerializableDevicesMessage {
     action: 'listDevices';
 }
 
 export function isListDevicesMessage(message: unknown): message is ListDevicesMessage {
-    return (
-        typeof message === 'object' &&
-        message !== null &&
-        'action' in message &&
-        typeof message.action === 'string' &&
-        message.action === 'listDevices' &&
-        'devices' in message &&
-        typeof message.devices === 'string'
-    );
-}
-
-export function listDevicesMessageToDevices(message: ListDevicesMessage): Device[] {
-    const devices: unknown = JSON.parse(message.devices);
-    if (Array.isArray(devices) && devices.every(isDevice)) {
-        return devices;
-    }
-    throw new Error('Could not parse devices from message.');
-}
-
-export interface ListConnectedDevicesMessage extends DevicesMessage {
-    action: 'listConnectedDevices';
-}
-
-export function isListConnectedDevicesMessage(message: unknown): message is ListConnectedDevicesMessage {
-    return (
-        typeof message === 'object' &&
-        message !== null &&
-        'action' in message &&
-        typeof message.action === 'string' &&
-        message.action === 'listConnectedDevices' &&
-        'devices' in message &&
-        typeof message.devices === 'string'
-    );
+    return isSerializableDevicesMessage(message) && message.action === 'listDevices';
 }
 
 export interface SelectedDevicesMessage extends DevicesMessage {
@@ -113,37 +117,13 @@ export interface SelectedDevicesMessage extends DevicesMessage {
 }
 
 export function isSelectedDevicesMessage(message: unknown): message is SelectedDevicesMessage {
-    return (
-        typeof message === 'object' &&
-        message !== null &&
-        'action' in message &&
-        typeof message.action === 'string' &&
-        message.action === 'selectDevices' &&
-        'devices' in message &&
-        typeof message.devices === 'string'
-    );
+    return isDevicesMessage(message) && message.action === 'selectDevices';
 }
 
-export interface AddDevicesMessage extends DevicesMessage {
-    action: 'addDevices';
-}
-
-export function isAddDevicesMessage(message: unknown): message is AddDevicesMessage {
-    return (
-        typeof message === 'object' &&
-        message !== null &&
-        'action' in message &&
-        typeof message.action === 'string' &&
-        message.action === 'addDevices' &&
-        'devices' in message &&
-        typeof message.devices === 'string'
-    );
-}
-
-export function devicesMessageToDevices(message: DevicesMessage): Device[] {
-    const devices: unknown = JSON.parse(message.devices);
-    if (Array.isArray(devices) && devices.every(isDevice)) {
-        return devices;
-    }
-    throw new Error('Could not parse devices from message.');
-}
+// export interface AddDevicesMessage extends DevicesMessage {
+//     action: 'addDevices';
+// }
+//
+// export function isAddDevicesMessage(message: unknown): message is AddDevicesMessage {
+//     return isDevicesMessage(message) && message.action === 'addDevices';
+// }
