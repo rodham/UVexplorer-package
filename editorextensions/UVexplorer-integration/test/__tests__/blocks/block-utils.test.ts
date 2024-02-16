@@ -15,7 +15,36 @@ describe('block-utils success test', () => {
     const mockViewport = new lucid.Viewport(mockClient);
     const mockPage = new lucid.PageProxy("0", mockClient);
     const devices: Device[] = [];
+    //[new Device("", "", "0", 
+    //     JSON.parse('{"product_info": {"vendor": "Apple"}}'), 
+    //     JSON.parse('{}'), 
+    //     JSON.parse(`{"entries":[
+    //         {
+    //             "device_category":"router",
+    //             "source_name":""
+    //         },
+    //         {
+    //             "device_category":"net-device",
+    //             "source_name":""
+    //         },
+    //         {
+    //             "device_category":"hub",
+    //             "source_name":""
+    //         }
+    //     ]}`),
+    //     JSON.parse('{}')
+    //     , "")
+    // ];
     const deviceNodes: DeviceNode[] = [];
+    // JSON.parse(`
+    //     {
+    //         [
+    //             "deviceGuid": "0",
+    //             "x": 0,
+    //             "y": 0
+    //         ]
+    //     }
+    // `);
     const deviceLinks: DeviceLink[] = [];
 
     beforeEach(() => {
