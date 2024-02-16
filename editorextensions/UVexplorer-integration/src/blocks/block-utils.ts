@@ -13,9 +13,10 @@ import { DeviceLink } from 'model/bundle/code/dtos/topology/DeviceLink';
 import {
     createOrRetrieveDeviceCollection,
     createOrRetrieveNetworkSource,
-    getNetworkForPage, itemToDevice,
+    getNetworkForPage,
+    itemToDevice,
     removeQuotationMarks
-} from "../data-collections";
+} from '../data-collections';
 
 const LIBRARY = 'UVexplorer-shapes';
 const SHAPE = 'networkDevice';
@@ -126,7 +127,7 @@ export async function drawBlocks(
             block.setReferenceKey('device_reference_key', {
                 collectionId: collection.id,
                 primaryKey: `"${device.guid}"`,
-                readonly: true,
+                readonly: true
             });
         }
     }
@@ -135,7 +136,7 @@ export async function drawBlocks(
 export function getBlockFromGuid(page: PageProxy, guid: string): BlockProxy | undefined {
     for (const block of page.blocks.values()) {
         for (const [key, val] of block.referenceKeys) {
-            if (key === 'device_reference_key'){
+            if (key === 'device_reference_key') {
                 if (typeof val.primaryKey === 'string') {
                     if (removeQuotationMarks(val.primaryKey) === guid) {
                         return block;
@@ -149,7 +150,7 @@ export function getBlockFromGuid(page: PageProxy, guid: string): BlockProxy | un
 
 export function getGuidFromBlock(block: BlockProxy): string | undefined {
     for (const [key, val] of block.referenceKeys) {
-        if (key === 'device_reference_key'){
+        if (key === 'device_reference_key') {
             if (typeof val.primaryKey === 'string') {
                 return removeQuotationMarks(val.primaryKey);
             }
@@ -160,7 +161,7 @@ export function getGuidFromBlock(block: BlockProxy): string | undefined {
 
 export function getDeviceFromBlock(block: BlockProxy): Device | undefined {
     for (const [key, val] of block.referenceKeys) {
-        if (key === 'device_reference_key'){
+        if (key === 'device_reference_key') {
             if (typeof val.collectionId === 'string') {
                 const networkGuid = getNetworkForPage(block.getPage().id);
                 const networkSource = createOrRetrieveNetworkSource('', networkGuid);
