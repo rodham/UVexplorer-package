@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
 import { isListDevicesMessage } from '../../../../model/message';
-import { Device } from '../../../../model/uvexplorer-model';
+import { Device, DeviceCategoryEntry } from '../../../../model/uvexplorer-model';
 import { AgGridAngular } from 'ag-grid-angular';
-import { ColDef, RowSelectedEvent } from 'ag-grid-community';
-import { DeviceCategoryRendererComponent } from '../device-category-renderer/device-category-renderer.component';
+import { ColDef, RowSelectedEvent, ValueGetterParams } from 'ag-grid-community';
 
 @Component({
   selector: 'app-devices',
@@ -37,12 +36,14 @@ export class DevicesComponent {
       headerName: 'IP Address',
       headerCheckboxSelection: true,
       checkboxSelection: true,
-      filter: 'agTextColumnFilter'
+      filter: 'agTextColumnFilter',
+      maxWidth: 180
     },
     {
       field: 'mac_address',
       headerName: 'MAC Address',
-      filter: 'agTextColumnFilter'
+      filter: 'agTextColumnFilter',
+      maxWidth: 150
     },
     {
       field: 'custom_name',
@@ -53,9 +54,25 @@ export class DevicesComponent {
       field: 'device_categories',
       headerName: 'Categories',
       filter: 'agTextColumnFilter',
-      cellRenderer: DeviceCategoryRendererComponent
+      minWidth: 265,
+      valueGetter: this.getDeviceCategories
     }
   ];
+
+  private getDeviceCategories(params: ValueGetterParams) {
+    if (!params.data!.device_categories.entries) {
+      return "";
+    }
+    const categories: DeviceCategoryEntry[] = params.data!.device_categories.entries;
+    let returnString = categories[0].device_category;
+    for (let i = 1; i < categories.length; i++) {
+      if (categories[i].device_category == '') {
+        continue;
+      }
+      returnString += ", " + categories[i].device_category;
+    }
+    return returnString;
+  }
 
   protected onRowSelected(event: RowSelectedEvent) {
     if (event.node.isSelected() && event.node.data instanceof Device) {
