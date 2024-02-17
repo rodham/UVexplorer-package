@@ -2,7 +2,7 @@ import { EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
 import { UVXModal } from './uvx-modal';
 import { ConnectedDevicesRequest, NetworkRequest } from 'model/uvexplorer-model';
 import { isSelectedDevicesMessage } from 'model/message';
-import { getNetworkForPage } from '../data-collections';
+import { getNetworkForPage } from 'src/data-collections';
 import { drawBlocks, drawLinks } from '@blocks/block-utils';
 
 export class ConnectedDevicesModal extends UVXModal {
