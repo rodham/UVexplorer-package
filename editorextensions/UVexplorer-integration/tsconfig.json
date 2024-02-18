@@ -34,10 +34,12 @@
         ],
         "outDir": "bin",
         "paths": {
+            "src/*": ["./src/*"],
             "model/*": ["./model/*"],
             "@uvx/*": ["./src/uvx/*"],
             "@actions/*": ["./src/actions/*"],
-            "@blocks/*": ["./src/blocks/*"]
+            "@blocks/*": ["./src/blocks/*"],
+            "mock_data/*": ["./test/mock_data/*"]
         }
     },
     "files": ["resources/resource.d.ts"],

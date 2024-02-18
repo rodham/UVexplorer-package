@@ -2,7 +2,7 @@ import { EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
 import { UVXModal } from './uvx-modal';
 import { ConnectedDevicesRequest, NetworkRequest } from 'model/uvexplorer-model';
 import { isSelectedDevicesMessage } from 'model/message';
-import { getNetworkForPage } from '../data-collections';
+import { getNetworkForPage } from 'src/data-collections';
 import { drawBlocks, drawLinks } from '@blocks/block-utils';
 
 export class ConnectedDevicesModal extends UVXModal {
@@ -19,7 +19,7 @@ export class ConnectedDevicesModal extends UVXModal {
         // TODO: make api call to get connected devices assuming there will be some function to get network guid for me
         // const networkGuid = '82ec3a03-4653-43e2-8363-995b93af5227';
         const pageId = this.viewport.getCurrentPage()?.id;
-        if (!pageId) throw Error();
+        if (!pageId) throw Error('No page id found');
         const networkGuid = getNetworkForPage(pageId);
         const networkRequest = new NetworkRequest(networkGuid);
         await this.uvexplorerClient.loadNetwork(this.serverUrl, this.sessionGuid, networkRequest);
@@ -35,6 +35,7 @@ export class ConnectedDevicesModal extends UVXModal {
             action: 'listDevices',
             devices: JSON.stringify(devices)
         });
+        console.log('Done sending message');
     }
 
     protected async messageFromFrame(message: JsonSerializable) {
@@ -45,9 +46,10 @@ export class ConnectedDevicesModal extends UVXModal {
             // TODO: add the devices to the doc
             // const deviceGuids = message.devices;
             const devices = message.devices;
-            const deviceGuids: string[] = devices.map((d) => d.guid);
-            console.log('Device guids for topo map', deviceGuids);
-            const topoMap = await this.loadTopoMap(deviceGuids);
+            const newDeviceGuids: string[] = devices.map((d) => d.guid);
+            const topoMapGuids = newDeviceGuids.concat(this.deviceGuids);
+            console.log('Device guids for topo map', topoMapGuids);
+            const topoMap = await this.loadTopoMap(topoMapGuids);
             if (topoMap !== undefined) {
                 console.log('Topomap res', topoMap);
                 await drawBlocks(this.client, this.viewport, devices, topoMap.deviceNodes);

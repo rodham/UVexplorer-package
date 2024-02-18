@@ -64,7 +64,6 @@ export class DevicesModal extends UVXModal {
             addDevicesToCollection(collection, devices);
             await this.sendMessage({
                 action: 'listDevices',
-                overwriteExisting: true,
                 devices: JSON.stringify(devices)
             });
             console.log(`Successfully loaded devices: ${source.getName()}`);
