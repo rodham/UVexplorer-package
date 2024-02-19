@@ -2,14 +2,9 @@ import { DataSourceProxy, EditorClient, JsonSerializable, Viewport } from 'lucid
 import { isLoadNetworkMessage, isSelectedDevicesMessage } from 'model/message';
 import { DeviceListRequest, NetworkRequest } from 'model/uvexplorer-model';
 import { UVXModal } from './uvx-modal';
-import {
-    addDevicesToCollection,
-    createOrRetrieveDeviceCollection,
-    createOrRetrieveNetworkSource,
-    deleteDevicesFromCollection,
-    updatePageMap
-} from '../data-collections';
+
 import { drawBlocks, drawLinks } from '@blocks/block-utils';
+import {Data} from "src/data/data";
 
 export class DevicesModal extends UVXModal {
     private viewport: Viewport;
@@ -38,10 +33,11 @@ export class DevicesModal extends UVXModal {
         try {
             const networkRequest = new NetworkRequest(guid);
             await this.uvexplorerClient.loadNetwork(this.serverUrl, this.sessionGuid, networkRequest);
-            const source = createOrRetrieveNetworkSource(name, guid);
+            const data = Data.getInstance(this.client);
+            const source = data.createOrRetrieveNetworkSource(name, guid);
             const page = this.viewport.getCurrentPage();
             if (page !== undefined) {
-                updatePageMap(page.id, guid);
+                data.updatePageMap(page.id, guid);
             }
             console.log(`Successfully loaded network: ${name}`);
             return source;
@@ -53,15 +49,16 @@ export class DevicesModal extends UVXModal {
 
     async loadDevices(source: DataSourceProxy) {
         try {
-            const collection = createOrRetrieveDeviceCollection(source);
+            const data = Data.getInstance(this.client);
+            const collection = data.createOrRetrieveDeviceCollection(source);
             const deviceListRequest = new DeviceListRequest();
             const devices = await this.uvexplorerClient.listDevices(
                 this.serverUrl,
                 this.sessionGuid,
                 deviceListRequest
             );
-            deleteDevicesFromCollection(collection); // TODO: Replace once updateDevicesInCollection Function is implemented
-            addDevicesToCollection(collection, devices);
+            data.deleteDevicesFromCollection(collection); // TODO: Replace once updateDevicesInCollection Function is implemented
+            data.addDevicesToCollection(collection, devices);
             await this.sendMessage({
                 action: 'listDevices',
                 devices: JSON.stringify(devices)

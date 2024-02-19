@@ -10,12 +10,9 @@ import {
 import { Device } from 'model/uvexplorer-model';
 import { DeviceNode } from 'model/bundle/code/dtos/topology/DeviceNode';
 import { DeviceLink } from 'model/bundle/code/dtos/topology/DeviceLink';
-import {
-    createOrRetrieveDeviceCollection,
-    createOrRetrieveNetworkSource,
-    getNetworkForPage,
-    itemToDevice
-} from '../data-collections';
+import {Data} from "src/data/data";
+import {itemToDevice} from "src/data/data-utils";
+
 
 const LIBRARY = 'UVexplorer-shapes';
 const SHAPE = 'networkDevice';
@@ -120,10 +117,10 @@ export async function drawBlocks(
             block.shapeData.set('Make', getCompany(device));
             block.shapeData.set('DeviceType', getDeviceType(device));
 
-            // TODO: Figure out why setting the reference key throws JSON parsing errors
-            const networkGuid = getNetworkForPage(page.id);
-            const source = createOrRetrieveNetworkSource('', networkGuid);
-            const collection = createOrRetrieveDeviceCollection(source);
+            const data = Data.getInstance(client);
+            const networkGuid = data.getNetworkForPage(page.id);
+            const source = data.createOrRetrieveNetworkSource('', networkGuid);
+            const collection = data.createOrRetrieveDeviceCollection(source);
             block.setReferenceKey(DEVICE_REFERENCE_KEY, {
                 collectionId: collection.id,
                 primaryKey: `"${device.guid}"`,

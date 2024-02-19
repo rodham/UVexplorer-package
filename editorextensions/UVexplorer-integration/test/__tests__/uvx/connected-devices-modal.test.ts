@@ -1,12 +1,12 @@
 import { ConnectedDevicesModal } from '@uvx/connected-devices-modal';
-import * as dataColls from 'src/data-collections';
+import * as dataColls from 'src/data/data';
 import * as model from 'model/uvexplorer-model';
 import * as lucid from 'lucid-extension-sdk';
 import { UVExplorerClient } from '@uvx/uvx-client';
 import { mockDeviceGuids, mockDeviceList, mockDeviceList2 } from 'mock_data/devices';
 
 jest.mock('lucid-extension-sdk');
-jest.mock('src/data-collections');
+jest.mock('src/data/data');
 jest.mock('model/uvexplorer-model');
 jest.mock('@uvx/uvx-client');
 

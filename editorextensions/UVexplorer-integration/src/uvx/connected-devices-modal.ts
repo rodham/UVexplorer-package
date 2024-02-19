@@ -2,8 +2,8 @@ import { EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
 import { UVXModal } from './uvx-modal';
 import { ConnectedDevicesRequest, NetworkRequest } from 'model/uvexplorer-model';
 import { isSelectedDevicesMessage } from 'model/message';
-import { getNetworkForPage } from 'src/data-collections';
 import { drawBlocks, drawLinks } from '@blocks/block-utils';
+import {Data} from "src/data/data";
 
 export class ConnectedDevicesModal extends UVXModal {
     viewport: Viewport;
@@ -20,7 +20,8 @@ export class ConnectedDevicesModal extends UVXModal {
         // const networkGuid = '82ec3a03-4653-43e2-8363-995b93af5227';
         const pageId = this.viewport.getCurrentPage()?.id;
         if (!pageId) throw Error('No page id found');
-        const networkGuid = getNetworkForPage(pageId);
+        const data = Data.getInstance(this.client);
+        const networkGuid = data.getNetworkForPage(pageId);
         const networkRequest = new NetworkRequest(networkGuid);
         await this.uvexplorerClient.loadNetwork(this.serverUrl, this.sessionGuid, networkRequest);
         // now make api call to get connected devices
