@@ -1,4 +1,4 @@
-import { Device, isNetworkSummary, NetworkSummary } from './uvexplorer-model';
+import { Device, isDevice, isNetworkSummary, NetworkSummary } from './uvexplorer-model';
 
 export interface ListNetworksMessage {
     action: 'listNetworks';
@@ -45,6 +45,47 @@ export function isLoadNetworkMessage(message: unknown): message is LoadNetworkMe
     );
 }
 
+export interface SerializableDevicesMessage {
+    action: string;
+    devices: string;
+}
+
+export function isSerializableDevicesMessage(message: unknown): message is SerializableDevicesMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        'devices' in message &&
+        typeof message.devices === 'string'
+    );
+}
+
+export function devicesFromSerializableDevicesMessage(message: SerializableDevicesMessage) {
+    const devices: unknown = JSON.parse(message.devices);
+    if (Array.isArray(devices) && devices.every(isDevice)) {
+        return devices;
+    }
+    throw new Error('Could not parse devices from message.');
+}
+
+export interface DevicesMessage {
+    action: string;
+    devices: Device[];
+}
+
+export function isDevicesMessage(message: unknown): message is DevicesMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        'devices' in message &&
+        Array.isArray(message.devices) &&
+        message.devices.every(isDevice)
+    );
+}
+
 export interface GetConnectedDevicesMessage {
     action: 'getConnectedDevices';
     device_guids: string[];
@@ -63,54 +104,26 @@ export function isGetConnectedDevicesMessage(message: unknown): message is GetCo
     );
 }
 
-export interface ListDevicesMessage {
+export interface ListDevicesMessage extends SerializableDevicesMessage {
     action: 'listDevices';
-    devices: string;
 }
 
 export function isListDevicesMessage(message: unknown): message is ListDevicesMessage {
-    return (
-        typeof message === 'object' &&
-        message !== null &&
-        'action' in message &&
-        typeof message.action === 'string' &&
-        message.action === 'listDevices' &&
-        'devices' in message &&
-        typeof message.devices === 'string'
-    );
+    return isSerializableDevicesMessage(message) && message.action === 'listDevices';
 }
 
-export interface ListConnectedDevicesMessage {
-    action: 'listConnectedDevices';
-    devices: Device[];
-}
-
-export function isListConnectedDevicesMessage(message: unknown): message is ListConnectedDevicesMessage {
-    return (
-        typeof message === 'object' &&
-        message !== null &&
-        'action' in message &&
-        typeof message.action === 'string' &&
-        message.action === 'listConnectedDevices' &&
-        'devices' in message &&
-        Array.isArray(message.devices) &&
-        message.devices.every((d) => d instanceof Device)
-    );
-}
-
-export interface SelectedDevicesMessage {
+export interface SelectedDevicesMessage extends DevicesMessage {
     action: 'selectDevices';
-    devices: string;
 }
 
 export function isSelectedDevicesMessage(message: unknown): message is SelectedDevicesMessage {
-    return (
-        typeof message === 'object' &&
-        message !== null &&
-        'action' in message &&
-        typeof message.action === 'string' &&
-        message.action === 'selectDevices' &&
-        'devices' in message &&
-        typeof message.devices === 'string'
-    );
+    return isDevicesMessage(message) && message.action === 'selectDevices';
 }
+
+// export interface AddDevicesMessage extends DevicesMessage {
+//     action: 'addDevices';
+// }
+//
+// export function isAddDevicesMessage(message: unknown): message is AddDevicesMessage {
+//     return isDevicesMessage(message) && message.action === 'addDevices';
+// }

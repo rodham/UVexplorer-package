@@ -34,5 +34,5 @@
         ],
         "outDir": "bin"
     },
-    "include": ["__tests__/**/*.ts", "__mocks__/**/*.ts"]
+    "include": ["__tests__/**/*.ts", "__mocks__/**/*.ts", "mock_data/**/*.ts"]
 }

@@ -1,5 +1,7 @@
 import { EditorClient, Modal } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvx-client';
+import { TopoMap } from 'model/bundle/code/dtos/topology/TopoMap';
+import { createTopoMapRequest } from 'model/uvexplorer-model';
 
 export abstract class UVXModal extends Modal {
     protected uvexplorerClient: UVExplorerClient;
@@ -7,12 +9,12 @@ export abstract class UVXModal extends Modal {
     protected apiKey = '';
     protected sessionGuid = '';
 
-    constructor(client: EditorClient) {
+    constructor(client: EditorClient, path: string) {
         super(client, {
             title: 'UVexplorer',
             width: 800,
             height: 600,
-            url: 'http://localhost:4200/networks'
+            url: `http://localhost:4200/${path}`
         });
 
         this.uvexplorerClient = new UVExplorerClient(client);
@@ -64,6 +66,16 @@ export abstract class UVXModal extends Modal {
             console.log(`Successfully closed the session.`);
         } catch (e) {
             console.error(e);
+        }
+    }
+
+    async loadTopoMap(deviceGuids: string[]): Promise<TopoMap | undefined> {
+        try {
+            const topoMapRequest = createTopoMapRequest(deviceGuids);
+            return await this.uvexplorerClient.getTopoMap(this.serverUrl, this.sessionGuid, topoMapRequest);
+        } catch (e) {
+            console.error(e);
+            return undefined;
         }
     }
 }

@@ -1,7 +1,7 @@
 import { UVExplorerClient } from '@uvx/uvx-client';
 import * as lucid from 'lucid-extension-sdk';
 import * as model from 'model/uvexplorer-model';
-import * as helpers from './helpers';
+import * as helpers from '../helpers';
 import { TextXHRResponse } from 'lucid-extension-sdk';
 
 jest.mock('lucid-extension-sdk');
