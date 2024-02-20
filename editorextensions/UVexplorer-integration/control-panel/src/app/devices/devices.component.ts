@@ -9,7 +9,7 @@ import { ColDef, RowSelectedEvent, ValueGetterParams } from 'ag-grid-community';
   selector: 'app-devices',
   standalone: true,
   imports: [NgIf, NgFor, AgGridAngular],
-  templateUrl: './devices.component.html',
+  templateUrl: './devices.component.html'
 })
 export class DevicesComponent {
   devices: Device[] = [];
@@ -55,9 +55,9 @@ export class DevicesComponent {
       minWidth: 265,
       valueGetter: (params: ValueGetterParams) => {
         if (!isDevice(params.data) || !params.data.device_categories.entries) {
-          return "";
+          return '';
         }
-        console.log("Device GUID: ", params.data.guid);
+        console.log('Device GUID: ', params.data.guid);
         return this.appendDeviceCategories(params.data.device_categories.entries);
       }
     }
@@ -69,7 +69,7 @@ export class DevicesComponent {
       if (categories[i].device_category == '') {
         continue;
       }
-      returnString += ", " + categories[i].device_category;
+      returnString += ', ' + categories[i].device_category;
     }
     return returnString;
   }
@@ -82,10 +82,10 @@ export class DevicesComponent {
 
   public addRemoveRowSelection(device: Device, selected: boolean) {
     if (selected) {
-      console.log("selected: ", selected)
+      console.log('selected: ', selected);
       this.selectedDevices.push(device);
     } else {
-      console.log("selected: ", selected)
+      console.log('selected: ', selected);
       const index = this.selectedDevices.findIndex((obj) => obj === device);
       this.selectedDevices.splice(index, 1);
     }
