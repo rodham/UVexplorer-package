@@ -84,8 +84,10 @@ function createDevice(increment: string): Device {
     protocol_settings: protocol
   }
 
+  const protocolProfilesArray: ProtocolProfileEntry[] = [protocolProfileEntry];
+
   const protocolProfile: ProtocolProfile = {
-    entries: [protocolProfileEntry]
+    entries: protocolProfilesArray
   }
 
   const device: Device = {

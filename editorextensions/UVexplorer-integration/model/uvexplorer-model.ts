@@ -503,7 +503,7 @@ function isDeviceCategories(obj: unknown): obj is DeviceCategories {
     );
 }
 
-interface ProtocolProfileEntry {
+export interface ProtocolProfileEntry {
     protocol_name: string;
     protocol_settings: unknown;
 }
