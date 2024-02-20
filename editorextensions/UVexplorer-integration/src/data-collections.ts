@@ -34,6 +34,7 @@ export function createOrRetrieveDeviceCollection(source: DataSourceProxy) {
             return collection;
         }
     }
+    // TODO: maybe just add a bool field to flag which devices are visible?
     return source.addCollection(`${toSnakeCase(source.getName())}_device`, {
         fields: [
             { name: 'guid', type: ScalarFieldTypeEnum.STRING },
@@ -116,17 +117,21 @@ export function createOrRetrievePageMapCollection() {
         fields: [
             { name: 'page_id', type: ScalarFieldTypeEnum.STRING },
             { name: 'network_guid', type: ScalarFieldTypeEnum.STRING }
+            // TODO: either store the guids in a stringified array here or make a separate data collection?
+            // { name: 'visible_device_guids', type: ScalarFieldTypeEnum.STRING }
         ],
         primaryKey: ['page_id']
     });
 }
 
+// TODO: maybe pass in device guids here too?
 export function updatePageMap(pageId: string, networkGuid: string) {
     const collection = createOrRetrievePageMapCollection();
 
     for (const [key, item] of collection.items) {
         if (item.fields.get('page_id') === pageId) {
             const map = new Map<string, Record<string, SerializedFieldType>>();
+            // TODO: will need to include device guids here somehow
             map.set(key, { page_id: pageId, network_guid: networkGuid });
             collection.patchItems({
                 changed: map
@@ -135,6 +140,7 @@ export function updatePageMap(pageId: string, networkGuid: string) {
         }
     }
 
+    // TODO: will need device guids here too?
     collection.patchItems({
         added: [{ page_id: pageId, network_guid: networkGuid }]
     });
@@ -152,3 +158,22 @@ export function getNetworkForPage(pageId: string): string {
     }
     throw new Error('Could not retrieve the network associated with the current page.');
 }
+
+// export function getDeviceGuidsForPage(pageId: string): string[] {
+//     const collection = createOrRetrievePageMapCollection();
+//     for (const [, item] of collection.items) {
+//         if (item.fields.get('page_id') === pageId) {
+//             const deviceGuids: SerializedFieldType = item.fields.get('visible_device_guids');
+//             if (typeof deviceGuids === 'string') {
+//                 const deserializedDeviceGuids: unknown = JSON.parse(deviceGuids);
+//                 if (
+//                     Array.isArray(deserializedDeviceGuids) &&
+//                     deserializedDeviceGuids.every((s) => typeof s === 'string')
+//                 ) {
+//                     return deserializedDeviceGuids as string[];
+//                 }
+//             }
+//         }
+//     }
+//     throw new Error('Could not retrieve device guids visible on the current page');
+// }
