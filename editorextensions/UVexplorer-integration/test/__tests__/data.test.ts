@@ -1,17 +1,21 @@
 import {
-    CollectionProxy, DataItemProxy,
+    CollectionProxy,
+    DataItemProxy,
     DataProxy,
     DataSourceProxy,
-    EditorClient, JsonSerializable, SchemaDefinition, SerializedFieldType
-} from "lucid-extension-sdk";
-import { Data, DEVICE_SCHEMA} from "@data/data";
+    EditorClient,
+    JsonSerializable,
+    SchemaDefinition,
+    SerializedFieldType
+} from 'lucid-extension-sdk';
+import { Data, DEVICE_SCHEMA } from '@data/data';
 
-import * as dataUtils from "@data/data-utils";
+import * as dataUtils from '@data/data-utils';
 
-jest.mock('lucid-extension-sdk', () : unknown => ({
+jest.mock('lucid-extension-sdk', (): unknown => ({
     ...jest.requireActual('lucid-extension-sdk'),
     EditorClient: jest.fn().mockImplementation(() => ({
-        sendCommand: jest.fn(),
+        sendCommand: jest.fn()
     })),
     DataProxy: jest.fn().mockImplementation(() => {
         const dataSources = new Map<string, DataSourceProxy>();
@@ -20,12 +24,12 @@ jest.mock('lucid-extension-sdk', () : unknown => ({
             get dataSources() {
                 return dataSources;
             },
-            addDataSource: jest.fn((name: string, config: Record<string, JsonSerializable>) : DataSourceProxy => {
-                const dataSource = new DataSourceProxy(name , new EditorClient());
+            addDataSource: jest.fn((name: string, config: Record<string, JsonSerializable>): DataSourceProxy => {
+                const dataSource = new DataSourceProxy(name, new EditorClient());
                 jest.spyOn(dataSource, 'getSourceConfig').mockReturnValue(config);
                 dataSources.set(name, dataSource);
                 return dataSource;
-            }),
+            })
         };
     }),
     DataSourceProxy: jest.fn().mockImplementation((name: string) => {
@@ -41,7 +45,7 @@ jest.mock('lucid-extension-sdk', () : unknown => ({
             addCollection: jest.fn((name: string, schema: SchemaDefinition) => {
                 const collectionProxy = new CollectionProxy(name, new EditorClient());
                 jest.spyOn(collectionProxy, 'getSchema').mockReturnValue(schema);
-                collections.set(name, collectionProxy)
+                collections.set(name, collectionProxy);
                 return collectionProxy;
             })
         };
@@ -55,27 +59,29 @@ jest.mock('lucid-extension-sdk', () : unknown => ({
         items: new Map<string, DataItemProxy>(),
         patchItems: jest.fn(),
         getFields: jest.fn(),
-        getSchema: jest.fn(),
+        getSchema: jest.fn()
     })),
-    DataItemProxy: jest.fn().mockImplementation((primaryKey: string, collection: CollectionProxy, client: EditorClient) => ({
-        primaryKey,
-        collection,
-        client,
-        fields: new Map<string, SerializedFieldType>(),
-        exists: jest.fn(),
-    })),
+    DataItemProxy: jest
+        .fn()
+        .mockImplementation((primaryKey: string, collection: CollectionProxy, client: EditorClient) => ({
+            primaryKey,
+            collection,
+            client,
+            fields: new Map<string, SerializedFieldType>(),
+            exists: jest.fn()
+        }))
 }));
 
 describe('Data Tests', () => {
-    let mockEditorClient : EditorClient;
+    let mockEditorClient: EditorClient;
     let mockDataProxy: DataProxy;
-    let data : Data;
+    let data: Data;
 
     beforeEach(() => {
         jest.restoreAllMocks();
         mockEditorClient = new EditorClient();
         mockDataProxy = new DataProxy(mockEditorClient);
-        jest.spyOn(dataUtils,'createDataProxy').mockReturnValue(mockDataProxy);
+        jest.spyOn(dataUtils, 'createDataProxy').mockReturnValue(mockDataProxy);
         data = new Data(mockEditorClient);
     });
 
@@ -84,11 +90,9 @@ describe('Data Tests', () => {
             const mockDataSource = mockDataProxy.addDataSource('My Network', { guid: 'guid' });
             const getSourceConfigSpy = jest
                 .spyOn(mockDataSource, 'getSourceConfig')
-                .mockReturnValue({ guid: 'guid'})
+                .mockReturnValue({ guid: 'guid' })
                 .mockClear();
-            const addDataSourceSpy = jest
-                .spyOn(mockDataProxy, 'addDataSource')
-                .mockClear();
+            const addDataSourceSpy = jest.spyOn(mockDataProxy, 'addDataSource').mockClear();
 
             expect(mockDataProxy.dataSources.size).toBe(1);
             const source = data.createOrRetrieveNetworkSource('My Network', 'guid');
@@ -138,12 +142,12 @@ describe('Data Tests', () => {
             const mockDataSource = mockDataProxy.addDataSource('My Network', { guid: 'guid' });
 
             const sourceGetNameSpy = jest.spyOn(mockDataSource, 'getName');
-            const addCollectionSpy = jest.spyOn(mockDataSource,'addCollection');
+            const addCollectionSpy = jest.spyOn(mockDataSource, 'addCollection');
 
             expect(mockDataSource.collections.size).toBe(0);
             const collection = data.createOrRetrieveDeviceCollection(mockDataSource);
 
-            expect(addCollectionSpy).toHaveBeenCalledTimes(1)
+            expect(addCollectionSpy).toHaveBeenCalledTimes(1);
             expect(sourceGetNameSpy).toHaveBeenCalledTimes(1);
 
             expect(mockDataSource.collections.size).toBe(1);

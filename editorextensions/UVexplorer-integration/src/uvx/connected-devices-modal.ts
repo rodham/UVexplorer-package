@@ -3,7 +3,7 @@ import { UVXModal } from './uvx-modal';
 import { ConnectedDevicesRequest, NetworkRequest } from 'model/uvexplorer-model';
 import { isSelectedDevicesMessage } from 'model/message';
 import { drawBlocks, drawLinks } from '@blocks/block-utils';
-import {Data} from "@data/data";
+import { Data } from '@data/data';
 
 export class ConnectedDevicesModal extends UVXModal {
     viewport: Viewport;

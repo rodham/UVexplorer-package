@@ -4,10 +4,11 @@ import {
     DataProxy,
     DataSourceProxy,
     EditorClient,
-    ScalarFieldTypeEnum, SchemaDefinition,
+    ScalarFieldTypeEnum,
+    SchemaDefinition,
     SerializedFieldType
 } from 'lucid-extension-sdk';
-import {createDataProxy, deviceToRecord, toSnakeCase} from "@data/data-utils";
+import { createDataProxy, deviceToRecord, toSnakeCase } from '@data/data-utils';
 
 export const DEVICE_SCHEMA: SchemaDefinition = {
     fields: [
@@ -21,7 +22,7 @@ export const DEVICE_SCHEMA: SchemaDefinition = {
         { name: 'timestamp', type: ScalarFieldTypeEnum.STRING }
     ],
     primaryKey: ['guid']
-}
+};
 
 export class Data {
     private static instance: Data;
@@ -56,13 +57,13 @@ export class Data {
         return source.addCollection(`${toSnakeCase(source.getName())}_device`, DEVICE_SCHEMA);
     }
 
-    addDevicesToCollection(collection: CollectionProxy, devices: Device[]) : void {
+    addDevicesToCollection(collection: CollectionProxy, devices: Device[]): void {
         collection.patchItems({
             added: devices.map((d) => deviceToRecord(d))
         });
     }
 
-    deleteDevicesFromCollection(collection: CollectionProxy) : void {
+    deleteDevicesFromCollection(collection: CollectionProxy): void {
         const guids = collection.items.keys();
         collection.patchItems({
             deleted: guids
@@ -78,7 +79,7 @@ export class Data {
         return this.data.addDataSource('PageMap', { id: 'PageMap' });
     }
 
-    createOrRetrievePageMapCollection() : CollectionProxy {
+    createOrRetrievePageMapCollection(): CollectionProxy {
         const source = this.createOrRetrievePageMapSource();
         for (const [, collection] of source.collections) {
             if (collection.getName() === 'page_map') {
@@ -94,7 +95,7 @@ export class Data {
         });
     }
 
-    updatePageMap(pageId: string, networkGuid: string) : void {
+    updatePageMap(pageId: string, networkGuid: string): void {
         const collection = this.createOrRetrievePageMapCollection();
 
         for (const [key, item] of collection.items) {
@@ -126,8 +127,3 @@ export class Data {
         throw new Error('Could not retrieve the network associated with the current page.');
     }
 }
-
-
-
-
-
