@@ -10,8 +10,8 @@ import {
 import { Device } from 'model/uvexplorer-model';
 import { DeviceNode } from 'model/bundle/code/dtos/topology/DeviceNode';
 import { DeviceLink } from 'model/bundle/code/dtos/topology/DeviceLink';
-import {Data} from "src/data/data";
-import {itemToDevice} from "src/data/data-utils";
+import {Data} from "@data/data";
+import {itemToDevice} from "@data/data-utils";
 
 
 const LIBRARY = 'UVexplorer-shapes';

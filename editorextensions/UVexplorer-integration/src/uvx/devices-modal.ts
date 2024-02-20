@@ -2,9 +2,8 @@ import { DataSourceProxy, EditorClient, JsonSerializable, Viewport } from 'lucid
 import { isLoadNetworkMessage, isSelectedDevicesMessage } from 'model/message';
 import { DeviceListRequest, NetworkRequest } from 'model/uvexplorer-model';
 import { UVXModal } from './uvx-modal';
-
 import { drawBlocks, drawLinks } from '@blocks/block-utils';
-import {Data} from "src/data/data";
+import { Data } from "@data/data";
 
 export class DevicesModal extends UVXModal {
     private viewport: Viewport;

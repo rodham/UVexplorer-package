@@ -3,10 +3,10 @@ import * as model from 'model/uvexplorer-model';
 import * as lucid from 'lucid-extension-sdk';
 import { UVExplorerClient } from '@uvx/uvx-client';
 import { mockDeviceGuids, mockDeviceList, mockDeviceList2 } from 'mock_data/devices';
-import { Data } from 'src/data/data';
+import { Data } from '@data/data';
 
 jest.mock('lucid-extension-sdk');
-jest.mock('src/data/data');
+jest.mock('@data/data');
 jest.mock('model/uvexplorer-model');
 jest.mock('@uvx/uvx-client');
 

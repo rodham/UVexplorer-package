@@ -7,7 +7,7 @@ import {
     ScalarFieldTypeEnum, SchemaDefinition,
     SerializedFieldType
 } from 'lucid-extension-sdk';
-import {createDataProxy, deviceToRecord, toSnakeCase} from "src/data/data-utils";
+import {createDataProxy, deviceToRecord, toSnakeCase} from "@data/data-utils";
 
 export const DEVICE_SCHEMA: SchemaDefinition = {
     fields: [

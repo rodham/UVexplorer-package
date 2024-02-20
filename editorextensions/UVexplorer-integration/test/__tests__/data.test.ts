@@ -4,9 +4,9 @@ import {
     DataSourceProxy,
     EditorClient, JsonSerializable, SchemaDefinition, SerializedFieldType
 } from "lucid-extension-sdk";
-import { Data, DEVICE_SCHEMA} from "src/data/data";
+import { Data, DEVICE_SCHEMA} from "@data/data";
 
-import * as dataUtils from "src/data/data-utils";
+import * as dataUtils from "@data/data-utils";
 
 jest.mock('lucid-extension-sdk', () : unknown => ({
     ...jest.requireActual('lucid-extension-sdk'),
