@@ -7,7 +7,7 @@ import {
     ScalarFieldTypeEnum, SchemaDefinition,
     SerializedFieldType
 } from 'lucid-extension-sdk';
-import {deviceToRecord, toSnakeCase} from "src/data/data-utils";
+import {createDataProxy, deviceToRecord, toSnakeCase} from "src/data/data-utils";
 
 export const DEVICE_SCHEMA: SchemaDefinition = {
     fields: [
@@ -25,12 +25,10 @@ export const DEVICE_SCHEMA: SchemaDefinition = {
 
 export class Data {
     private static instance: Data;
-    private client: EditorClient;
     private data: DataProxy;
 
     constructor(client: EditorClient) {
-        this.client = client;
-        this.data = new DataProxy(client);
+        this.data = createDataProxy(client);
     }
 
     static getInstance(client: EditorClient): Data {

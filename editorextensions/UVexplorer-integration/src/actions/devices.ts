@@ -24,10 +24,8 @@ export async function showConnectedDevices(viewport: Viewport, client: EditorCli
     const modal = new ConnectedDevicesModal(client, viewport, deviceGuids);
 
     const additionalSettings: Map<string, string> = new Map<string, string>();
-    // const apiKey = process.env.UVX_API_KEY ?? '';
-    // const serverUrl = process.env.UVX_BASE_URL ?? '';
-    additionalSettings.set('apiKey', '');
-    additionalSettings.set('serverUrl', '');
+    additionalSettings.set('apiKey', process.env.UVX_API_KEY!);
+    additionalSettings.set('serverUrl', process.env.UVX_BASE_URL!);
     await client.setPackageSettings(additionalSettings);
 
     await modal.loadSettings();

@@ -4,10 +4,11 @@ import {
     DataSourceProxy,
     EditorClient, JsonSerializable, SchemaDefinition, SerializedFieldType
 } from "lucid-extension-sdk";
-import {Data, DEVICE_SCHEMA} from "src/data/data";
+import { Data, DEVICE_SCHEMA} from "src/data/data";
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-return
-jest.mock('lucid-extension-sdk', () => ({
+import * as dataUtils from "src/data/data-utils";
+
+jest.mock('lucid-extension-sdk', () : unknown => ({
     ...jest.requireActual('lucid-extension-sdk'),
     EditorClient: jest.fn().mockImplementation(() => ({
         sendCommand: jest.fn(),
@@ -19,10 +20,10 @@ jest.mock('lucid-extension-sdk', () => ({
             get dataSources() {
                 return dataSources;
             },
-            addDataSource: jest.fn((id: string, config: Record<string, JsonSerializable>) : DataSourceProxy => {
-                const dataSource = new DataSourceProxy(id , new EditorClient());
+            addDataSource: jest.fn((name: string, config: Record<string, JsonSerializable>) : DataSourceProxy => {
+                const dataSource = new DataSourceProxy(name , new EditorClient());
                 jest.spyOn(dataSource, 'getSourceConfig').mockReturnValue(config);
-                dataSources.set(id, dataSource);
+                dataSources.set(name, dataSource);
                 return dataSource;
             }),
         };
@@ -70,27 +71,33 @@ describe('Data Tests', () => {
     let mockDataProxy: DataProxy;
     let data : Data;
 
-    beforeAll(() => {
-        mockEditorClient = new EditorClient();
-        mockDataProxy = new DataProxy(mockEditorClient);
-        data = Data.getInstance(mockEditorClient, mockDataProxy);
-    });
-
     beforeEach(() => {
         jest.restoreAllMocks();
+        mockEditorClient = new EditorClient();
+        mockDataProxy = new DataProxy(mockEditorClient);
+        jest.spyOn(dataUtils,'createDataProxy').mockReturnValue(mockDataProxy);
+        data = new Data(mockEditorClient);
     });
 
     describe('createOrRetrieveNetworkSource tests', () => {
         it('Should return the data source when it exists', () => {
             const mockDataSource = mockDataProxy.addDataSource('My Network', { guid: 'guid' });
-            const getSourceConfigSpy = jest.spyOn(mockDataSource, 'getSourceConfig').mockReturnValue({ guid: 'guid'});
-            const addDataSourceSpy = jest.spyOn(mockDataProxy, 'addDataSource').mockClear();
+            const getSourceConfigSpy = jest
+                .spyOn(mockDataSource, 'getSourceConfig')
+                .mockReturnValue({ guid: 'guid'})
+                .mockClear();
+            const addDataSourceSpy = jest
+                .spyOn(mockDataProxy, 'addDataSource')
+                .mockClear();
 
             expect(mockDataProxy.dataSources.size).toBe(1);
             const source = data.createOrRetrieveNetworkSource('My Network', 'guid');
-            expect(source.id).toBe('My Network');
+
             expect(getSourceConfigSpy).toHaveBeenCalledTimes(1);
             expect(addDataSourceSpy).toHaveBeenCalledTimes(0);
+
+            expect(source.getName()).toBe('My Network');
+            expect(source.getSourceConfig()).toStrictEqual({ guid: 'guid' });
             expect(mockDataProxy.dataSources.size).toBe(1);
         });
 
@@ -99,8 +106,11 @@ describe('Data Tests', () => {
 
             expect(mockDataProxy.dataSources.size).toBe(0);
             const source = data.createOrRetrieveNetworkSource('My Network', 'guid-does-not-exist');
-            expect(source.id).toBe('guid-does-not-exist');
+
             expect(addDataSourceSpy).toHaveBeenCalledTimes(1);
+
+            expect(source.getName()).toBe('My Network');
+            expect(source.getSourceConfig()).toStrictEqual({ guid: 'guid-does-not-exist' });
             expect(mockDataProxy.dataSources.size).toBe(1);
         });
     });
@@ -112,30 +122,30 @@ describe('Data Tests', () => {
 
             const collectionGetNameSpy = jest.spyOn(mockCollection, 'getName');
             const sourceGetNameSpy = jest.spyOn(mockDataSource, 'getName');
-            const toSnakeCaseSpy = jest.spyOn(data,'toSnakeCase');
 
             expect(mockDataSource.collections.size).toBe(1);
             const collection = data.createOrRetrieveDeviceCollection(mockDataSource);
+
             expect(collectionGetNameSpy).toHaveBeenCalledTimes(1);
             expect(sourceGetNameSpy).toHaveBeenCalledTimes(1);
-            expect(toSnakeCaseSpy).toHaveBeenCalledTimes(1);
+
             expect(mockDataSource.collections.size).toBe(1);
             expect(collection.getName()).toBe('my_network_device');
             expect(collection.getSchema()).toBe(DEVICE_SCHEMA);
         });
 
-        it('Should return a new device collection when it does not yet exist', () => {
+        it('Should return a new device collection with the correct schema when it does not yet exist', () => {
             const mockDataSource = mockDataProxy.addDataSource('My Network', { guid: 'guid' });
 
             const sourceGetNameSpy = jest.spyOn(mockDataSource, 'getName');
             const addCollectionSpy = jest.spyOn(mockDataSource,'addCollection');
-            const toSnakeCaseSpy = jest.spyOn(data,'toSnakeCase');
 
             expect(mockDataSource.collections.size).toBe(0);
             const collection = data.createOrRetrieveDeviceCollection(mockDataSource);
+
             expect(addCollectionSpy).toHaveBeenCalledTimes(1)
             expect(sourceGetNameSpy).toHaveBeenCalledTimes(1);
-            expect(toSnakeCaseSpy).toHaveBeenCalledTimes(1);
+
             expect(mockDataSource.collections.size).toBe(1);
             expect(collection.getName()).toBe('my_network_device');
             expect(collection.getSchema()).toBe(DEVICE_SCHEMA);
