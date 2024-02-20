@@ -9,12 +9,14 @@ import {
     deleteDevicesFromCollection,
     updatePageMap
 } from '../data-collections';
+import { drawBlocks, drawLinks } from '@blocks/block-utils';
 
 export class DevicesModal extends UVXModal {
     private viewport: Viewport;
 
     constructor(client: EditorClient, viewport: Viewport) {
-        super(client);
+        super(client, 'networks');
+
         this.viewport = viewport;
     }
 
@@ -81,7 +83,14 @@ export class DevicesModal extends UVXModal {
                 console.error(`Could not load network: ${message.name}`);
             }
         } else if (isSelectedDevicesMessage(message)) {
-            console.log(message.devices);
+            const deviceGuids = message.devices.map((d) => d.guid);
+            const topoMap = await this.loadTopoMap(deviceGuids);
+            if (topoMap !== undefined) {
+                await drawBlocks(this.client, this.viewport, message.devices, topoMap.deviceNodes);
+                drawLinks(this.client, this.viewport, topoMap.deviceLinks);
+            } else {
+                console.error('Could not load topo map data.');
+            }
         }
     }
 }

@@ -5,8 +5,8 @@
             "shape": "networkDevice",
             "name": "Network Device",
             "defaults": {
-                "width": 150,
-                "height": 150
+                "width": 50,
+                "height": 50
             }
         }
     ]
