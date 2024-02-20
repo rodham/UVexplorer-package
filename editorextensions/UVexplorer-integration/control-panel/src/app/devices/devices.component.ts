@@ -1,17 +1,15 @@
 import { Component } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
-import { devicesFromSerializableDevicesMessage, isListDevicesMessage } from 'model/message';
-import { Device, isDevice } from 'model/uvexplorer-model';
+import { devicesFromSerializableDevicesMessage, isListDevicesMessage } from '../../../../model/message';
+import { Device, DeviceCategoryEntry, isDevice } from '../../../../model/uvexplorer-model';
 import { AgGridAngular } from 'ag-grid-angular';
-import { ColDef, RowSelectedEvent } from 'ag-grid-community';
-import { DeviceCategoryRendererComponent } from '../device-category-renderer/device-category-renderer.component';
+import { ColDef, RowSelectedEvent, ValueGetterParams } from 'ag-grid-community';
 
 @Component({
   selector: 'app-devices',
   standalone: true,
   imports: [NgIf, NgFor, AgGridAngular],
-  templateUrl: './devices.component.html',
-  styleUrl: './devices.component.css'
+  templateUrl: './devices.component.html'
 })
 export class DevicesComponent {
   devices: Device[] = [];
@@ -36,12 +34,14 @@ export class DevicesComponent {
       headerName: 'IP Address',
       headerCheckboxSelection: true,
       checkboxSelection: true,
-      filter: 'agTextColumnFilter'
+      filter: 'agTextColumnFilter',
+      maxWidth: 180
     },
     {
       field: 'mac_address',
       headerName: 'MAC Address',
-      filter: 'agTextColumnFilter'
+      filter: 'agTextColumnFilter',
+      maxWidth: 150
     },
     {
       field: 'custom_name',
@@ -52,20 +52,46 @@ export class DevicesComponent {
       field: 'device_categories',
       headerName: 'Categories',
       filter: 'agTextColumnFilter',
-      cellRenderer: DeviceCategoryRendererComponent
+      minWidth: 265,
+      valueGetter: (params: ValueGetterParams) => {
+        if (!isDevice(params.data) || !params.data.device_categories.entries) {
+          return '';
+        }
+        console.log('Device GUID: ', params.data.guid);
+        return this.appendDeviceCategories(params.data.device_categories.entries);
+      }
     }
   ];
 
+  public appendDeviceCategories(categories: DeviceCategoryEntry[]): string {
+    let returnString = categories[0].device_category;
+    for (let i = 1; i < categories.length; i++) {
+      if (categories[i].device_category == '') {
+        continue;
+      }
+      returnString += ', ' + categories[i].device_category;
+    }
+    return returnString;
+  }
+
   protected onRowSelected(event: RowSelectedEvent) {
-    if (event.node.isSelected() && isDevice(event.node.data)) {
-      this.selectedDevices.push(event.node.data);
+    if (isDevice(event.data)) {
+      this.addRemoveRowSelection(event.data, event.node.isSelected()!);
+    }
+  }
+
+  public addRemoveRowSelection(device: Device, selected: boolean) {
+    if (selected) {
+      console.log('selected: ', selected);
+      this.selectedDevices.push(device);
     } else {
-      const index = this.selectedDevices.findIndex((obj) => obj === event.node.data);
+      console.log('selected: ', selected);
+      const index = this.selectedDevices.findIndex((obj) => obj === device);
       this.selectedDevices.splice(index, 1);
     }
   }
 
-  protected selectDevices() {
+  public selectDevices() {
     parent.postMessage(
       {
         action: 'selectDevices',
