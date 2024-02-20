@@ -14,7 +14,8 @@
         "ts-loader": "^9.2.6",
         "tsconfig-paths-webpack-plugin": "^4.1.0",
         "typescript": "^5.3.3",
-        "webpack": "^5.64.4"
+        "webpack": "^5.64.4",
+        "dotenv-webpack": "^8.0.1"
     },
     "dependencies": {
         "jest": "^29.7.0",
