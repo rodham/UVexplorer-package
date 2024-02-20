@@ -9,7 +9,6 @@ import {
 } from 'lucid-extension-sdk';
 import { DeviceLink } from 'model/bundle/code/dtos/topology/DeviceLink';
 import { DeviceNode } from 'model/bundle/code/dtos/topology/DeviceNode';
-import { Device } from 'model/uvexplorer-model';
 
 const LIBRARY = 'UVexplorer-shapes';
 const SHAPE = 'networkDevice';
@@ -55,19 +54,10 @@ function findCategory(deviceTypes: Set<string>) {
     return 'unknown';
 }
 
-function getCompany(device: Device) {
-    const info_sets = device.info_sets;
+function getCompany(deviceNode: DeviceNode) {
     let company = '';
-    if (typeof info_sets === 'object' && info_sets !== null) {
-        if (
-            'product_info' in info_sets &&
-            typeof info_sets.product_info === 'object' &&
-            info_sets.product_info !== null
-        ) {
-            if ('vendor' in info_sets.product_info && typeof info_sets.product_info.vendor === 'string') {
-                company = info_sets.product_info.vendor;
-            }
-        }
+    if (deviceNode.vendor !== undefined) {
+        company = deviceNode.vendor;
     }
 
     if (companyNameMap.has(company)) {
@@ -78,11 +68,11 @@ function getCompany(device: Device) {
     }
 }
 
-function getDeviceType(device: Device) {
+function getDeviceType(deviceNode: DeviceNode) {
     const deviceTypes = new Set<string>();
-    if (device.device_categories.entries !== undefined) {
-        device.device_categories.entries.forEach((type) => {
-            deviceTypes.add(type.device_category);
+    if (deviceNode.categories.entries !== undefined) {
+        deviceNode.categories.entries.forEach((type) => {
+            deviceTypes.add(type.categoryName);
         });
     }
 
@@ -92,7 +82,6 @@ function getDeviceType(device: Device) {
 export async function drawBlocks(
     client: EditorClient,
     viewport: Viewport,
-    devices: Device[],
     deviceNodes: DeviceNode[]
 ) {
     const customBlockDef = await client.getCustomShapeDefinition(LIBRARY, SHAPE);
@@ -103,16 +92,15 @@ export async function drawBlocks(
 
     const page = viewport.getCurrentPage();
     if (page != undefined) {
-        for (const device of devices) {
-            const deviceNode = deviceNodes.filter((node) => node.deviceGuid === device.guid);
+        for (const deviceNode of deviceNodes) {
 
             const block = page.addBlock({
                 ...customBlockDef,
-                boundingBox: { x: deviceNode[0].x, y: deviceNode[0].y, w: 50, h: 50 }
+                boundingBox: { x: deviceNode.x, y: deviceNode.y, w: 50, h: 50 }
             });
-            block.shapeData.set('Make', getCompany(device));
-            block.shapeData.set('DeviceType', getDeviceType(device));
-            block.shapeData.set('Guid', device.guid);
+            block.shapeData.set('Make', getCompany(deviceNode));
+            block.shapeData.set('DeviceType', getDeviceType(deviceNode));
+            block.shapeData.set('Guid', deviceNode.deviceGuid);
 
             // TODO: Figure out why setting the reference key throws JSON parsing errors
             // const networkGuid = getNetworkForPage(page.id);

@@ -50,7 +50,7 @@ export class ConnectedDevicesModal extends UVXModal {
             const topoMap = await this.loadTopoMap(deviceGuids);
             if (topoMap !== undefined) {
                 console.log('Topomap res', topoMap);
-                await drawBlocks(this.client, this.viewport, devices, topoMap.deviceNodes);
+                await drawBlocks(this.client, this.viewport, topoMap.deviceNodes);
                 drawLinks(this.client, this.viewport, topoMap.deviceLinks);
             } else {
                 console.error('Could not load topo map data.');

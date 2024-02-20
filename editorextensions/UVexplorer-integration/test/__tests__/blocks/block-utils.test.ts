@@ -1,6 +1,5 @@
 import * as lucid from 'lucid-extension-sdk';
 import * as blocks from '@blocks/block-utils';
-import { Device } from 'model/uvexplorer-model';
 import { 
     mockDevice, 
     //mockDeviceNode 
@@ -18,7 +17,6 @@ describe('block-utils success test', () => {
     const mockClient = new lucid.EditorClient();
     const mockViewport = new lucid.Viewport(mockClient);
     const mockPage = new lucid.PageProxy("0", mockClient);
-    const devices: Device[] = [mockDevice];
     const deviceNodes: DeviceNode[] = []  // [mockDeviceNode];
     const deviceLinks: DeviceLink[] = [];
 
@@ -30,7 +28,7 @@ describe('block-utils success test', () => {
         it('should draw same number of blocks as devices when any number of devices are given', async () => {
             jest.spyOn(blocks, 'isNetworkDeviceBlock').mockReturnValue(true);
             const addBlockSpy = jest.spyOn(mockPage, 'addBlock');
-            blocks.drawBlocks(mockClient, mockViewport, devices, deviceNodes);
+            blocks.drawBlocks(mockClient, mockViewport, deviceNodes);
             expect(addBlockSpy).toHaveBeenCalledTimes(0);
         });
         // it('should have correct company and deviceType for each block when given data with this information', () => {
