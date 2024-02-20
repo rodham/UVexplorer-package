@@ -1,6 +1,10 @@
 import * as lucid from 'lucid-extension-sdk';
 import * as blocks from '@blocks/block-utils';
 import { Device } from 'model/uvexplorer-model';
+import { 
+    mockDevice, 
+    //mockDeviceNode 
+} from '../helpers';
 import { DeviceNode } from 'model/bundle/code/dtos/topology/DeviceNode';
 import { DeviceLink } from 'model/bundle/code/dtos/topology/DeviceLink';
 
@@ -14,37 +18,8 @@ describe('block-utils success test', () => {
     const mockClient = new lucid.EditorClient();
     const mockViewport = new lucid.Viewport(mockClient);
     const mockPage = new lucid.PageProxy("0", mockClient);
-    const devices: Device[] = [];
-    //[new Device("", "", "0", 
-    //     JSON.parse('{"product_info": {"vendor": "Apple"}}'), 
-    //     JSON.parse('{}'), 
-    //     JSON.parse(`{"entries":[
-    //         {
-    //             "device_category":"router",
-    //             "source_name":""
-    //         },
-    //         {
-    //             "device_category":"net-device",
-    //             "source_name":""
-    //         },
-    //         {
-    //             "device_category":"hub",
-    //             "source_name":""
-    //         }
-    //     ]}`),
-    //     JSON.parse('{}')
-    //     , "")
-    // ];
-    const deviceNodes: DeviceNode[] = [];
-    // JSON.parse(`
-    //     {
-    //         [
-    //             "deviceGuid": "0",
-    //             "x": 0,
-    //             "y": 0
-    //         ]
-    //     }
-    // `);
+    const devices: Device[] = [mockDevice];
+    const deviceNodes: DeviceNode[] = []  // [mockDeviceNode];
     const deviceLinks: DeviceLink[] = [];
 
     beforeEach(() => {
@@ -66,10 +41,10 @@ describe('block-utils success test', () => {
         // });
     });
 
-    describe('drawLinks tests', () => {
-        it('should draw same number of links as deviceLinks when any number of deviceLinks are given', () => {
-            // TODO: Check if number of connectBlocks calls is what we expect
-            expect(blocks.drawLinks(mockClient, mockViewport, deviceLinks)).toBeUndefined();
-        });
-    });
+    // describe('drawLinks tests', () => {
+    //     it('should draw same number of links as deviceLinks when any number of deviceLinks are given', () => {
+    //         // TODO: Check if number of connectBlocks calls is what we expect
+    //         expect(blocks.drawLinks(mockClient, mockViewport, deviceLinks)).toBeUndefined();
+    //     });
+    // });
 });

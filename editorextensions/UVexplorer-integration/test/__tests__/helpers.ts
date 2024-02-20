@@ -9,6 +9,7 @@ import {
     NetworkSummary
 } from '../../model/uvexplorer-model';
 import { TopoMap } from '../../model/bundle/code/dtos/topology/TopoMap';
+import { DeviceCategories, DeviceNode, DeviceState } from 'model/bundle/code/dtos/topology/DeviceNode';
 
 export const mockNetworkSummariesXHRResponse: TextXHRResponse = {
     url: 'https://my-uvexplorer-server.com/public/api/v1/network/list',
@@ -103,6 +104,33 @@ export const mockDevice: Device = {
     },
     timestamp: '2024-01-01T00:00:00.0000000Z'
 };
+
+// const mockDeviceCategories: DeviceCategories = {
+//     entries: []
+// }
+
+// export const mockDeviceNode: DeviceNode = {
+//     id: 0,
+//     groupId: 0,
+//     deviceGuid: '00000000-0000-0000-0000-000000000000',
+//     nodeId: 0,
+//     displayName: '',
+//     ipAddress: '',
+//     macAddress: '',
+//     hostname: '',
+//     systemName: '',
+//     netBiosName: '',
+//     categories: mockDeviceCategories,
+//     vendor: '',
+//     status: DeviceState.Unknown,
+//     x: 0,
+//     y: 0,
+//     centerX: 0,
+//     centerY: 0,
+//     bottom: 0,
+//     width: 0,
+//     height: 0
+// }
 
 export const mockDeviceListResponse: DeviceListResponse = {
     devices: [mockDevice]

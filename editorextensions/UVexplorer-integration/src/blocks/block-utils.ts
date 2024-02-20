@@ -7,9 +7,9 @@ import {
     PageProxy,
     Viewport
 } from 'lucid-extension-sdk';
-import { Device } from 'model/uvexplorer-model';
-import { DeviceNode } from 'model/bundle/code/dtos/topology/DeviceNode';
 import { DeviceLink } from 'model/bundle/code/dtos/topology/DeviceLink';
+import { DeviceNode } from 'model/bundle/code/dtos/topology/DeviceNode';
+import { Device } from 'model/uvexplorer-model';
 
 const LIBRARY = 'UVexplorer-shapes';
 const SHAPE = 'networkDevice';
