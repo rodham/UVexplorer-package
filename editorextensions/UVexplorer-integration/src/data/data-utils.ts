@@ -1,5 +1,5 @@
-import {Device, DeviceCategories, DeviceClass, ProtocolProfile} from "model/uvexplorer-model";
-import {CollectionProxy, DataItemProxy, DataProxy, EditorClient, SerializedFieldType} from "lucid-extension-sdk";
+import { Device, DeviceCategories, DeviceClass, ProtocolProfile } from 'model/uvexplorer-model';
+import { CollectionProxy, DataItemProxy, DataProxy, EditorClient, SerializedFieldType } from 'lucid-extension-sdk';
 
 export function createDataProxy(client: EditorClient): DataProxy {
     return new DataProxy(client);
