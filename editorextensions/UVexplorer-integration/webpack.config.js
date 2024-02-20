@@ -21,9 +21,7 @@ module.exports = {
         plugins: [new TsconfigPathsPlugin()],
         extensions: ['.ts', '.js']
     },
-    plugins: [
-        new Dotenv()
-    ],
+    plugins: [new Dotenv()],
     output: {
         filename: 'bin/extension.js',
         path: __dirname
