@@ -7,11 +7,15 @@ import {
     PageProxy,
     Viewport
 } from 'lucid-extension-sdk';
-import { DeviceLink } from 'model/bundle/code/dtos/topology/DeviceLink';
 import { DeviceNode } from 'model/bundle/code/dtos/topology/DeviceNode';
+import { DeviceLink } from 'model/bundle/code/dtos/topology/DeviceLink';
+import { Data } from 'src/data/data';
+import { itemToDevice, removeQuotationMarks } from '@data/data-utils';
+import { Device } from 'model/uvexplorer-model';
 
 const LIBRARY = 'UVexplorer-shapes';
 const SHAPE = 'networkDevice';
+const DEVICE_REFERENCE_KEY = 'device_reference_key';
 
 export function isNetworkDeviceBlock(item: ItemProxy) {
     if (item instanceof CustomBlockProxy) {
@@ -93,7 +97,6 @@ export async function drawBlocks(
     const page = viewport.getCurrentPage();
     if (page != undefined) {
         for (const deviceNode of deviceNodes) {
-
             const block = page.addBlock({
                 ...customBlockDef,
                 boundingBox: { x: deviceNode.x, y: deviceNode.y, w: 50, h: 50 }
@@ -102,23 +105,44 @@ export async function drawBlocks(
             block.shapeData.set('DeviceType', getDeviceType(deviceNode));
             block.shapeData.set('Guid', deviceNode.deviceGuid);
 
-            // TODO: Figure out why setting the reference key throws JSON parsing errors
-            // const networkGuid = getNetworkForPage(page.id);
-            // const source = createOrRetrieveNetworkSource('', networkGuid);
-            // const collection = createOrRetrieveDeviceCollection(source);
-            // block.setReferenceKey('device_reference_key', {
-            //     collectionId: collection.id,
-            //     primaryKey: device.guid,
-            //     readonly: true,
-            // });
+            const data = Data.getInstance(client);
+            const networkGuid = data.getNetworkForPage(page.id);
+            const source = data.createOrRetrieveNetworkSource('', networkGuid);
+            const collection = data.createOrRetrieveDeviceCollection(source);
+            block.setReferenceKey(DEVICE_REFERENCE_KEY, {
+                collectionId: collection.id,
+                primaryKey: `"${deviceNode.deviceGuid}"`,
+                readonly: true
+            });
         }
     }
 }
 
-function getBlockFromGuid(page: PageProxy, guid: string): BlockProxy | undefined {
+export function getBlockFromGuid(page: PageProxy, guid: string): BlockProxy | undefined {
     for (const block of page.blocks.values()) {
-        if (block.shapeData.get('Guid') === guid) {
-            return block;
+        for (const [key, val] of block.referenceKeys) {
+            if (key === DEVICE_REFERENCE_KEY) {
+                if (removeQuotationMarks(val.primaryKey!) === guid) {
+                    return block;
+                }
+            }
+        }
+    }
+    return undefined;
+}
+export function getGuidFromBlock(block: BlockProxy): string | undefined {
+    for (const [key, val] of block.referenceKeys) {
+        if (key === DEVICE_REFERENCE_KEY) {
+            return val.primaryKey;
+        }
+    }
+    return undefined;
+}
+
+export function getDeviceFromBlock(block: BlockProxy): Device | undefined {
+    for (const [key, val] of block.referenceKeys) {
+        if (key === DEVICE_REFERENCE_KEY) {
+            return itemToDevice(val.getItem());
         }
     }
     return undefined;

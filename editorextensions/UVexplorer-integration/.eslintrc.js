@@ -9,7 +9,16 @@ module.exports = {
     },
     plugins: ['@typescript-eslint', 'import'],
     rules: {
-        'import/no-unresolved': 'error'
+        'import/no-unresolved': 'error',
+        'no-unused-vars': 'off',
+        '@typescript-eslint/no-unused-vars': [
+            'error',
+            {
+                argsIgnorePattern: '^_',
+                varsIgnorePattern: '^_',
+                caughtErrorsIgnorePattern: '^_'
+            }
+        ]
     },
     settings: {
         'import/parsers': {

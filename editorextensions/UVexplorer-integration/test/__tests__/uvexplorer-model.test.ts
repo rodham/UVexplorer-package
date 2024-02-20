@@ -138,7 +138,6 @@ describe('UVexplorer model tests', () => {
     describe('isTopoMap tests', () => {
         it('should return true given a valid TopoMap parsed from JSON', () => {
             const mockResponse: unknown = JSON.parse(helpers.mockTopoMapXHRResponse.responseText);
-            console.log(mockResponse);
             expect(isTopoMap(mockResponse)).toBe(true);
         });
         it('should return false given empty', () => {

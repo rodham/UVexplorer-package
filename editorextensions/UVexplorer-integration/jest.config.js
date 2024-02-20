@@ -16,6 +16,8 @@ module.exports = {
         '@uvx/(.*)': '<rootDir>/src/uvx/$1',
         '@actions/(.*)': '<rootDir>/src/actions/$1',
         'model/(.*)': '<rootDir>/model/$1',
-        '@blocks/(.*)': '<rootDir>/src/blocks/$1'
+        '@blocks/(.*)': '<rootDir>/src/blocks/$1',
+        '@data/(.*)': '<rootDir>/src/data/$1',
+        'mock_data/(.*)': '<rootDir>/test/mock_data/$1'
     }
 };
