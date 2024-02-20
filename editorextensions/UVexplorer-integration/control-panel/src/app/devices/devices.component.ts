@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
 import { isListDevicesMessage } from '../../../../model/message';
-import { Device, DeviceCategoryEntry } from '../../../../model/uvexplorer-model';
+import { Device, DeviceCategoryEntry, isDevice } from '../../../../model/uvexplorer-model';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, RowSelectedEvent, ValueGetterParams } from 'ag-grid-community';
 
@@ -10,7 +10,6 @@ import { ColDef, RowSelectedEvent, ValueGetterParams } from 'ag-grid-community';
   standalone: true,
   imports: [NgIf, NgFor, AgGridAngular],
   templateUrl: './devices.component.html',
-  styleUrl: './devices.component.css'
 })
 export class DevicesComponent {
   devices: Device[] = [];
@@ -55,15 +54,17 @@ export class DevicesComponent {
       headerName: 'Categories',
       filter: 'agTextColumnFilter',
       minWidth: 265,
-      valueGetter: this.getDeviceCategories
+      valueGetter: (params: ValueGetterParams) => {
+        if (!isDevice(params.data) || !params.data.device_categories.entries) {
+          return "";
+        }
+        console.log("Device GUID: ", params.data.guid);
+        return this.appendDeviceCategories(params.data.device_categories.entries);
+      }
     }
   ];
 
-  private getDeviceCategories(params: ValueGetterParams) {
-    if (!params.data!.device_categories.entries) {
-      return "";
-    }
-    const categories: DeviceCategoryEntry[] = params.data!.device_categories.entries;
+  public appendDeviceCategories(categories: DeviceCategoryEntry[]): string {
     let returnString = categories[0].device_category;
     for (let i = 1; i < categories.length; i++) {
       if (categories[i].device_category == '') {
@@ -75,17 +76,23 @@ export class DevicesComponent {
   }
 
   protected onRowSelected(event: RowSelectedEvent) {
-    if (event.node.isSelected() && event.node.data instanceof Device) {
-      this.selectedDevices.push(event.node.data);
-    } else {
-      const index = this.selectedDevices.findIndex((obj) => obj === event.node.data);
-      this.selectedDevices.splice(index, 1);
+    if (isDevice(event.data)) {
+      this.addRemoveRowSelection(event.data, event.node.isSelected()!);
     }
-
-    console.log('Selected length ', this.selectedDevices.length);
   }
 
-  protected selectDevices() {
+  public addRemoveRowSelection(device: Device, selected: boolean) {
+    if (selected) {
+      console.log("selected: ", selected)
+      this.selectedDevices.push(device);
+    } else {
+      console.log("selected: ", selected)
+      const index = this.selectedDevices.findIndex((obj) => obj === device);
+      this.selectedDevices.splice(index, 1);
+    }
+  }
+
+  public selectDevices() {
     parent.postMessage(
       {
         action: 'selectDevices',
