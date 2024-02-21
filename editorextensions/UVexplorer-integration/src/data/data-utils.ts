@@ -45,3 +45,7 @@ export function toSnakeCase(val: string): string {
         .replace(/\s+/g, '_')
         .toLowerCase();
 }
+
+export function removeQuotationMarks(val: string): string {
+    return val.replace(/['"]/g, '');
+}

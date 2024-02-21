@@ -19,7 +19,7 @@
     },
     "dependencies": {
         "jest": "^29.7.0",
-        "lucid-extension-sdk": "^0.0.249"
+        "lucid-extension-sdk": "^0.0.260"
     },
     "scripts": {
         "lint": "eslint .",

@@ -1,15 +1,16 @@
-import { EditorClient, Modal } from 'lucid-extension-sdk';
+import { EditorClient, Modal, Viewport } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvx-client';
-import { TopoMap } from 'model/bundle/code/dtos/topology/TopoMap';
-import { createTopoMapRequest } from 'model/uvexplorer-model';
+import { drawBlocks, drawLinks, getDeviceFromBlock, isNetworkDeviceBlock } from '@blocks/block-utils';
+import { createTopoMapRequest, Device, TopoMap } from 'model/uvexplorer-model';
 
 export abstract class UVXModal extends Modal {
+    protected viewport: Viewport;
     protected uvexplorerClient: UVExplorerClient;
     protected serverUrl = '';
     protected apiKey = '';
     protected sessionGuid = '';
 
-    constructor(client: EditorClient, path: string) {
+    constructor(client: EditorClient, viewport: Viewport, path: string) {
         super(client, {
             title: 'UVexplorer',
             width: 800,
@@ -17,6 +18,7 @@ export abstract class UVXModal extends Modal {
             url: `http://localhost:4200/${path}`
         });
 
+        this.viewport = viewport;
         this.uvexplorerClient = new UVExplorerClient(client);
     }
 
@@ -76,6 +78,38 @@ export abstract class UVXModal extends Modal {
         } catch (e) {
             console.error(e);
             return undefined;
+        }
+    }
+
+    async drawDevices(devices: Device[]): Promise<void> {
+        const pageItems = this.viewport.getCurrentPage()?.allBlocks;
+        // TODO: only delete device connection lines not all lines
+        const lines = this.viewport.getCurrentPage()?.allLines;
+        if (lines) {
+            for (const [, line] of lines) {
+                line.delete();
+            }
+        }
+        const deviceGuids = devices.map((d) => d.guid);
+        if (pageItems) {
+            for (const [, item] of pageItems) {
+                if (isNetworkDeviceBlock(item)) {
+                    const deviceItem = getDeviceFromBlock(item);
+                    if (!deviceItem) continue;
+                    item.delete();
+                    if (!deviceGuids.includes(deviceItem.guid)) {
+                        devices.push(deviceItem);
+                        deviceGuids.push(deviceItem.guid);
+                    }
+                }
+            }
+        }
+        const topoMap = await this.loadTopoMap(deviceGuids);
+        if (topoMap !== undefined) {
+            await drawBlocks(this.client, this.viewport, topoMap.deviceNodes);
+            drawLinks(this.client, this.viewport, topoMap.deviceLinks);
+        } else {
+            console.error('Could not load topo map data.');
         }
     }
 }
