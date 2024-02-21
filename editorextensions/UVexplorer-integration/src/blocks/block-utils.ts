@@ -11,7 +11,7 @@ import { Device } from 'model/uvexplorer-model';
 import { DeviceNode } from 'model/bundle/code/dtos/topology/DeviceNode';
 import { DeviceLink } from 'model/bundle/code/dtos/topology/DeviceLink';
 import { Data } from '@data/data';
-import { itemToDevice } from '@data/data-utils';
+import { itemToDevice, removeQuotationMarks } from '@data/data-utils';
 
 const LIBRARY = 'UVexplorer-shapes';
 const SHAPE = 'networkDevice';
@@ -133,10 +133,18 @@ export function getBlockFromGuid(page: PageProxy, guid: string): BlockProxy | un
     for (const block of page.blocks.values()) {
         for (const [key, val] of block.referenceKeys) {
             if (key === DEVICE_REFERENCE_KEY) {
-                if (itemToDevice(val.getItem()).guid === guid) {
+                if (removeQuotationMarks(val.primaryKey!) === guid) {
                     return block;
                 }
             }
+        }
+    }
+    return undefined;
+}
+export function getGuidFromBlock(block: BlockProxy): string | undefined {
+    for (const [key, val] of block.referenceKeys) {
+        if (key === DEVICE_REFERENCE_KEY) {
+            return val.primaryKey;
         }
     }
     return undefined;
