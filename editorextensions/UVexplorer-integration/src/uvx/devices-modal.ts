@@ -2,14 +2,11 @@ import { DataSourceProxy, EditorClient, JsonSerializable, Viewport } from 'lucid
 import { isLoadNetworkMessage, isSelectedDevicesMessage } from 'model/message';
 import { DeviceListRequest, NetworkRequest } from 'model/uvexplorer-model';
 import { UVXModal } from './uvx-modal';
-import { drawBlocks, drawLinks } from '@blocks/block-utils';
 import { Data } from '@data/data';
 
 export class DevicesModal extends UVXModal {
-    private viewport: Viewport;
-
     constructor(client: EditorClient, viewport: Viewport) {
-        super(client, 'networks');
+        super(client, viewport, 'networks');
 
         this.viewport = viewport;
     }
@@ -79,15 +76,9 @@ export class DevicesModal extends UVXModal {
                 console.error(`Could not load network: ${message.name}`);
             }
         } else if (isSelectedDevicesMessage(message)) {
-            const deviceGuids = message.devices.map((d) => d.guid);
+            await this.drawDevices(message.devices);
+            await this.closeSession();
             this.hide();
-            const topoMap = await this.loadTopoMap(deviceGuids);
-            if (topoMap !== undefined) {
-                await drawBlocks(this.client, this.viewport, topoMap.deviceNodes);
-                drawLinks(this.client, this.viewport, topoMap.deviceLinks);
-            } else {
-                console.error('Could not load topo map data.');
-            }
         }
     }
 }
