@@ -6,12 +6,10 @@ import { drawBlocks, drawLinks } from '@blocks/block-utils';
 import { Data } from '@data/data';
 
 export class ConnectedDevicesModal extends UVXModal {
-    viewport: Viewport;
     deviceGuids: string[];
 
     constructor(client: EditorClient, viewport: Viewport, deviceGuids: string[]) {
-        super(client, 'devices');
-        this.viewport = viewport;
+        super(client, viewport, 'devices');
         this.deviceGuids = deviceGuids;
     }
 

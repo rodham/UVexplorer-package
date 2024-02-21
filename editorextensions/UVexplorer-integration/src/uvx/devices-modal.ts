@@ -6,10 +6,8 @@ import { drawBlocks, drawLinks } from '@blocks/block-utils';
 import { Data } from '@data/data';
 
 export class DevicesModal extends UVXModal {
-    private viewport: Viewport;
-
     constructor(client: EditorClient, viewport: Viewport) {
-        super(client, 'networks');
+        super(client, viewport, 'networks');
 
         this.viewport = viewport;
     }
