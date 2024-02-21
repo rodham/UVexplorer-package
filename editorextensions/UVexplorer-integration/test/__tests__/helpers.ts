@@ -97,8 +97,8 @@ export const mockDevice: Device = {
                 device_category: 'snmp',
                 source_name: 'default-classifier'
             },
-            { 
-                device_category: 'router', 
+            {
+                device_category: 'router',
                 source_name: 'default-classifier'
             }
         ]
@@ -121,7 +121,7 @@ const mockDeviceNodeCategories: DeviceNodeCategories = {
             categoryType: 0
         }
     ]
-}
+};
 
 export const mockDeviceNode: DeviceNode = {
     id: 0,
@@ -144,7 +144,7 @@ export const mockDeviceNode: DeviceNode = {
     bottom: 0,
     width: 0,
     height: 0
-}
+};
 
 export const mockDeviceListResponse: DeviceListResponse = {
     devices: [mockDevice]
@@ -259,7 +259,7 @@ export const mockTopoMapXHRResponse: TextXHRResponse = {
 
 export const mockTopoMap: TopoMap = {
     layoutSettings: {
-        layoutType: "Manual",
+        layoutType: 'Manual',
         useStraightLinks: true,
         radialSettings: {
             minRadius: 200,
@@ -291,7 +291,7 @@ export const mockTopoMap: TopoMap = {
         shortIfNames: false,
         hideVendorImage: false,
         hidePlatformImage: false,
-        deviceDisplaySetting: "Default",
+        deviceDisplaySetting: 'Default',
         standardPen: {
             color: {
                 red: 0,
@@ -299,7 +299,7 @@ export const mockTopoMap: TopoMap = {
                 blue: 0
             },
             width: 1,
-            dashStyle: "Solid"
+            dashStyle: 'Solid'
         },
         lagPen: {
             color: {
@@ -308,7 +308,7 @@ export const mockTopoMap: TopoMap = {
                 blue: 0
             },
             width: 1,
-            dashStyle: "Solid"
+            dashStyle: 'Solid'
         },
         manualPen: {
             color: {
@@ -317,7 +317,7 @@ export const mockTopoMap: TopoMap = {
                 blue: 0
             },
             width: 1,
-            dashStyle: "Solid"
+            dashStyle: 'Solid'
         },
         associatedPen: {
             color: {
@@ -326,7 +326,7 @@ export const mockTopoMap: TopoMap = {
                 blue: 0
             },
             width: 1,
-            dashStyle: "Solid"
+            dashStyle: 'Solid'
         },
         multiPen: {
             color: {
@@ -335,7 +335,7 @@ export const mockTopoMap: TopoMap = {
                 blue: 0
             },
             width: 1,
-            dashStyle: "Solid"
+            dashStyle: 'Solid'
         },
         stpForwardingPen: {
             color: {
@@ -344,7 +344,7 @@ export const mockTopoMap: TopoMap = {
                 blue: 0
             },
             width: 1,
-            dashStyle: "Solid"
+            dashStyle: 'Solid'
         },
         stpBlockingPen: {
             color: {
@@ -353,7 +353,7 @@ export const mockTopoMap: TopoMap = {
                 blue: 0
             },
             width: 1,
-            dashStyle: "Solid"
+            dashStyle: 'Solid'
         }
     },
     deviceNodes: [

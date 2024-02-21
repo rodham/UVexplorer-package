@@ -7,11 +7,7 @@ import {
     PageProxy,
     Viewport
 } from 'lucid-extension-sdk';
-import {
-    Device, 
-    DeviceNode,
-    DeviceLink
-} from 'model/uvexplorer-model';
+import { Device, DeviceNode, DeviceLink } from 'model/uvexplorer-model';
 import { Data } from '@data/data';
 import { itemToDevice, removeQuotationMarks } from '@data/data-utils';
 
@@ -87,11 +83,7 @@ function getDeviceType(deviceNode: DeviceNode) {
     return findCategory(deviceTypes);
 }
 
-export async function drawBlocks(
-    client: EditorClient,
-    viewport: Viewport,
-    deviceNodes: DeviceNode[]
-) {
+export async function drawBlocks(client: EditorClient, viewport: Viewport, deviceNodes: DeviceNode[]) {
     const customBlockDef = await client.getCustomShapeDefinition(LIBRARY, SHAPE);
 
     if (!customBlockDef) {
@@ -163,8 +155,7 @@ export function drawLinks(client: EditorClient, viewport: Viewport, deviceLinks:
                 if (deviceBlock !== undefined && connectedDeviceBlock !== undefined) {
                     if (deviceBlock.getBoundingBox().y > connectedDeviceBlock.getBoundingBox().y) {
                         connectBlocks(connectedDeviceBlock, deviceBlock);
-                    }
-                    else {
+                    } else {
                         connectBlocks(deviceBlock, connectedDeviceBlock);
                     }
                 }

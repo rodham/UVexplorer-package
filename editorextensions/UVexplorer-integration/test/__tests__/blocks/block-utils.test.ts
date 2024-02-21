@@ -2,7 +2,7 @@ import * as lucid from 'lucid-extension-sdk';
 import * as blocks from '@blocks/block-utils';
 import { mockDeviceNode } from '../helpers';
 import {
-    DeviceNode, 
+    DeviceNode
     //DeviceLink
 } from 'model/uvexplorer-model';
 
@@ -15,7 +15,7 @@ beforeEach(() => {
 describe('block-utils success test', () => {
     const mockClient = new lucid.EditorClient();
     const mockViewport = new lucid.Viewport(mockClient);
-    const mockPage = new lucid.PageProxy("0", mockClient);
+    const mockPage = new lucid.PageProxy('0', mockClient);
     const deviceNodes: DeviceNode[] = [mockDeviceNode];
     // const deviceLinks: DeviceLink[] = [];
 
