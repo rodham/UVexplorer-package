@@ -12,12 +12,13 @@ import { DeviceNode } from 'model/bundle/code/dtos/topology/DeviceNode';
 import { DeviceLink } from 'model/bundle/code/dtos/topology/DeviceLink';
 import { Data } from '@data/data';
 import { itemToDevice, removeQuotationMarks } from '@data/data-utils';
+import { NetworkDeviceBlock } from './network-device-block';
 
 const LIBRARY = 'UVexplorer-shapes';
 const SHAPE = 'networkDevice';
 const DEVICE_REFERENCE_KEY = 'device_reference_key';
 
-export function isNetworkDeviceBlock(item: ItemProxy) {
+export function isNetworkDeviceBlock(item: ItemProxy): item is NetworkDeviceBlock {
     if (item instanceof CustomBlockProxy) {
         if (item.isFromStencil(LIBRARY, SHAPE)) {
             return true;
@@ -115,6 +116,7 @@ export async function drawBlocks(
             });
             block.shapeData.set('Make', getCompany(device));
             block.shapeData.set('DeviceType', getDeviceType(device));
+            block.shapeData.set('Guid', device.guid);
 
             const data = Data.getInstance(client);
             const networkGuid = data.getNetworkForPage(page.id);

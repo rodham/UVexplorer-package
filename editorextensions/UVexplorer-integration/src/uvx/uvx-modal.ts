@@ -2,7 +2,7 @@ import { EditorClient, Modal, Viewport } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvx-client';
 import { TopoMap } from 'model/bundle/code/dtos/topology/TopoMap';
 import { Device, createTopoMapRequest } from 'model/uvexplorer-model';
-import { drawBlocks, drawLinks } from '@blocks/block-utils';
+import { drawBlocks, drawLinks, getDeviceFromBlock, isNetworkDeviceBlock } from '@blocks/block-utils';
 
 export abstract class UVXModal extends Modal {
     protected viewport: Viewport;
@@ -83,7 +83,28 @@ export abstract class UVXModal extends Modal {
     }
 
     async drawDevices(devices: Device[]): Promise<void> {
+        const pageItems = this.viewport.getCurrentPage()?.allBlocks;
+        // TODO: only delete device connection lines not all lines
+        const lines = this.viewport.getCurrentPage()?.allLines;
+        if (lines) {
+            for (const [, line] of lines) {
+                line.delete();
+            }
+        }
         const deviceGuids = devices.map((d) => d.guid);
+        if (pageItems) {
+            for (const [, item] of pageItems) {
+                if (isNetworkDeviceBlock(item)) {
+                    const deviceItem = getDeviceFromBlock(item);
+                    if (!deviceItem) continue;
+                    item.delete();
+                    if (!deviceGuids.includes(deviceItem.guid)) {
+                        devices.push(deviceItem);
+                        deviceGuids.push(deviceItem.guid);
+                    }
+                }
+            }
+        }
         const topoMap = await this.loadTopoMap(deviceGuids);
         if (topoMap !== undefined) {
             await drawBlocks(this.client, this.viewport, devices, topoMap.deviceNodes);
