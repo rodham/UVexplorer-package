@@ -161,7 +161,12 @@ export function drawLinks(client: EditorClient, viewport: Viewport, deviceLinks:
                 const deviceBlock = getBlockFromGuid(page, linkMembers.deviceGuid);
                 const connectedDeviceBlock = getBlockFromGuid(page, linkMembers.connectedDeviceGuid);
                 if (deviceBlock !== undefined && connectedDeviceBlock !== undefined) {
-                    connectBlocks(deviceBlock, connectedDeviceBlock);
+                    if (deviceBlock.getBoundingBox().y > connectedDeviceBlock.getBoundingBox().y) {
+                        connectBlocks(connectedDeviceBlock, deviceBlock);
+                    }
+                    else {
+                        connectBlocks(deviceBlock, connectedDeviceBlock);
+                    }
                 }
             }
         }
