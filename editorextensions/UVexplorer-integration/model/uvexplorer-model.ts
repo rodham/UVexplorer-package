@@ -713,3 +713,367 @@ export function isDevice(obj: unknown): obj is Device {
         ('custom_name' in obj ? typeof obj.custom_name === 'string' : true)
     );
 }
+
+// DeviceNode
+export interface DeviceNode {
+    id: number;
+    groupId: number;
+    deviceGuid: string;
+    nodeId: number;
+    displayName: string;
+    ipAddress: string;
+    macAddress: string;
+    hostname: string;
+    systemName: string;
+    netBiosName: string;
+    categories: DeviceNodeCategories;
+    vendor: string;
+    status: DeviceState;
+    x: number;
+    y: number;
+    centerX: number;
+    centerY: number;
+    bottom: number;
+    width: number;
+    height: number;
+    selected?: boolean;
+}
+
+export enum DeviceNodeCategoryType {
+    System = 0,
+    User = 1
+}
+
+export interface DeviceNodeCategoryEntry {
+    categoryName: string;
+    categoryType: DeviceNodeCategoryType;
+}
+
+export interface DeviceNodeCategories {
+    entries?: DeviceNodeCategoryEntry[];
+}
+
+export enum DeviceState {
+    Unknown = 0,
+    Down,
+    Warning,
+    Information,
+    Up,
+    Paused,
+    NoData
+}
+
+// DeviceLink
+export interface DeviceLink {
+    linkType: string;
+    noWireless: boolean;
+    allWirelessOrVm: boolean;
+    noVm: boolean;
+    linkMembers: DeviceLinkMember[];
+    linkEdges: DeviceLinkEdge[];
+    monitorState: MonitorState;
+}
+
+export interface DeviceLinkMember {
+    deviceGuid: string;
+    deviceName: string;
+    deviceIpAddress: string;
+    deviceMacAddress: string;
+    ifIndex: number;
+    ifName: string;
+    monitorState: MonitorState;
+    connectedDeviceGuid: string;
+    connectedDevice: string;
+    connectedIfIndex: number;
+    connectedIfName: string;
+    connectedMonitorState: MonitorState;
+    radio: string;
+    ssid: string;
+    virtualPort: string;
+    virtualPortGroup: string;
+    linkType: string;
+}
+
+export interface DeviceLinkEdge {
+    localConnection: DeviceConnection;
+    remoteConnection: DeviceConnection;
+}
+
+export enum MonitorState {
+    Unknown = 0,
+    Down,
+    Warning,
+    Information,
+    Up,
+    Paused,
+    NoData
+}
+
+export interface DeviceConnection {
+    deviceGuid: string;
+    nodeId: number;
+    start: Point;
+    end: Point;
+    mid: Point;
+    connectionType: ConnectionType;
+    interfaceLabels: string[];
+    deviceIpAddress: string;
+    deviceMacAddress: string;
+    deviceIfIndex: number;
+    monitorState: MonitorState;
+}
+
+export enum ConnectionType {
+    Standard,
+    Lag,
+    Manual,
+    Association,
+    Multi
+}
+
+export interface Point {
+    x: number;
+    y: number;
+}
+
+// TopoMap
+export interface TopoMap {
+    layoutSettings: LayoutSettings;
+    drawSettings: DrawSettings;
+    deviceNodes: DeviceNode[];
+    deviceGroupNodes: DeviceNode[];
+    hubNodes: DeviceNode[];
+    imageNodes: unknown; //TODO: Find out this typing. The example request was [].
+    deviceLinks: DeviceLink[];
+    width: number;
+    height: number;
+    left: number;
+    right: number;
+    top: number;
+    bottom: number;
+    centerX: number;
+    centerY: number;
+
+    displayEdges?: unknown;
+}
+
+export function isTopoMap(obj: unknown): obj is TopoMap {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'layoutSettings' in obj &&
+        isLayoutSettings(obj.layoutSettings) &&
+        'drawSettings' in obj &&
+        isDrawSettings(obj.drawSettings) &&
+        'deviceNodes' in obj &&
+        Array.isArray(obj.deviceNodes) &&
+        'deviceGroupNodes' in obj &&
+        Array.isArray(obj.deviceGroupNodes) &&
+        'hubNodes' in obj &&
+        Array.isArray(obj.hubNodes) &&
+        'imageNodes' in obj &&
+        Array.isArray(obj.imageNodes) && // Adjust the typing once known
+        'deviceLinks' in obj &&
+        Array.isArray(obj.deviceLinks) &&
+        'width' in obj &&
+        typeof obj.width === 'number' &&
+        'height' in obj &&
+        typeof obj.height === 'number' &&
+        'left' in obj &&
+        typeof obj.left === 'number' &&
+        'right' in obj &&
+        typeof obj.right === 'number' &&
+        'top' in obj &&
+        typeof obj.top === 'number' &&
+        'bottom' in obj &&
+        typeof obj.bottom === 'number' &&
+        'centerX' in obj &&
+        typeof obj.centerX === 'number' &&
+        'centerY' in obj &&
+        typeof obj.centerY === 'number' // &&
+        // ('displayEdges' in obj ? isDisplayEdgeSet(obj.displayEdges) : true)
+    );
+}
+
+export enum LayoutType {
+    Manual,
+    Radial,
+    Hierarchical,
+    Ring
+}
+
+export function isLayoutSettings(obj: unknown): obj is LayoutSettings {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'layoutType' in obj &&
+        typeof obj.layoutType === 'number' &&
+        Object.values(LayoutType).includes(obj.layoutType) &&
+        'hierarchicalSettings' in obj &&
+        (obj.hierarchicalSettings === null || isHierarchicalLayoutSettings(obj.hierarchicalSettings)) &&
+        'radialSettings' in obj &&
+        isRingRadialLayoutSettings(obj.radialSettings) &&
+        'ringSettings' in obj &&
+        isRingRadialLayoutSettings(obj.ringSettings) &&
+        'useStraightLinks' in obj &&
+        typeof obj.useStraightLinks === 'boolean' &&
+        'showLinkLabels' in obj &&
+        typeof obj.showLinkLabels === 'boolean' &&
+        'showLayer2Links' in obj &&
+        typeof obj.showLayer2Links === 'boolean' &&
+        'showVirtualLinks' in obj &&
+        typeof obj.showVirtualLinks === 'boolean' &&
+        'showWirelessLinks' in obj &&
+        typeof obj.showWirelessLinks === 'boolean' &&
+        'showIpPhoneLinks' in obj &&
+        typeof obj.showIpPhoneLinks === 'boolean' &&
+        'rootNodes' in obj &&
+        Array.isArray(obj.rootNodes)
+    );
+}
+
+export enum LayoutDirection {
+    Left,
+    Right,
+    Up,
+    Down
+}
+
+export enum RootAlignment {
+    Left,
+    Center,
+    Right
+}
+
+export interface HierarchicalLayoutSettings {
+    levelSpacing: number;
+    nodeSpacing: number;
+    layoutDirection: LayoutDirection;
+    rootAlignment: RootAlignment;
+    useStraightLinks: boolean;
+}
+
+export function isHierarchicalLayoutSettings(obj: unknown): obj is HierarchicalLayoutSettings {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'levelSpacing' in obj &&
+        typeof obj.levelSpacing === 'number' &&
+        'nodeSpacing' in obj &&
+        typeof obj.nodeSpacing === 'number' &&
+        'layoutDirection' in obj &&
+        typeof obj.layoutDirection === 'number' &&
+        Object.values(LayoutDirection).includes(obj.layoutDirection) &&
+        'rootAlignment' in obj &&
+        typeof obj.rootAlignment === 'number' &&
+        Object.values(RootAlignment).includes(obj.rootAlignment) &&
+        'useStraightLinks' in obj &&
+        typeof obj.useStraightLinks === 'boolean'
+    );
+}
+
+export interface RingRadialLayoutSettings {
+    minRadius: number;
+    maxRadius: number;
+    maxAngle: number;
+    maximizeRoot: boolean;
+}
+
+export function isRingRadialLayoutSettings(obj: unknown): obj is RingRadialLayoutSettings {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'minRadius' in obj &&
+        typeof obj.minRadius === 'number' &&
+        'maxRadius' in obj &&
+        typeof obj.maxRadius === 'number' &&
+        'maxAngle' in obj &&
+        typeof obj.maxAngle === 'number' &&
+        'maximizeRoot' in obj &&
+        typeof obj.maximizeRoot === 'boolean'
+    );
+}
+
+export function isDrawSettings(obj: unknown): obj is DrawSettings {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'shortDeviceNames' in obj &&
+        typeof obj.shortDeviceNames === 'boolean' &&
+        'deviceTrimLeft' in obj &&
+        typeof obj.deviceTrimLeft === 'boolean' &&
+        'deviceTrimRight' in obj &&
+        typeof obj.deviceTrimRight === 'boolean' &&
+        'deviceTrimLeftChar' in obj &&
+        typeof obj.deviceTrimLeftChar === 'string' &&
+        'deviceTrimRightChar' in obj &&
+        typeof obj.deviceTrimRightChar === 'string' &&
+        'deviceTrimLeftCount' in obj &&
+        typeof obj.deviceTrimLeftCount === 'number' &&
+        'deviceTrimRightCount' in obj &&
+        typeof obj.deviceTrimRightCount === 'number' &&
+        'shortIfNames' in obj &&
+        typeof obj.shortIfNames === 'boolean' &&
+        'hideVendorImage' in obj &&
+        typeof obj.hideVendorImage === 'boolean' &&
+        'hidePlatformImage' in obj &&
+        typeof obj.hidePlatformImage === 'boolean' &&
+        'deviceDisplaySetting' in obj &&
+        typeof obj.deviceDisplaySetting === 'number' &&
+        'standardPen' in obj &&
+        isPenPattern(obj.standardPen) &&
+        'lagPen' in obj &&
+        isPenPattern(obj.lagPen) &&
+        'manualPen' in obj &&
+        isPenPattern(obj.manualPen) &&
+        'associatedPen' in obj &&
+        isPenPattern(obj.associatedPen) &&
+        'multiPen' in obj &&
+        isPenPattern(obj.multiPen) &&
+        'stpForwardingPen' in obj &&
+        isPenPattern(obj.stpForwardingPen) &&
+        'stpBlockingPen' in obj &&
+        isPenPattern(obj.stpBlockingPen)
+    );
+}
+
+export interface Color {
+    red: number;
+    green: number;
+    blue: number;
+}
+
+export function isColor(obj: unknown): obj is Color {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'red' in obj &&
+        typeof obj.red === 'number' &&
+        'green' in obj &&
+        typeof obj.green === 'number' &&
+        'blue' in obj &&
+        typeof obj.blue === 'number'
+    );
+}
+
+export enum DashStyle {
+    Solid = 0,
+    Dash = 1,
+    Dot = 2,
+    DashDot = 3,
+    DashDotDot = 4,
+    Custom = 5
+}
+
+export function isPenPattern(obj: unknown): obj is PenPattern {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'color' in obj &&
+        isColor(obj.color) &&
+        'width' in obj &&
+        typeof obj.width === 'number' &&
+        'dashStyle' in obj &&
+        typeof obj.dashStyle === 'number'
+    );
+}

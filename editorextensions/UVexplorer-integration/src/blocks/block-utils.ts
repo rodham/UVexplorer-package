@@ -7,9 +7,7 @@ import {
     PageProxy,
     Viewport
 } from 'lucid-extension-sdk';
-import { Device } from 'model/uvexplorer-model';
-import { DeviceNode } from 'model/bundle/code/dtos/topology/DeviceNode';
-import { DeviceLink } from 'model/bundle/code/dtos/topology/DeviceLink';
+import { Device, DeviceNode, DeviceLink } from 'model/uvexplorer-model';
 import { Data } from '@data/data';
 import { itemToDevice, removeQuotationMarks } from '@data/data-utils';
 
@@ -58,46 +56,34 @@ function findCategory(deviceTypes: Set<string>) {
     return 'unknown';
 }
 
-function getCompany(device: Device) {
-    const info_sets = device.info_sets;
+function getCompany(deviceNode: DeviceNode) {
     let company = '';
-    if (typeof info_sets === 'object' && info_sets !== null) {
-        if (
-            'product_info' in info_sets &&
-            typeof info_sets.product_info === 'object' &&
-            info_sets.product_info !== null
-        ) {
-            if ('vendor' in info_sets.product_info && typeof info_sets.product_info.vendor === 'string') {
-                company = info_sets.product_info.vendor;
-            }
-        }
+    if (deviceNode.vendor !== undefined) {
+        company = deviceNode.vendor;
     }
 
     if (companyNameMap.has(company)) {
         return companyNameMap.get(company);
     } else {
-        console.error('Unknown company name');
+        console.error('Unknown company name: ' + company);
         return 'unknown';
     }
 }
 
-function getDeviceType(device: Device) {
+function getDeviceType(deviceNode: DeviceNode) {
     const deviceTypes = new Set<string>();
-    if (device.device_categories.entries !== undefined) {
-        device.device_categories.entries.forEach((type) => {
-            deviceTypes.add(type.device_category);
+    if (deviceNode.categories.entries !== undefined) {
+        deviceNode.categories.entries.forEach((type) => {
+            deviceTypes.add(type.categoryName);
         });
     }
+
+    console.log(deviceNode);
 
     return findCategory(deviceTypes);
 }
 
-export async function drawBlocks(
-    client: EditorClient,
-    viewport: Viewport,
-    devices: Device[],
-    deviceNodes: DeviceNode[]
-) {
+export async function drawBlocks(client: EditorClient, viewport: Viewport, deviceNodes: DeviceNode[]) {
     const customBlockDef = await client.getCustomShapeDefinition(LIBRARY, SHAPE);
 
     if (!customBlockDef) {
@@ -106,15 +92,14 @@ export async function drawBlocks(
 
     const page = viewport.getCurrentPage();
     if (page != undefined) {
-        for (const device of devices) {
-            const deviceNode = deviceNodes.filter((node) => node.deviceGuid === device.guid);
-
+        for (const deviceNode of deviceNodes) {
             const block = page.addBlock({
                 ...customBlockDef,
-                boundingBox: { x: deviceNode[0].x, y: deviceNode[0].y, w: 50, h: 50 }
+                boundingBox: { x: deviceNode.x, y: deviceNode.y, w: 50, h: 50 }
             });
-            block.shapeData.set('Make', getCompany(device));
-            block.shapeData.set('DeviceType', getDeviceType(device));
+            block.shapeData.set('Make', getCompany(deviceNode));
+            block.shapeData.set('DeviceType', getDeviceType(deviceNode));
+            block.shapeData.set('Guid', deviceNode.deviceGuid);
 
             const data = Data.getInstance(client);
             const networkGuid = data.getNetworkForPage(page.id);
@@ -122,7 +107,7 @@ export async function drawBlocks(
             const collection = data.createOrRetrieveDeviceCollection(source);
             block.setReferenceKey(DEVICE_REFERENCE_KEY, {
                 collectionId: collection.id,
-                primaryKey: `"${device.guid}"`,
+                primaryKey: `"${deviceNode.deviceGuid}"`,
                 readonly: true
             });
         }
@@ -168,7 +153,11 @@ export function drawLinks(client: EditorClient, viewport: Viewport, deviceLinks:
                 const deviceBlock = getBlockFromGuid(page, linkMembers.deviceGuid);
                 const connectedDeviceBlock = getBlockFromGuid(page, linkMembers.connectedDeviceGuid);
                 if (deviceBlock !== undefined && connectedDeviceBlock !== undefined) {
-                    connectBlocks(deviceBlock, connectedDeviceBlock);
+                    if (deviceBlock.getBoundingBox().y > connectedDeviceBlock.getBoundingBox().y) {
+                        connectBlocks(connectedDeviceBlock, deviceBlock);
+                    } else {
+                        connectBlocks(deviceBlock, connectedDeviceBlock);
+                    }
                 }
             }
         }

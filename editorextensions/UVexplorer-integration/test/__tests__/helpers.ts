@@ -1,14 +1,17 @@
 import { TextXHRResponse } from 'lucid-extension-sdk';
 import {
     Device,
+    DeviceNode,
+    DeviceState,
     DeviceCategoryListResponse,
     DeviceDetailsResponse,
     DeviceListResponse,
     InfoSetListResponse,
     NetworkSummariesResponse,
-    NetworkSummary
+    NetworkSummary,
+    TopoMap,
+    DeviceNodeCategories
 } from '../../model/uvexplorer-model';
-import { TopoMap } from '../../model/bundle/code/dtos/topology/TopoMap';
 
 export const mockNetworkSummariesXHRResponse: TextXHRResponse = {
     url: 'https://my-uvexplorer-server.com/public/api/v1/network/list',
@@ -94,7 +97,10 @@ export const mockDevice: Device = {
                 device_category: 'snmp',
                 source_name: 'default-classifier'
             },
-            { device_category: 'router', source_name: 'default-classifier' }
+            {
+                device_category: 'router',
+                source_name: 'default-classifier'
+            }
         ]
     },
     device_class: {},
@@ -102,6 +108,42 @@ export const mockDevice: Device = {
         entries: []
     },
     timestamp: '2024-01-01T00:00:00.0000000Z'
+};
+
+const mockDeviceNodeCategories: DeviceNodeCategories = {
+    entries: [
+        {
+            categoryName: 'net-device',
+            categoryType: 0
+        },
+        {
+            categoryName: 'hub',
+            categoryType: 0
+        }
+    ]
+};
+
+export const mockDeviceNode: DeviceNode = {
+    id: 0,
+    groupId: 0,
+    deviceGuid: '00000000-0000-0000-0000-000000000000',
+    nodeId: 0,
+    displayName: '',
+    ipAddress: '',
+    macAddress: '',
+    hostname: '',
+    systemName: '',
+    netBiosName: '',
+    categories: mockDeviceNodeCategories,
+    vendor: 'Apple',
+    status: DeviceState.Unknown,
+    x: 0,
+    y: 0,
+    centerX: 0,
+    centerY: 0,
+    bottom: 0,
+    width: 0,
+    height: 0
 };
 
 export const mockDeviceListResponse: DeviceListResponse = {
@@ -217,7 +259,7 @@ export const mockTopoMapXHRResponse: TextXHRResponse = {
 
 export const mockTopoMap: TopoMap = {
     layoutSettings: {
-        layoutType: 0,
+        layoutType: 'Manual',
         useStraightLinks: true,
         radialSettings: {
             minRadius: 200,
@@ -225,7 +267,7 @@ export const mockTopoMap: TopoMap = {
             maxAngle: 360,
             maximizeRoot: true
         },
-        hierarchicalSettings: null,
+        hierarchicalSettings: undefined,
         ringSettings: {
             minRadius: 200,
             maxRadius: 3000,
@@ -236,8 +278,7 @@ export const mockTopoMap: TopoMap = {
         showVirtualLinks: false,
         showWirelessLinks: false,
         showIpPhoneLinks: false,
-        showLinkLabels: false,
-        rootNodes: []
+        showLinkLabels: false
     },
     drawSettings: {
         shortDeviceNames: false,
@@ -250,7 +291,7 @@ export const mockTopoMap: TopoMap = {
         shortIfNames: false,
         hideVendorImage: false,
         hidePlatformImage: false,
-        deviceDisplaySetting: 0,
+        deviceDisplaySetting: 'Default',
         standardPen: {
             color: {
                 red: 0,
@@ -258,7 +299,7 @@ export const mockTopoMap: TopoMap = {
                 blue: 0
             },
             width: 1,
-            dashStyle: 0
+            dashStyle: 'Solid'
         },
         lagPen: {
             color: {
@@ -267,7 +308,7 @@ export const mockTopoMap: TopoMap = {
                 blue: 0
             },
             width: 1,
-            dashStyle: 0
+            dashStyle: 'Solid'
         },
         manualPen: {
             color: {
@@ -276,7 +317,7 @@ export const mockTopoMap: TopoMap = {
                 blue: 0
             },
             width: 1,
-            dashStyle: 0
+            dashStyle: 'Solid'
         },
         associatedPen: {
             color: {
@@ -285,7 +326,7 @@ export const mockTopoMap: TopoMap = {
                 blue: 0
             },
             width: 1,
-            dashStyle: 0
+            dashStyle: 'Solid'
         },
         multiPen: {
             color: {
@@ -294,7 +335,7 @@ export const mockTopoMap: TopoMap = {
                 blue: 0
             },
             width: 1,
-            dashStyle: 0
+            dashStyle: 'Solid'
         },
         stpForwardingPen: {
             color: {
@@ -303,7 +344,7 @@ export const mockTopoMap: TopoMap = {
                 blue: 0
             },
             width: 1,
-            dashStyle: 0
+            dashStyle: 'Solid'
         },
         stpBlockingPen: {
             color: {
@@ -312,7 +353,7 @@ export const mockTopoMap: TopoMap = {
                 blue: 0
             },
             width: 1,
-            dashStyle: 0
+            dashStyle: 'Solid'
         }
     },
     deviceNodes: [

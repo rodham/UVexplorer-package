@@ -1,7 +1,6 @@
 import { EditorClient, Modal } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvx-client';
-import { TopoMap } from 'model/bundle/code/dtos/topology/TopoMap';
-import { createTopoMapRequest } from 'model/uvexplorer-model';
+import { createTopoMapRequest, TopoMap } from 'model/uvexplorer-model';
 
 export abstract class UVXModal extends Modal {
     protected uvexplorerClient: UVExplorerClient;
