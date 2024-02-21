@@ -7,11 +7,13 @@ import {
     PageProxy,
     Viewport
 } from 'lucid-extension-sdk';
-import { DeviceNode } from 'model/bundle/code/dtos/topology/DeviceNode';
-import { DeviceLink } from 'model/bundle/code/dtos/topology/DeviceLink';
-import { Data } from 'src/data/data';
+import {
+    Device, 
+    DeviceNode,
+    DeviceLink
+} from 'model/uvexplorer-model';
+import { Data } from '@data/data';
 import { itemToDevice, removeQuotationMarks } from '@data/data-utils';
-import { Device } from 'model/uvexplorer-model';
 
 const LIBRARY = 'UVexplorer-shapes';
 const SHAPE = 'networkDevice';
@@ -67,7 +69,7 @@ function getCompany(deviceNode: DeviceNode) {
     if (companyNameMap.has(company)) {
         return companyNameMap.get(company);
     } else {
-        console.error('Unknown company name');
+        console.error('Unknown company name: ' + company);
         return 'unknown';
     }
 }
@@ -79,6 +81,8 @@ function getDeviceType(deviceNode: DeviceNode) {
             deviceTypes.add(type.categoryName);
         });
     }
+
+    console.log(deviceNode);
 
     return findCategory(deviceTypes);
 }

@@ -1,12 +1,12 @@
 import { EditorClient, TextXHRResponse } from 'lucid-extension-sdk';
-import { TopoMap } from 'model/bundle/code/dtos/topology/TopoMap';
 import {
     ConnectedDevicesRequest,
     Device,
     DeviceListRequest,
     NetworkRequest,
     NetworkSummary,
-    TopoMapRequest
+    TopoMapRequest,
+    TopoMap
 } from 'model/uvexplorer-model';
 import { mockDeviceList, mockDeviceList2, mockNetworkSummaryList } from 'mock_data/devices';
 

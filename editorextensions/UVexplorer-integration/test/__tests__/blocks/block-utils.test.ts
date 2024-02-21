@@ -1,11 +1,10 @@
 import * as lucid from 'lucid-extension-sdk';
 import * as blocks from '@blocks/block-utils';
-import { 
-    mockDevice, 
-    //mockDeviceNode 
-} from '../helpers';
-import { DeviceNode } from 'model/bundle/code/dtos/topology/DeviceNode';
-import { DeviceLink } from 'model/bundle/code/dtos/topology/DeviceLink';
+import { mockDeviceNode } from '../helpers';
+import {
+    DeviceNode, 
+    DeviceLink
+} from 'model/uvexplorer-model';
 
 jest.mock('lucid-extension-sdk');
 
@@ -17,7 +16,7 @@ describe('block-utils success test', () => {
     const mockClient = new lucid.EditorClient();
     const mockViewport = new lucid.Viewport(mockClient);
     const mockPage = new lucid.PageProxy("0", mockClient);
-    const deviceNodes: DeviceNode[] = []  // [mockDeviceNode];
+    const deviceNodes: DeviceNode[] = [mockDeviceNode];
     const deviceLinks: DeviceLink[] = [];
 
     beforeEach(() => {
