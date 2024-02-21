@@ -80,6 +80,7 @@ export class DevicesModal extends UVXModal {
             }
         } else if (isSelectedDevicesMessage(message)) {
             const deviceGuids = message.devices.map((d) => d.guid);
+            this.hide();
             const topoMap = await this.loadTopoMap(deviceGuids);
             if (topoMap !== undefined) {
                 await drawBlocks(this.client, this.viewport, message.devices, topoMap.deviceNodes);
