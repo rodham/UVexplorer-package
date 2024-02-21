@@ -2,7 +2,6 @@ import { TextXHRResponse } from 'lucid-extension-sdk';
 import {
     Device,
     DeviceNode,
-    DeviceCategories,
     DeviceState,
     DeviceCategoryListResponse,
     DeviceDetailsResponse,

@@ -994,7 +994,7 @@ export function isRingRadialLayoutSettings(obj: unknown): obj is RingRadialLayou
     );
 }
 
-export function isDrawSettings(obj: any): obj is DrawSettings {
+export function isDrawSettings(obj: unknown): obj is DrawSettings {
     return (
         typeof obj === 'object' &&
         obj !== null &&
@@ -1043,7 +1043,7 @@ export interface Color {
     blue: number;
 }
 
-export function isColor(obj: any): obj is Color {
+export function isColor(obj: unknown): obj is Color {
     return (
         typeof obj === 'object' &&
         obj !== null &&
@@ -1065,7 +1065,7 @@ export enum DashStyle {
     Custom = 5
 }
 
-export function isPenPattern(obj: any): obj is PenPattern {
+export function isPenPattern(obj: unknown): obj is PenPattern {
     return (
         typeof obj === 'object' &&
         obj !== null &&

@@ -3,7 +3,7 @@ import * as blocks from '@blocks/block-utils';
 import { mockDeviceNode } from '../helpers';
 import {
     DeviceNode, 
-    DeviceLink
+    //DeviceLink
 } from 'model/uvexplorer-model';
 
 jest.mock('lucid-extension-sdk');
@@ -17,7 +17,7 @@ describe('block-utils success test', () => {
     const mockViewport = new lucid.Viewport(mockClient);
     const mockPage = new lucid.PageProxy("0", mockClient);
     const deviceNodes: DeviceNode[] = [mockDeviceNode];
-    const deviceLinks: DeviceLink[] = [];
+    // const deviceLinks: DeviceLink[] = [];
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -27,7 +27,7 @@ describe('block-utils success test', () => {
         it('should draw same number of blocks as devices when any number of devices are given', async () => {
             jest.spyOn(blocks, 'isNetworkDeviceBlock').mockReturnValue(true);
             const addBlockSpy = jest.spyOn(mockPage, 'addBlock');
-            blocks.drawBlocks(mockClient, mockViewport, deviceNodes);
+            await blocks.drawBlocks(mockClient, mockViewport, deviceNodes);
             expect(addBlockSpy).toHaveBeenCalledTimes(0);
         });
         // it('should have correct company and deviceType for each block when given data with this information', () => {
