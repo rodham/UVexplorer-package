@@ -1,4 +1,5 @@
 import {
+    BlockDefinition,
     BlockProxy,
     CustomBlockProxy,
     EditorClient,
@@ -16,6 +17,10 @@ const LIBRARY = 'UVexplorer-shapes';
 const SHAPE = 'networkDevice';
 const DEVICE_REFERENCE_KEY = 'device_reference_key';
 
+export async function getCustomBlockDef(client: EditorClient): Promise<BlockDefinition | undefined> {
+    return await client.getCustomShapeDefinition(LIBRARY, SHAPE);
+}
+
 export function isNetworkDeviceBlock(item: ItemProxy): item is NetworkDeviceBlock {
     if (item instanceof CustomBlockProxy) {
         if (item.isFromStencil(LIBRARY, SHAPE)) {
@@ -23,6 +28,33 @@ export function isNetworkDeviceBlock(item: ItemProxy): item is NetworkDeviceBloc
         }
     }
     return false;
+}
+
+export function getBlockFromGuid(page: PageProxy, guid: string): BlockProxy | undefined {
+    for (const block of page.blocks.values()) {
+        if (block.shapeData.get('Guid') === guid) {
+            return block;
+        }
+    }
+    return undefined;
+}
+
+export function getGuidFromBlock(block: BlockProxy): string | undefined {
+    for (const [key, val] of block.referenceKeys) {
+        if (key === DEVICE_REFERENCE_KEY) {
+            return removeQuotationMarks(val.primaryKey!);
+        }
+    }
+    return undefined;
+}
+
+export function getDeviceFromBlock(block: BlockProxy): Device | undefined {
+    for (const [key, val] of block.referenceKeys) {
+        if (key === DEVICE_REFERENCE_KEY) {
+            return itemToDevice(val.getItem());
+        }
+    }
+    return undefined;
 }
 
 function findCategory(deviceTypes: Set<string>) {
@@ -84,13 +116,7 @@ function getDeviceType(deviceNode: DeviceNode) {
     return findCategory(deviceTypes);
 }
 
-export async function drawBlocks(client: EditorClient, viewport: Viewport, deviceNodes: DeviceNode[]) {
-    const customBlockDef = await client.getCustomShapeDefinition(LIBRARY, SHAPE);
-
-    if (!customBlockDef) {
-        return;
-    }
-
+export function drawBlocks(client: EditorClient, viewport: Viewport, deviceNodes: DeviceNode[], customBlockDef: BlockDefinition) {
     const page = viewport.getCurrentPage();
     if (page != undefined) {
         for (const deviceNode of deviceNodes) {
@@ -98,6 +124,7 @@ export async function drawBlocks(client: EditorClient, viewport: Viewport, devic
                 ...customBlockDef,
                 boundingBox: { x: deviceNode.x, y: deviceNode.y, w: 50, h: 50 }
             });
+
             block.shapeData.set('Make', getCompany(deviceNode));
             block.shapeData.set('DeviceType', getDeviceType(deviceNode));
             block.shapeData.set('Guid', deviceNode.deviceGuid);
@@ -112,37 +139,8 @@ export async function drawBlocks(client: EditorClient, viewport: Viewport, devic
                 readonly: true
             });
         }
+        viewport.focusCameraOnItems(page.allBlocks.map((b)=>b));
     }
-}
-
-export function getBlockFromGuid(page: PageProxy, guid: string): BlockProxy | undefined {
-    for (const block of page.blocks.values()) {
-        for (const [key, val] of block.referenceKeys) {
-            if (key === DEVICE_REFERENCE_KEY) {
-                if (removeQuotationMarks(val.primaryKey!) === guid) {
-                    return block;
-                }
-            }
-        }
-    }
-    return undefined;
-}
-export function getGuidFromBlock(block: BlockProxy): string | undefined {
-    for (const [key, val] of block.referenceKeys) {
-        if (key === DEVICE_REFERENCE_KEY) {
-            return val.primaryKey;
-        }
-    }
-    return undefined;
-}
-
-export function getDeviceFromBlock(block: BlockProxy): Device | undefined {
-    for (const [key, val] of block.referenceKeys) {
-        if (key === DEVICE_REFERENCE_KEY) {
-            return itemToDevice(val.getItem());
-        }
-    }
-    return undefined;
 }
 
 export function drawLinks(client: EditorClient, viewport: Viewport, deviceLinks: DeviceLink[]) {

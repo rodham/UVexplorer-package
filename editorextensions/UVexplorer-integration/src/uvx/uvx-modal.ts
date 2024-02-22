@@ -1,6 +1,6 @@
 import { EditorClient, Modal, Viewport } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvx-client';
-import { drawBlocks, drawLinks, getDeviceFromBlock, isNetworkDeviceBlock } from '@blocks/block-utils';
+import {drawBlocks, drawLinks, getCustomBlockDef, getDeviceFromBlock, isNetworkDeviceBlock} from '@blocks/block-utils';
 import { createTopoMapRequest, Device, TopoMap } from 'model/uvexplorer-model';
 
 export abstract class UVXModal extends Modal {
@@ -106,8 +106,11 @@ export abstract class UVXModal extends Modal {
         }
         const topoMap = await this.loadTopoMap(deviceGuids);
         if (topoMap !== undefined) {
-            await drawBlocks(this.client, this.viewport, topoMap.deviceNodes);
-            drawLinks(this.client, this.viewport, topoMap.deviceLinks);
+            const customBlockDef = await getCustomBlockDef(this.client);
+            if (customBlockDef !== undefined) {
+                drawBlocks(this.client, this.viewport, topoMap.deviceNodes, customBlockDef);
+                drawLinks(this.client, this.viewport, topoMap.deviceLinks);
+            }
         } else {
             console.error('Could not load topo map data.');
         }

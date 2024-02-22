@@ -16,6 +16,7 @@ describe('block-utils success test', () => {
     const mockClient = new lucid.EditorClient();
     const mockViewport = new lucid.Viewport(mockClient);
     const mockPage = new lucid.PageProxy('0', mockClient);
+    const mockBlockDef = {className: 'NetworkDeviceBlock', boundingBox: {x: 0, y:0, w:0, h:0}}
     const deviceNodes: DeviceNode[] = [mockDeviceNode];
     // const deviceLinks: DeviceLink[] = [];
 
@@ -24,10 +25,10 @@ describe('block-utils success test', () => {
     });
 
     describe('drawBlocks tests', () => {
-        it('should draw same number of blocks as devices when any number of devices are given', async () => {
+        it('should draw same number of blocks as devices when any number of devices are given', () => {
             jest.spyOn(blocks, 'isNetworkDeviceBlock').mockReturnValue(true);
             const addBlockSpy = jest.spyOn(mockPage, 'addBlock');
-            await blocks.drawBlocks(mockClient, mockViewport, deviceNodes);
+            blocks.drawBlocks(mockClient, mockViewport, deviceNodes, mockBlockDef);
             expect(addBlockSpy).toHaveBeenCalledTimes(0);
         });
         // it('should have correct company and deviceType for each block when given data with this information', () => {
