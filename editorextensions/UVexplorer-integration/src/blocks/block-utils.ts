@@ -1,5 +1,4 @@
 import {
-    BlockDefinition,
     BlockProxy,
     CustomBlockProxy,
     EditorClient,

@@ -3,7 +3,6 @@ import { UVExplorerClient } from './uvx-client';
 import {
     drawBlocks,
     drawLinks,
-    getCustomBlockDef,
     getDeviceFromBlock,
     isNetworkDeviceBlock
 } from '@blocks/block-utils';
