@@ -119,6 +119,7 @@ function getDeviceType(deviceNode: DeviceNode) {
 export function drawBlocks(client: EditorClient, viewport: Viewport, deviceNodes: DeviceNode[], customBlockDef: BlockDefinition) {
     const page = viewport.getCurrentPage();
     if (page != undefined) {
+        const addedBlocks: BlockProxy[] = [];
         for (const deviceNode of deviceNodes) {
             const block = page.addBlock({
                 ...customBlockDef,
@@ -138,8 +139,9 @@ export function drawBlocks(client: EditorClient, viewport: Viewport, deviceNodes
                 primaryKey: `"${deviceNode.deviceGuid}"`,
                 readonly: true
             });
+            addedBlocks.push(block);
         }
-        viewport.focusCameraOnItems(page.allBlocks.map((b)=>b));
+        viewport.focusCameraOnItems(addedBlocks);
     }
 }
 
@@ -148,7 +150,6 @@ export function drawLinks(client: EditorClient, viewport: Viewport, deviceLinks:
     if (page !== undefined) {
         for (const link of deviceLinks) {
             for (const linkMembers of link.linkMembers) {
-                console.log(linkMembers);
                 const deviceBlock = getBlockFromGuid(page, linkMembers.deviceGuid);
                 const connectedDeviceBlock = getBlockFromGuid(page, linkMembers.connectedDeviceGuid);
                 if (deviceBlock !== undefined && connectedDeviceBlock !== undefined) {
