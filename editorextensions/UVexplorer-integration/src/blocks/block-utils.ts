@@ -116,7 +116,12 @@ function getDeviceType(deviceNode: DeviceNode) {
     return findCategory(deviceTypes);
 }
 
-export function drawBlocks(client: EditorClient, viewport: Viewport, deviceNodes: DeviceNode[], customBlockDef: BlockDefinition) {
+export function drawBlocks(
+    client: EditorClient,
+    viewport: Viewport,
+    deviceNodes: DeviceNode[],
+    customBlockDef: BlockDefinition
+) {
     const page = viewport.getCurrentPage();
     if (page != undefined) {
         const addedBlocks: BlockProxy[] = [];

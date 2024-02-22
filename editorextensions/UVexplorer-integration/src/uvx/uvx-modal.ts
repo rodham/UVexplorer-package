@@ -1,6 +1,12 @@
 import { EditorClient, Modal, Viewport } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvx-client';
-import {drawBlocks, drawLinks, getCustomBlockDef, getDeviceFromBlock, isNetworkDeviceBlock} from '@blocks/block-utils';
+import {
+    drawBlocks,
+    drawLinks,
+    getCustomBlockDef,
+    getDeviceFromBlock,
+    isNetworkDeviceBlock
+} from '@blocks/block-utils';
 import { createTopoMapRequest, Device, TopoMap } from 'model/uvexplorer-model';
 
 export abstract class UVXModal extends Modal {
