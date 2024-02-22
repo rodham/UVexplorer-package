@@ -1,4 +1,4 @@
-import { Device } from 'model/uvexplorer-model';
+import { Device } from 'model/uvexplorer-devices-model';
 import {
     CollectionProxy,
     DataProxy,

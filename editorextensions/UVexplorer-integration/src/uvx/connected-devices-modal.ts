@@ -1,6 +1,7 @@
 import { EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
 import { UVXModal } from './uvx-modal';
-import { ConnectedDevicesRequest, NetworkRequest } from 'model/uvexplorer-model';
+import { NetworkRequest } from 'model/uvexplorer-model';
+import { ConnectedDevicesRequest } from 'model/uvexplorer-devices-model';
 import { isSelectedDevicesMessage } from 'model/message';
 import { Data } from '@data/data';
 

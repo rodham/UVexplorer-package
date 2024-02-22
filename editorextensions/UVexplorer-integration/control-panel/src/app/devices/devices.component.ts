@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
 import { devicesFromSerializableDevicesMessage, isListDevicesMessage } from '../../../../model/message';
-import { Device, DeviceCategoryEntry, isDevice } from '../../../../model/uvexplorer-model';
+import { Device, DeviceCategoryEntry, isDevice } from '../../../../model/uvexplorer-devices-model';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, RowSelectedEvent, ValueGetterParams } from 'ag-grid-community';
 

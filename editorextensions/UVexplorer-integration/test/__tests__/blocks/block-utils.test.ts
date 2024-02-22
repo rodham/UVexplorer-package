@@ -4,7 +4,7 @@ import { mockDeviceNode } from '../helpers';
 import {
     DeviceNode
     //DeviceLink
-} from 'model/uvexplorer-model';
+} from 'model/uvexplorer-devices-model';
 
 jest.mock('lucid-extension-sdk');
 
