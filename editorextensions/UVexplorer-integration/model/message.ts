@@ -106,24 +106,38 @@ export function isGetConnectedDevicesMessage(message: unknown): message is GetCo
 
 export interface ListDevicesMessage extends SerializableDevicesMessage {
     action: 'listDevices';
+    visibleConnectedDeviceGuids?: string;
 }
 
 export function isListDevicesMessage(message: unknown): message is ListDevicesMessage {
     return isSerializableDevicesMessage(message) && message.action === 'listDevices';
 }
 
+export function connDeviceGuidsFromListDevMsg(message: ListDevicesMessage): string[] {
+    if (!message.visibleConnectedDeviceGuids) {
+        return [];
+    }
+    const deviceGuids: unknown = JSON.parse(message.visibleConnectedDeviceGuids);
+    if (Array.isArray(deviceGuids) && deviceGuids.every((guid): guid is string => typeof guid === 'string')) {
+        return deviceGuids;
+    }
+    console.error('Error parsing device guid array in message: ', message);
+    return [];
+}
+
 export interface SelectedDevicesMessage extends DevicesMessage {
     action: 'selectDevices';
+    removeDevices?: string[];
 }
 
 export function isSelectedDevicesMessage(message: unknown): message is SelectedDevicesMessage {
+    if (message && typeof message === 'object' && 'removeDevices' in message) {
+        return (
+            Array.isArray(message.removeDevices) &&
+            message.removeDevices.every((d): d is string => typeof d === 'string') &&
+            isDevicesMessage(message) &&
+            message.action === 'selectDevices'
+        );
+    }
     return isDevicesMessage(message) && message.action === 'selectDevices';
 }
-
-// export interface AddDevicesMessage extends DevicesMessage {
-//     action: 'addDevices';
-// }
-//
-// export function isAddDevicesMessage(message: unknown): message is AddDevicesMessage {
-//     return isDevicesMessage(message) && message.action === 'addDevices';
-// }

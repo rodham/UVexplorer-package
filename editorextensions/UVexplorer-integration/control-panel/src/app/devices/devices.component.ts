@@ -1,9 +1,21 @@
 import { Component } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
-import { devicesFromSerializableDevicesMessage, isListDevicesMessage } from '../../../../model/message';
-import { Device, DeviceCategoryEntry, isDevice } from '../../../../model/uvexplorer-model';
+import {
+  connDeviceGuidsFromListDevMsg,
+  devicesFromSerializableDevicesMessage,
+  isListDevicesMessage
+} from 'model/message';
+import { Device, DeviceCategoryEntry, isDevice } from 'model/uvexplorer-model';
 import { AgGridAngular } from 'ag-grid-angular';
-import { ColDef, RowSelectedEvent, ValueGetterParams } from 'ag-grid-community';
+import {
+  ColDef,
+  ValueGetterParams,
+  GridReadyEvent,
+  GetRowIdParams,
+  GetRowIdFunc,
+  GridApi,
+  RowDataUpdatedEvent
+} from 'ag-grid-community';
 
 @Component({
   selector: 'app-devices',
@@ -13,16 +25,19 @@ import { ColDef, RowSelectedEvent, ValueGetterParams } from 'ag-grid-community';
 })
 export class DevicesComponent {
   devices: Device[] = [];
-  selectedDevices: Device[] = [];
+  visibleConnectedDeviceGuids: string[] = [];
   themeClass = 'ag-theme-quartz';
   rowSelection: 'multiple' | 'single' = 'multiple';
+  private gridApi?: GridApi;
 
   constructor() {
     window.addEventListener('message', (e) => {
       console.log('Received a message from the parent.');
       console.log(e.data);
+
       if (isListDevicesMessage(e.data)) {
         this.devices = devicesFromSerializableDevicesMessage(e.data);
+        this.visibleConnectedDeviceGuids = connDeviceGuidsFromListDevMsg(e.data);
         console.log('Received devices in component');
       }
     });
@@ -74,28 +89,63 @@ export class DevicesComponent {
     return returnString;
   }
 
-  protected onRowSelected(event: RowSelectedEvent) {
-    if (isDevice(event.data)) {
-      this.addRemoveRowSelection(event.data, event.node.isSelected()!);
-    }
+  public getRowId: GetRowIdFunc = (params: GetRowIdParams<Device>) => {
+    console.log('Setting row id for guid: ', params.data.guid);
+    return params.data.guid;
+  };
+
+  protected onGridReady(event: GridReadyEvent) {
+    this.gridApi = event.api;
   }
 
-  public addRemoveRowSelection(device: Device, selected: boolean) {
-    if (selected) {
-      console.log('selected: ', selected);
-      this.selectedDevices.push(device);
-    } else {
-      console.log('selected: ', selected);
-      const index = this.selectedDevices.findIndex((obj) => obj === device);
-      this.selectedDevices.splice(index, 1);
+  protected onRowDataUpdated(_event: RowDataUpdatedEvent) {
+    this.setPreselectedDevices();
+  }
+
+  private setPreselectedDevices() {
+    for (const device of this.devices) {
+      const guid = device.guid;
+      console.log('Checking node with guid: ', guid);
+      if (!this.gridApi) {
+        console.log('Grid not ready');
+        return;
+      }
+      if (this.visibleConnectedDeviceGuids.includes(guid)) {
+        const node = this.gridApi.getRowNode(guid);
+        if (node) console.log('Node exists');
+        else {
+          console.log('Node does not exist');
+          continue;
+        }
+        node.setSelected(true);
+      }
     }
   }
 
   public selectDevices() {
+    const selectedDevices: Device[] = [];
+    const selectedRows = this.gridApi?.getSelectedRows();
+    if (selectedRows) {
+      for (const row of selectedRows) {
+        if (isDevice(row)) selectedDevices.push(row);
+      }
+    }
+    console.log('Api selected rows: ', selectedDevices);
+    const removeDevices: string[] = [];
+    const selectedDeviceGuids = selectedDevices.map((d) => d.guid);
+    console.log('Visible connected device guids to check for removal: ', this.visibleConnectedDeviceGuids);
+    for (const guid of this.visibleConnectedDeviceGuids) {
+      if (!selectedDeviceGuids.includes(guid)) {
+        removeDevices.push(guid);
+      }
+    }
+    console.log('Selected devices: ', selectedDeviceGuids);
+    console.log('Devices to remove: ', removeDevices);
     parent.postMessage(
       {
         action: 'selectDevices',
-        devices: this.selectedDevices
+        devices: selectedDevices,
+        removeDevices
       },
       '*'
     );
