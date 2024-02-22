@@ -17,10 +17,6 @@ const LIBRARY = 'UVexplorer-shapes';
 const SHAPE = 'networkDevice';
 const DEVICE_REFERENCE_KEY = 'device_reference_key';
 
-export async function getCustomBlockDef(client: EditorClient): Promise<BlockDefinition | undefined> {
-    return await client.getCustomShapeDefinition(LIBRARY, SHAPE);
-}
-
 export function isNetworkDeviceBlock(item: ItemProxy): item is NetworkDeviceBlock {
     if (item instanceof CustomBlockProxy) {
         if (item.isFromStencil(LIBRARY, SHAPE)) {
@@ -116,14 +112,18 @@ function getDeviceType(deviceNode: DeviceNode) {
     return findCategory(deviceTypes);
 }
 
-export function drawBlocks(
+export async function drawBlocks(
     client: EditorClient,
     viewport: Viewport,
-    deviceNodes: DeviceNode[],
-    customBlockDef: BlockDefinition
+    deviceNodes: DeviceNode[]
 ) {
     const page = viewport.getCurrentPage();
     if (page != undefined) {
+        const customBlockDef = await client.getCustomShapeDefinition(LIBRARY, SHAPE);
+        if (!customBlockDef) {
+            return;
+        }
+
         const addedBlocks: BlockProxy[] = [];
         for (const deviceNode of deviceNodes) {
             const block = page.addBlock({

@@ -112,11 +112,8 @@ export abstract class UVXModal extends Modal {
         }
         const topoMap = await this.loadTopoMap(deviceGuids);
         if (topoMap !== undefined) {
-            const customBlockDef = await getCustomBlockDef(this.client);
-            if (customBlockDef !== undefined) {
-                drawBlocks(this.client, this.viewport, topoMap.deviceNodes, customBlockDef);
-                drawLinks(this.client, this.viewport, topoMap.deviceLinks);
-            }
+            await drawBlocks(this.client, this.viewport, topoMap.deviceNodes);
+            drawLinks(this.client, this.viewport, topoMap.deviceLinks);
         } else {
             console.error('Could not load topo map data.');
         }
