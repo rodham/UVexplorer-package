@@ -111,11 +111,7 @@ function getDeviceType(deviceNode: DeviceNode) {
     return findCategory(deviceTypes);
 }
 
-export async function drawBlocks(
-    client: EditorClient,
-    viewport: Viewport,
-    deviceNodes: DeviceNode[]
-) {
+export async function drawBlocks(client: EditorClient, viewport: Viewport, deviceNodes: DeviceNode[]) {
     const page = viewport.getCurrentPage();
     if (page != undefined) {
         const customBlockDef = await client.getCustomShapeDefinition(LIBRARY, SHAPE);
