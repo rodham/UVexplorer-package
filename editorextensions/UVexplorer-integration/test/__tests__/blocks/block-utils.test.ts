@@ -16,7 +16,7 @@ describe('block-utils success test', () => {
     const mockClient = new lucid.EditorClient();
     const mockViewport = new lucid.Viewport(mockClient);
     const mockPage = new lucid.PageProxy('0', mockClient);
-    const mockBlockDef = {className: 'NetworkDeviceBlock', boundingBox: {x: 0, y:0, w:0, h:0}}
+    const mockBlockDef = { className: 'NetworkDeviceBlock', boundingBox: { x: 0, y: 0, w: 0, h: 0 } };
     const deviceNodes: DeviceNode[] = [mockDeviceNode];
     // const deviceLinks: DeviceLink[] = [];
 

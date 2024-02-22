@@ -116,7 +116,12 @@ function getDeviceType(deviceNode: DeviceNode) {
     return findCategory(deviceTypes);
 }
 
-export function drawBlocks(client: EditorClient, viewport: Viewport, deviceNodes: DeviceNode[], customBlockDef: BlockDefinition) {
+export function drawBlocks(
+    client: EditorClient,
+    viewport: Viewport,
+    deviceNodes: DeviceNode[],
+    customBlockDef: BlockDefinition
+) {
     const page = viewport.getCurrentPage();
     if (page != undefined) {
         for (const deviceNode of deviceNodes) {
@@ -139,7 +144,7 @@ export function drawBlocks(client: EditorClient, viewport: Viewport, deviceNodes
                 readonly: true
             });
         }
-        viewport.focusCameraOnItems(page.allBlocks.map((b)=>b));
+        viewport.focusCameraOnItems(page.allBlocks.map((b) => b));
     }
 }
 
