@@ -122,7 +122,7 @@ export class DevicesComponent {
     }
   }
 
-  public selectDevices() {
+  public getSelectedDevices(): Device[] {
     const selectedDevices: Device[] = [];
     const selectedRows = this.gridApi?.getSelectedRows();
     if (selectedRows) {
@@ -130,6 +130,11 @@ export class DevicesComponent {
         if (isDevice(row)) selectedDevices.push(row);
       }
     }
+    return selectedDevices;
+  }
+
+  public selectDevices() {
+    const selectedDevices = this.getSelectedDevices();
     console.log('Api selected rows: ', selectedDevices);
     const removeDevices: string[] = [];
     const selectedDeviceGuids = selectedDevices.map((d) => d.guid);
