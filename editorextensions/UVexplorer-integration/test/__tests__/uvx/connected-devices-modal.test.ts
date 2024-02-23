@@ -2,7 +2,7 @@ import { ConnectedDevicesModal } from '@uvx/connected-devices-modal';
 import * as model from 'model/uvexplorer-model';
 import * as lucid from 'lucid-extension-sdk';
 import { UVExplorerClient } from '@uvx/uvx-client';
-import { mockDeviceGuids, mockDeviceList, mockDeviceList2 } from 'mock_data/devices';
+import { mockDeviceGuids, mockDeviceGuids2, mockDeviceList, mockDeviceList2 } from 'mock_data/devices';
 import { Data } from '@data/data';
 
 jest.mock('lucid-extension-sdk');
@@ -40,7 +40,7 @@ describe('Connected Devices Modal Tests', () => {
         const connectedDevicesRequestSpy = jest
             .spyOn(model, 'ConnectedDevicesRequest')
             .mockReturnValue(mockConnectedDevicesRequest);
-        const modal = new ConnectedDevicesModal(mockEditorClient, mockViewport, mockDeviceGuids);
+        const modal = new ConnectedDevicesModal(mockEditorClient, mockViewport, mockDeviceGuids, mockDeviceGuids2);
         const sendMessageMock = jest.spyOn(modal, 'sendMessage');
 
         it('Should make uvx request and send message to child', async () => {
@@ -51,7 +51,8 @@ describe('Connected Devices Modal Tests', () => {
             expect(connectedDevicesRequestSpy).toHaveBeenCalledWith(mockDeviceGuids);
             expect(sendMessageMock).toHaveBeenCalledWith({
                 action: 'listDevices',
-                devices: JSON.stringify(mockDeviceList2)
+                devices: JSON.stringify(mockDeviceList2),
+                visibleConnectedDeviceGuids: JSON.stringify(mockDeviceGuids2)
             });
         });
     });
