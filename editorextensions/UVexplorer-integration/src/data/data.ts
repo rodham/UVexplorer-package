@@ -126,4 +126,11 @@ export class Data {
         }
         throw new Error('Could not retrieve the network associated with the current page.');
     }
+
+    getDeviceCollectionForPage(pageId: string): string {
+        const networkGuid = this.getNetworkForPage(pageId);
+        const source = this.createOrRetrieveNetworkSource('', networkGuid);
+        const collection = this.createOrRetrieveDeviceCollection(source);
+        return collection.id;
+    }
 }

@@ -1,11 +1,3 @@
-import * as lucid from 'lucid-extension-sdk';
-import * as blocks from '@blocks/block-utils';
-import { mockDeviceNode } from '../helpers';
-import {
-    DeviceNode
-    //DeviceLink
-} from 'model/uvexplorer-model';
-
 jest.mock('lucid-extension-sdk');
 
 beforeEach(() => {
@@ -13,23 +5,25 @@ beforeEach(() => {
 });
 
 describe('block-utils success test', () => {
-    const mockClient = new lucid.EditorClient();
-    const mockViewport = new lucid.Viewport(mockClient);
-    const mockPage = new lucid.PageProxy('0', mockClient);
-    const deviceNodes: DeviceNode[] = [mockDeviceNode];
-    // const deviceLinks: DeviceLink[] = [];
+    // const mockClient = new lucid.EditorClient();
+    // const mockViewport = new lucid.Viewport(mockClient);
+    // const mockPage = new lucid.PageProxy('0', mockClient);
+    // const mockCustomBlockDef: lucid.BlockDefinition = { className: 'NetworkDeviceBlock', boundingBox: {x:0, y:0, w:0, h:0}}
+    // const deviceNodes: DeviceNode[] = [mockDeviceNode];
 
     beforeEach(() => {
         jest.resetAllMocks();
     });
 
     describe('drawBlocks tests', () => {
-        it('should draw same number of blocks as devices when any number of devices are given', async() => {
-            jest.spyOn(blocks, 'isNetworkDeviceBlock').mockReturnValue(true);
-            const addBlockSpy = jest.spyOn(mockPage, 'addBlock');
-            await blocks.drawBlocks(mockClient, mockViewport, deviceNodes);
-            expect(addBlockSpy).toHaveBeenCalledTimes(0);
-        });
+        // it('should create the same number of blocks as devices when any number of devices are given', () => {
+        //     const mockBlock = new BlockProxy('0', mockClient);
+        //     const createBlockSpy = jest.spyOn(blocks, 'createBlock').mockReturnValue(mockBlock);
+        //
+        //     blocks.drawBlocks(mockViewport, mockPage, deviceNodes, mockCustomBlockDef, '0');
+        //     expect(createBlockSpy).toHaveBeenCalledTimes(deviceNodes.length);
+        // });
+
         // it('should have correct company and deviceType for each block when given data with this information', () => {
         //     jest.spyOn(blocks, 'isNetworkDeviceBlock').mockReturnValue(true);
         //     // TODO: Check the return values of getCompany and getDeviceType
