@@ -23,7 +23,6 @@ describe('block-utils success test', () => {
         //     blocks.drawBlocks(mockViewport, mockPage, deviceNodes, mockCustomBlockDef, '0');
         //     expect(createBlockSpy).toHaveBeenCalledTimes(deviceNodes.length);
         // });
-
         // it('should have correct company and deviceType for each block when given data with this information', () => {
         //     jest.spyOn(blocks, 'isNetworkDeviceBlock').mockReturnValue(true);
         //     // TODO: Check the return values of getCompany and getDeviceType
