@@ -230,8 +230,7 @@ export function isDevice(obj: unknown): obj is Device {
         obj !== null &&
         'ip_address' in obj &&
         typeof obj.ip_address === 'string' &&
-        'mac_address' in obj &&
-        typeof obj.mac_address === 'string' &&
+        ('mac_address' in obj ? typeof obj.mac_address === 'string' : true) &&
         'guid' in obj &&
         typeof obj.guid === 'string' &&
         'info_sets' in obj && // Adjust this condition based on the actual structure of info_sets
