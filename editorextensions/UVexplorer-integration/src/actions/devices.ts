@@ -8,6 +8,12 @@ export function uvDeviceSelected(viewport: Viewport): boolean {
     return isCorrectSelection;
 }
 
+export function singleDeviceSelected(viewport: Viewport): boolean {
+    const selection = viewport.getSelectedItems();
+    const isCorrectSelection = selection.length === 1 && selection.every((item) => isNetworkDeviceBlock(item));
+    return isCorrectSelection;
+}
+
 export async function showConnectedDevices(viewport: Viewport, client: EditorClient): Promise<void> {
     const selection = viewport.getSelectedItems();
     console.log('Selection:', selection);
@@ -59,4 +65,17 @@ export async function showConnectedDevices(viewport: Viewport, client: EditorCli
     await modal.openSession();
     await modal.show();
     await modal.loadConnectedDevices();
+}
+
+export async function viewDeviceDetails(viewport: Viewport, client: EditorClient): Promise<void> {
+    const selection = viewport.getSelectedItems();
+    if (selection.length !== 1) {
+        console.log('Can only view details of one device at a time');
+        return;
+    }
+    const selectedItem = selection[0];
+    if (!isNetworkDeviceBlock(selectedItem)) {
+        console.log('Can only view details of device shape');
+        return;
+    }
 }
