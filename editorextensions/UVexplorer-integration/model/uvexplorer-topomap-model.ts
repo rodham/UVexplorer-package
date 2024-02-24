@@ -1,5 +1,4 @@
-import { DeviceFilter, DeviceLink, DeviceNode } from "./uvexplorer-devices-model";
-
+import { DeviceFilter, DeviceLink, DeviceNode } from './uvexplorer-devices-model';
 
 interface LayoutSettings {
     layoutType: 'Manual' | 'Radial' | 'Hierarchical' | 'Ring';

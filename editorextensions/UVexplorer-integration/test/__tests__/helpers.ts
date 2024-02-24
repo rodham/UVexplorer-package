@@ -13,9 +13,7 @@ import {
     DeviceListResponse,
     DeviceNodeCategories
 } from '../../model/uvexplorer-devices-model';
-import {
-    TopoMap
-} from '../../model/uvexplorer-topomap-model';
+import { TopoMap } from '../../model/uvexplorer-topomap-model';
 
 export const mockNetworkSummariesXHRResponse: TextXHRResponse = {
     url: 'https://my-uvexplorer-server.com/public/api/v1/network/list',

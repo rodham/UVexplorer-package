@@ -33,7 +33,9 @@ describe('Connected Devices Modal Tests', () => {
 
     it('should correctly pull in uvx client mock', async () => {
         const testClient = new UVExplorerClient(mockEditorClient);
-        await expect(testClient.listDevices('', '', {} as devicesModel.DeviceListRequest)).resolves.toEqual(mockDeviceList);
+        await expect(testClient.listDevices('', '', {} as devicesModel.DeviceListRequest)).resolves.toEqual(
+            mockDeviceList
+        );
     });
 
     describe('Load connected devices tests', () => {

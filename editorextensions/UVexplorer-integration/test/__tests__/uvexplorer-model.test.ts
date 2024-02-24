@@ -6,13 +6,8 @@ import {
     isNetworkSummariesResponse,
     isNetworkSummary
 } from 'model/uvexplorer-model';
-import {
-    isDevice,
-    isDeviceListResponse
-} from 'model/uvexplorer-devices-model';
-import {
-    isTopoMap
-} from 'model/uvexplorer-topomap-model';
+import { isDevice, isDeviceListResponse } from 'model/uvexplorer-devices-model';
+import { isTopoMap } from 'model/uvexplorer-topomap-model';
 
 describe('UVexplorer model tests', () => {
     describe('isNetworkSummariesResponse tests', () => {

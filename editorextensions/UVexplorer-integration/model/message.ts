@@ -1,11 +1,5 @@
-import {
-    isNetworkSummary, 
-    NetworkSummary 
-} from './uvexplorer-model';
-import {
-    Device,
-    isDevice
-} from './uvexplorer-devices-model';
+import { isNetworkSummary, NetworkSummary } from './uvexplorer-model';
+import { Device, isDevice } from './uvexplorer-devices-model';
 
 export interface ListNetworksMessage {
     action: 'listNetworks';
