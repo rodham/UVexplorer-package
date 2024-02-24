@@ -7,7 +7,7 @@ import {
   DeviceClass,
   ProtocolProfile,
   ProtocolProfileEntry
-} from 'model/uvexplorer-model';
+} from 'model/uvexplorer-devices-model';
 import { SelectedDevicesMessage } from 'model/message';
 
 describe('DevicesComponent', () => {
