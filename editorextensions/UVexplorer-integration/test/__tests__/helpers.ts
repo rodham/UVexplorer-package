@@ -1,17 +1,19 @@
 import { TextXHRResponse } from 'lucid-extension-sdk';
 import {
+    DeviceCategoryListResponse,
+    DeviceDetailsResponse,
+    InfoSetListResponse,
+    NetworkSummariesResponse,
+    NetworkSummary
+} from '../../model/uvexplorer-model';
+import {
     Device,
     DeviceNode,
     DeviceState,
-    DeviceCategoryListResponse,
-    DeviceDetailsResponse,
     DeviceListResponse,
-    InfoSetListResponse,
-    NetworkSummariesResponse,
-    NetworkSummary,
-    TopoMap,
     DeviceNodeCategories
-} from '../../model/uvexplorer-model';
+} from '../../model/uvexplorer-devices-model';
+import { TopoMap } from '../../model/uvexplorer-topomap-model';
 
 export const mockNetworkSummariesXHRResponse: TextXHRResponse = {
     url: 'https://my-uvexplorer-server.com/public/api/v1/network/list',

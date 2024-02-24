@@ -1,21 +1,21 @@
 import { EditorClient, isTextXHRResponse, TextXHRResponse, XHRRequest, XHRResponse } from 'lucid-extension-sdk';
 import {
-    ConnectedDevicesRequest,
-    Device,
     DeviceDetailsResponse,
-    DeviceListRequest,
     InfoSet,
     isDeviceCategoryListResponse,
     isDeviceDetailsResponse,
-    isDeviceListResponse,
     isInfoSetListResponse,
     isNetworkSummariesResponse,
     NetworkRequest,
-    NetworkSummary,
-    TopoMapRequest,
-    isTopoMap,
-    TopoMap
+    NetworkSummary
 } from 'model/uvexplorer-model';
+import {
+    ConnectedDevicesRequest,
+    Device,
+    DeviceListRequest,
+    isDeviceListResponse
+} from 'model/uvexplorer-devices-model';
+import { TopoMapRequest, isTopoMap, TopoMap } from 'model/uvexplorer-topomap-model';
 
 export class UVExplorerClient {
     private readonly basePath: string = '/public/api/v1';

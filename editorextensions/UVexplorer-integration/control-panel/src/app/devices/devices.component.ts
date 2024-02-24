@@ -5,7 +5,7 @@ import {
   devicesFromSerializableDevicesMessage,
   isListDevicesMessage
 } from 'model/message';
-import { Device, DeviceCategoryEntry, isDevice } from 'model/uvexplorer-model';
+import { Device, DeviceCategoryEntry, isDevice } from 'model/uvexplorer-devices-model';
 import { AgGridAngular } from 'ag-grid-angular';
 import {
   ColDef,
