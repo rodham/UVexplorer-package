@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgIf, NgFor } from '@angular/common';
+import { NgIf } from '@angular/common';
 import {
   connDeviceGuidsFromListDevMsg,
   devicesFromSerializableDevicesMessage,
@@ -20,7 +20,7 @@ import {
 @Component({
   selector: 'app-devices',
   standalone: true,
-  imports: [NgIf, NgFor, AgGridAngular],
+  imports: [NgIf, AgGridAngular],
   templateUrl: './devices.component.html'
 })
 export class DevicesComponent {
