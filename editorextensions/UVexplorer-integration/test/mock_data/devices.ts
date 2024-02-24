@@ -28,6 +28,8 @@ export const mockDeviceGuids = [
     'fcfbc3a2-f469-4f94-b777-4d1c2b827ca9'
 ];
 
+export const mockDeviceGuids2 = ['62d274c4-f7cf-48e0-8d3e-9c3f9df6f6c7', 'f2149d9c-419d-4487-869c-5bc84f117980'];
+
 export const mockNetworkSummaryList = [
     {
         guid: 'networkGuid1',

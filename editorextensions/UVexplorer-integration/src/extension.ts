@@ -14,7 +14,7 @@ client.registerAction('uvDeviceSelected', () => {
 client.registerAction('showConnectedDevices', async () => await showConnectedDevices(viewport, client));
 
 menu.addContextMenuItem({
-    label: 'Show connected devices',
+    label: 'Add/Remove Connected Devices',
     action: 'showConnectedDevices',
     visibleAction: 'uvDeviceSelected'
 });

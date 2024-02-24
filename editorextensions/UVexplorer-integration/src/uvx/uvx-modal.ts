@@ -82,7 +82,7 @@ export abstract class UVXModal extends Modal {
         }
     }
 
-    async drawDevices(devices: Device[]): Promise<void> {
+    async drawDevices(devices: Device[], removeDevices?: string[]): Promise<void> {
         const pageItems = this.viewport.getCurrentPage()?.allBlocks;
         // TODO: only delete device connection lines not all lines
         const lines = this.viewport.getCurrentPage()?.allLines;
@@ -98,7 +98,10 @@ export abstract class UVXModal extends Modal {
                     const deviceItem = getDeviceFromBlock(item);
                     if (!deviceItem) continue;
                     item.delete();
-                    if (!deviceGuids.includes(deviceItem.guid)) {
+                    if (
+                        !deviceGuids.includes(deviceItem.guid) &&
+                        !(removeDevices && removeDevices.includes(deviceItem.guid))
+                    ) {
                         devices.push(deviceItem);
                         deviceGuids.push(deviceItem.guid);
                     }
