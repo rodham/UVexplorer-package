@@ -157,5 +157,4 @@ export abstract class UVXModal extends Modal {
         this.data.deleteLinksFromCollection(collection); // TODO: Replace once updateLinksInCollection Function is implemented
         this.data.addLinksToCollection(collection, links);
     }
-
 }
