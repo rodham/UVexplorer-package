@@ -109,13 +109,7 @@ export abstract class UVXModal extends Modal {
         }
         const topoMap = await this.loadTopoMap(deviceGuids);
         if (topoMap !== undefined) {
-            console.log('Timer started');
-            const startTime = new Date();
             await drawMap(this.client, this.viewport, topoMap.deviceNodes, topoMap.deviceLinks);
-            const endTime = new Date();
-            console.log('Timer ended');
-            const elapsedTime = endTime.getTime() - startTime.getTime();
-            console.log(`Elapsed time: ${elapsedTime} milliseconds`);
         } else {
             console.error('Could not load topo map data.');
         }
