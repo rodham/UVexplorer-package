@@ -4,9 +4,11 @@
     [class]="themeClass"
     [rowData]="devices"
     [columnDefs]="columnDefs"
+    [getRowId]="getRowId"
     [rowSelection]="rowSelection"
     [rowMultiSelectWithClick]="true"
-    (rowSelected)="onRowSelected($event)"
+    (gridReady)="onGridReady($event)"
+    (rowDataUpdated)="onRowDataUpdated($event)"
   >
   </ag-grid-angular>
   <button

@@ -1,13 +1,15 @@
 import { ConnectedDevicesModal } from '@uvx/connected-devices-modal';
 import * as model from 'model/uvexplorer-model';
+import * as devicesModel from 'model/uvexplorer-devices-model';
 import * as lucid from 'lucid-extension-sdk';
 import { UVExplorerClient } from '@uvx/uvx-client';
-import { mockDeviceGuids, mockDeviceList, mockDeviceList2 } from 'mock_data/devices';
+import { mockDeviceGuids, mockDeviceGuids2, mockDeviceList, mockDeviceList2 } from 'mock_data/devices';
 import { Data } from '@data/data';
 
 jest.mock('lucid-extension-sdk');
 jest.mock('@data/data');
 jest.mock('model/uvexplorer-model');
+jest.mock('model/uvexplorer-devices-model');
 jest.mock('@uvx/uvx-client');
 
 describe('Connected Devices Modal Tests', () => {
@@ -31,16 +33,18 @@ describe('Connected Devices Modal Tests', () => {
 
     it('should correctly pull in uvx client mock', async () => {
         const testClient = new UVExplorerClient(mockEditorClient);
-        await expect(testClient.listDevices('', '', {} as model.DeviceListRequest)).resolves.toEqual(mockDeviceList);
+        await expect(testClient.listDevices('', '', {} as devicesModel.DeviceListRequest)).resolves.toEqual(
+            mockDeviceList
+        );
     });
 
     describe('Load connected devices tests', () => {
         const getNetworkSpy = jest.spyOn(mockData, 'getNetworkForPage').mockReturnValue('myNetwork');
         const networkRequestSpy = jest.spyOn(model, 'NetworkRequest').mockReturnValue(mockNetworkRequest);
         const connectedDevicesRequestSpy = jest
-            .spyOn(model, 'ConnectedDevicesRequest')
+            .spyOn(devicesModel, 'ConnectedDevicesRequest')
             .mockReturnValue(mockConnectedDevicesRequest);
-        const modal = new ConnectedDevicesModal(mockEditorClient, mockViewport, mockDeviceGuids);
+        const modal = new ConnectedDevicesModal(mockEditorClient, mockViewport, mockDeviceGuids, mockDeviceGuids2);
         const sendMessageMock = jest.spyOn(modal, 'sendMessage');
 
         it('Should make uvx request and send message to child', async () => {
@@ -51,7 +55,8 @@ describe('Connected Devices Modal Tests', () => {
             expect(connectedDevicesRequestSpy).toHaveBeenCalledWith(mockDeviceGuids);
             expect(sendMessageMock).toHaveBeenCalledWith({
                 action: 'listDevices',
-                devices: JSON.stringify(mockDeviceList2)
+                devices: JSON.stringify(mockDeviceList2),
+                visibleConnectedDeviceGuids: JSON.stringify(mockDeviceGuids2)
             });
         });
     });

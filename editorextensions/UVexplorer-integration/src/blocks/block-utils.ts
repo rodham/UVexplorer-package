@@ -8,7 +8,7 @@ import {
     PageProxy,
     Viewport
 } from 'lucid-extension-sdk';
-import { Device, DeviceNode, DeviceLink } from 'model/uvexplorer-model';
+import { Device, DeviceNode, DeviceLink } from 'model/uvexplorer-devices-model';
 import { Data } from '@data/data';
 import { itemToDevice, removeQuotationMarks } from '@data/data-utils';
 import { NetworkDeviceBlock } from './network-device-block';
