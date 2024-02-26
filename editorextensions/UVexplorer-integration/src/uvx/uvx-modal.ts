@@ -1,12 +1,14 @@
-import { EditorClient, Modal, Viewport } from 'lucid-extension-sdk';
+import { EditorClient, Modal, PageProxy, Viewport } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvx-client';
-import { drawBlocks, drawLinks, getDeviceFromBlock, isNetworkDeviceBlock } from '@blocks/block-utils';
+import { drawMap, getGuidFromBlock, isNetworkDeviceBlock } from '@blocks/block-utils';
 import { createTopoMapRequest, TopoMap } from 'model/uvexplorer-topomap-model';
-import { Device } from 'model/uvexplorer-devices-model';
+import { DeviceLink } from 'model/uvexplorer-devices-model';
+import { Data } from '@data/data';
 
 export abstract class UVXModal extends Modal {
     protected viewport: Viewport;
     protected uvexplorerClient: UVExplorerClient;
+    protected data: Data;
     protected serverUrl = '';
     protected apiKey = '';
     protected sessionGuid = '';
@@ -21,6 +23,7 @@ export abstract class UVXModal extends Modal {
 
         this.viewport = viewport;
         this.uvexplorerClient = new UVExplorerClient(client);
+        this.data = Data.getInstance(client);
     }
 
     public async configureSetting(setting: string) {
@@ -82,38 +85,75 @@ export abstract class UVXModal extends Modal {
         }
     }
 
-    async drawDevices(devices: Device[], removeDevices?: string[]): Promise<void> {
-        const pageItems = this.viewport.getCurrentPage()?.allBlocks;
+    /**
+     * Draw Map
+     * @param devices New device guids to be drawn on the map.
+     * @param removeDevices Device guids to be removed from the map.
+     */
+    async drawMap(devices: string[], removeDevices?: string[]): Promise<void> {
+        const page = this.viewport.getCurrentPage();
+        if (!page) {
+            return;
+        }
+
+        const deviceGuids = this.clearMap(page, devices, removeDevices);
+
+        const topoMap = await this.loadTopoMap(deviceGuids);
+        if (topoMap) {
+            this.saveLinks(this.data.getNetworkForPage(page.id), topoMap.deviceLinks);
+            await drawMap(this.client, this.viewport, page, topoMap.deviceNodes, topoMap.deviceLinks);
+        } else {
+            console.error('Could not load topo map data.');
+        }
+    }
+
+    clearMap(page: PageProxy, devices: string[], removeDevices?: string[]): string[] {
+        this.clearLines(page);
+        return this.clearBlocks(page, devices, removeDevices);
+    }
+
+    clearLines(page: PageProxy) {
         // TODO: only delete device connection lines not all lines
-        const lines = this.viewport.getCurrentPage()?.allLines;
+        const lines = page.allLines;
         if (lines) {
             for (const [, line] of lines) {
                 line.delete();
             }
         }
-        const deviceGuids = devices.map((d) => d.guid);
+    }
+
+    /**
+     * Clear Blocks
+     * @param page The page to clear
+     * @param devices New device guids to be drawn on the map.
+     * @param removeDevices Device guids to be removed from the map.
+     * @return List of device guids that already exist on the map and should not be removed
+     *         in addition to new device guids to be drawn.
+     */
+    clearBlocks(page: PageProxy, devices: string[], removeDevices?: string[]) {
+        const pageItems = page.allBlocks;
+
         if (pageItems) {
             for (const [, item] of pageItems) {
                 if (isNetworkDeviceBlock(item)) {
-                    const deviceItem = getDeviceFromBlock(item);
-                    if (!deviceItem) continue;
+                    const guid = getGuidFromBlock(item);
+                    if (!guid) continue;
                     item.delete();
-                    if (
-                        !deviceGuids.includes(deviceItem.guid) &&
-                        !(removeDevices && removeDevices.includes(deviceItem.guid))
-                    ) {
-                        devices.push(deviceItem);
-                        deviceGuids.push(deviceItem.guid);
+                    if (!devices.includes(guid) && !(removeDevices && removeDevices.includes(guid))) {
+                        // Device should remain
+                        devices.push(guid);
                     }
                 }
             }
         }
-        const topoMap = await this.loadTopoMap(deviceGuids);
-        if (topoMap !== undefined) {
-            await drawBlocks(this.client, this.viewport, topoMap.deviceNodes);
-            drawLinks(this.client, this.viewport, topoMap.deviceLinks);
-        } else {
-            console.error('Could not load topo map data.');
-        }
+
+        return devices;
+    }
+
+    saveLinks(networkGuid: string, links: DeviceLink[]) {
+        const source = this.data.createOrRetrieveNetworkSource('', networkGuid);
+        const collection = this.data.createOrRetrieveLinkCollection(source);
+        this.data.deleteLinksFromCollection(collection); // TODO: Replace once updateLinksInCollection Function is implemented
+        this.data.addLinksToCollection(collection, links);
     }
 }

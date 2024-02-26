@@ -296,7 +296,7 @@ export enum DeviceState {
 }
 
 // DeviceLink
-export interface DeviceLink {
+export class DeviceLink {
     linkType: string;
     noWireless: boolean;
     allWirelessOrVm: boolean;
@@ -304,6 +304,24 @@ export interface DeviceLink {
     linkMembers: DeviceLinkMember[];
     linkEdges: DeviceLinkEdge[];
     monitorState: MonitorState;
+
+    constructor(
+        linkType: string,
+        noWireless: boolean,
+        allWirelessOrVm: boolean,
+        noVm: boolean,
+        linkMembers: DeviceLinkMember[],
+        linkEdges: DeviceLinkEdge[],
+        monitorState: MonitorState
+    ) {
+        this.linkType = linkType;
+        this.noWireless = noWireless;
+        this.allWirelessOrVm = allWirelessOrVm;
+        this.noVm = noVm;
+        this.linkMembers = linkMembers;
+        this.linkEdges = linkEdges;
+        this.monitorState = monitorState;
+    }
 }
 
 export interface DeviceLinkMember {
