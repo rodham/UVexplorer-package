@@ -1,7 +1,7 @@
 import { DataSourceProxy, EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
 import { isLoadNetworkMessage, isSelectedDevicesMessage } from 'model/message';
 import { NetworkRequest } from 'model/uvexplorer-model';
-import {Device, DeviceListRequest} from 'model/uvexplorer-devices-model';
+import { Device, DeviceListRequest } from 'model/uvexplorer-devices-model';
 import { UVXModal } from './uvx-modal';
 
 export class DevicesModal extends UVXModal {
@@ -51,7 +51,7 @@ export class DevicesModal extends UVXModal {
                 deviceListRequest
             );
 
-            this.saveDevices(source,devices);
+            this.saveDevices(source, devices);
 
             await this.sendMessage({
                 action: 'listDevices',

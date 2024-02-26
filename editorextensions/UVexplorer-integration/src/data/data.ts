@@ -1,4 +1,4 @@
-import {Device, DeviceLink} from 'model/uvexplorer-devices-model';
+import { Device, DeviceLink } from 'model/uvexplorer-devices-model';
 import {
     CollectionProxy,
     DataProxy,
@@ -8,7 +8,7 @@ import {
     SchemaDefinition,
     SerializedFieldType
 } from 'lucid-extension-sdk';
-import {createDataProxy, deviceToRecord, linkToRecord, toSnakeCase} from '@data/data-utils';
+import { createDataProxy, deviceToRecord, linkToRecord, toSnakeCase } from '@data/data-utils';
 
 export const DEVICE_SCHEMA: SchemaDefinition = {
     fields: [
@@ -32,11 +32,10 @@ export const LINK_SCHEMA: SchemaDefinition = {
         { name: 'no_vm', type: ScalarFieldTypeEnum.BOOLEAN },
         { name: 'link_members', type: ScalarFieldTypeEnum.STRING },
         { name: 'link_edges', type: ScalarFieldTypeEnum.STRING },
-        { name: 'monitor_state', type: ScalarFieldTypeEnum.NUMBER },
+        { name: 'monitor_state', type: ScalarFieldTypeEnum.NUMBER }
     ],
     primaryKey: ['link_members']
 };
-
 
 export class Data {
     private static instance: Data;
