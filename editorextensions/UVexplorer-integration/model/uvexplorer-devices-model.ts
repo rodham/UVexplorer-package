@@ -305,7 +305,15 @@ export class DeviceLink {
     linkEdges: DeviceLinkEdge[];
     monitorState: MonitorState;
 
-    constructor(linkType: string, noWireless: boolean, allWirelessOrVm: boolean, noVm: boolean, linkMembers: DeviceLinkMember[], linkEdges: DeviceLinkEdge[], monitorState: MonitorState) {
+    constructor(
+        linkType: string,
+        noWireless: boolean,
+        allWirelessOrVm: boolean,
+        noVm: boolean,
+        linkMembers: DeviceLinkMember[],
+        linkEdges: DeviceLinkEdge[],
+        monitorState: MonitorState
+    ) {
         this.linkType = linkType;
         this.noWireless = noWireless;
         this.allWirelessOrVm = allWirelessOrVm;

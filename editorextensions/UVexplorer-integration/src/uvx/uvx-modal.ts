@@ -1,9 +1,9 @@
-import {EditorClient, Modal, PageProxy, Viewport} from 'lucid-extension-sdk';
+import { EditorClient, Modal, PageProxy, Viewport } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvx-client';
-import {drawMap, getGuidFromBlock, isNetworkDeviceBlock} from '@blocks/block-utils';
-import {createTopoMapRequest, TopoMap} from "model/uvexplorer-topomap-model";
-import {DeviceLink} from "model/uvexplorer-devices-model";
-import {Data} from "@data/data";
+import { drawMap, getGuidFromBlock, isNetworkDeviceBlock } from '@blocks/block-utils';
+import { createTopoMapRequest, TopoMap } from 'model/uvexplorer-topomap-model';
+import { DeviceLink } from 'model/uvexplorer-devices-model';
+import { Data } from '@data/data';
 
 export abstract class UVXModal extends Modal {
     protected viewport: Viewport;
@@ -92,7 +92,9 @@ export abstract class UVXModal extends Modal {
      */
     async drawMap(devices: string[], removeDevices?: string[]): Promise<void> {
         const page = this.viewport.getCurrentPage();
-        if (!page) { return; }
+        if (!page) {
+            return;
+        }
 
         const deviceGuids = this.clearMap(page, devices, removeDevices);
 
@@ -137,10 +139,7 @@ export abstract class UVXModal extends Modal {
                     const guid = getGuidFromBlock(item);
                     if (!guid) continue;
                     item.delete();
-                    if (
-                        !devices.includes(guid) &&
-                        !(removeDevices && removeDevices.includes(guid))
-                    ) {
+                    if (!devices.includes(guid) && !(removeDevices && removeDevices.includes(guid))) {
                         // Device should remain
                         devices.push(guid);
                     }
