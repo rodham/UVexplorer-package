@@ -115,14 +115,10 @@ function getDeviceType(deviceNode: DeviceNode) {
 export async function drawMap(
     client: EditorClient,
     viewport: Viewport,
+    page: PageProxy,
     deviceNodes: DeviceNode[],
     deviceLinks: DeviceLink[]
 ) {
-    const page = viewport.getCurrentPage();
-    if (!page) {
-        return;
-    }
-
     const customBlockDef = await client.getCustomShapeDefinition(LIBRARY, SHAPE);
     if (!customBlockDef) {
         return;

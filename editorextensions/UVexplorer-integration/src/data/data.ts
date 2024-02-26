@@ -1,4 +1,4 @@
-import { Device } from 'model/uvexplorer-devices-model';
+import {Device, DeviceLink} from 'model/uvexplorer-devices-model';
 import {
     CollectionProxy,
     DataProxy,
@@ -8,7 +8,7 @@ import {
     SchemaDefinition,
     SerializedFieldType
 } from 'lucid-extension-sdk';
-import { createDataProxy, deviceToRecord, toSnakeCase } from '@data/data-utils';
+import {createDataProxy, deviceToRecord, linkToRecord, toSnakeCase} from '@data/data-utils';
 
 export const DEVICE_SCHEMA: SchemaDefinition = {
     fields: [
@@ -23,6 +23,20 @@ export const DEVICE_SCHEMA: SchemaDefinition = {
     ],
     primaryKey: ['guid']
 };
+
+export const LINK_SCHEMA: SchemaDefinition = {
+    fields: [
+        { name: 'link_type', type: ScalarFieldTypeEnum.STRING },
+        { name: 'no_wireless', type: ScalarFieldTypeEnum.BOOLEAN },
+        { name: 'all_wireless_or_vm', type: ScalarFieldTypeEnum.BOOLEAN },
+        { name: 'no_vm', type: ScalarFieldTypeEnum.BOOLEAN },
+        { name: 'link_members', type: ScalarFieldTypeEnum.STRING },
+        { name: 'link_edges', type: ScalarFieldTypeEnum.STRING },
+        { name: 'monitor_state', type: ScalarFieldTypeEnum.NUMBER },
+    ],
+    primaryKey: ['link_members']
+};
+
 
 export class Data {
     private static instance: Data;
@@ -57,6 +71,15 @@ export class Data {
         return source.addCollection(`${toSnakeCase(source.getName())}_device`, DEVICE_SCHEMA);
     }
 
+    createOrRetrieveLinkCollection(source: DataSourceProxy): CollectionProxy {
+        for (const [, collection] of source.collections) {
+            if (collection.getName() === `${toSnakeCase(source.getName())}_link`) {
+                return collection;
+            }
+        }
+        return source.addCollection(`${toSnakeCase(source.getName())}_link`, LINK_SCHEMA);
+    }
+
     addDevicesToCollection(collection: CollectionProxy, devices: Device[]): void {
         collection.patchItems({
             added: devices.map((d) => deviceToRecord(d))
@@ -67,6 +90,19 @@ export class Data {
         const guids = collection.items.keys();
         collection.patchItems({
             deleted: guids
+        });
+    }
+
+    addLinksToCollection(collection: CollectionProxy, links: DeviceLink[]): void {
+        collection.patchItems({
+            added: links.map((l) => linkToRecord(l))
+        });
+    }
+
+    deleteLinksFromCollection(collection: CollectionProxy): void {
+        const keys = collection.items.keys();
+        collection.patchItems({
+            deleted: keys
         });
     }
 
