@@ -119,10 +119,14 @@ export async function drawMap(
     deviceLinks: DeviceLink[]
 ) {
     const page = viewport.getCurrentPage();
-    if (!page) { return; }
+    if (!page) {
+        return;
+    }
 
     const customBlockDef = await client.getCustomShapeDefinition(LIBRARY, SHAPE);
-    if (!customBlockDef) { return; }
+    if (!customBlockDef) {
+        return;
+    }
 
     const data = Data.getInstance(client);
     const collectionId = data.getDeviceCollectionForPage(page.id);
@@ -138,39 +142,38 @@ export function drawBlocks(
     customBlockDef: BlockDefinition,
     collectionId: string
 ) {
-        const addedBlocks = [];
-        const guidToBlockMap = new Map<string, BlockProxy>();
+    const addedBlocks = [];
+    const guidToBlockMap = new Map<string, BlockProxy>();
 
-        for (const deviceNode of deviceNodes) {
-            const block = createBlock(page, deviceNode, customBlockDef, collectionId);
-            addedBlocks.push(block);
-            guidToBlockMap.set(deviceNode.deviceGuid, block);
-        }
+    for (const deviceNode of deviceNodes) {
+        const block = createBlock(page, deviceNode, customBlockDef, collectionId);
+        addedBlocks.push(block);
+        guidToBlockMap.set(deviceNode.deviceGuid, block);
+    }
 
-        viewport.focusCameraOnItems(addedBlocks);
-        return guidToBlockMap;
+    viewport.focusCameraOnItems(addedBlocks);
+    return guidToBlockMap;
 }
 
 export function createBlock(
     page: PageProxy,
     deviceNode: DeviceNode,
     customBlockDef: BlockDefinition,
-    collectionId: string,
-) : BlockProxy {
+    collectionId: string
+): BlockProxy {
     const block = page.addBlock({
         ...customBlockDef,
-        boundingBox: { x: deviceNode.x, y: deviceNode.y, w: 50, h: 50 },
+        boundingBox: { x: deviceNode.x, y: deviceNode.y, w: 50, h: 50 }
     });
 
     block.shapeData.set('Make', getCompany(deviceNode));
     block.shapeData.set('DeviceType', getDeviceType(deviceNode));
     block.shapeData.set('Guid', deviceNode.deviceGuid);
 
-
     block.setReferenceKey(DEVICE_REFERENCE_KEY, {
         collectionId: collectionId,
         primaryKey: `"${deviceNode.deviceGuid}"`,
-        readonly: true,
+        readonly: true
     });
 
     return block;
