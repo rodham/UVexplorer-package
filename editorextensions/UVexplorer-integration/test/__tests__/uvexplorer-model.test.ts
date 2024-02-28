@@ -1,14 +1,13 @@
 import * as helpers from './helpers';
 import {
-    isDevice,
     isDeviceCategoryListResponse,
     isDeviceDetailsResponse,
-    isDeviceListResponse,
     isInfoSetListResponse,
     isNetworkSummariesResponse,
-    isNetworkSummary,
-    isTopoMap
+    isNetworkSummary
 } from 'model/uvexplorer-model';
+import { isDevice, isDeviceListResponse } from 'model/uvexplorer-devices-model';
+import { isTopoMap } from 'model/uvexplorer-topomap-model';
 
 describe('UVexplorer model tests', () => {
     describe('isNetworkSummariesResponse tests', () => {

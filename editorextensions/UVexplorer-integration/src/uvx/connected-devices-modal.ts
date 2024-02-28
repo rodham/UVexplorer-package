@@ -1,6 +1,6 @@
 import { EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
 import { UVXModal } from './uvx-modal';
-import { ConnectedDevicesRequest } from 'model/uvexplorer-model';
+import { ConnectedDevicesRequest } from 'model/uvexplorer-devices-model';
 import { isSelectedDevicesMessage } from 'model/message';
 
 export class ConnectedDevicesModal extends UVXModal {
@@ -40,12 +40,12 @@ export class ConnectedDevicesModal extends UVXModal {
     protected async messageFromFrame(message: JsonSerializable) {
         console.log('Received message from child', message);
         if (isSelectedDevicesMessage(message)) {
-            const devices = message.devices;
+            const devices = message.devices.map((d) => d.guid);
             let removeDevices: string[] = [];
             if (message.removeDevices) {
                 removeDevices = message.removeDevices;
             }
-            await this.drawDevices(devices, removeDevices);
+            await this.drawMap(devices, removeDevices);
             await this.closeSession();
             this.hide();
         }

@@ -1,8 +1,8 @@
 import { DataSourceProxy, EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
 import { isLoadNetworkMessage, isSelectedDevicesMessage } from 'model/message';
-import { DeviceListRequest, NetworkRequest } from 'model/uvexplorer-model';
+import { NetworkRequest } from 'model/uvexplorer-model';
+import { Device, DeviceListRequest } from 'model/uvexplorer-devices-model';
 import { UVXModal } from './uvx-modal';
-import { Data } from '@data/data';
 
 export class DevicesModal extends UVXModal {
     constructor(client: EditorClient, viewport: Viewport) {
@@ -29,11 +29,10 @@ export class DevicesModal extends UVXModal {
         try {
             const networkRequest = new NetworkRequest(guid);
             await this.uvexplorerClient.loadNetwork(this.serverUrl, this.sessionGuid, networkRequest);
-            const data = Data.getInstance(this.client);
-            const source = data.createOrRetrieveNetworkSource(name, guid);
+            const source = this.data.createOrRetrieveNetworkSource(name, guid);
             const page = this.viewport.getCurrentPage();
             if (page !== undefined) {
-                data.updatePageMap(page.id, guid);
+                this.data.updatePageMap(page.id, guid);
             }
             console.log(`Successfully loaded network: ${name}`);
             return source;
@@ -45,16 +44,15 @@ export class DevicesModal extends UVXModal {
 
     async loadDevices(source: DataSourceProxy) {
         try {
-            const data = Data.getInstance(this.client);
-            const collection = data.createOrRetrieveDeviceCollection(source);
             const deviceListRequest = new DeviceListRequest();
             const devices = await this.uvexplorerClient.listDevices(
                 this.serverUrl,
                 this.sessionGuid,
                 deviceListRequest
             );
-            data.deleteDevicesFromCollection(collection); // TODO: Replace once updateDevicesInCollection Function is implemented
-            data.addDevicesToCollection(collection, devices);
+
+            this.saveDevices(source, devices);
+
             await this.sendMessage({
                 action: 'listDevices',
                 devices: JSON.stringify(devices)
@@ -63,6 +61,12 @@ export class DevicesModal extends UVXModal {
         } catch (e) {
             console.error(e);
         }
+    }
+
+    saveDevices(source: DataSourceProxy, devices: Device[]) {
+        const collection = this.data.createOrRetrieveDeviceCollection(source);
+        this.data.deleteDevicesFromCollection(collection); // TODO: Replace once updateDevicesInCollection Function is implemented
+        this.data.addDevicesToCollection(collection, devices);
     }
 
     protected async messageFromFrame(message: JsonSerializable) {
@@ -76,7 +80,8 @@ export class DevicesModal extends UVXModal {
                 console.error(`Could not load network: ${message.name}`);
             }
         } else if (isSelectedDevicesMessage(message)) {
-            await this.drawDevices(message.devices);
+            const devices = message.devices.map((d) => d.guid);
+            await this.drawMap(devices);
             await this.closeSession();
             this.hide();
         }

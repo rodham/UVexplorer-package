@@ -1,4 +1,5 @@
 import {
+    BlockDefinition,
     BlockProxy,
     CustomBlockProxy,
     EditorClient,
@@ -7,7 +8,7 @@ import {
     PageProxy,
     Viewport
 } from 'lucid-extension-sdk';
-import { Device, DeviceNode, DeviceLink } from 'model/uvexplorer-model';
+import { Device, DeviceNode, DeviceLink } from 'model/uvexplorer-devices-model';
 import { Data } from '@data/data';
 import { itemToDevice, removeQuotationMarks } from '@data/data-utils';
 import { NetworkDeviceBlock } from './network-device-block';
@@ -23,6 +24,33 @@ export function isNetworkDeviceBlock(item: ItemProxy): item is NetworkDeviceBloc
         }
     }
     return false;
+}
+
+export function getBlockFromGuid(page: PageProxy, guid: string): BlockProxy | undefined {
+    for (const block of page.blocks.values()) {
+        if (block.shapeData.get('Guid') === guid) {
+            return block;
+        }
+    }
+    return undefined;
+}
+
+export function getGuidFromBlock(block: BlockProxy): string | undefined {
+    for (const [key, val] of block.referenceKeys) {
+        if (key === DEVICE_REFERENCE_KEY) {
+            return removeQuotationMarks(val.primaryKey!);
+        }
+    }
+    return undefined;
+}
+
+export function getDeviceFromBlock(block: BlockProxy): Device | undefined {
+    for (const [key, val] of block.referenceKeys) {
+        if (key === DEVICE_REFERENCE_KEY) {
+            return itemToDevice(val.getItem());
+        }
+    }
+    return undefined;
 }
 
 function findCategory(deviceTypes: Set<string>) {
@@ -84,81 +112,80 @@ function getDeviceType(deviceNode: DeviceNode) {
     return findCategory(deviceTypes);
 }
 
-export async function drawBlocks(client: EditorClient, viewport: Viewport, deviceNodes: DeviceNode[]) {
+export async function drawMap(
+    client: EditorClient,
+    viewport: Viewport,
+    page: PageProxy,
+    deviceNodes: DeviceNode[],
+    deviceLinks: DeviceLink[]
+) {
     const customBlockDef = await client.getCustomShapeDefinition(LIBRARY, SHAPE);
-
     if (!customBlockDef) {
         return;
     }
 
-    const page = viewport.getCurrentPage();
-    if (page != undefined) {
-        for (const deviceNode of deviceNodes) {
-            const block = page.addBlock({
-                ...customBlockDef,
-                boundingBox: { x: deviceNode.x, y: deviceNode.y, w: 50, h: 50 }
-            });
-            block.shapeData.set('Make', getCompany(deviceNode));
-            block.shapeData.set('DeviceType', getDeviceType(deviceNode));
-            block.shapeData.set('Guid', deviceNode.deviceGuid);
+    const data = Data.getInstance(client);
+    const collectionId = data.getDeviceCollectionForPage(page.id);
 
-            const data = Data.getInstance(client);
-            const networkGuid = data.getNetworkForPage(page.id);
-            const source = data.createOrRetrieveNetworkSource('', networkGuid);
-            const collection = data.createOrRetrieveDeviceCollection(source);
-            block.setReferenceKey(DEVICE_REFERENCE_KEY, {
-                collectionId: collection.id,
-                primaryKey: `"${deviceNode.deviceGuid}"`,
-                readonly: true
-            });
-        }
-    }
+    const guidToBlockMap = drawBlocks(viewport, page, deviceNodes, customBlockDef, collectionId);
+    drawLinks(deviceLinks, guidToBlockMap);
 }
 
-export function getBlockFromGuid(page: PageProxy, guid: string): BlockProxy | undefined {
-    for (const block of page.blocks.values()) {
-        for (const [key, val] of block.referenceKeys) {
-            if (key === DEVICE_REFERENCE_KEY) {
-                if (removeQuotationMarks(val.primaryKey!) === guid) {
-                    return block;
-                }
-            }
-        }
+export function drawBlocks(
+    viewport: Viewport,
+    page: PageProxy,
+    deviceNodes: DeviceNode[],
+    customBlockDef: BlockDefinition,
+    collectionId: string
+) {
+    const addedBlocks = [];
+    const guidToBlockMap = new Map<string, BlockProxy>();
+
+    for (const deviceNode of deviceNodes) {
+        const block = createBlock(page, deviceNode, customBlockDef, collectionId);
+        addedBlocks.push(block);
+        guidToBlockMap.set(deviceNode.deviceGuid, block);
     }
-    return undefined;
-}
-export function getGuidFromBlock(block: BlockProxy): string | undefined {
-    for (const [key, val] of block.referenceKeys) {
-        if (key === DEVICE_REFERENCE_KEY) {
-            return val.primaryKey;
-        }
-    }
-    return undefined;
+
+    viewport.focusCameraOnItems(addedBlocks);
+    return guidToBlockMap;
 }
 
-export function getDeviceFromBlock(block: BlockProxy): Device | undefined {
-    for (const [key, val] of block.referenceKeys) {
-        if (key === DEVICE_REFERENCE_KEY) {
-            return itemToDevice(val.getItem());
-        }
-    }
-    return undefined;
+export function createBlock(
+    page: PageProxy,
+    deviceNode: DeviceNode,
+    customBlockDef: BlockDefinition,
+    collectionId: string
+): BlockProxy {
+    const block = page.addBlock({
+        ...customBlockDef,
+        boundingBox: { x: deviceNode.x, y: deviceNode.y, w: 50, h: 50 }
+    });
+
+    block.shapeData.set('Make', getCompany(deviceNode));
+    block.shapeData.set('DeviceType', getDeviceType(deviceNode));
+    block.shapeData.set('Guid', deviceNode.deviceGuid);
+
+    block.setReferenceKey(DEVICE_REFERENCE_KEY, {
+        collectionId: collectionId,
+        primaryKey: `"${deviceNode.deviceGuid}"`,
+        readonly: true
+    });
+
+    return block;
 }
 
-export function drawLinks(client: EditorClient, viewport: Viewport, deviceLinks: DeviceLink[]) {
-    const page = viewport.getCurrentPage();
-    if (page !== undefined) {
-        for (const link of deviceLinks) {
-            for (const linkMembers of link.linkMembers) {
-                console.log(linkMembers);
-                const deviceBlock = getBlockFromGuid(page, linkMembers.deviceGuid);
-                const connectedDeviceBlock = getBlockFromGuid(page, linkMembers.connectedDeviceGuid);
-                if (deviceBlock !== undefined && connectedDeviceBlock !== undefined) {
-                    if (deviceBlock.getBoundingBox().y > connectedDeviceBlock.getBoundingBox().y) {
-                        connectBlocks(connectedDeviceBlock, deviceBlock);
-                    } else {
-                        connectBlocks(deviceBlock, connectedDeviceBlock);
-                    }
+export function drawLinks(deviceLinks: DeviceLink[], guidToBlockMap: Map<string, BlockProxy>) {
+    for (const link of deviceLinks) {
+        for (const linkMembers of link.linkMembers) {
+            const deviceBlock = guidToBlockMap.get(linkMembers.deviceGuid);
+            const connectedDeviceBlock = guidToBlockMap.get(linkMembers.connectedDeviceGuid);
+
+            if (deviceBlock && connectedDeviceBlock) {
+                if (deviceBlock.getBoundingBox().y > connectedDeviceBlock.getBoundingBox().y) {
+                    connectBlocks(connectedDeviceBlock, deviceBlock);
+                } else {
+                    connectBlocks(deviceBlock, connectedDeviceBlock);
                 }
             }
         }
