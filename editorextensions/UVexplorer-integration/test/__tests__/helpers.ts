@@ -1,14 +1,16 @@
 import { TextXHRResponse } from 'lucid-extension-sdk';
 import { DashStyle, DeviceDisplaySetting, LayoutType, TopoMap } from 'model/uvx/topomap';
-import {NetworkSummariesResponse, NetworkSummary} from "model/uvx/network";
+import { NetworkSummariesResponse, NetworkSummary } from 'model/uvx/network';
 import {
     Device,
-    DeviceCategoryListResponse, DeviceDetailsResponse,
+    DeviceCategoryListResponse,
+    DeviceDetailsResponse,
     DeviceListResponse,
     DeviceNode,
     DeviceNodeCategories,
-    DeviceState, InfoSetListResponse
-} from "model/uvx/device";
+    DeviceState,
+    InfoSetListResponse
+} from 'model/uvx/device';
 
 export const mockNetworkSummariesXHRResponse: TextXHRResponse = {
     url: 'https://my-uvexplorer-server.com/public/api/v1/network/list',

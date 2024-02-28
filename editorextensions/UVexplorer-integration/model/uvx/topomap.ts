@@ -267,18 +267,11 @@ export function isLayoutSettings(obj: unknown): obj is LayoutSettings {
         typeof obj.showIpPhoneLinks === 'boolean' &&
         'rootNodes' in obj &&
         Array.isArray(obj.rootNodes) &&
-        (
-            !('hierarchicalSettings' in obj) ||
-            (obj.hierarchicalSettings === null || isHierarchicalLayoutSettings(obj.hierarchicalSettings))
-        ) &&
-        (
-            !('radialSettings' in obj) ||
-            (obj.radialSettings === null || isRingRadialLayoutSettings(obj.radialSettings))
-        ) &&
-        (
-            !('ringSettings' in obj) ||
-            (obj.ringSettings === null || isRingRadialLayoutSettings(obj.ringSettings))
-        )
+        (!('hierarchicalSettings' in obj) ||
+            obj.hierarchicalSettings === null ||
+            isHierarchicalLayoutSettings(obj.hierarchicalSettings)) &&
+        (!('radialSettings' in obj) || obj.radialSettings === null || isRingRadialLayoutSettings(obj.radialSettings)) &&
+        (!('ringSettings' in obj) || obj.ringSettings === null || isRingRadialLayoutSettings(obj.ringSettings))
     );
 }
 
