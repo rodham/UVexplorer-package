@@ -1,4 +1,4 @@
-import {Device, DeviceLink, DeviceLinkEdge } from 'model/uvexplorer-devices-model';
+import { Device, DeviceLink, DeviceLinkEdge } from 'model/uvexplorer-devices-model';
 import {
     CollectionProxy,
     DataProxy,
@@ -8,7 +8,7 @@ import {
     SchemaDefinition,
     SerializedFieldType
 } from 'lucid-extension-sdk';
-import {createDataProxy, deviceToRecord, linkEdgeToRecord, toSnakeCase} from '@data/data-utils';
+import { createDataProxy, deviceToRecord, linkEdgeToRecord, toSnakeCase } from '@data/data-utils';
 
 export const DEVICE_SCHEMA: SchemaDefinition = {
     fields: [
@@ -29,7 +29,7 @@ export const LINK_SCHEMA: SchemaDefinition = {
         { name: 'local_device_guid', type: ScalarFieldTypeEnum.STRING },
         { name: 'remote_device_guid', type: ScalarFieldTypeEnum.STRING },
         { name: 'local_connection', type: ScalarFieldTypeEnum.STRING },
-        { name: 'remote_connection', type: ScalarFieldTypeEnum.STRING },
+        { name: 'remote_connection', type: ScalarFieldTypeEnum.STRING }
     ],
     primaryKey: ['local_device_guid', 'remote_device_guid']
 };
@@ -90,7 +90,7 @@ export class Data {
     }
 
     addLinksToCollection(collection: CollectionProxy, links: DeviceLink[]): void {
-        const linkEdges: DeviceLinkEdge[] = links.flatMap(link => link.linkEdges);
+        const linkEdges: DeviceLinkEdge[] = links.flatMap((link) => link.linkEdges);
         collection.patchItems({
             added: linkEdges.map(linkEdgeToRecord)
         });
