@@ -5,7 +5,7 @@ import {
     DeviceConnection,
     DeviceLinkEdge,
     ProtocolProfile
-} from 'model/uvexplorer-devices-model';
+} from 'model/uvx/device';
 import { CollectionProxy, DataItemProxy, DataProxy, EditorClient, SerializedFieldType } from 'lucid-extension-sdk';
 
 export function createDataProxy(client: EditorClient): DataProxy {

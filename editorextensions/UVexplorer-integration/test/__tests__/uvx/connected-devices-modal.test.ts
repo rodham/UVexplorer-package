@@ -1,6 +1,6 @@
 import { ConnectedDevicesModal } from '@uvx/connected-devices-modal';
-import * as model from 'model/uvexplorer-model';
-import * as devicesModel from 'model/uvexplorer-devices-model';
+import * as model from 'model/uvx/network';
+import * as devicesModel from 'model/uvx/device';
 import * as lucid from 'lucid-extension-sdk';
 import { UVExplorerClient } from '@uvx/uvx-client';
 import { mockDeviceGuids, mockDeviceGuids2, mockDeviceList, mockDeviceList2 } from 'mock_data/devices';
@@ -8,8 +8,8 @@ import { Data } from '@data/data';
 
 jest.mock('lucid-extension-sdk');
 jest.mock('@data/data');
-jest.mock('model/uvexplorer-model');
-jest.mock('model/uvexplorer-devices-model');
+jest.mock('model/uvx/network');
+jest.mock('model/uvx/device');
 jest.mock('@uvx/uvx-client');
 
 describe('Connected Devices Modal Tests', () => {

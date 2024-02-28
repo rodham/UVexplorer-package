@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
-import { Device, DeviceDetailsResponse } from 'model/uvexplorer-model';
+import { Device, DeviceDetailsResponse } from 'model/uvx/device';
 import { deviceDetailsFromMessage, deviceFromSerializableDeviceMessage, isDeviceDetailsMessage } from 'model/message';
 
 @Component({
