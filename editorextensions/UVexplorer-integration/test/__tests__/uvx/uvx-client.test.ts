@@ -278,7 +278,7 @@ describe('UVexplorer client tests', () => {
         });
 
         it('should error when the response is not a TextXHRResponse', async () => {
-            jest.spyOn(client, 'checkStatusCode').mockImplementation(() => {});
+            jest.spyOn(client, 'checkStatusCode').mockImplementation();
             isTextXHRResponseSpy.mockReturnValue(false);
             await expect(client.sendXHRRequest('url', 'token', 'GET', 'data')).rejects.toThrow(
                 'Response was not a TextXHRResponse.'
