@@ -3,7 +3,8 @@ import {
     BlockProxy,
     CustomBlockProxy,
     EditorClient,
-    ItemProxy, LineProxy,
+    ItemProxy,
+    LineProxy,
     LineShape,
     PageProxy,
     Viewport
@@ -16,7 +17,7 @@ import { NetworkDeviceBlock } from './network-device-block';
 const LIBRARY = 'UVexplorer-shapes';
 const SHAPE = 'networkDevice';
 const DEVICE_REFERENCE_KEY = 'device_reference_key';
-const LINK_REFERENCE_KEY = 'link_reference_key'
+const LINK_REFERENCE_KEY = 'link_reference_key';
 
 export function isNetworkDeviceBlock(item: ItemProxy): item is NetworkDeviceBlock {
     if (item instanceof CustomBlockProxy) {
@@ -107,8 +108,6 @@ function getDeviceType(deviceNode: DeviceNode) {
             deviceTypes.add(type.categoryName);
         });
     }
-
-    console.log(deviceNode);
 
     return findCategory(deviceTypes);
 }

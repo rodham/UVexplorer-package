@@ -139,7 +139,7 @@ export class UVExplorerClient {
         }
     }
 
-    private async sendXHRRequest(url: string, token: string, method: string, data?: string): Promise<TextXHRResponse> {
+    public async sendXHRRequest(url: string, token: string, method: string, data?: string): Promise<TextXHRResponse> {
         try {
             const request: XHRRequest = {
                 url: url,

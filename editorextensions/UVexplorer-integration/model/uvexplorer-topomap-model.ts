@@ -1,7 +1,7 @@
 import { DeviceFilter, DeviceLink, DeviceNode } from './uvexplorer-devices-model';
 
 interface LayoutSettings {
-    layoutType: 'Manual' | 'Radial' | 'Hierarchical' | 'Ring';
+    layoutType: LayoutType;
     useStraightLinks: boolean;
     showLayer2Links: boolean;
     showVirtualLinks: boolean;
@@ -18,8 +18,8 @@ interface LayoutSettings {
         levelSpacing: number;
         useStraightLinks: boolean;
         nodeSpacing: number;
-        layoutDirection: 'Left' | 'Right' | 'Up' | 'Down';
-        rootAlignment: 'Left' | 'Center' | 'Right';
+        layoutDirection: LayoutDirection;
+        rootAlignment: RootAlignment;
     };
     ringSettings?: {
         minRadius: number;
@@ -27,6 +27,7 @@ interface LayoutSettings {
         maxAngle: number;
         maximizeRoot: boolean;
     };
+    rootNodes?: unknown;
 }
 
 interface DrawSettings {
@@ -40,7 +41,7 @@ interface DrawSettings {
     shortIfNames: boolean;
     hideVendorImage: boolean;
     hidePlatformImage: boolean;
-    deviceDisplaySetting: 'Default' | 'Hostname' | 'IpAddress' | 'HostnameAndIpAddress';
+    deviceDisplaySetting: DeviceDisplaySetting;
     standardPen: PenPattern;
     lagPen: PenPattern;
     manualPen: PenPattern;
@@ -57,7 +58,7 @@ interface PenPattern {
         blue: number;
     };
     width: number;
-    dashStyle: 'Solid' | 'Dash' | 'Dot' | 'DashDot' | 'DashDotDot';
+    dashStyle: DashStyle;
 }
 
 export class TopoMapRequest {
@@ -85,25 +86,13 @@ export class TopoMapRequest {
 export function createTopoMapRequest(deviceGuids: string[]): TopoMapRequest {
     return new TopoMapRequest(
         {
-            layoutType: 'Hierarchical',
-            radialSettings: {
-                minRadius: 0,
-                maxRadius: 0,
-                maxAngle: 0,
-                maximizeRoot: true
-            },
+            layoutType: LayoutType.Hierarchical,
             hierarchicalSettings: {
                 levelSpacing: 100,
                 useStraightLinks: true,
                 nodeSpacing: 100,
-                layoutDirection: 'Down',
-                rootAlignment: 'Center'
-            },
-            ringSettings: {
-                minRadius: 0,
-                maxRadius: 0,
-                maxAngle: 0,
-                maximizeRoot: true
+                layoutDirection: LayoutDirection.Down,
+                rootAlignment: RootAlignment.Center
             },
             showIpPhoneLinks: true,
             showLayer2Links: true,
@@ -123,7 +112,7 @@ export function createTopoMapRequest(deviceGuids: string[]): TopoMapRequest {
             shortIfNames: false,
             hideVendorImage: false,
             hidePlatformImage: false,
-            deviceDisplaySetting: 'Default',
+            deviceDisplaySetting: DeviceDisplaySetting.Default,
             standardPen: {
                 color: {
                     red: 0,
@@ -131,7 +120,7 @@ export function createTopoMapRequest(deviceGuids: string[]): TopoMapRequest {
                     blue: 0
                 },
                 width: 1,
-                dashStyle: 'Solid'
+                dashStyle: DashStyle.Solid
             },
             lagPen: {
                 color: {
@@ -140,7 +129,7 @@ export function createTopoMapRequest(deviceGuids: string[]): TopoMapRequest {
                     blue: 0
                 },
                 width: 1,
-                dashStyle: 'Solid'
+                dashStyle: DashStyle.Solid
             },
             manualPen: {
                 color: {
@@ -149,7 +138,7 @@ export function createTopoMapRequest(deviceGuids: string[]): TopoMapRequest {
                     blue: 0
                 },
                 width: 1,
-                dashStyle: 'Solid'
+                dashStyle: DashStyle.Solid
             },
             associatedPen: {
                 color: {
@@ -158,7 +147,7 @@ export function createTopoMapRequest(deviceGuids: string[]): TopoMapRequest {
                     blue: 0
                 },
                 width: 1,
-                dashStyle: 'Solid'
+                dashStyle: DashStyle.Solid
             },
             multiPen: {
                 color: {
@@ -167,7 +156,7 @@ export function createTopoMapRequest(deviceGuids: string[]): TopoMapRequest {
                     blue: 0
                 },
                 width: 1,
-                dashStyle: 'Solid'
+                dashStyle: DashStyle.Solid
             },
             stpForwardingPen: {
                 color: {
@@ -176,7 +165,7 @@ export function createTopoMapRequest(deviceGuids: string[]): TopoMapRequest {
                     blue: 0
                 },
                 width: 1,
-                dashStyle: 'Solid'
+                dashStyle: DashStyle.Solid
             },
             stpBlockingPen: {
                 color: {
@@ -185,7 +174,7 @@ export function createTopoMapRequest(deviceGuids: string[]): TopoMapRequest {
                     blue: 0
                 },
                 width: 1,
-                dashStyle: 'Solid'
+                dashStyle: DashStyle.Solid
             }
         },
         deviceGuids
@@ -198,7 +187,7 @@ export interface TopoMap {
     deviceNodes: DeviceNode[];
     deviceGroupNodes: DeviceNode[];
     hubNodes: DeviceNode[];
-    imageNodes: unknown; //TODO: Find out this typing. The example request was [].
+    imageNodes: unknown;
     deviceLinks: DeviceLink[];
     width: number;
     height: number;
@@ -267,9 +256,9 @@ export function isLayoutSettings(obj: unknown): obj is LayoutSettings {
         'hierarchicalSettings' in obj &&
         (obj.hierarchicalSettings === null || isHierarchicalLayoutSettings(obj.hierarchicalSettings)) &&
         'radialSettings' in obj &&
-        isRingRadialLayoutSettings(obj.radialSettings) &&
+        (obj.radialSettings === null || isRingRadialLayoutSettings(obj.radialSettings)) &&
         'ringSettings' in obj &&
-        isRingRadialLayoutSettings(obj.ringSettings) &&
+        (obj.ringSettings === null || isRingRadialLayoutSettings(obj.ringSettings)) &&
         'useStraightLinks' in obj &&
         typeof obj.useStraightLinks === 'boolean' &&
         'showLinkLabels' in obj &&
@@ -349,6 +338,13 @@ export function isRingRadialLayoutSettings(obj: unknown): obj is RingRadialLayou
     );
 }
 
+export enum DeviceDisplaySetting {
+    Default,
+    Hostname,
+    IpAddress,
+    HostnameAndIpAddress
+}
+
 export function isDrawSettings(obj: unknown): obj is DrawSettings {
     return (
         typeof obj === 'object' &&
@@ -375,6 +371,7 @@ export function isDrawSettings(obj: unknown): obj is DrawSettings {
         typeof obj.hidePlatformImage === 'boolean' &&
         'deviceDisplaySetting' in obj &&
         typeof obj.deviceDisplaySetting === 'number' &&
+        Object.values(DeviceDisplaySetting).includes(obj.deviceDisplaySetting) &&
         'standardPen' in obj &&
         isPenPattern(obj.standardPen) &&
         'lagPen' in obj &&
