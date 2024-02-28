@@ -1,7 +1,8 @@
 import {
     Device,
     DeviceCategories,
-    DeviceClass, DeviceConnection,
+    DeviceClass,
+    DeviceConnection,
     DeviceLinkEdge,
     ProtocolProfile
 } from 'model/uvexplorer-devices-model';
@@ -49,7 +50,7 @@ export function itemToDevice(item: DataItemProxy): Device {
 export function itemToLinkEdge(item: DataItemProxy): DeviceLinkEdge {
     return new DeviceLinkEdge(
         JSON.parse(item.fields.get('local_connection')?.toString() ?? '') as DeviceConnection,
-        JSON.parse(item.fields.get('remote_connection')?.toString() ?? '') as DeviceConnection,
+        JSON.parse(item.fields.get('remote_connection')?.toString() ?? '') as DeviceConnection
     );
 }
 
