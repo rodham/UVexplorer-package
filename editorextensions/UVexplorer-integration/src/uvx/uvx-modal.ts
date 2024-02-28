@@ -1,5 +1,6 @@
 import { EditorClient, Modal, PageProxy, Viewport } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvx-client';
+import { NetworkRequest } from 'model/uvexplorer-model';
 import { drawMap, getGuidFromBlock, isNetworkDeviceBlock } from '@blocks/block-utils';
 import { createTopoMapRequest, TopoMap } from 'model/uvexplorer-topomap-model';
 import { DeviceLink } from 'model/uvexplorer-devices-model';
@@ -73,6 +74,15 @@ export abstract class UVXModal extends Modal {
         } catch (e) {
             console.error(e);
         }
+    }
+
+    async loadPageNetwork() {
+        const pageId = this.viewport.getCurrentPage()?.id;
+        if (!pageId) throw Error('No page id found');
+        const data = Data.getInstance(this.client);
+        const networkGuid = data.getNetworkForPage(pageId);
+        const networkRequest = new NetworkRequest(networkGuid);
+        await this.uvexplorerClient.loadNetwork(this.serverUrl, this.sessionGuid, networkRequest);
     }
 
     async loadTopoMap(deviceGuids: string[]): Promise<TopoMap | undefined> {

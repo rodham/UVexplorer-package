@@ -1,9 +1,7 @@
 import { EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
 import { UVXModal } from './uvx-modal';
-import { NetworkRequest } from 'model/uvexplorer-model';
 import { ConnectedDevicesRequest } from 'model/uvexplorer-devices-model';
 import { isSelectedDevicesMessage } from 'model/message';
-import { Data } from '@data/data';
 
 export class ConnectedDevicesModal extends UVXModal {
     deviceGuids: string[];
@@ -21,12 +19,7 @@ export class ConnectedDevicesModal extends UVXModal {
     }
 
     async loadConnectedDevices() {
-        const pageId = this.viewport.getCurrentPage()?.id;
-        if (!pageId) throw Error('No page id found');
-        const data = Data.getInstance(this.client);
-        const networkGuid = data.getNetworkForPage(pageId);
-        const networkRequest = new NetworkRequest(networkGuid);
-        await this.uvexplorerClient.loadNetwork(this.serverUrl, this.sessionGuid, networkRequest);
+        await this.loadPageNetwork();
         const connectedDevicesRequest = new ConnectedDevicesRequest(this.deviceGuids);
         const devices = await this.uvexplorerClient.listConnectedDevices(
             this.serverUrl,
