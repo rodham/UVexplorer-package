@@ -1,9 +1,9 @@
 import { EditorClient, Modal, PageProxy, Viewport } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvx-client';
-import { NetworkRequest } from 'model/uvexplorer-model';
+import { NetworkRequest } from 'model/uvx/network';
 import { drawMap, getGuidFromBlock, isNetworkDeviceBlock } from '@blocks/block-utils';
-import { createTopoMapRequest, TopoMap } from 'model/uvexplorer-topomap-model';
-import { DeviceLink } from 'model/uvexplorer-devices-model';
+import { createTopoMapRequest, TopoMap } from 'model/uvx/topomap';
+import { DeviceLink } from 'model/uvx/device';
 import { Data } from '@data/data';
 
 export abstract class UVXModal extends Modal {

@@ -5,8 +5,8 @@ import {
   AgentSummary,
   DiscoverySummary,
   DiscoveryRunSummary
-} from '../../../../model/uvexplorer-model';
-import { LoadNetworkMessage } from '../../../../model/message';
+} from 'model/uvx/network';
+import { LoadNetworkMessage } from 'model/message';
 
 describe('NetworksComponent', () => {
   beforeEach(async () => {

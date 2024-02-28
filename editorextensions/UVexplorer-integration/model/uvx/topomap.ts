@@ -1,4 +1,4 @@
-import { DeviceFilter, DeviceLink, DeviceNode } from './uvexplorer-devices-model';
+import { DeviceFilter, DeviceLink, DeviceNode } from './device';
 
 interface LayoutSettings {
     layoutType: LayoutType;
@@ -253,12 +253,6 @@ export function isLayoutSettings(obj: unknown): obj is LayoutSettings {
         'layoutType' in obj &&
         typeof obj.layoutType === 'number' &&
         Object.values(LayoutType).includes(obj.layoutType) &&
-        'hierarchicalSettings' in obj &&
-        (obj.hierarchicalSettings === null || isHierarchicalLayoutSettings(obj.hierarchicalSettings)) &&
-        'radialSettings' in obj &&
-        (obj.radialSettings === null || isRingRadialLayoutSettings(obj.radialSettings)) &&
-        'ringSettings' in obj &&
-        (obj.ringSettings === null || isRingRadialLayoutSettings(obj.ringSettings)) &&
         'useStraightLinks' in obj &&
         typeof obj.useStraightLinks === 'boolean' &&
         'showLinkLabels' in obj &&
@@ -272,7 +266,19 @@ export function isLayoutSettings(obj: unknown): obj is LayoutSettings {
         'showIpPhoneLinks' in obj &&
         typeof obj.showIpPhoneLinks === 'boolean' &&
         'rootNodes' in obj &&
-        Array.isArray(obj.rootNodes)
+        Array.isArray(obj.rootNodes) &&
+        (
+            !('hierarchicalSettings' in obj) ||
+            (obj.hierarchicalSettings === null || isHierarchicalLayoutSettings(obj.hierarchicalSettings))
+        ) &&
+        (
+            !('radialSettings' in obj) ||
+            (obj.radialSettings === null || isRingRadialLayoutSettings(obj.radialSettings))
+        ) &&
+        (
+            !('ringSettings' in obj) ||
+            (obj.ringSettings === null || isRingRadialLayoutSettings(obj.ringSettings))
+        )
     );
 }
 

@@ -1,7 +1,7 @@
 import { EditorClient, TextXHRResponse } from 'lucid-extension-sdk';
-import { NetworkRequest, NetworkSummary } from 'model/uvexplorer-model';
-import { ConnectedDevicesRequest, Device, DeviceListRequest } from 'model/uvexplorer-devices-model';
-import { TopoMapRequest, TopoMap } from 'model/uvexplorer-topomap-model';
+import { NetworkRequest, NetworkSummary } from 'model/uvx/network';
+import { ConnectedDevicesRequest, Device, DeviceListRequest } from 'model/uvx/device';
+import { TopoMapRequest, TopoMap } from 'model/uvx/topomap';
 import { mockDeviceList, mockDeviceList2, mockNetworkSummaryList } from 'mock_data/devices';
 
 export class UVExplorerClient {

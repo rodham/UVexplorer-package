@@ -1,13 +1,16 @@
 import * as helpers from './helpers';
 import {
-    isDeviceCategoryListResponse,
-    isDeviceDetailsResponse,
-    isInfoSetListResponse,
     isNetworkSummariesResponse,
     isNetworkSummary
-} from 'model/uvexplorer-model';
-import { isDevice, isDeviceListResponse } from 'model/uvexplorer-devices-model';
-import { isTopoMap } from 'model/uvexplorer-topomap-model';
+} from 'model/uvx/network';
+import {
+    isDevice,
+    isDeviceCategoryListResponse,
+    isDeviceDetailsResponse,
+    isDeviceListResponse,
+    isInfoSetListResponse
+} from 'model/uvx/device';
+import { isTopoMap } from 'model/uvx/topomap';
 
 describe('UVexplorer model tests', () => {
     describe('isNetworkSummariesResponse tests', () => {
@@ -140,10 +143,10 @@ describe('UVexplorer model tests', () => {
             expect(isTopoMap(mockResponse)).toBe(true);
         });
         it('should return false given empty', () => {
-            expect(isInfoSetListResponse({})).toBe(false);
+            expect(isTopoMap({})).toBe(false);
         });
         it('should return false given no correct properties', () => {
-            expect(isInfoSetListResponse({ not_topo_map: 'test' })).toBe(false);
+            expect(isTopoMap({ not_topo_map: 'test' })).toBe(false);
         });
     });
 });
