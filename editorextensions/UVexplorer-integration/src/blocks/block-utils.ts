@@ -6,7 +6,8 @@ import {
     ItemProxy,
     LineShape,
     PageProxy,
-    Viewport
+    Viewport,
+    ZOrderOperation
 } from 'lucid-extension-sdk';
 import { Device, DeviceNode, DeviceLink } from 'model/uvexplorer-devices-model';
 import { Data } from '@data/data';
@@ -197,17 +198,18 @@ function connectBlocks(block1: BlockProxy, block2: BlockProxy) {
         endpoint1: {
             connection: block1,
             linkX: 0.5,
-            linkY: 1,
+            linkY: 0.5,
             style: 'none'
         },
         endpoint2: {
             connection: block2,
             linkX: 0.5,
-            linkY: 0,
+            linkY: 0.5,
             style: 'none'
         }
     });
     line.setShape(LineShape.Diagonal);
+    line.changeZOrder(ZOrderOperation.BOTTOM);
 }
 
 const deviceTypeNameMap: Map<string, string> = new Map<string, string>([
