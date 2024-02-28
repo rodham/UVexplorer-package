@@ -1,6 +1,7 @@
 import { ConnectedDevicesModal } from '@uvx/connected-devices-modal';
 import { EditorClient, ItemProxy, Viewport } from 'lucid-extension-sdk';
-import { isNetworkDeviceBlock } from '@blocks/block-utils';
+import { getDeviceFromBlock, isNetworkDeviceBlock } from '@blocks/block-utils';
+import { DeviceDetailModal } from 'src/uvx/device-detail-modal';
 
 export function uvDeviceSelected(viewport: Viewport): boolean {
     const selection = viewport.getSelectedItems();
@@ -78,4 +79,22 @@ export async function viewDeviceDetails(viewport: Viewport, client: EditorClient
         console.log('Can only view details of device shape');
         return;
     }
+    const device = getDeviceFromBlock(selectedItem);
+
+    if (!device) {
+        console.error('Unable to get device from selected block');
+        return;
+    }
+
+    const modal = new DeviceDetailModal(client, viewport, device);
+
+    const additionalSettings: Map<string, string> = new Map<string, string>();
+    additionalSettings.set('apiKey', process.env.UVX_API_KEY!);
+    additionalSettings.set('serverUrl', process.env.UVX_BASE_URL!);
+    await client.setPackageSettings(additionalSettings);
+
+    await modal.loadSettings();
+    await modal.openSession();
+    await modal.show();
+    await modal.getDeviceDetails();
 }

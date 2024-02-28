@@ -1,4 +1,11 @@
-import { Device, isDevice, isNetworkSummary, NetworkSummary } from './uvexplorer-model';
+import {
+    Device,
+    DeviceDetailsResponse,
+    isDevice,
+    isDeviceDetailsResponse,
+    isNetworkSummary,
+    NetworkSummary
+} from './uvexplorer-model';
 
 export interface ListNetworksMessage {
     action: 'listNetworks';
@@ -140,4 +147,42 @@ export function isSelectedDevicesMessage(message: unknown): message is SelectedD
         );
     }
     return isDevicesMessage(message) && message.action === 'selectDevices';
+}
+
+export interface DeviceDetailsMessage {
+    action: 'viewDeviceDetails';
+    deviceDetails: string;
+    device: string;
+}
+
+export function isDeviceDetailsMessage(message: unknown): message is DeviceDetailsMessage {
+    return (
+        message !== null &&
+        typeof message === 'object' &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        message.action === 'viewDeviceDetails' &&
+        'deviceDetails' in message &&
+        typeof message.deviceDetails === 'string' &&
+        'device' in message &&
+        typeof message.device === 'string'
+    );
+}
+
+export function deviceDetailsFromMessage(message: DeviceDetailsMessage): DeviceDetailsResponse {
+    const deviceDetails: unknown = JSON.parse(message.deviceDetails);
+    if (isDeviceDetailsResponse(deviceDetails)) {
+        return deviceDetails;
+    } else {
+        throw Error('Unable to parse as device details object');
+    }
+}
+
+export function deviceFromSerializableDeviceMessage(message: DeviceDetailsMessage): Device {
+    const device: unknown = JSON.parse(message.device);
+    if (isDevice(device)) {
+        return device;
+    } else {
+        throw Error('Unable to parse as device object');
+    }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
 import { Device, DeviceDetailsResponse } from 'model/uvexplorer-model';
+import { deviceDetailsFromMessage, deviceFromSerializableDeviceMessage, isDeviceDetailsMessage } from 'model/message';
 
 @Component({
   selector: 'device-detail',
@@ -16,6 +17,11 @@ export class DeviceDetailComponent {
     window.addEventListener('message', (e) => {
       console.log('Received a message from the parent.');
       console.log(e.data);
+
+      if (isDeviceDetailsMessage(e.data)) {
+        this.device = deviceFromSerializableDeviceMessage(e.data);
+        this.deviceDetails = deviceDetailsFromMessage(e.data);
+      }
     });
   }
 }

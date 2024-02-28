@@ -1,31 +1,36 @@
 <div *ngIf="deviceDetails">
-  <h1>{{ deviceDetails.displayName }}</h1>
+  <h1 class="border-b mb-4 pb-2 font-bold m-8">
+    <span>
+      {{ deviceDetails.displayName }}
+    </span>
+    <span *ngIf="device"> (IP: {{ device.mac_address }}) </span>
+  </h1>
 
   <div *ngFor="let infoset of deviceDetails.infoSets">
     <div tabIndex="0" class="collapse collapse-arrow">
-      <div class="collapse-title text-xl font-medium">
+      <input type="checkbox" />
+      <div class="collapse-title text-xl font-medium w-screen">
         {{ infoset.title }}
       </div>
 
       <div class="collapse-content">
-        <div class="overflow-x-auto">
-          <table class="table">
+        <div class="overflow-x-auto w-screen">
+          <table class="table table-auto m-6">
             <thead>
               <tr>
-                <div *ngFor="let col of infoset.columns">
-                  <th>{{ col.header }}</th>
-                </div>
+                <th *ngFor="let col of infoset.columns">{{ col.header }}</th>
               </tr>
             </thead>
 
             <tbody>
-              <div *ngFor="let entry of infoset.entries">
-                <tr>
-                  <div *ngFor="let val of entry.values">
-                    <td>{{ val.value }}</td>
-                  </div>
-                </tr>
-              </div>
+              <tr *ngFor="let entry of infoset.entries">
+                <td *ngFor="let val of entry.values">
+                  <span *ngIf="val.value !== null && val.value !== undefined && val.value !== ''; else blankValue">{{
+                    val.value
+                  }}</span>
+                  <ng-template #blankValue><i>No Info</i></ng-template>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

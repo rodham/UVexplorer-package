@@ -12,5 +12,17 @@ export class DeviceDetailModal extends UVXModal {
 
     async getDeviceDetails() {
         await this.loadPageNetwork();
+        const deviceDetails = await this.uvexplorerClient.listDeviceDetails(
+            this.serverUrl,
+            this.sessionGuid,
+            this.device.guid
+        );
+        console.log('Device details response: ', deviceDetails);
+
+        await this.sendMessage({
+            action: 'viewDeviceDetails',
+            deviceDetails: JSON.stringify(deviceDetails),
+            device: JSON.stringify(this.device)
+        });
     }
 }
