@@ -1,4 +1,4 @@
-import { Device, DeviceLink } from 'model/uvexplorer-devices-model';
+import {Device, DeviceLink, DeviceLinkEdge } from 'model/uvexplorer-devices-model';
 import {
     CollectionProxy,
     DataProxy,
@@ -8,7 +8,7 @@ import {
     SchemaDefinition,
     SerializedFieldType
 } from 'lucid-extension-sdk';
-import { createDataProxy, deviceToRecord, linkToRecord, toSnakeCase } from '@data/data-utils';
+import {createDataProxy, deviceToRecord, linkEdgeToRecord, toSnakeCase} from '@data/data-utils';
 
 export const DEVICE_SCHEMA: SchemaDefinition = {
     fields: [
@@ -26,15 +26,12 @@ export const DEVICE_SCHEMA: SchemaDefinition = {
 
 export const LINK_SCHEMA: SchemaDefinition = {
     fields: [
-        { name: 'link_type', type: ScalarFieldTypeEnum.STRING },
-        { name: 'no_wireless', type: ScalarFieldTypeEnum.BOOLEAN },
-        { name: 'all_wireless_or_vm', type: ScalarFieldTypeEnum.BOOLEAN },
-        { name: 'no_vm', type: ScalarFieldTypeEnum.BOOLEAN },
-        { name: 'link_members', type: ScalarFieldTypeEnum.STRING },
-        { name: 'link_edges', type: ScalarFieldTypeEnum.STRING },
-        { name: 'monitor_state', type: ScalarFieldTypeEnum.NUMBER }
+        { name: 'local_device_guid', type: ScalarFieldTypeEnum.STRING },
+        { name: 'remote_device_guid', type: ScalarFieldTypeEnum.STRING },
+        { name: 'local_connection', type: ScalarFieldTypeEnum.STRING },
+        { name: 'remote_connection', type: ScalarFieldTypeEnum.STRING },
     ],
-    primaryKey: ['link_members']
+    primaryKey: ['local_device_guid', 'remote_device_guid']
 };
 
 export class Data {
@@ -81,11 +78,11 @@ export class Data {
 
     addDevicesToCollection(collection: CollectionProxy, devices: Device[]): void {
         collection.patchItems({
-            added: devices.map((d) => deviceToRecord(d))
+            added: devices.map(deviceToRecord)
         });
     }
 
-    deleteDevicesFromCollection(collection: CollectionProxy): void {
+    clearCollection(collection: CollectionProxy): void {
         const guids = collection.items.keys();
         collection.patchItems({
             deleted: guids
@@ -93,15 +90,9 @@ export class Data {
     }
 
     addLinksToCollection(collection: CollectionProxy, links: DeviceLink[]): void {
+        const linkEdges: DeviceLinkEdge[] = links.flatMap(link => link.linkEdges);
         collection.patchItems({
-            added: links.map((l) => linkToRecord(l))
-        });
-    }
-
-    deleteLinksFromCollection(collection: CollectionProxy): void {
-        const keys = collection.items.keys();
-        collection.patchItems({
-            deleted: keys
+            added: linkEdges.map(linkEdgeToRecord)
         });
     }
 
@@ -166,6 +157,13 @@ export class Data {
         const networkGuid = this.getNetworkForPage(pageId);
         const source = this.createOrRetrieveNetworkSource('', networkGuid);
         const collection = this.createOrRetrieveDeviceCollection(source);
+        return collection.id;
+    }
+
+    getLinksCollectionForPage(pageId: string): string {
+        const networkGuid = this.getNetworkForPage(pageId);
+        const source = this.createOrRetrieveNetworkSource('', networkGuid);
+        const collection = this.createOrRetrieveLinkCollection(source);
         return collection.id;
     }
 }

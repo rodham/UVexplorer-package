@@ -153,7 +153,7 @@ export abstract class UVXModal extends Modal {
     saveLinks(networkGuid: string, links: DeviceLink[]) {
         const source = this.data.createOrRetrieveNetworkSource('', networkGuid);
         const collection = this.data.createOrRetrieveLinkCollection(source);
-        this.data.deleteLinksFromCollection(collection); // TODO: Replace once updateLinksInCollection Function is implemented
+        this.data.clearCollection(collection); // TODO: Replace once updateLinksInCollection Function is implemented
         this.data.addLinksToCollection(collection, links);
     }
 }

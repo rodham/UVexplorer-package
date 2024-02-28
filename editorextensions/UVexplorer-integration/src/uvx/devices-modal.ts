@@ -65,7 +65,7 @@ export class DevicesModal extends UVXModal {
 
     saveDevices(source: DataSourceProxy, devices: Device[]) {
         const collection = this.data.createOrRetrieveDeviceCollection(source);
-        this.data.deleteDevicesFromCollection(collection); // TODO: Replace once updateDevicesInCollection Function is implemented
+        this.data.clearCollection(collection); // TODO: Replace once updateDevicesInCollection Function is implemented
         this.data.addDevicesToCollection(collection, devices);
     }
 

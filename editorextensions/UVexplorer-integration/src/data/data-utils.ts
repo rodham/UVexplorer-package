@@ -1,11 +1,8 @@
 import {
     Device,
     DeviceCategories,
-    DeviceClass,
-    DeviceLink,
+    DeviceClass, DeviceConnection,
     DeviceLinkEdge,
-    DeviceLinkMember,
-    MonitorState,
     ProtocolProfile
 } from 'model/uvexplorer-devices-model';
 import { CollectionProxy, DataItemProxy, DataProxy, EditorClient, SerializedFieldType } from 'lucid-extension-sdk';
@@ -27,15 +24,12 @@ export function deviceToRecord(device: Device): Record<string, SerializedFieldTy
     };
 }
 
-export function linkToRecord(link: DeviceLink): Record<string, SerializedFieldType> {
+export function linkEdgeToRecord(link: DeviceLinkEdge): Record<string, SerializedFieldType> {
     return {
-        link_type: link.linkType,
-        no_wireless: link.noWireless,
-        all_wireless_or_vm: link.allWirelessOrVm,
-        no_vm: link.noVm,
-        link_members: JSON.stringify(link.linkMembers),
-        link_edges: JSON.stringify(link.linkEdges),
-        monitor_state: link.monitorState
+        local_device_guid: link.localConnection.deviceGuid,
+        remote_device_guid: link.remoteConnection.deviceGuid,
+        local_connection: JSON.stringify(link.localConnection),
+        remote_connection: JSON.stringify(link.remoteConnection)
     };
 }
 
@@ -52,15 +46,10 @@ export function itemToDevice(item: DataItemProxy): Device {
     );
 }
 
-export function itemToLink(item: DataItemProxy): DeviceLink {
-    return new DeviceLink(
-        item.fields.get('link_type')?.toString() ?? '',
-        !item.fields.get('no_wireless'),
-        !item.fields.get('all_wireless_or_vm'),
-        !item.fields.get('no_vm'),
-        JSON.parse(item.fields.get('link_members')?.toString() ?? '') as DeviceLinkMember[],
-        JSON.parse(item.fields.get('link_edges')?.toString() ?? '') as DeviceLinkEdge[],
-        item.fields.get('monitor_state') as MonitorState
+export function itemToLinkEdge(item: DataItemProxy): DeviceLinkEdge {
+    return new DeviceLinkEdge(
+        JSON.parse(item.fields.get('local_connection')?.toString() ?? '') as DeviceConnection,
+        JSON.parse(item.fields.get('remote_connection')?.toString() ?? '') as DeviceConnection,
     );
 }
 
