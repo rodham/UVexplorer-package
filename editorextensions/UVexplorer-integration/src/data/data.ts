@@ -1,4 +1,4 @@
-import {Device, DeviceLink, DeviceLinkEdge } from 'model/uvx/device';
+import { Device, DeviceLink, DeviceLinkEdge } from 'model/uvx/device';
 import {
     CollectionProxy,
     DataProxy,

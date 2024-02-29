@@ -1,11 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { NetworksComponent } from './networks.component';
-import {
-  NetworkSummary,
-  AgentSummary,
-  DiscoverySummary,
-  DiscoveryRunSummary
-} from 'model/uvx/network';
+import { NetworkSummary, AgentSummary, DiscoverySummary, DiscoveryRunSummary } from 'model/uvx/network';
 import { LoadNetworkMessage } from 'model/message';
 
 describe('NetworksComponent', () => {

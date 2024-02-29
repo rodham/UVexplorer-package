@@ -1,8 +1,5 @@
 import * as helpers from './helpers';
-import {
-    isNetworkSummariesResponse,
-    isNetworkSummary
-} from 'model/uvx/network';
+import { isNetworkSummariesResponse, isNetworkSummary } from 'model/uvx/network';
 import {
     isDevice,
     isDeviceCategoryListResponse,

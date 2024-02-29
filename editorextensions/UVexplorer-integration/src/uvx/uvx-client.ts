@@ -1,14 +1,15 @@
 import { EditorClient, isTextXHRResponse, TextXHRResponse, XHRRequest, XHRResponse } from 'lucid-extension-sdk';
-import {
-    isNetworkSummariesResponse,
-    NetworkRequest,
-    NetworkSummary
-} from 'model/uvx/network';
+import { isNetworkSummariesResponse, NetworkRequest, NetworkSummary } from 'model/uvx/network';
 import {
     ConnectedDevicesRequest,
-    Device, DeviceDetailsResponse,
-    DeviceListRequest, InfoSet, isDeviceCategoryListResponse, isDeviceDetailsResponse,
-    isDeviceListResponse, isInfoSetListResponse
+    Device,
+    DeviceDetailsResponse,
+    DeviceListRequest,
+    InfoSet,
+    isDeviceCategoryListResponse,
+    isDeviceDetailsResponse,
+    isDeviceListResponse,
+    isInfoSetListResponse
 } from 'model/uvx/device';
 import { TopoMapRequest, isTopoMap, TopoMap } from 'model/uvx/topomap';
 

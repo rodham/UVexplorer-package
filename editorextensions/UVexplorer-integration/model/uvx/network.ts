@@ -1,5 +1,3 @@
-
-
 export class NetworkRequest {
     network_guid: string;
     agent_guid?: string;
