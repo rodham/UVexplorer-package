@@ -142,3 +142,43 @@ export function isSelectedDevicesMessage(message: unknown): message is SelectedD
     }
     return isDevicesMessage(message) && message.action === 'selectDevices';
 }
+
+export interface MapSettingsMessage {
+    action: 'loadMapSettings';
+    devices: []
+}
+
+export function isMapSettingsMessage(message: unknown): message is MapSettingsMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        message.action === 'loadMapSettings' &&
+        'devices' in message &&
+        Array.isArray(message.devices) &&
+        message.devices.every((device) => typeof device === 'string')
+    );
+}
+
+export interface SelectedMapSettingsMessage {
+    action: 'saveMapSettings';
+    devices: []
+    data: {};
+}
+
+export function isSelectedMapSettingsMessage(message: unknown): message is MapSettingsMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        message.action === 'saveMapSettings' &&
+        'devices' in message &&
+        Array.isArray(message.devices) &&
+        message.devices.every((device) => typeof device === 'string') &&
+        'data' in message &&
+        typeof message.data === 'object' &&
+        message.data !== null
+    );
+}

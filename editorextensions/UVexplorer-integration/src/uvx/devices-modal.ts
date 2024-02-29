@@ -1,5 +1,5 @@
 import { DataSourceProxy, EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
-import { isLoadNetworkMessage, isSelectedDevicesMessage } from 'model/message';
+import { isLoadNetworkMessage, isSelectedDevicesMessage, isSelectedMapSettingsMessage } from 'model/message';
 import { NetworkRequest } from 'model/uvexplorer-model';
 import { Device, DeviceListRequest } from 'model/uvexplorer-devices-model';
 import { UVXModal } from './uvx-modal';
@@ -69,6 +69,17 @@ export class DevicesModal extends UVXModal {
         this.data.addDevicesToCollection(collection, devices);
     }
 
+    async loadMapSettings(devices: string[]) {
+        try {
+            await this.sendMessage({
+                action: 'loadMapSettings',
+                devices: devices
+            });
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
     protected async messageFromFrame(message: JsonSerializable) {
         console.log('Received a message from the child.');
         console.log(message);
@@ -81,7 +92,10 @@ export class DevicesModal extends UVXModal {
             }
         } else if (isSelectedDevicesMessage(message)) {
             const devices = message.devices.map((d) => d.guid);
-            await this.drawMap(devices);
+            await this.loadMapSettings(devices);
+            
+        } else if (isSelectedMapSettingsMessage(message)) {
+            await this.drawMap(message.devices);
             await this.closeSession();
             this.hide();
         }
