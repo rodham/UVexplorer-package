@@ -16,15 +16,17 @@ import {
   GridApi,
   RowDataUpdatedEvent
 } from 'ag-grid-community';
+import { SettingsComponent } from '../settings/settings.component';
 
 @Component({
   selector: 'app-devices',
   standalone: true,
-  imports: [NgIf, NgFor, AgGridAngular],
+  imports: [NgIf, NgFor, AgGridAngular, SettingsComponent],
   templateUrl: './devices.component.html'
 })
 export class DevicesComponent {
   devices: Device[] = [];
+  selectingDevices = false;
   visibleConnectedDeviceGuids: string[] = [];
   themeClass = 'ag-theme-quartz';
   rowSelection: 'multiple' | 'single' = 'multiple';
@@ -38,6 +40,7 @@ export class DevicesComponent {
       if (isListDevicesMessage(e.data)) {
         this.devices = devicesFromSerializableDevicesMessage(e.data);
         this.visibleConnectedDeviceGuids = connDeviceGuidsFromListDevMsg(e.data);
+        this.selectingDevices = true;
         console.log('Received devices in component');
       }
     });
@@ -154,5 +157,7 @@ export class DevicesComponent {
       },
       '*'
     );
+
+    this.selectingDevices = false;
   }
 }
