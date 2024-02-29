@@ -216,6 +216,9 @@ interface DeviceDetailsInfoSet {
     title: string;
     columns: Column[];
     entries: Entry[];
+    noVm?: boolean;
+    noWireless?: boolean;
+    allWirelessOrVm?: boolean;
 }
 
 function isDeviceDetailsInfoSet(obj: unknown): obj is DeviceDetailsInfoSet {
@@ -231,7 +234,19 @@ function isDeviceDetailsInfoSet(obj: unknown): obj is DeviceDetailsInfoSet {
         obj.columns.every(isColumn) &&
         'entries' in obj &&
         Array.isArray(obj.entries) &&
-        obj.entries.every(isEntry)
+        obj.entries.every(isEntry) &&
+        (
+            !('noVm' in obj) ||
+            (typeof obj.noVm === 'boolean')
+        ) &&
+        (
+            !('noWireless' in obj) ||
+            (typeof obj.noWireless === 'boolean')
+        ) &&
+        (
+            !('allWirelessOrVm' in obj) ||
+            (typeof obj.allWirelessOrVm === 'boolean')
+        )
     );
 }
 
@@ -275,8 +290,8 @@ function isEntry(obj: unknown): obj is Entry {
 }
 
 interface Value {
-    value: string;
-    tagText: string;
+    value: string | null;
+    tagText: string | null;
 }
 
 function isValue(obj: unknown): obj is Value {
@@ -284,9 +299,9 @@ function isValue(obj: unknown): obj is Value {
         typeof obj === 'object' &&
         obj !== null &&
         'value' in obj &&
-        typeof obj.value === 'string' &&
+        (obj.value === null || typeof obj.value === 'string') &&
         'tagText' in obj &&
-        typeof obj.tagText === 'string'
+        (obj.tagText === null || typeof obj.tagText === 'string')
     );
 }
 

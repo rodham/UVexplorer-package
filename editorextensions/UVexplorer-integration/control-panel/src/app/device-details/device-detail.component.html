@@ -3,7 +3,7 @@
     <span>
       {{ deviceDetails.displayName }}
     </span>
-    <span *ngIf="device"> (IP: {{ device.mac_address }}) </span>
+    <span *ngIf="device"> (IP: {{ device.ip_address }}) </span>
   </h1>
 
   <div *ngFor="let infoset of deviceDetails.infoSets">
