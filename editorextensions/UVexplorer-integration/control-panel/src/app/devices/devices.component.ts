@@ -3,6 +3,7 @@ import { NgIf } from '@angular/common';
 import {
   connDeviceGuidsFromListDevMsg,
   devicesFromSerializableDevicesMessage,
+  getForcedAutoLayoutFromListDevMsg,
   isListDevicesMessage
 } from 'model/message';
 import { Device, DeviceCategoryEntry, isDevice } from 'model/uvexplorer-devices-model';
@@ -25,10 +26,12 @@ import {
 })
 export class DevicesComponent {
   devices: Device[] = [];
-  visibleConnectedDeviceGuids: string[] = [];
+  preselectedDeviceGuids: string[] = [];
   themeClass = 'ag-theme-quartz';
   rowSelection: 'multiple' | 'single' = 'multiple';
   private gridApi?: GridApi;
+  forcedAutoLayout: boolean = false;
+  autoLayout: boolean = true;
 
   constructor() {
     window.addEventListener('message', (e) => {
@@ -37,7 +40,8 @@ export class DevicesComponent {
 
       if (isListDevicesMessage(e.data)) {
         this.devices = devicesFromSerializableDevicesMessage(e.data);
-        this.visibleConnectedDeviceGuids = connDeviceGuidsFromListDevMsg(e.data);
+        this.preselectedDeviceGuids = connDeviceGuidsFromListDevMsg(e.data);
+        this.forcedAutoLayout = getForcedAutoLayoutFromListDevMsg(e.data);
         console.log('Received devices in component');
       }
     });
@@ -110,7 +114,7 @@ export class DevicesComponent {
         console.log('Grid not ready');
         return;
       }
-      if (this.visibleConnectedDeviceGuids.includes(guid)) {
+      if (this.preselectedDeviceGuids.includes(guid)) {
         const node = this.gridApi.getRowNode(guid);
         if (node) console.log('Node exists');
         else {
@@ -138,21 +142,41 @@ export class DevicesComponent {
     console.log('Api selected rows: ', selectedDevices);
     const removeDevices: string[] = [];
     const selectedDeviceGuids = selectedDevices.map((d) => d.guid);
-    console.log('Visible connected device guids to check for removal: ', this.visibleConnectedDeviceGuids);
-    for (const guid of this.visibleConnectedDeviceGuids) {
+    console.log('Visible connected device guids to check for removal: ', this.preselectedDeviceGuids);
+    for (const guid of this.preselectedDeviceGuids) {
       if (!selectedDeviceGuids.includes(guid)) {
         removeDevices.push(guid);
       }
     }
+
+    const newlySelectedDeviceGuids: string[] = [];
+    for (const device of this.devices) {
+      if (!this.preselectedDeviceGuids) {
+        newlySelectedDeviceGuids.push(device.guid);
+      }
+    }
+
     console.log('Selected devices: ', selectedDeviceGuids);
     console.log('Devices to remove: ', removeDevices);
-    parent.postMessage(
-      {
-        action: 'selectDevices',
-        devices: selectedDevices,
-        removeDevices
-      },
-      '*'
-    );
+    console.log('Newly selected devices: ', newlySelectedDeviceGuids);
+    if (this.forcedAutoLayout || this.autoLayout) {
+      parent.postMessage(
+        {
+          action: 'selectDevices',
+          devices: selectedDevices,
+          removeDevices: removeDevices
+        },
+        '*'
+      );
+    } else if (!this.autoLayout) {
+      parent.postMessage(
+        {
+          action: 'manuallyLayoutDevices',
+          removeDevices: removeDevices,
+          newlySelectedDeviceGuids: newlySelectedDeviceGuids
+        },
+        '*'
+      )
+    }
   }
 }

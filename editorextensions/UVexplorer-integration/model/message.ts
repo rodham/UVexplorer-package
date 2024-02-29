@@ -108,10 +108,21 @@ export function isGetConnectedDevicesMessage(message: unknown): message is GetCo
 export interface ListDevicesMessage extends SerializableDevicesMessage {
     action: 'listDevices';
     visibleConnectedDeviceGuids?: string;
+    forceAutoLayout?: boolean;
 }
 
 export function isListDevicesMessage(message: unknown): message is ListDevicesMessage {
-    return isSerializableDevicesMessage(message) && message.action === 'listDevices';
+    return (
+        isSerializableDevicesMessage(message) &&
+        message.action === 'listDevices'
+    );
+}
+
+export function getForcedAutoLayoutFromListDevMsg(message: ListDevicesMessage): boolean {
+    if (!message.forceAutoLayout) {
+        return false;
+    }
+    return message.forceAutoLayout;
 }
 
 export function connDeviceGuidsFromListDevMsg(message: ListDevicesMessage): string[] {
