@@ -1,7 +1,7 @@
 import { DataSourceProxy, EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
 import { isLoadNetworkMessage, isSelectedDevicesMessage } from 'model/message';
-import { NetworkRequest } from 'model/uvexplorer-model';
-import { Device, DeviceListRequest } from 'model/uvexplorer-devices-model';
+import { NetworkRequest } from 'model/uvx/network';
+import { Device, DeviceListRequest } from 'model/uvx/device';
 import { UVXModal } from './uvx-modal';
 
 export class DevicesModal extends UVXModal {
@@ -65,7 +65,7 @@ export class DevicesModal extends UVXModal {
 
     saveDevices(source: DataSourceProxy, devices: Device[]) {
         const collection = this.data.createOrRetrieveDeviceCollection(source);
-        this.data.deleteDevicesFromCollection(collection); // TODO: Replace once updateDevicesInCollection Function is implemented
+        this.data.clearCollection(collection); // TODO: Replace once updateDevicesInCollection Function is implemented
         this.data.addDevicesToCollection(collection, devices);
     }
 

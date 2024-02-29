@@ -190,6 +190,157 @@ export function isDeviceListResponse(obj: unknown): obj is DeviceListResponse {
     );
 }
 
+//DeviceDetails
+export interface DeviceDetailsResponse {
+    deviceGuid: string;
+    displayName: string;
+    infoSets: DeviceDetailsInfoSet[];
+}
+
+export function isDeviceDetailsResponse(obj: unknown): obj is DeviceDetailsResponse {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'deviceGuid' in obj &&
+        typeof obj.deviceGuid === 'string' &&
+        'displayName' in obj &&
+        typeof obj.displayName === 'string' &&
+        'infoSets' in obj &&
+        Array.isArray(obj.infoSets) &&
+        obj.infoSets.every(isDeviceDetailsInfoSet)
+    );
+}
+
+interface DeviceDetailsInfoSet {
+    infoSetName: string;
+    title: string;
+    columns: Column[];
+    entries: Entry[];
+    noVm?: boolean;
+    noWireless?: boolean;
+    allWirelessOrVm?: boolean;
+}
+
+function isDeviceDetailsInfoSet(obj: unknown): obj is DeviceDetailsInfoSet {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'infoSetName' in obj &&
+        typeof obj.infoSetName === 'string' &&
+        'title' in obj &&
+        typeof obj.title === 'string' &&
+        'columns' in obj &&
+        Array.isArray(obj.columns) &&
+        obj.columns.every(isColumn) &&
+        'entries' in obj &&
+        Array.isArray(obj.entries) &&
+        obj.entries.every(isEntry) &&
+        (!('noVm' in obj) || typeof obj.noVm === 'boolean') &&
+        (!('noWireless' in obj) || typeof obj.noWireless === 'boolean') &&
+        (!('allWirelessOrVm' in obj) || typeof obj.allWirelessOrVm === 'boolean')
+    );
+}
+
+interface Column {
+    field: string;
+    header: string;
+    type: string;
+    visible: boolean;
+}
+
+function isColumn(obj: unknown): obj is Column {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'field' in obj &&
+        typeof obj.field === 'string' &&
+        'header' in obj &&
+        typeof obj.header === 'string' &&
+        'type' in obj &&
+        typeof obj.type === 'string' &&
+        'visible' in obj &&
+        typeof obj.visible === 'boolean'
+    );
+}
+
+interface Entry {
+    groupKey: string;
+    values: Value[];
+}
+
+function isEntry(obj: unknown): obj is Entry {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'groupKey' in obj &&
+        typeof obj.groupKey === 'string' &&
+        'values' in obj &&
+        Array.isArray(obj.values) &&
+        obj.values.every(isValue)
+    );
+}
+
+interface Value {
+    value: string | null;
+    tagText: string | null;
+}
+
+function isValue(obj: unknown): obj is Value {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'value' in obj &&
+        (obj.value === null || typeof obj.value === 'string') &&
+        'tagText' in obj &&
+        (obj.tagText === null || typeof obj.tagText === 'string')
+    );
+}
+
+export interface DeviceCategoryListResponse {
+    device_categories: string[];
+}
+
+export function isDeviceCategoryListResponse(obj: unknown): obj is DeviceCategoryListResponse {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'device_categories' in obj &&
+        Array.isArray(obj.device_categories) &&
+        obj.device_categories.every((category: unknown) => typeof category === 'string')
+    );
+}
+
+export interface InfoSet {
+    name: string;
+    description: string;
+}
+
+function isInfoSet(obj: unknown): obj is Value {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'name' in obj &&
+        typeof obj.name === 'string' &&
+        'description' in obj &&
+        typeof obj.description === 'string'
+    );
+}
+
+export interface InfoSetListResponse {
+    info_sets: InfoSet[];
+}
+
+export function isInfoSetListResponse(obj: unknown): obj is InfoSetListResponse {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'info_sets' in obj &&
+        Array.isArray(obj.info_sets) &&
+        obj.info_sets.every(isInfoSet)
+    );
+}
+
+//Device
 export class Device {
     ip_address: string;
     mac_address: string;
@@ -296,7 +447,7 @@ export enum DeviceState {
 }
 
 // DeviceLink
-export class DeviceLink {
+export interface DeviceLink {
     linkType: string;
     noWireless: boolean;
     allWirelessOrVm: boolean;
@@ -304,24 +455,6 @@ export class DeviceLink {
     linkMembers: DeviceLinkMember[];
     linkEdges: DeviceLinkEdge[];
     monitorState: MonitorState;
-
-    constructor(
-        linkType: string,
-        noWireless: boolean,
-        allWirelessOrVm: boolean,
-        noVm: boolean,
-        linkMembers: DeviceLinkMember[],
-        linkEdges: DeviceLinkEdge[],
-        monitorState: MonitorState
-    ) {
-        this.linkType = linkType;
-        this.noWireless = noWireless;
-        this.allWirelessOrVm = allWirelessOrVm;
-        this.noVm = noVm;
-        this.linkMembers = linkMembers;
-        this.linkEdges = linkEdges;
-        this.monitorState = monitorState;
-    }
 }
 
 export interface DeviceLinkMember {
@@ -344,9 +477,14 @@ export interface DeviceLinkMember {
     linkType: string;
 }
 
-export interface DeviceLinkEdge {
+export class DeviceLinkEdge {
     localConnection: DeviceConnection;
     remoteConnection: DeviceConnection;
+
+    constructor(localConnection: DeviceConnection, remoteConnection: DeviceConnection) {
+        this.localConnection = localConnection;
+        this.remoteConnection = remoteConnection;
+    }
 }
 
 export enum MonitorState {

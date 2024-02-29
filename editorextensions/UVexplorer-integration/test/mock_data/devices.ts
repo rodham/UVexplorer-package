@@ -1,5 +1,5 @@
-import { NetworkSummary } from 'model/uvexplorer-model';
-import { Device } from 'model/uvexplorer-devices-model';
+import { NetworkSummary } from 'model/uvx/network';
+import { Device } from 'model/uvx/device';
 
 export const mockDeviceList = [
     {

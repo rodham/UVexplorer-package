@@ -4,11 +4,12 @@ import {
     CustomBlockProxy,
     EditorClient,
     ItemProxy,
+    LineProxy,
     LineShape,
     PageProxy,
     Viewport
 } from 'lucid-extension-sdk';
-import { Device, DeviceNode, DeviceLink } from 'model/uvexplorer-devices-model';
+import { Device, DeviceNode, DeviceLink } from 'model/uvx/device';
 import { Data } from '@data/data';
 import { itemToDevice, removeQuotationMarks } from '@data/data-utils';
 import { NetworkDeviceBlock } from './network-device-block';
@@ -16,6 +17,7 @@ import { NetworkDeviceBlock } from './network-device-block';
 const LIBRARY = 'UVexplorer-shapes';
 const SHAPE = 'networkDevice';
 const DEVICE_REFERENCE_KEY = 'device_reference_key';
+const LINK_REFERENCE_KEY = 'link_reference_key';
 
 export function isNetworkDeviceBlock(item: ItemProxy): item is NetworkDeviceBlock {
     if (item instanceof CustomBlockProxy) {
@@ -107,8 +109,6 @@ function getDeviceType(deviceNode: DeviceNode) {
         });
     }
 
-    console.log(deviceNode);
-
     return findCategory(deviceTypes);
 }
 
@@ -125,10 +125,11 @@ export async function drawMap(
     }
 
     const data = Data.getInstance(client);
-    const collectionId = data.getDeviceCollectionForPage(page.id);
+    const deviceCollectionId = data.getDeviceCollectionForPage(page.id);
+    const linksCollectionId = data.getLinksCollectionForPage(page.id);
 
-    const guidToBlockMap = drawBlocks(viewport, page, deviceNodes, customBlockDef, collectionId);
-    drawLinks(deviceLinks, guidToBlockMap);
+    const guidToBlockMap = drawBlocks(viewport, page, deviceNodes, customBlockDef, deviceCollectionId);
+    drawLinks(deviceLinks, guidToBlockMap, linksCollectionId);
 }
 
 export function drawBlocks(
@@ -175,24 +176,31 @@ export function createBlock(
     return block;
 }
 
-export function drawLinks(deviceLinks: DeviceLink[], guidToBlockMap: Map<string, BlockProxy>) {
+export function drawLinks(deviceLinks: DeviceLink[], guidToBlockMap: Map<string, BlockProxy>, collectionId: string) {
     for (const link of deviceLinks) {
-        for (const linkMembers of link.linkMembers) {
-            const deviceBlock = guidToBlockMap.get(linkMembers.deviceGuid);
-            const connectedDeviceBlock = guidToBlockMap.get(linkMembers.connectedDeviceGuid);
+        for (const linkEdge of link.linkEdges) {
+            const deviceBlock = guidToBlockMap.get(linkEdge.localConnection.deviceGuid);
+            const connectedDeviceBlock = guidToBlockMap.get(linkEdge.remoteConnection.deviceGuid);
 
             if (deviceBlock && connectedDeviceBlock) {
+                let line: LineProxy;
                 if (deviceBlock.getBoundingBox().y > connectedDeviceBlock.getBoundingBox().y) {
-                    connectBlocks(connectedDeviceBlock, deviceBlock);
+                    line = connectBlocks(connectedDeviceBlock, deviceBlock);
                 } else {
-                    connectBlocks(deviceBlock, connectedDeviceBlock);
+                    line = connectBlocks(deviceBlock, connectedDeviceBlock);
                 }
+
+                line.setReferenceKey(LINK_REFERENCE_KEY, {
+                    collectionId: collectionId,
+                    primaryKey: `"${linkEdge.localConnection.deviceGuid}","${linkEdge.remoteConnection.deviceGuid}"`,
+                    readonly: true
+                });
             }
         }
     }
 }
 
-function connectBlocks(block1: BlockProxy, block2: BlockProxy) {
+function connectBlocks(block1: BlockProxy, block2: BlockProxy): LineProxy {
     const line = block1.getPage().addLine({
         endpoint1: {
             connection: block1,
@@ -208,6 +216,7 @@ function connectBlocks(block1: BlockProxy, block2: BlockProxy) {
         }
     });
     line.setShape(LineShape.Diagonal);
+    return line;
 }
 
 const deviceTypeNameMap: Map<string, string> = new Map<string, string>([

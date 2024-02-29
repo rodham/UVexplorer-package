@@ -1,19 +1,16 @@
 import { TextXHRResponse } from 'lucid-extension-sdk';
-import {
-    DeviceCategoryListResponse,
-    DeviceDetailsResponse,
-    InfoSetListResponse,
-    NetworkSummariesResponse,
-    NetworkSummary
-} from '../../model/uvexplorer-model';
+import { DashStyle, DeviceDisplaySetting, LayoutType, TopoMap } from 'model/uvx/topomap';
+import { NetworkSummariesResponse, NetworkSummary } from 'model/uvx/network';
 import {
     Device,
-    DeviceNode,
-    DeviceState,
+    DeviceCategoryListResponse,
+    DeviceDetailsResponse,
     DeviceListResponse,
-    DeviceNodeCategories
-} from '../../model/uvexplorer-devices-model';
-import { TopoMap } from '../../model/uvexplorer-topomap-model';
+    DeviceNode,
+    DeviceNodeCategories,
+    DeviceState,
+    InfoSetListResponse
+} from 'model/uvx/device';
 
 export const mockNetworkSummariesXHRResponse: TextXHRResponse = {
     url: 'https://my-uvexplorer-server.com/public/api/v1/network/list',
@@ -256,31 +253,19 @@ export const mockTopoMapXHRResponse: TextXHRResponse = {
     },
     responseFormat: 'utf8',
     responseText:
-        '{"layoutSettings":{"layoutType":0,"useStraightLinks":true,"radialSettings":{"minRadius":200,"maxRadius":3000,"maxAngle":360,"maximizeRoot":true},"hierarchicalSettings":null,"ringSettings":{"minRadius":200,"maxRadius":3000,"maxAngle":360,"maximizeRoot":true},"showLayer2Links":true,"showVirtualLinks":false,"showWirelessLinks":false,"showIpPhoneLinks":false,"showLinkLabels":false,"rootNodes":[]},"drawSettings":{"shortDeviceNames":false,"deviceTrimLeft":false,"deviceTrimRight":false,"deviceTrimLeftChar":".","deviceTrimRightChar":".","deviceTrimRightCount":1,"deviceTrimLeftCount":1,"shortIfNames":false,"hideVendorImage":false,"hidePlatformImage":false,"deviceDisplaySetting":0,"standardPen":{"color":{"red":0,"green":0,"blue":0},"width":1.0,"dashStyle":0},"lagPen":{"color":{"red":0,"green":0,"blue":0},"width":1.0,"dashStyle":0},"manualPen":{"color":{"red":0,"green":0,"blue":0},"width":1.0,"dashStyle":0},"associatedPen":{"color":{"red":0,"green":0,"blue":0},"width":1.0,"dashStyle":0},"multiPen":{"color":{"red":0,"green":0,"blue":0},"width":1.0,"dashStyle":0},"stpForwardingPen":{"color":{"red":0,"green":0,"blue":0},"width":1.0,"dashStyle":0},"stpBlockingPen":{"color":{"red":0,"green":0,"blue":0},"width":1.0,"dashStyle":0}},"deviceNodes":[{"id":-1,"groupId":-1,"deviceGuid":"2e8faf21-24f4-44b5-b697-58d911d0a178","nodeId":1,"displayName":"ROUTER 1","ipAddress":"10.1.0.1","macAddress":"FF:00:00:00:00:02","hostname":"router-1.acme.com","systemName":"ROUTER 1","netBiosName":"","categories":{"entries":[{"categoryName":"snmp","categoryType":0},{"categoryName":"net-device","categoryType":0},{"categoryName":"core-device","categoryType":0},{"categoryName":"router","categoryType":0}]},"vendor":"Cisco","status":6,"x":0.0,"y":-118.0,"width":48.0,"height":48.0,"centerX":24.0,"centerY":-94.0,"bottom":-70.0},{"id":-1,"groupId":-1,"deviceGuid":"964b82f9-d380-43cb-9541-2f37495b0740","nodeId":2,"displayName":"SWITCH 2","ipAddress":"10.1.0.2","macAddress":"FF:00:00:00:00:06","hostname":"switch-2.acme.com","systemName":"SWITCH 2","netBiosName":"","categories":{"entries":[{"categoryName":"snmp","categoryType":0},{"categoryName":"net-device","categoryType":0},{"categoryName":"core-device","categoryType":0},{"categoryName":"switch","categoryType":0}]},"vendor":"Cisco","status":6,"x":118.0,"y":-118.0,"width":48.0,"height":48.0,"centerX":142.0,"centerY":-94.0,"bottom":-70.0}],"deviceGroupNodes":[],"hubNodes":[],"imageNodes":[],"deviceLinks":[],"width":166.0,"height":48.0,"top":-118.0,"bottom":-70.0,"right":166.0,"left":0.0,"centerX":83.0,"centerY":-94.0}'
+        '{"layoutSettings":{"layoutType":0,"useStraightLinks":true,"showLayer2Links":true,"showVirtualLinks":false,"showWirelessLinks":false,"showIpPhoneLinks":false,"showLinkLabels":false,"rootNodes":[]},"drawSettings":{"shortDeviceNames":false,"deviceTrimLeft":false,"deviceTrimRight":false,"deviceTrimLeftChar":".","deviceTrimRightChar":".","deviceTrimRightCount":1,"deviceTrimLeftCount":1,"shortIfNames":false,"hideVendorImage":false,"hidePlatformImage":false,"deviceDisplaySetting":0,"standardPen":{"color":{"red":0,"green":0,"blue":0},"width":1.0,"dashStyle":0},"lagPen":{"color":{"red":0,"green":0,"blue":0},"width":1.0,"dashStyle":0},"manualPen":{"color":{"red":0,"green":0,"blue":0},"width":1.0,"dashStyle":0},"associatedPen":{"color":{"red":0,"green":0,"blue":0},"width":1.0,"dashStyle":0},"multiPen":{"color":{"red":0,"green":0,"blue":0},"width":1.0,"dashStyle":0},"stpForwardingPen":{"color":{"red":0,"green":0,"blue":0},"width":1.0,"dashStyle":0},"stpBlockingPen":{"color":{"red":0,"green":0,"blue":0},"width":1.0,"dashStyle":0}},"deviceNodes":[{"id":-1,"groupId":-1,"deviceGuid":"00000000-0000-0000-0000-0000000000000","nodeId":1,"displayName":"ROUTER 1","ipAddress":"10.1.0.1","macAddress":"FF:00:00:00:00:02","hostname":"router-1.acme.com","systemName":"ROUTER 1","netBiosName":"","categories":{"entries":[{"categoryName":"snmp","categoryType":0},{"categoryName":"net-device","categoryType":0},{"categoryName":"core-device","categoryType":0},{"categoryName":"router","categoryType":0}]},"vendor":"Cisco","status":6,"x":0.0,"y":-118.0,"width":48.0,"height":48.0,"centerX":24.0,"centerY":-94.0,"bottom":-70.0},{"id":-1,"groupId":-1,"deviceGuid":"11111111-1111-1111-1111-111111111111","nodeId":2,"displayName":"SWITCH 2","ipAddress":"10.1.0.2","macAddress":"FF:00:00:00:00:06","hostname":"switch-2.acme.com","systemName":"SWITCH 2","netBiosName":"","categories":{"entries":[{"categoryName":"snmp","categoryType":0},{"categoryName":"net-device","categoryType":0},{"categoryName":"core-device","categoryType":0},{"categoryName":"switch","categoryType":0}]},"vendor":"Cisco","status":6,"x":118.0,"y":-118.0,"width":48.0,"height":48.0,"centerX":142.0,"centerY":-94.0,"bottom":-70.0}],"deviceGroupNodes":[],"hubNodes":[],"imageNodes":[],"deviceLinks":[],"width":166.0,"height":48.0,"top":-118.0,"bottom":-70.0,"right":166.0,"left":0.0,"centerX":83.0,"centerY":-94.0}'
 };
 
 export const mockTopoMap: TopoMap = {
     layoutSettings: {
-        layoutType: 'Manual',
+        layoutType: LayoutType.Manual,
         useStraightLinks: true,
-        radialSettings: {
-            minRadius: 200,
-            maxRadius: 3000,
-            maxAngle: 360,
-            maximizeRoot: true
-        },
-        hierarchicalSettings: undefined,
-        ringSettings: {
-            minRadius: 200,
-            maxRadius: 3000,
-            maxAngle: 360,
-            maximizeRoot: true
-        },
         showLayer2Links: true,
         showVirtualLinks: false,
         showWirelessLinks: false,
         showIpPhoneLinks: false,
-        showLinkLabels: false
+        showLinkLabels: false,
+        rootNodes: []
     },
     drawSettings: {
         shortDeviceNames: false,
@@ -293,7 +278,7 @@ export const mockTopoMap: TopoMap = {
         shortIfNames: false,
         hideVendorImage: false,
         hidePlatformImage: false,
-        deviceDisplaySetting: 'Default',
+        deviceDisplaySetting: DeviceDisplaySetting.Default,
         standardPen: {
             color: {
                 red: 0,
@@ -301,7 +286,7 @@ export const mockTopoMap: TopoMap = {
                 blue: 0
             },
             width: 1,
-            dashStyle: 'Solid'
+            dashStyle: DashStyle.Solid
         },
         lagPen: {
             color: {
@@ -310,7 +295,7 @@ export const mockTopoMap: TopoMap = {
                 blue: 0
             },
             width: 1,
-            dashStyle: 'Solid'
+            dashStyle: DashStyle.Solid
         },
         manualPen: {
             color: {
@@ -319,7 +304,7 @@ export const mockTopoMap: TopoMap = {
                 blue: 0
             },
             width: 1,
-            dashStyle: 'Solid'
+            dashStyle: DashStyle.Solid
         },
         associatedPen: {
             color: {
@@ -328,7 +313,7 @@ export const mockTopoMap: TopoMap = {
                 blue: 0
             },
             width: 1,
-            dashStyle: 'Solid'
+            dashStyle: DashStyle.Solid
         },
         multiPen: {
             color: {
@@ -337,7 +322,7 @@ export const mockTopoMap: TopoMap = {
                 blue: 0
             },
             width: 1,
-            dashStyle: 'Solid'
+            dashStyle: DashStyle.Solid
         },
         stpForwardingPen: {
             color: {
@@ -346,7 +331,7 @@ export const mockTopoMap: TopoMap = {
                 blue: 0
             },
             width: 1,
-            dashStyle: 'Solid'
+            dashStyle: DashStyle.Solid
         },
         stpBlockingPen: {
             color: {
@@ -355,7 +340,7 @@ export const mockTopoMap: TopoMap = {
                 blue: 0
             },
             width: 1,
-            dashStyle: 'Solid'
+            dashStyle: DashStyle.Solid
         }
     },
     deviceNodes: [
