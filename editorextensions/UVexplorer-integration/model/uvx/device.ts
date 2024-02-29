@@ -235,18 +235,9 @@ function isDeviceDetailsInfoSet(obj: unknown): obj is DeviceDetailsInfoSet {
         'entries' in obj &&
         Array.isArray(obj.entries) &&
         obj.entries.every(isEntry) &&
-        (
-            !('noVm' in obj) ||
-            (typeof obj.noVm === 'boolean')
-        ) &&
-        (
-            !('noWireless' in obj) ||
-            (typeof obj.noWireless === 'boolean')
-        ) &&
-        (
-            !('allWirelessOrVm' in obj) ||
-            (typeof obj.allWirelessOrVm === 'boolean')
-        )
+        (!('noVm' in obj) || typeof obj.noVm === 'boolean') &&
+        (!('noWireless' in obj) || typeof obj.noWireless === 'boolean') &&
+        (!('allWirelessOrVm' in obj) || typeof obj.allWirelessOrVm === 'boolean')
     );
 }
 
