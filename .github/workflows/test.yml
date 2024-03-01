@@ -1,4 +1,4 @@
-name: Lint
+name: Test
 
 defaults:
   run:
@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  lint:
+  test:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -25,12 +25,12 @@ jobs:
       - name: Install in Angular app
         working-directory: editorextensions/UVexplorer-integration/control-panel
         run: npm ci
-      - name: ESLint
-        run: npm run lint
-      - name: Prettier
-        run: npm run prettier
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: Apply prettier formatting changes
-          branch: ${{ github.head_ref }}
+      - name: Install Angular CLI
+        run: npm i -g @angular/cli
+      - name: Jest Tests
+        run: npm run test
+      - name: Angular Tests
+        working-directory: editorextensions/UVexplorer-integration/control-panel
+        run: |
+          npm run test:ci
+          npm run build:ci
