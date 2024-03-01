@@ -33,4 +33,3 @@ jobs:
         working-directory: editorextensions/UVexplorer-integration/control-panel
         run: |
           npm run test:ci
-          npm run build:ci
