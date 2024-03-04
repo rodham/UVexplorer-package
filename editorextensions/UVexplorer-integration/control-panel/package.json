@@ -6,8 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "test:ci": "ng test --watch=false --browsers=ChromeHeadlessCustom",
+    "test": "ng test --no-watch --code-coverage",
+    "test:ci": "ng test --watch=false --code-coverage --browsers=ChromeHeadlessCustom",
     "build:ci": "ng build --prod"
   },
   "private": true,
