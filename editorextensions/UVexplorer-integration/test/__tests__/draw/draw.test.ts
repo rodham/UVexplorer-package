@@ -3,9 +3,10 @@ import { DeviceNode, DeviceLink } from 'model/uvx/device';
 import {Data} from '@data/data';
 import {Block} from '@draw/block';
 import {Line} from '@draw/line';
-import { LIBRARY, SHAPE, Draw } from '@draw/draw';
+import { Draw } from '@draw/draw';
 import {BlockProxy} from "lucid-extension-sdk";
 import {mockCustomBlockDefinition} from "../helpers";
+import {NetworkDeviceBlock} from "@blocks/network-device-block";
 
 jest.mock('lucid-extension-sdk');
 jest.mock('@data/data');
@@ -37,7 +38,7 @@ describe('Map', () => {
             const getInstanceSpy = jest.spyOn(Data, 'getInstance');
             await Draw.drawTopoMap(mockClient, mockViewport, mockPage, mockDeviceNodes, mockDeviceLinks);
 
-            expect(getCustomShapeDefSpy).toHaveBeenCalledWith(LIBRARY, SHAPE);
+            expect(getCustomShapeDefSpy).toHaveBeenCalledWith(NetworkDeviceBlock.library, NetworkDeviceBlock.shape);
             expect(getInstanceSpy).not.toHaveBeenCalled()
         });
 
@@ -51,10 +52,10 @@ describe('Map', () => {
 
             await Draw.drawTopoMap(mockClient, mockViewport, mockPage, mockDeviceNodes, mockDeviceLinks);
 
-            expect(getCustomShapeDefSpy).toHaveBeenCalledWith(LIBRARY, SHAPE);
+            expect(getCustomShapeDefSpy).toHaveBeenCalledWith(NetworkDeviceBlock.library, NetworkDeviceBlock.shape);
             expect(getInstanceSpy).toHaveBeenCalledWith(mockClient);
             expect(drawBlocksSpy).toHaveBeenCalledWith(mockViewport, mockPage, mockDeviceNodes, mockCustomBlockDefinition, 'my_network_device');
-            expect(drawLinesSpy).toHaveBeenCalledWith(mockDeviceLinks, mockGuidToBlockMap, 'my_network_link');
+            expect(drawLinesSpy).toHaveBeenCalledWith(mockPage, mockDeviceLinks, mockGuidToBlockMap, 'my_network_link');
         });
     });
 });

@@ -23,7 +23,7 @@ export class Draw {
         const linksCollectionId = data.getLinksCollectionForPage(page.id);
 
         const guidToBlockMap = Block.drawBlocks(viewport, page, deviceNodes, customBlockDef, deviceCollectionId);
-        Line.drawLines(deviceLinks, guidToBlockMap, linksCollectionId);
+        Line.drawLines(page, deviceLinks, guidToBlockMap, linksCollectionId);
     }
 
 }

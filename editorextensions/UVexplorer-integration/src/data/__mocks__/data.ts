@@ -59,7 +59,7 @@ export class Data {
     }
 
     getNetworkForPage(_pageId: string): string {
-        return 'my_network';
+        return 'My Network';
     }
 
     getDeviceCollectionForPage(_pageId: string): string {

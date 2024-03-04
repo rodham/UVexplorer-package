@@ -1,15 +1,18 @@
-import { TextXHRResponse } from 'lucid-extension-sdk';
-import { DashStyle, DeviceDisplaySetting, LayoutType, TopoMap } from 'model/uvx/topo-map';
-import { NetworkSummariesResponse, NetworkSummary } from 'model/uvx/network';
+import {TextXHRResponse} from 'lucid-extension-sdk';
+import {DashStyle, DeviceDisplaySetting, LayoutType, TopoMap} from 'model/uvx/topo-map';
+import {NetworkSummariesResponse, NetworkSummary} from 'model/uvx/network';
 import {
+    ConnectionType,
     Device,
     DeviceCategoryListResponse,
     DeviceDetailsResponse,
+    DeviceLink,
     DeviceListResponse,
     DeviceNode,
     DeviceNodeCategories,
     DeviceState,
-    InfoSetListResponse
+    InfoSetListResponse,
+    MonitorState
 } from 'model/uvx/device';
 
 export const mockNetworkSummariesXHRResponse: TextXHRResponse = {
@@ -445,3 +448,71 @@ export const mockTopoMap: TopoMap = {
     centerX: 83,
     centerY: -94
 };
+
+export const mockDeviceLink: DeviceLink = {
+    allWirelessOrVm: false,
+    linkEdges: [
+        {
+            localConnection: {
+                deviceGuid: '00000000-0000-0000-0000-000000000000',
+                nodeId: 0,
+                start: {x: 0, y: 0},
+                end: {x: 0, y: 0},
+                mid: {x: 0, y: 0},
+                connectionType: ConnectionType.Standard,
+                interfaceLabels: [],
+                deviceIpAddress: '',
+                deviceMacAddress: '',
+                deviceIfIndex: 0,
+                monitorState: MonitorState.Up
+            },
+            remoteConnection: {
+                deviceGuid: '11111111-1111-1111-1111-111111111111',
+                nodeId: 0,
+                start: {x: 0, y: 0},
+                end: {x: 0, y: 0},
+                mid: {x: 0, y: 0},
+                connectionType: ConnectionType.Standard,
+                interfaceLabels: [],
+                deviceIpAddress: '',
+                deviceMacAddress: '',
+                deviceIfIndex: 0,
+                monitorState: MonitorState.Up
+            }
+        },
+        {
+            localConnection: {
+                deviceGuid: '00000000-0000-0000-0000-000000000000',
+                nodeId: 0,
+                start: {x: 0, y: 0},
+                end: {x: 0, y: 0},
+                mid: {x: 0, y: 0},
+                connectionType: ConnectionType.Standard,
+                interfaceLabels: [],
+                deviceIpAddress: '',
+                deviceMacAddress: '',
+                deviceIfIndex: 0,
+                monitorState: MonitorState.Up
+            },
+            remoteConnection: {
+                deviceGuid: '22222222-2222-2222-2222-222222222222',
+                nodeId: 0,
+                start: {x: 0, y: 0},
+                end: {x: 0, y: 0},
+                mid: {x: 0, y: 0},
+                connectionType: ConnectionType.Standard,
+                interfaceLabels: [],
+                deviceIpAddress: '',
+                deviceMacAddress: '',
+                deviceIfIndex: 0,
+                monitorState: MonitorState.Up
+            }
+        }
+    ],
+    linkMembers: [],
+    linkType: '',
+    monitorState: MonitorState.Up,
+    noVm: false,
+    noWireless: false
+
+}

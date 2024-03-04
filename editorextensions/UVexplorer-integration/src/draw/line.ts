@@ -1,9 +1,9 @@
-import {BlockProxy, LineProxy, LineShape} from "lucid-extension-sdk";
-import {DeviceLink} from "model/uvx/device";
+import {BlockProxy, LineProxy, LineShape, PageProxy} from "lucid-extension-sdk";
+import {DeviceLink, DeviceLinkEdge} from "model/uvx/device";
 import {LINK_REFERENCE_KEY} from "@data/data";
 
 export class Line {
-    static drawLines(deviceLinks: DeviceLink[], guidToBlockMap: Map<string, BlockProxy>, collectionId: string) {
+    static drawLines(page: PageProxy, deviceLinks: DeviceLink[], guidToBlockMap: Map<string, BlockProxy>, collectionId: string) {
         for (const link of deviceLinks) {
             for (const linkEdge of link.linkEdges) {
                 const deviceBlock = guidToBlockMap.get(linkEdge.localConnection.deviceGuid);
@@ -12,23 +12,19 @@ export class Line {
                 if (deviceBlock && connectedDeviceBlock) {
                     let line: LineProxy;
                     if (deviceBlock.getBoundingBox().y > connectedDeviceBlock.getBoundingBox().y) {
-                        line = this.drawLine(connectedDeviceBlock, deviceBlock);
+                        line = this.drawLine(page, connectedDeviceBlock, deviceBlock);
                     } else {
-                        line = this.drawLine(deviceBlock, connectedDeviceBlock);
+                        line = this.drawLine(page, deviceBlock, connectedDeviceBlock);
                     }
 
-                    line.setReferenceKey(LINK_REFERENCE_KEY, {
-                        collectionId: collectionId,
-                        primaryKey: `"${linkEdge.localConnection.deviceGuid}","${linkEdge.remoteConnection.deviceGuid}"`,
-                        readonly: true
-                    });
+                    this.setReferenceKey(line, linkEdge, collectionId);
                 }
             }
         }
     }
 
-    static drawLine(block1: BlockProxy, block2: BlockProxy): LineProxy {
-        const line = block1.getPage().addLine({
+    static drawLine(page: PageProxy, block1: BlockProxy, block2: BlockProxy): LineProxy {
+        const line = page.addLine({
             endpoint1: {
                 connection: block1,
                 linkX: 0.5,
@@ -44,5 +40,13 @@ export class Line {
         });
         line.setShape(LineShape.Diagonal);
         return line;
+    }
+
+    static setReferenceKey(line: LineProxy, linkEdge: DeviceLinkEdge, collectionId: string) {
+        line.setReferenceKey(LINK_REFERENCE_KEY, {
+            collectionId: collectionId,
+            primaryKey: `"${linkEdge.localConnection.deviceGuid}","${linkEdge.remoteConnection.deviceGuid}"`,
+            readonly: true
+        });
     }
 }
