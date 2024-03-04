@@ -1,3 +1,5 @@
+import { isPointLike } from 'lucid-extension-sdk';
+
 // DeviceFilter
 interface Range {
     min_address: string;
@@ -487,6 +489,19 @@ export class DeviceLinkEdge {
     }
 }
 
+export function isDeviceLinkEdge(obj: unknown): obj is DeviceLinkEdge {
+    return (
+        obj !== null &&
+        typeof obj === 'object' &&
+        'localConnection' in obj &&
+        typeof obj.localConnection === 'object' &&
+        isDeviceConnection(obj.localConnection) &&
+        'remoteConnection' in obj &&
+        typeof obj.remoteConnection === 'object' &&
+        isDeviceConnection(obj.remoteConnection)
+    );
+}
+
 export enum MonitorState {
     Unknown = 0,
     Down,
@@ -509,6 +524,41 @@ export interface DeviceConnection {
     deviceMacAddress: string;
     deviceIfIndex: number;
     monitorState: MonitorState;
+}
+
+export function isDeviceConnection(obj: unknown): obj is DeviceConnection {
+    return (
+        obj !== null &&
+        typeof obj === 'object' &&
+        'deviceGuid' in obj &&
+        typeof obj.deviceGuid === 'string' &&
+        'nodeId' in obj &&
+        typeof obj.nodeId === 'string' &&
+        'start' in obj &&
+        typeof obj.start === 'object' &&
+        isPointLike(obj.start) &&
+        'end' in obj &&
+        typeof obj.end === 'object' &&
+        isPointLike(obj.end) &&
+        'mid' in obj &&
+        typeof obj.mid === 'object' &&
+        isPointLike(obj.mid) &&
+        'connectionType' in obj &&
+        obj.connectionType !== null &&
+        Object.values(ConnectionType).includes(obj.connectionType as ConnectionType) &&
+        'interfaceLabels' in obj &&
+        Array.isArray(obj.interfaceLabels) &&
+        obj.interfaceLabels.every((val) => typeof val === 'string') &&
+        'deviceIpAddress' in obj &&
+        typeof obj.deviceIpAddress === 'string' &&
+        'deviceMacAddress' in obj &&
+        typeof obj.deviceMacAddress === 'string' &&
+        'deviceIfIndex' in obj &&
+        typeof obj.deviceIfIndex === 'number' &&
+        'monitorState' in obj &&
+        obj.monitorState !== null &&
+        Object.values(MonitorState).includes(obj.monitorState as MonitorState)
+    );
 }
 
 export enum ConnectionType {

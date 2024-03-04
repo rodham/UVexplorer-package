@@ -1,0 +1,16 @@
+<div *ngIf="deviceLink">
+  <h1 class="border-b mb-4 pb-2 font-bold m-8">Link Info</h1>
+
+  <div>
+    <h2>Local Connection</h2>
+    <div *ngFor="let item of deviceLink.localConnection | keyvalue">
+      <div>{{ item.key }}: {{ item.value }}</div>
+    </div>
+  </div>
+  <div>
+    <h2>Remote Connection</h2>
+    <div *ngFor="let item of deviceLink.remoteConnection | keyvalue">
+      <div>{{ item.key }}: {{ item.value }}</div>
+    </div>
+  </div>
+</div>
