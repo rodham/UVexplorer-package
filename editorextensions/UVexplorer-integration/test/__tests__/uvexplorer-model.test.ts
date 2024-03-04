@@ -7,7 +7,7 @@ import {
     isDeviceListResponse,
     isInfoSetListResponse
 } from 'model/uvx/device';
-import { isTopoMap } from 'model/uvx/topomap';
+import { isTopoMap } from 'model/uvx/topo-map';
 
 describe('UVexplorer model tests', () => {
     describe('isNetworkSummariesResponse tests', () => {

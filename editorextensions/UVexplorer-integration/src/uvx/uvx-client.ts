@@ -11,7 +11,7 @@ import {
     isDeviceListResponse,
     isInfoSetListResponse
 } from 'model/uvx/device';
-import { TopoMapRequest, isTopoMap, TopoMap } from 'model/uvx/topomap';
+import { TopoMapRequest, isTopoMap, TopoMap } from 'model/uvx/topo-map';
 
 export class UVExplorerClient {
     private readonly basePath: string = '/public/api/v1';
@@ -71,7 +71,7 @@ export class UVExplorerClient {
     }
 
     public async listDeviceCategories(serverUrl: string, sessionGuid: string): Promise<string[]> {
-        const url = serverUrl + this.basePath + '/device/category/list';
+        const url = serverUrl + this.basePath + '/device/device-type.ts/list';
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
         const deviceCategoryResponse: unknown = this.parseResponseJSON(response.responseText);
         if (isDeviceCategoryListResponse(deviceCategoryResponse)) {

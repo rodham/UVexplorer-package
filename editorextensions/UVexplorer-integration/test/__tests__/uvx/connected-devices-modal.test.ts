@@ -4,7 +4,6 @@ import * as devicesModel from 'model/uvx/device';
 import * as lucid from 'lucid-extension-sdk';
 import { UVExplorerClient } from '@uvx/uvx-client';
 import { mockDeviceGuids, mockDeviceGuids2, mockDeviceList, mockDeviceList2 } from 'mock_data/devices';
-import { Data } from '@data/data';
 
 jest.mock('lucid-extension-sdk');
 jest.mock('@data/data');
@@ -14,8 +13,6 @@ jest.mock('@uvx/uvx-client');
 
 describe('Connected Devices Modal Tests', () => {
     const mockEditorClient = new lucid.EditorClient();
-    const mockData = new Data(mockEditorClient);
-    jest.spyOn(Data, 'getInstance').mockReturnValue(mockData);
     const mockViewport = {
         getCurrentPage: () => {
             return { id: '1' };
@@ -39,7 +36,6 @@ describe('Connected Devices Modal Tests', () => {
     });
 
     describe('Load connected devices tests', () => {
-        const getNetworkSpy = jest.spyOn(mockData, 'getNetworkForPage').mockReturnValue('myNetwork');
         const networkRequestSpy = jest.spyOn(model, 'NetworkRequest').mockReturnValue(mockNetworkRequest);
         const connectedDevicesRequestSpy = jest
             .spyOn(devicesModel, 'ConnectedDevicesRequest')
@@ -50,8 +46,7 @@ describe('Connected Devices Modal Tests', () => {
         it('Should make uvx request and send message to child', async () => {
             await modal.loadConnectedDevices();
 
-            expect(getNetworkSpy).toHaveBeenCalledWith('1');
-            expect(networkRequestSpy).toHaveBeenCalledWith('myNetwork');
+            expect(networkRequestSpy).toHaveBeenCalledWith('My Network');
             expect(connectedDevicesRequestSpy).toHaveBeenCalledWith(mockDeviceGuids);
             expect(sendMessageMock).toHaveBeenCalledWith({
                 action: 'listDevices',

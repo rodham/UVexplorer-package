@@ -9,6 +9,8 @@ import {
     SerializedFieldType
 } from 'lucid-extension-sdk';
 import { createDataProxy, deviceToRecord, linkEdgeToRecord, toSnakeCase } from '@data/data-utils';
+export const DEVICE_REFERENCE_KEY = 'device_reference_key';
+export const LINK_REFERENCE_KEY = 'link_reference_key';
 
 export const DEVICE_SCHEMA: SchemaDefinition = {
     fields: [
