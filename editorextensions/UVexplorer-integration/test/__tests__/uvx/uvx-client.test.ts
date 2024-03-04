@@ -2,7 +2,7 @@ import { UVExplorerClient } from '@uvx/uvx-client';
 import * as lucid from 'lucid-extension-sdk';
 import * as model from 'model/uvx/network';
 import * as devicesModel from 'model/uvx/device';
-import * as topoMapModel from 'model/uvx/topomap';
+import * as topoMapModel from 'model/uvx/topo-map';
 import * as helpers from '../helpers';
 import { TextXHRResponse } from 'lucid-extension-sdk';
 jest.mock('lucid-extension-sdk');

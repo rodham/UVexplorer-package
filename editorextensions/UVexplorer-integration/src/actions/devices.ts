@@ -1,17 +1,17 @@
 import { ConnectedDevicesModal } from '@uvx/connected-devices-modal';
 import { EditorClient, ItemProxy, Viewport } from 'lucid-extension-sdk';
-import { getDeviceFromBlock, isNetworkDeviceBlock } from '@blocks/block-utils';
 import { DeviceDetailModal } from 'src/uvx/device-detail-modal';
+import { BlockUtils } from "@blocks/block-utils";
 
 export function uvDeviceSelected(viewport: Viewport): boolean {
     const selection = viewport.getSelectedItems();
-    const isCorrectSelection = selection.length > 0 && selection.every((item) => isNetworkDeviceBlock(item));
+    const isCorrectSelection = selection.length > 0 && selection.every((item) => BlockUtils.isNetworkDeviceBlock(item));
     return isCorrectSelection;
 }
 
 export function singleDeviceSelected(viewport: Viewport): boolean {
     const selection = viewport.getSelectedItems();
-    const isCorrectSelection = selection.length === 1 && selection.every((item) => isNetworkDeviceBlock(item));
+    const isCorrectSelection = selection.length === 1 && selection.every((item) => BlockUtils.isNetworkDeviceBlock(item));
     return isCorrectSelection;
 }
 
@@ -22,7 +22,7 @@ export async function showConnectedDevices(viewport: Viewport, client: EditorCli
     const visConnDeviceGuids: string[] = [];
 
     for (const item of selection) {
-        if (isNetworkDeviceBlock(item)) {
+        if (BlockUtils.isNetworkDeviceBlock(item)) {
             const itemData = item.shapeData.get('Guid');
             if (itemData && typeof itemData === 'string' && itemData !== '') deviceGuids.push(itemData);
             else {
@@ -36,10 +36,10 @@ export async function showConnectedDevices(viewport: Viewport, client: EditorCli
                 if (
                     !endpoint1 ||
                     !(endpoint1 instanceof ItemProxy) ||
-                    !isNetworkDeviceBlock(endpoint1) ||
+                    !BlockUtils.isNetworkDeviceBlock(endpoint1) ||
                     !endpoint2 ||
                     !(endpoint2 instanceof ItemProxy) ||
-                    !isNetworkDeviceBlock(endpoint2)
+                    !BlockUtils.isNetworkDeviceBlock(endpoint2)
                 ) {
                     continue;
                 }
@@ -75,11 +75,11 @@ export async function viewDeviceDetails(viewport: Viewport, client: EditorClient
         return;
     }
     const selectedItem = selection[0];
-    if (!isNetworkDeviceBlock(selectedItem)) {
+    if (!BlockUtils.isNetworkDeviceBlock(selectedItem)) {
         console.log('Can only view details of device shape');
         return;
     }
-    const device = getDeviceFromBlock(selectedItem);
+    const device = BlockUtils.getDeviceFromBlock(selectedItem);
 
     if (!device) {
         console.error('Unable to get device from selected block');

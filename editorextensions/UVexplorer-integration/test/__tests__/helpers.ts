@@ -1,5 +1,5 @@
 import { TextXHRResponse } from 'lucid-extension-sdk';
-import { DashStyle, DeviceDisplaySetting, LayoutType, TopoMap } from 'model/uvx/topomap';
+import { DashStyle, DeviceDisplaySetting, LayoutType, TopoMap } from 'model/uvx/topo-map';
 import { NetworkSummariesResponse, NetworkSummary } from 'model/uvx/network';
 import {
     Device,
@@ -121,6 +121,11 @@ const mockDeviceNodeCategories: DeviceNodeCategories = {
         }
     ]
 };
+
+export const mockCustomBlockDefinition = {
+    className: 'MyCustomBlock',
+    boundingBox: {x: 0, y: 0, h: 0, w: 0}
+}
 
 export const mockDeviceNode: DeviceNode = {
     id: 0,

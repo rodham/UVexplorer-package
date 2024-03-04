@@ -1,10 +1,11 @@
 import { EditorClient, Modal, PageProxy, Viewport } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvx-client';
 import { NetworkRequest } from 'model/uvx/network';
-import { drawMap, getGuidFromBlock, isNetworkDeviceBlock } from '@blocks/block-utils';
-import { createTopoMapRequest, TopoMap } from 'model/uvx/topomap';
+import { createTopoMapRequest, TopoMap } from 'model/uvx/topo-map';
 import { DeviceLink } from 'model/uvx/device';
 import { Data } from '@data/data';
+import { BlockUtils } from "@blocks/block-utils";
+import { Draw } from '@draw/draw';
 
 export abstract class UVXModal extends Modal {
     protected viewport: Viewport;
@@ -96,7 +97,7 @@ export abstract class UVXModal extends Modal {
     }
 
     /**
-     * Draw Map
+     * TopoMap TopoMap
      * @param devices New device guids to be drawn on the map.
      * @param removeDevices Device guids to be removed from the map.
      */
@@ -111,7 +112,7 @@ export abstract class UVXModal extends Modal {
         const topoMap = await this.loadTopoMap(deviceGuids);
         if (topoMap) {
             this.saveLinks(this.data.getNetworkForPage(page.id), topoMap.deviceLinks);
-            await drawMap(this.client, this.viewport, page, topoMap.deviceNodes, topoMap.deviceLinks);
+            await Draw.drawTopoMap(this.client, this.viewport, page, topoMap.deviceNodes, topoMap.deviceLinks);
         } else {
             console.error('Could not load topo map data.');
         }
@@ -145,8 +146,8 @@ export abstract class UVXModal extends Modal {
 
         if (pageItems) {
             for (const [, item] of pageItems) {
-                if (isNetworkDeviceBlock(item)) {
-                    const guid = getGuidFromBlock(item);
+                if (BlockUtils.isNetworkDeviceBlock(item)) {
+                    const guid = BlockUtils.getGuidFromBlock(item);
                     if (!guid) continue;
                     item.delete();
                     if (!devices.includes(guid) && !(removeDevices && removeDevices.includes(guid))) {
