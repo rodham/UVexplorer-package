@@ -4,7 +4,7 @@ import { NetworkRequest } from 'model/uvx/network';
 import { createTopoMapRequest, TopoMap } from 'model/uvx/topo-map';
 import { DeviceLink } from 'model/uvx/device';
 import { Data } from '@data/data';
-import { BlockUtils } from "@blocks/block-utils";
+import { BlockUtils } from '@blocks/block-utils';
 import { DrawTopoMap } from '@draw/draw-topo-map';
 
 export abstract class UVXModal extends Modal {

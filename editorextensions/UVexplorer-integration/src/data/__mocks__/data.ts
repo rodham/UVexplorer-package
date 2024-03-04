@@ -1,10 +1,5 @@
 import { Device, DeviceLink } from 'model/uvx/device';
-import {
-    CollectionProxy,
-    DataProxy,
-    DataSourceProxy,
-    EditorClient
-} from 'lucid-extension-sdk';
+import { CollectionProxy, DataProxy, DataSourceProxy, EditorClient } from 'lucid-extension-sdk';
 import { createDataProxy } from '@data/data-utils';
 
 export class Data {
@@ -35,15 +30,15 @@ export class Data {
     }
 
     addDevicesToCollection(_collection: CollectionProxy, _devices: Device[]): void {
-        return
+        return;
     }
 
     clearCollection(_collection: CollectionProxy): void {
-        return
+        return;
     }
 
     addLinksToCollection(_collection: CollectionProxy, _links: DeviceLink[]): void {
-        return
+        return;
     }
 
     createOrRetrievePageMapSource(): DataSourceProxy {
@@ -55,7 +50,7 @@ export class Data {
     }
 
     updatePageMap(_pageId: string, _networkGuid: string): void {
-        return
+        return;
     }
 
     getNetworkForPage(_pageId: string): string {

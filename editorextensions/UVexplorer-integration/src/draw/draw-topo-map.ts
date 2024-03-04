@@ -3,7 +3,7 @@ import { DeviceNode, DeviceLink } from 'model/uvx/device';
 import { Data } from '@data/data';
 import { DrawBlocks } from '@draw/draw-blocks';
 import { DrawLines } from '@draw/draw-lines';
-import {NetworkDeviceBlock} from "@blocks/network-device-block";
+import { NetworkDeviceBlock } from '@blocks/network-device-block';
 
 export class DrawTopoMap {
     static async drawTopoMap(
@@ -13,7 +13,10 @@ export class DrawTopoMap {
         deviceNodes: DeviceNode[],
         deviceLinks: DeviceLink[]
     ) {
-        const customBlockDef = await client.getCustomShapeDefinition(NetworkDeviceBlock.library, NetworkDeviceBlock.shape);
+        const customBlockDef = await client.getCustomShapeDefinition(
+            NetworkDeviceBlock.library,
+            NetworkDeviceBlock.shape
+        );
         if (!customBlockDef) {
             return;
         }
@@ -25,7 +28,4 @@ export class DrawTopoMap {
         const guidToBlockMap = DrawBlocks.drawBlocks(viewport, page, deviceNodes, customBlockDef, deviceCollectionId);
         DrawLines.drawLines(page, deviceLinks, guidToBlockMap, linksCollectionId);
     }
-
 }
-
-

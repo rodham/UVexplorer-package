@@ -1,6 +1,6 @@
-import {TextXHRResponse} from 'lucid-extension-sdk';
-import {DashStyle, DeviceDisplaySetting, LayoutType, TopoMap} from 'model/uvx/topo-map';
-import {NetworkSummariesResponse, NetworkSummary} from 'model/uvx/network';
+import { TextXHRResponse } from 'lucid-extension-sdk';
+import { DashStyle, DeviceDisplaySetting, LayoutType, TopoMap } from 'model/uvx/topo-map';
+import { NetworkSummariesResponse, NetworkSummary } from 'model/uvx/network';
 import {
     ConnectionType,
     Device,
@@ -127,8 +127,8 @@ const mockDeviceNodeCategories: DeviceNodeCategories = {
 
 export const mockCustomBlockDefinition = {
     className: 'MyCustomBlock',
-    boundingBox: {x: 0, y: 0, h: 0, w: 0}
-}
+    boundingBox: { x: 0, y: 0, h: 0, w: 0 }
+};
 
 export const mockDeviceNode: DeviceNode = {
     id: 0,
@@ -456,9 +456,9 @@ export const mockDeviceLink: DeviceLink = {
             localConnection: {
                 deviceGuid: '00000000-0000-0000-0000-000000000000',
                 nodeId: 0,
-                start: {x: 0, y: 0},
-                end: {x: 0, y: 0},
-                mid: {x: 0, y: 0},
+                start: { x: 0, y: 0 },
+                end: { x: 0, y: 0 },
+                mid: { x: 0, y: 0 },
                 connectionType: ConnectionType.Standard,
                 interfaceLabels: [],
                 deviceIpAddress: '',
@@ -469,9 +469,9 @@ export const mockDeviceLink: DeviceLink = {
             remoteConnection: {
                 deviceGuid: '11111111-1111-1111-1111-111111111111',
                 nodeId: 0,
-                start: {x: 0, y: 0},
-                end: {x: 0, y: 0},
-                mid: {x: 0, y: 0},
+                start: { x: 0, y: 0 },
+                end: { x: 0, y: 0 },
+                mid: { x: 0, y: 0 },
                 connectionType: ConnectionType.Standard,
                 interfaceLabels: [],
                 deviceIpAddress: '',
@@ -484,9 +484,9 @@ export const mockDeviceLink: DeviceLink = {
             localConnection: {
                 deviceGuid: '00000000-0000-0000-0000-000000000000',
                 nodeId: 0,
-                start: {x: 0, y: 0},
-                end: {x: 0, y: 0},
-                mid: {x: 0, y: 0},
+                start: { x: 0, y: 0 },
+                end: { x: 0, y: 0 },
+                mid: { x: 0, y: 0 },
                 connectionType: ConnectionType.Standard,
                 interfaceLabels: [],
                 deviceIpAddress: '',
@@ -497,9 +497,9 @@ export const mockDeviceLink: DeviceLink = {
             remoteConnection: {
                 deviceGuid: '22222222-2222-2222-2222-222222222222',
                 nodeId: 0,
-                start: {x: 0, y: 0},
-                end: {x: 0, y: 0},
-                mid: {x: 0, y: 0},
+                start: { x: 0, y: 0 },
+                end: { x: 0, y: 0 },
+                mid: { x: 0, y: 0 },
                 connectionType: ConnectionType.Standard,
                 interfaceLabels: [],
                 deviceIpAddress: '',
@@ -514,5 +514,4 @@ export const mockDeviceLink: DeviceLink = {
     monitorState: MonitorState.Up,
     noVm: false,
     noWireless: false
-
-}
+};

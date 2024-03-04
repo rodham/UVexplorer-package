@@ -1,4 +1,4 @@
-import {DeviceNode} from "./device";
+import { DeviceNode } from './device';
 
 export const VENDOR_NAME_MAP: Map<string, string> = new Map<string, string>([
     ['Arista Networks', 'arista'],
@@ -38,7 +38,6 @@ export const VENDOR_NAME_MAP: Map<string, string> = new Map<string, string>([
     ['', 'unknown']
 ]);
 
-
 export function getVendor(deviceNode: DeviceNode) {
     let vendor = '';
     if (deviceNode.vendor !== undefined) {
@@ -52,4 +51,3 @@ export function getVendor(deviceNode: DeviceNode) {
         return 'unknown';
     }
 }
-

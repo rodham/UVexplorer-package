@@ -1,8 +1,8 @@
 import { BlockDefinition, BlockProxy, PageProxy, Viewport } from 'lucid-extension-sdk';
 import { DeviceNode } from 'model/uvx/device';
 import { DEVICE_REFERENCE_KEY } from '@data/data';
-import {getVendor} from "model/uvx/vendor";
-import {getDeviceType} from "model/uvx/device-type";
+import { getVendor } from 'model/uvx/vendor';
+import { getDeviceType } from 'model/uvx/device-type';
 
 export class DrawBlocks {
     static drawBlocks(
@@ -56,5 +56,3 @@ export class DrawBlocks {
         });
     }
 }
-
-

@@ -1,4 +1,4 @@
-import {DeviceNode} from "./device";
+import { DeviceNode } from './device';
 
 export const DEVICE_TYPE_NAME_MAP: Map<string, string> = new Map<string, string>([
     ['router', 'router'],
@@ -65,5 +65,3 @@ export function getDeviceType(deviceNode: DeviceNode) {
 
     return findCategory(deviceTypes);
 }
-
-

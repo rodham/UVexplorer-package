@@ -1,14 +1,8 @@
-import {
-    BlockProxy,
-    CustomBlockProxy,
-    ItemProxy,
-    PageProxy,
-} from 'lucid-extension-sdk';
+import { BlockProxy, CustomBlockProxy, ItemProxy, PageProxy } from 'lucid-extension-sdk';
 import { Device } from 'model/uvx/device';
 import { itemToDevice, removeQuotationMarks } from '@data/data-utils';
 import { NetworkDeviceBlock } from 'src/blocks/network-device-block';
-import {DEVICE_REFERENCE_KEY} from '@data/data';
-
+import { DEVICE_REFERENCE_KEY } from '@data/data';
 
 export class BlockUtils {
     static isNetworkDeviceBlock(item: ItemProxy): item is NetworkDeviceBlock {
@@ -48,5 +42,3 @@ export class BlockUtils {
         return undefined;
     }
 }
-
-

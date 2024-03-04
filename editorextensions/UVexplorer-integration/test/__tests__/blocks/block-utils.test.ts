@@ -1,23 +1,19 @@
-import {
-    BlockProxy,
-    CustomBlockProxy, ItemProxy,
-    PageProxy, ReferenceKeyProxy,
-} from 'lucid-extension-sdk';
-import {DEVICE_REFERENCE_KEY} from '@data/data';
+import { BlockProxy, CustomBlockProxy, ItemProxy, PageProxy, ReferenceKeyProxy } from 'lucid-extension-sdk';
+import { DEVICE_REFERENCE_KEY } from '@data/data';
 
-import * as lucid from "lucid-extension-sdk";
+import * as lucid from 'lucid-extension-sdk';
 import * as dataUtils from '@data/data-utils';
 
-import {BlockUtils} from "@blocks/block-utils";
-import {mockDevice} from "../helpers";
-import {NetworkDeviceBlock} from "@blocks/network-device-block";
+import { BlockUtils } from '@blocks/block-utils';
+import { mockDevice } from '../helpers';
+import { NetworkDeviceBlock } from '@blocks/network-device-block';
 
 jest.mock('lucid-extension-sdk', (): unknown => ({
     ...jest.requireActual('lucid-extension-sdk'),
     EditorClient: jest.fn().mockImplementation(() => ({
         sendCommand: jest.fn()
     }))
-}))
+}));
 
 beforeEach(() => {
     jest.resetModules();
@@ -28,7 +24,6 @@ describe('BlockUtils Tests', () => {
     let mockClient: lucid.EditorClient;
     let mockBlock: lucid.BlockProxy;
     let mockPage: PageProxy;
-
 
     beforeEach(() => {
         mockClient = new lucid.EditorClient();
@@ -86,8 +81,13 @@ describe('BlockUtils Tests', () => {
 
     describe('getGuidFromBlock Tests', () => {
         it('should return the guid from the block', () => {
-            const mockReferenceKeySettings = {'cid': '', 'pk': '"someGuid"'}
-            const mockReferenceKey = new ReferenceKeyProxy('', DEVICE_REFERENCE_KEY, mockClient, mockReferenceKeySettings);
+            const mockReferenceKeySettings = { cid: '', pk: '"someGuid"' };
+            const mockReferenceKey = new ReferenceKeyProxy(
+                '',
+                DEVICE_REFERENCE_KEY,
+                mockClient,
+                mockReferenceKeySettings
+            );
             mockBlock.referenceKeys.keys = jest.fn().mockReturnValue([DEVICE_REFERENCE_KEY]);
             mockBlock.referenceKeys.get = jest.fn().mockReturnValue(mockReferenceKey);
 
@@ -106,8 +106,13 @@ describe('BlockUtils Tests', () => {
 
     describe('getDeviceFromBlock Tests', () => {
         it('should return the device from the block', () => {
-            const mockReferenceKeySettings = {'cid': '', 'pk': '"someGuid"'}
-            const mockReferenceKey = new ReferenceKeyProxy('', DEVICE_REFERENCE_KEY, mockClient, mockReferenceKeySettings);
+            const mockReferenceKeySettings = { cid: '', pk: '"someGuid"' };
+            const mockReferenceKey = new ReferenceKeyProxy(
+                '',
+                DEVICE_REFERENCE_KEY,
+                mockClient,
+                mockReferenceKeySettings
+            );
             mockReferenceKey.getItem = jest.fn().mockReturnValue('test');
             mockBlock.referenceKeys.keys = jest.fn().mockReturnValue([DEVICE_REFERENCE_KEY]);
             mockBlock.referenceKeys.get = jest.fn().mockReturnValue(mockReferenceKey);

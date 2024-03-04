@@ -1,7 +1,7 @@
 import { ConnectedDevicesModal } from '@uvx/connected-devices-modal';
 import { EditorClient, ItemProxy, Viewport } from 'lucid-extension-sdk';
 import { DeviceDetailModal } from 'src/uvx/device-detail-modal';
-import { BlockUtils } from "@blocks/block-utils";
+import { BlockUtils } from '@blocks/block-utils';
 
 export function uvDeviceSelected(viewport: Viewport): boolean {
     const selection = viewport.getSelectedItems();
@@ -11,7 +11,8 @@ export function uvDeviceSelected(viewport: Viewport): boolean {
 
 export function singleDeviceSelected(viewport: Viewport): boolean {
     const selection = viewport.getSelectedItems();
-    const isCorrectSelection = selection.length === 1 && selection.every((item) => BlockUtils.isNetworkDeviceBlock(item));
+    const isCorrectSelection =
+        selection.length === 1 && selection.every((item) => BlockUtils.isNetworkDeviceBlock(item));
     return isCorrectSelection;
 }
 

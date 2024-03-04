@@ -1,12 +1,12 @@
 import * as lucid from 'lucid-extension-sdk';
 import { DeviceNode, DeviceLink } from 'model/uvx/device';
-import {Data} from '@data/data';
-import {DrawBlocks} from '@draw/draw-blocks';
-import {DrawLines} from '@draw/draw-lines';
+import { Data } from '@data/data';
+import { DrawBlocks } from '@draw/draw-blocks';
+import { DrawLines } from '@draw/draw-lines';
 import { DrawTopoMap } from '@draw/draw-topo-map';
-import {BlockProxy} from "lucid-extension-sdk";
-import {mockCustomBlockDefinition} from "../helpers";
-import {NetworkDeviceBlock} from "@blocks/network-device-block";
+import { BlockProxy } from 'lucid-extension-sdk';
+import { mockCustomBlockDefinition } from '../helpers';
+import { NetworkDeviceBlock } from '@blocks/network-device-block';
 
 jest.mock('lucid-extension-sdk');
 jest.mock('@data/data');
@@ -34,16 +34,20 @@ describe('Map', () => {
 
     describe('drawMap', () => {
         it('should do nothing if custom shape definition is not available', async () => {
-            const getCustomShapeDefSpy = jest.spyOn(mockClient, 'getCustomShapeDefinition').mockResolvedValue(undefined);
+            const getCustomShapeDefSpy = jest
+                .spyOn(mockClient, 'getCustomShapeDefinition')
+                .mockResolvedValue(undefined);
             const getInstanceSpy = jest.spyOn(Data, 'getInstance');
             await DrawTopoMap.drawTopoMap(mockClient, mockViewport, mockPage, mockDeviceNodes, mockDeviceLinks);
 
             expect(getCustomShapeDefSpy).toHaveBeenCalledWith(NetworkDeviceBlock.library, NetworkDeviceBlock.shape);
-            expect(getInstanceSpy).not.toHaveBeenCalled()
+            expect(getInstanceSpy).not.toHaveBeenCalled();
         });
 
         it('should draw blocks and lines when custom shape definition is available', async () => {
-            const getCustomShapeDefSpy = jest.spyOn(mockClient, 'getCustomShapeDefinition').mockResolvedValue(mockCustomBlockDefinition);
+            const getCustomShapeDefSpy = jest
+                .spyOn(mockClient, 'getCustomShapeDefinition')
+                .mockResolvedValue(mockCustomBlockDefinition);
             const getInstanceSpy = jest.spyOn(Data, 'getInstance');
 
             const mockGuidToBlockMap = new Map<string, BlockProxy>();
@@ -54,7 +58,13 @@ describe('Map', () => {
 
             expect(getCustomShapeDefSpy).toHaveBeenCalledWith(NetworkDeviceBlock.library, NetworkDeviceBlock.shape);
             expect(getInstanceSpy).toHaveBeenCalledWith(mockClient);
-            expect(drawBlocksSpy).toHaveBeenCalledWith(mockViewport, mockPage, mockDeviceNodes, mockCustomBlockDefinition, 'my_network_device');
+            expect(drawBlocksSpy).toHaveBeenCalledWith(
+                mockViewport,
+                mockPage,
+                mockDeviceNodes,
+                mockCustomBlockDefinition,
+                'my_network_device'
+            );
             expect(drawLinesSpy).toHaveBeenCalledWith(mockPage, mockDeviceLinks, mockGuidToBlockMap, 'my_network_link');
         });
     });
