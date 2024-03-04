@@ -1,11 +1,11 @@
 import * as lucid from 'lucid-extension-sdk';
-import {Line} from '@draw/line';
+import {DrawLines} from '@draw/draw-lines';
 import {DeviceLink} from 'model/uvx/device';
 import {BlockProxy, LineProxy} from 'lucid-extension-sdk';
 import {mockDeviceLink} from '../helpers';
 
 jest.mock('lucid-extension-sdk');
-describe('Draw Line tests', () => {
+describe('DrawTopoMap DrawLines tests', () => {
     let mockClient: lucid.EditorClient;
     let mockPage: lucid.PageProxy;
 
@@ -29,7 +29,7 @@ describe('Draw Line tests', () => {
             const setShapeSpy = jest.spyOn(mockLine, 'setShape');
             const addLineSpy = jest.spyOn(mockPage, 'addLine').mockReturnValue(mockLine);
 
-            Line.drawLine(mockPage, mockBlocks[0], mockBlocks[1]);
+            DrawLines.drawLine(mockPage, mockBlocks[0], mockBlocks[1]);
 
             expect(addLineSpy).toHaveBeenCalledWith({
                 endpoint1: {
@@ -69,10 +69,10 @@ describe('Draw Line tests', () => {
                     [mockDeviceLink.linkEdges[1].remoteConnection.deviceGuid, mockBlocks[2]]]
             );
             const mockCollectionId = 'collectionId';
-            const drawLineSpy = jest.spyOn(Line, 'drawLine').mockReturnValue({} as lucid.LineProxy);
-            const setReferenceKeySpy = jest.spyOn(Line, 'setReferenceKey').mockImplementation();
+            const drawLineSpy = jest.spyOn(DrawLines, 'drawLine').mockReturnValue({} as lucid.LineProxy);
+            const setReferenceKeySpy = jest.spyOn(DrawLines, 'setReferenceKey').mockImplementation();
 
-            Line.drawLines(mockPage, mockDeviceLinks, mockGuidToBlockMap, mockCollectionId);
+            DrawLines.drawLines(mockPage, mockDeviceLinks, mockGuidToBlockMap, mockCollectionId);
 
             expect(drawLineSpy).toHaveBeenCalledTimes(mockDeviceLink.linkEdges.length);
             expect(setReferenceKeySpy).toHaveBeenCalledTimes(mockDeviceLink.linkEdges.length);

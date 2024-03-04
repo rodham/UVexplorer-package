@@ -1,17 +1,17 @@
 import * as lucid from 'lucid-extension-sdk';
 import { DeviceNode, DeviceLink } from 'model/uvx/device';
 import {Data} from '@data/data';
-import {Block} from '@draw/block';
-import {Line} from '@draw/line';
-import { Draw } from '@draw/draw';
+import {DrawBlocks} from '@draw/draw-blocks';
+import {DrawLines} from '@draw/draw-lines';
+import { DrawTopoMap } from '@draw/draw-topo-map';
 import {BlockProxy} from "lucid-extension-sdk";
 import {mockCustomBlockDefinition} from "../helpers";
 import {NetworkDeviceBlock} from "@blocks/network-device-block";
 
 jest.mock('lucid-extension-sdk');
 jest.mock('@data/data');
-jest.mock('@draw/block');
-jest.mock('@draw/line');
+jest.mock('@draw/draw-blocks');
+jest.mock('@draw/draw-lines');
 
 describe('Map', () => {
     let mockClient: lucid.EditorClient;
@@ -36,7 +36,7 @@ describe('Map', () => {
         it('should do nothing if custom shape definition is not available', async () => {
             const getCustomShapeDefSpy = jest.spyOn(mockClient, 'getCustomShapeDefinition').mockResolvedValue(undefined);
             const getInstanceSpy = jest.spyOn(Data, 'getInstance');
-            await Draw.drawTopoMap(mockClient, mockViewport, mockPage, mockDeviceNodes, mockDeviceLinks);
+            await DrawTopoMap.drawTopoMap(mockClient, mockViewport, mockPage, mockDeviceNodes, mockDeviceLinks);
 
             expect(getCustomShapeDefSpy).toHaveBeenCalledWith(NetworkDeviceBlock.library, NetworkDeviceBlock.shape);
             expect(getInstanceSpy).not.toHaveBeenCalled()
@@ -47,10 +47,10 @@ describe('Map', () => {
             const getInstanceSpy = jest.spyOn(Data, 'getInstance');
 
             const mockGuidToBlockMap = new Map<string, BlockProxy>();
-            const drawBlocksSpy = jest.spyOn(Block, 'drawBlocks').mockReturnValue(mockGuidToBlockMap);
-            const drawLinesSpy = jest.spyOn(Line, 'drawLines');
+            const drawBlocksSpy = jest.spyOn(DrawBlocks, 'drawBlocks').mockReturnValue(mockGuidToBlockMap);
+            const drawLinesSpy = jest.spyOn(DrawLines, 'drawLines');
 
-            await Draw.drawTopoMap(mockClient, mockViewport, mockPage, mockDeviceNodes, mockDeviceLinks);
+            await DrawTopoMap.drawTopoMap(mockClient, mockViewport, mockPage, mockDeviceNodes, mockDeviceLinks);
 
             expect(getCustomShapeDefSpy).toHaveBeenCalledWith(NetworkDeviceBlock.library, NetworkDeviceBlock.shape);
             expect(getInstanceSpy).toHaveBeenCalledWith(mockClient);

@@ -3,7 +3,7 @@ import * as lucid from 'lucid-extension-sdk';
 import { BlockUtils } from '@blocks/block-utils';
 
 jest.mock('lucid-extension-sdk');
-jest.mock('@draw/draw');
+jest.mock('@draw/draw-topo-map');
 
 beforeEach(() => {
     jest.resetModules();

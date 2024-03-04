@@ -1,10 +1,10 @@
 import * as lucid from 'lucid-extension-sdk';
 import {mockCustomBlockDefinition, mockDeviceNode} from "../helpers";
-import {Block} from '@draw/block';
+import {DrawBlocks} from '@draw/draw-blocks';
 import {DeviceNode} from "model/uvx/device";
 
 jest.mock('lucid-extension-sdk');
-describe('Draw Block Tests', () => {
+describe('DrawTopoMap Block Tests', () => {
     let mockClient: lucid.EditorClient;
     let mockViewport: lucid.Viewport;
     let mockPage: lucid.PageProxy;
@@ -25,10 +25,10 @@ describe('Draw Block Tests', () => {
             const mockBlock: lucid.BlockProxy = {} as lucid.BlockProxy;
             const mockCollectionId = 'collectionId'
             const addBlockSpy = jest.spyOn(mockPage, 'addBlock').mockReturnValue(mockBlock);
-            const setShapeDataSpy = jest.spyOn(Block, 'setShapeData').mockImplementation();
-            const setReferenceKeySpy = jest.spyOn(Block, 'setReferenceKey').mockImplementation();
+            const setShapeDataSpy = jest.spyOn(DrawBlocks, 'setShapeData').mockImplementation();
+            const setReferenceKeySpy = jest.spyOn(DrawBlocks, 'setReferenceKey').mockImplementation();
 
-            const result = Block.drawBlock(mockPage, mockDeviceNode, mockCustomBlockDefinition, mockCollectionId);
+            const result = DrawBlocks.drawBlock(mockPage, mockDeviceNode, mockCustomBlockDefinition, mockCollectionId);
             expect(addBlockSpy).toHaveBeenCalledWith({
                 ...mockCustomBlockDefinition,
                 boundingBox: { x: mockDeviceNode.x, y: mockDeviceNode.y, w: 50, h: 50 }
@@ -50,10 +50,10 @@ describe('Draw Block Tests', () => {
                 {} as lucid.BlockProxy
             ];
             const mockCollectionId = 'collectionId';
-            const drawBlockSpy = jest.spyOn(Block, 'drawBlock').mockReturnValue({} as lucid.BlockProxy);
+            const drawBlockSpy = jest.spyOn(DrawBlocks, 'drawBlock').mockReturnValue({} as lucid.BlockProxy);
             const focusCameraOnItemsSpy = jest.spyOn(mockViewport, 'focusCameraOnItems');
 
-            const guidToBlockMap = Block.drawBlocks(mockViewport, mockPage, mockDeviceNodes, mockCustomBlockDefinition, mockCollectionId);
+            const guidToBlockMap = DrawBlocks.drawBlocks(mockViewport, mockPage, mockDeviceNodes, mockCustomBlockDefinition, mockCollectionId);
             expect(drawBlockSpy).toHaveBeenCalledTimes(mockDeviceNodes.length);
             expect(focusCameraOnItemsSpy).toHaveBeenCalledWith(mockBlocks);
             expect(guidToBlockMap.size).toBe(mockDeviceNodes.length);

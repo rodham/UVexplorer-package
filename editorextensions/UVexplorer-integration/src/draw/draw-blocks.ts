@@ -4,7 +4,7 @@ import { DEVICE_REFERENCE_KEY } from '@data/data';
 import {getVendor} from "model/uvx/vendor";
 import {getDeviceType} from "model/uvx/device-type";
 
-export class Block {
+export class DrawBlocks {
     static drawBlocks(
         viewport: Viewport,
         page: PageProxy,

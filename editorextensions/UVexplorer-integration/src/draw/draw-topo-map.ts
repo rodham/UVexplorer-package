@@ -1,11 +1,11 @@
 import { EditorClient, PageProxy, Viewport } from 'lucid-extension-sdk';
 import { DeviceNode, DeviceLink } from 'model/uvx/device';
 import { Data } from '@data/data';
-import { Block } from '@draw/block';
-import { Line } from '@draw/line';
+import { DrawBlocks } from '@draw/draw-blocks';
+import { DrawLines } from '@draw/draw-lines';
 import {NetworkDeviceBlock} from "@blocks/network-device-block";
 
-export class Draw {
+export class DrawTopoMap {
     static async drawTopoMap(
         client: EditorClient,
         viewport: Viewport,
@@ -22,8 +22,8 @@ export class Draw {
         const deviceCollectionId = data.getDeviceCollectionForPage(page.id);
         const linksCollectionId = data.getLinksCollectionForPage(page.id);
 
-        const guidToBlockMap = Block.drawBlocks(viewport, page, deviceNodes, customBlockDef, deviceCollectionId);
-        Line.drawLines(page, deviceLinks, guidToBlockMap, linksCollectionId);
+        const guidToBlockMap = DrawBlocks.drawBlocks(viewport, page, deviceNodes, customBlockDef, deviceCollectionId);
+        DrawLines.drawLines(page, deviceLinks, guidToBlockMap, linksCollectionId);
     }
 
 }

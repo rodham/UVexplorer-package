@@ -2,7 +2,7 @@ import {BlockProxy, LineProxy, LineShape, PageProxy} from "lucid-extension-sdk";
 import {DeviceLink, DeviceLinkEdge} from "model/uvx/device";
 import {LINK_REFERENCE_KEY} from "@data/data";
 
-export class Line {
+export class DrawLines {
     static drawLines(page: PageProxy, deviceLinks: DeviceLink[], guidToBlockMap: Map<string, BlockProxy>, collectionId: string) {
         for (const link of deviceLinks) {
             for (const linkEdge of link.linkEdges) {
