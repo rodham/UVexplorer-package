@@ -1,16 +1,37 @@
-<div *ngIf="deviceLink">
+<div *ngIf="deviceLink; else loadingView">
   <h1 class="border-b mb-4 pb-2 font-bold m-8">Link Info</h1>
 
-  <div>
-    <h2>Local Connection</h2>
-    <div *ngFor="let item of deviceLink.localConnection | keyvalue">
-      <div>{{ item.key }}: {{ item.value }}</div>
-    </div>
-  </div>
-  <div>
-    <h2>Remote Connection</h2>
-    <div *ngFor="let item of deviceLink.remoteConnection | keyvalue">
-      <div>{{ item.key }}: {{ item.value }}</div>
+  <div *ngFor="let conn of deviceLink | keyvalue">
+    <div tabIndex="0" class="collapse collapse-arrow">
+      <input type="checkbox" />
+      <div class="collapse-title text-xl font-medium w-screen">
+        {{ conn.key === 'localConnection' ? 'Local Connection' : 'Remote Connection' }}
+      </div>
+
+      <div class="collapse-content">
+        <div class="overflow-x-auto w-screen">
+          <table class="table table-auto m-6">
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let item of conn.value | keyvalue">
+                <td>{{ item.key }}</td>
+                <td>
+                  <span *ngIf="displayValue(item.value) !== ''; else noInfo">{{ displayValue(item.value) }}</span>
+                  <ng-template #noInfo><i>No Info</i></ng-template>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
+<ng-template #loadingView><span class="loading loading-spinner loading-lg"></span></ng-template>

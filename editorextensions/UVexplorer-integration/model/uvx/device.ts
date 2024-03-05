@@ -533,7 +533,7 @@ export function isDeviceConnection(obj: unknown): obj is DeviceConnection {
         'deviceGuid' in obj &&
         typeof obj.deviceGuid === 'string' &&
         'nodeId' in obj &&
-        typeof obj.nodeId === 'string' &&
+        typeof obj.nodeId === 'number' &&
         'start' in obj &&
         typeof obj.start === 'object' &&
         isPointLike(obj.start) &&
