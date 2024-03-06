@@ -25,7 +25,6 @@ export function deviceLinkSelected(viewport: Viewport): boolean {
 
 export async function showConnectedDevices(viewport: Viewport, client: EditorClient): Promise<void> {
     const selection = viewport.getSelectedItems();
-    console.log('Selection:', selection);
     const deviceGuids: string[] = [];
     const visConnDeviceGuids: string[] = [];
 
