@@ -149,34 +149,16 @@ export class DevicesComponent {
       }
     }
 
-    const newlySelectedDeviceGuids: string[] = [];
-    for (const device of this.devices) {
-      if (!this.preselectedDeviceGuids) {
-        newlySelectedDeviceGuids.push(device.guid);
-      }
-    }
-
     console.log('Selected devices: ', selectedDeviceGuids);
     console.log('Devices to remove: ', removeDevices);
-    console.log('Newly selected devices: ', newlySelectedDeviceGuids);
-    if (this.forcedAutoLayout || this.autoLayout) {
-      parent.postMessage(
-        {
-          action: 'selectDevices',
-          devices: selectedDevices,
-          removeDevices: removeDevices
-        },
-        '*'
-      );
-    } else if (!this.autoLayout) {
-      parent.postMessage(
-        {
-          action: 'manuallyLayoutDevices',
-          removeDevices: removeDevices,
-          newlySelectedDeviceGuids: newlySelectedDeviceGuids
-        },
-        '*'
-      )
-    }
+    parent.postMessage(
+      {
+        action: 'selectDevices',
+        devices: selectedDevices,
+        removeDevices: removeDevices,
+        autoLayout: (this.autoLayout || this.forcedAutoLayout)
+      },
+      '*'
+    );
   }
 }

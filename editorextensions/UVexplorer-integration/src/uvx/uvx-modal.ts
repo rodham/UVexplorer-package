@@ -1,4 +1,4 @@
-import { EditorClient, Modal, PageProxy, Viewport } from 'lucid-extension-sdk';
+import { EditorClient, ItemProxy, Modal, PageProxy, Viewport } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvx-client';
 import { NetworkRequest } from 'model/uvexplorer-model';
 import { drawMap, getGuidFromBlock, isNetworkDeviceBlock } from '@blocks/block-utils';
@@ -85,9 +85,9 @@ export abstract class UVXModal extends Modal {
         await this.uvexplorerClient.loadNetwork(this.serverUrl, this.sessionGuid, networkRequest);
     }
 
-    async loadTopoMap(deviceGuids: string[]): Promise<TopoMap | undefined> {
+    async loadTopoMap(deviceGuids: string[], layoutType: 'Hierarchical' | 'Manual' | 'Radial' | 'Ring'): Promise<TopoMap | undefined> {
         try {
-            const topoMapRequest = createTopoMapRequest(deviceGuids);
+            const topoMapRequest = createTopoMapRequest(deviceGuids, layoutType);
             return await this.uvexplorerClient.getTopoMap(this.serverUrl, this.sessionGuid, topoMapRequest);
         } catch (e) {
             console.error(e);
@@ -108,7 +108,7 @@ export abstract class UVXModal extends Modal {
 
         const deviceGuids = this.clearMap(page, devices, removeDevices);
 
-        const topoMap = await this.loadTopoMap(deviceGuids);
+        const topoMap = await this.loadTopoMap(deviceGuids, 'Hierarchical');
         if (topoMap) {
             this.saveLinks(this.data.getNetworkForPage(page.id), topoMap.deviceLinks);
             await drawMap(this.client, this.viewport, page, topoMap.deviceNodes, topoMap.deviceLinks);
@@ -136,8 +136,6 @@ export abstract class UVXModal extends Modal {
      * Clear Blocks
      * @param page The page to clear
      * @param devices New device guids to be drawn on the map.
-     * @param removeDevices Device guids to be removed from the map.
-     * @return List of device guids that already exist on the map and should not be removed
      *         in addition to new device guids to be drawn.
      */
     clearBlocks(page: PageProxy, devices: string[], removeDevices?: string[]) {
@@ -165,5 +163,52 @@ export abstract class UVXModal extends Modal {
         const collection = this.data.createOrRetrieveLinkCollection(source);
         this.data.deleteLinksFromCollection(collection); // TODO: Replace once updateLinksInCollection Function is implemented
         this.data.addLinksToCollection(collection, links);
+    }
+
+    async manuallyDrawMap(devices: string[], removeDevices?: string[]) {
+        const page = this.viewport.getCurrentPage();
+        if (!page) {
+            return;
+        }
+
+        this.removeBlocksAndLines(page, removeDevices);
+        const topoMap = await this.loadTopoMap(devices, 'Manual');
+
+        if (topoMap) {
+            this.saveLinks(this.data.getNetworkForPage(page.id), topoMap.deviceLinks);
+            await drawMap(this.client, this.viewport, page, topoMap.deviceNodes, topoMap.deviceLinks);
+        } else {
+            console.error('Could not load topo map data.');
+        }
+    }
+
+    removeBlocksAndLines(page: PageProxy, devices?: string[]) {
+        const items = page.allItems;
+
+        if (items) {
+            for (const [, item] of items) {
+                if (isNetworkDeviceBlock(item)) {
+                    const guid = getGuidFromBlock(item);
+                    if (!guid) continue;
+                    if (devices && devices.includes(guid)) {
+                        this.deleteLinesOfBlock(item, page);
+                        item.delete();
+                    }
+                }
+            }
+        }
+    }
+
+    deleteLinesOfBlock(item: ItemProxy, page: PageProxy) {
+        const lines = page.allLines;
+
+        if (lines) {
+            for (const [, line] of lines) {
+                if ((line.getEndpoint1().x === item.getLocation().x && line.getEndpoint1().y === item.getLocation().y) ||
+                    (line.getEndpoint2().x === item.getLocation().x && line.getEndpoint2().y === item.getLocation().y)) {
+                    line.delete();
+                }
+            }
+        }
     }
 }

@@ -82,10 +82,10 @@ export class TopoMapRequest {
     }
 }
 
-export function createTopoMapRequest(deviceGuids: string[]): TopoMapRequest {
+export function createTopoMapRequest(deviceGuids: string[], layoutType: 'Hierarchical' | 'Manual' | 'Radial' | 'Ring'): TopoMapRequest {
     return new TopoMapRequest(
         {
-            layoutType: 'Hierarchical',
+            layoutType: layoutType,
             radialSettings: {
                 minRadius: 0,
                 maxRadius: 0,

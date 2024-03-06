@@ -140,6 +140,7 @@ export function connDeviceGuidsFromListDevMsg(message: ListDevicesMessage): stri
 export interface SelectedDevicesMessage extends DevicesMessage {
     action: 'selectDevices';
     removeDevices?: string[];
+    autoLayout: boolean;
 }
 
 export function isSelectedDevicesMessage(message: unknown): message is SelectedDevicesMessage {
@@ -148,10 +149,17 @@ export function isSelectedDevicesMessage(message: unknown): message is SelectedD
             Array.isArray(message.removeDevices) &&
             message.removeDevices.every((d): d is string => typeof d === 'string') &&
             isDevicesMessage(message) &&
-            message.action === 'selectDevices'
+            message.action === 'selectDevices' &&
+            'autoLayout' in message &&
+            typeof message.autoLayout === 'boolean'
         );
     }
-    return isDevicesMessage(message) && message.action === 'selectDevices';
+    return (
+        isDevicesMessage(message) &&
+        message.action === 'selectDevices' &&
+        'autoLayout' in message &&
+        typeof message.autoLayout === 'boolean'
+    );
 }
 
 export interface DeviceDetailsMessage {

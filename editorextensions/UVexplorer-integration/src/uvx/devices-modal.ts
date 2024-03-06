@@ -81,7 +81,11 @@ export class DevicesModal extends UVXModal {
             }
         } else if (isSelectedDevicesMessage(message)) {
             const devices = message.devices.map((d) => d.guid);
-            await this.drawMap(devices);
+            if (message.autoLayout) {
+                await this.drawMap(devices);
+            } else {
+                await this.manuallyDrawMap(message.devices, message.removeDevices);
+            }
             await this.closeSession();
             this.hide();
         }

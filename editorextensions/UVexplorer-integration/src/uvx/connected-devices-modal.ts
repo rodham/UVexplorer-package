@@ -32,7 +32,8 @@ export class ConnectedDevicesModal extends UVXModal {
         await this.sendMessage({
             action: 'listDevices',
             devices: JSON.stringify(devices),
-            visibleConnectedDeviceGuids: JSON.stringify(this.visibleConnectedDeviceGuids)
+            visibleConnectedDeviceGuids: JSON.stringify(this.visibleConnectedDeviceGuids),
+            forceAutoLayout: true
         });
         console.log('Done sending message');
     }
