@@ -1,8 +1,8 @@
-import { BlockProxy, CustomBlockProxy, ItemProxy, PageProxy } from 'lucid-extension-sdk';
-import { Device } from 'model/uvx/device';
-import { itemToDevice, removeQuotationMarks } from '@data/data-utils';
-import { NetworkDeviceBlock } from 'src/blocks/network-device-block';
-import { DEVICE_REFERENCE_KEY } from '@data/data';
+import { DEVICE_REFERENCE_KEY, LINK_REFERENCE_KEY } from '@data/data';
+import { BlockProxy, CustomBlockProxy, ItemProxy, LineProxy, PageProxy } from 'lucid-extension-sdk';
+import { Device, DeviceLinkEdge } from 'model/uvx/device';
+import { itemToDevice, itemToLinkEdge, removeQuotationMarks } from '@data/data-utils';
+import { NetworkDeviceBlock } from './network-device-block';
 
 export class BlockUtils {
     static isNetworkDeviceBlock(item: ItemProxy): item is NetworkDeviceBlock {
@@ -37,6 +37,15 @@ export class BlockUtils {
         for (const [key, val] of block.referenceKeys) {
             if (key === DEVICE_REFERENCE_KEY) {
                 return itemToDevice(val.getItem());
+            }
+        }
+        return undefined;
+    }
+
+    static getLinkInfoFromLine(line: LineProxy): DeviceLinkEdge | undefined {
+        for (const [key, val] of line.referenceKeys) {
+            if (key === LINK_REFERENCE_KEY) {
+                return itemToLinkEdge(val.getItem());
             }
         }
         return undefined;

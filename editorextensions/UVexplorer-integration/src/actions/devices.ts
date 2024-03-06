@@ -1,7 +1,8 @@
 import { ConnectedDevicesModal } from '@uvx/connected-devices-modal';
-import { EditorClient, ItemProxy, Viewport } from 'lucid-extension-sdk';
-import { DeviceDetailModal } from 'src/uvx/device-detail-modal';
+import { DeviceDetailModal } from '@uvx/device-detail-modal';
 import { BlockUtils } from '@blocks/block-utils';
+import { EditorClient, ItemProxy, LineProxy, Viewport } from 'lucid-extension-sdk';
+import { LinkInfoModal } from '@uvx/link-info-modal';
 
 export function uvDeviceSelected(viewport: Viewport): boolean {
     const selection = viewport.getSelectedItems();
@@ -16,9 +17,15 @@ export function singleDeviceSelected(viewport: Viewport): boolean {
     return isCorrectSelection;
 }
 
+export function deviceLinkSelected(viewport: Viewport): boolean {
+    const selection = viewport.getSelectedItems();
+    const isCorrectSelection =
+        selection.length === 1 && selection[0] instanceof LineProxy && !!BlockUtils.getLinkInfoFromLine(selection[0]);
+    return isCorrectSelection;
+}
+
 export async function showConnectedDevices(viewport: Viewport, client: EditorClient): Promise<void> {
     const selection = viewport.getSelectedItems();
-    console.log('Selection:', selection);
     const deviceGuids: string[] = [];
     const visConnDeviceGuids: string[] = [];
 
@@ -98,4 +105,35 @@ export async function viewDeviceDetails(viewport: Viewport, client: EditorClient
     await modal.openSession();
     await modal.show();
     await modal.getDeviceDetails();
+}
+
+export async function viewLinkDetails(viewport: Viewport, client: EditorClient): Promise<void> {
+    const selection = viewport.getSelectedItems();
+    if (selection.length !== 1) {
+        console.log('Can only view details of one link at a time');
+        return;
+    }
+    const selectedItem = selection[0];
+    if (!(selectedItem instanceof LineProxy)) {
+        console.error('Can only view details of LineProxy instance');
+        return;
+    }
+    const line = BlockUtils.getLinkInfoFromLine(selectedItem);
+
+    if (!line) {
+        console.error('Unable to get line from selected block');
+        return;
+    }
+
+    const modal = new LinkInfoModal(client, viewport, line);
+
+    const additionalSettings: Map<string, string> = new Map<string, string>();
+    additionalSettings.set('apiKey', process.env.UVX_API_KEY!);
+    additionalSettings.set('serverUrl', process.env.UVX_BASE_URL!);
+    await client.setPackageSettings(additionalSettings);
+
+    await modal.loadSettings();
+    await modal.openSession();
+    await modal.show();
+    await modal.displayLineDetails();
 }
