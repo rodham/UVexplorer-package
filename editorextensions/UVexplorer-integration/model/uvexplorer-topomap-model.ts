@@ -432,3 +432,28 @@ export function isPenPattern(obj: unknown): obj is PenPattern {
         typeof obj.dashStyle === 'number'
     );
 }
+
+export interface PenSettings {
+    standardPen: PenPattern;
+    lagPen: PenPattern;
+    manualPen: PenPattern;
+    associatedPen: PenPattern;
+    multiPen: PenPattern;
+}
+
+export function isPenSettings(obj: unknown): obj is PenSettings {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'standardPen' in obj &&
+        isPenPattern(obj.standardPen) &&
+        'lagPen' in obj &&
+        isPenPattern(obj.lagPen) &&
+        'manualPen' in obj &&
+        isPenPattern(obj.manualPen) &&
+        'associatedPen' in obj &&
+        isPenPattern(obj.associatedPen) &&
+        'multiPen' in obj &&
+        isPenPattern(obj.multiPen)
+    );
+}

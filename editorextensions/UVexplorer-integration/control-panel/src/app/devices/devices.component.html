@@ -18,5 +18,13 @@
   >
     Select Devices
   </button>
+
+  <button
+    (click)="changeSettings()"
+    class="bg-gray-400 text-white py-2 px-4 rounded mx-2 mt-1"
+    [hidden]="devices.length === 0"
+  >
+    Change Settings
+  </button>
 </div>
 <app-settings></app-settings>

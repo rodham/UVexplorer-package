@@ -1,5 +1,6 @@
 import { isNetworkSummary, NetworkSummary } from './uvexplorer-model';
 import { Device, isDevice } from './uvexplorer-devices-model';
+import { isPenSettings, PenSettings } from './uvexplorer-topomap-model';
 
 export interface ListNetworksMessage {
     action: 'listNetworks';
@@ -114,6 +115,20 @@ export function isListDevicesMessage(message: unknown): message is ListDevicesMe
     return isSerializableDevicesMessage(message) && message.action === 'listDevices';
 }
 
+export interface RelistDevicesMessage {
+    action: 'relistDevices';
+}
+
+export function isRelistDevicesMessage(message: unknown): message is ListDevicesMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        message.action === 'relistDevices'
+    );
+}
+
 export function connDeviceGuidsFromListDevMsg(message: ListDevicesMessage): string[] {
     if (!message.visibleConnectedDeviceGuids) {
         return [];
@@ -145,7 +160,6 @@ export function isSelectedDevicesMessage(message: unknown): message is SelectedD
 
 export interface MapSettingsMessage {
     action: 'loadMapSettings';
-    devices: []
 }
 
 export function isMapSettingsMessage(message: unknown): message is MapSettingsMessage {
@@ -154,31 +168,24 @@ export function isMapSettingsMessage(message: unknown): message is MapSettingsMe
         message !== null &&
         'action' in message &&
         typeof message.action === 'string' &&
-        message.action === 'loadMapSettings' &&
-        'devices' in message &&
-        Array.isArray(message.devices) &&
-        message.devices.every((device) => typeof device === 'string')
+        message.action === 'loadMapSettings'
     );
 }
 
 export interface SelectedMapSettingsMessage {
     action: 'saveMapSettings';
-    devices: []
-    data: {};
+    penSettings: PenSettings;
 }
 
-export function isSelectedMapSettingsMessage(message: unknown): message is MapSettingsMessage {
+export function isSelectedMapSettingsMessage(message: unknown): message is SelectedMapSettingsMessage {
     return (
         typeof message === 'object' &&
         message !== null &&
         'action' in message &&
         typeof message.action === 'string' &&
         message.action === 'saveMapSettings' &&
-        'devices' in message &&
-        Array.isArray(message.devices) &&
-        message.devices.every((device) => typeof device === 'string') &&
-        'data' in message &&
-        typeof message.data === 'object' &&
-        message.data !== null
+        'penSettings' in message // &&
+        // typeof message.penSettings === 'object' &&
+        // isPenSettings(message.penSettings)  // TODO: Not seeing this as PenSettings right now
     );
 }

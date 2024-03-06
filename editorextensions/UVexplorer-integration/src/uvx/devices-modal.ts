@@ -1,5 +1,5 @@
 import { DataSourceProxy, EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
-import { isLoadNetworkMessage, isSelectedDevicesMessage, isSelectedMapSettingsMessage } from 'model/message';
+import { isLoadNetworkMessage, isMapSettingsMessage, isSelectedDevicesMessage, isSelectedMapSettingsMessage } from 'model/message';
 import { NetworkRequest } from 'model/uvexplorer-model';
 import { Device, DeviceListRequest } from 'model/uvexplorer-devices-model';
 import { UVXModal } from './uvx-modal';
@@ -63,17 +63,22 @@ export class DevicesModal extends UVXModal {
         }
     }
 
+    async reloadDevices() {
+        await this.sendMessage({
+            action: 'relistDevices'
+        });
+    }
+
     saveDevices(source: DataSourceProxy, devices: Device[]) {
         const collection = this.data.createOrRetrieveDeviceCollection(source);
         this.data.deleteDevicesFromCollection(collection); // TODO: Replace once updateDevicesInCollection Function is implemented
         this.data.addDevicesToCollection(collection, devices);
     }
 
-    async loadMapSettings(devices: string[]) {
+    async loadMapSettings() {
         try {
             await this.sendMessage({
-                action: 'loadMapSettings',
-                devices: devices
+                action: 'loadMapSettings'
             });
         } catch (e) {
             console.error(e);
@@ -92,12 +97,16 @@ export class DevicesModal extends UVXModal {
             }
         } else if (isSelectedDevicesMessage(message)) {
             const devices = message.devices.map((d) => d.guid);
-            await this.loadMapSettings(devices);
-            
-        } else if (isSelectedMapSettingsMessage(message)) {
-            await this.drawMap(message.devices);
+            await this.drawMap(devices);
             await this.closeSession();
             this.hide();
+            
+        } else if (isMapSettingsMessage(message)) {
+            this.loadMapSettings();
+        } else if (isSelectedMapSettingsMessage(message)) {
+            // const penSettings = message.penSettings;
+            // TODO: This should save the settings in a data collection
+            this.reloadDevices();
         }
     }
 }

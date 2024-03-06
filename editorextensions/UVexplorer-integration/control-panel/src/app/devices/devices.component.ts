@@ -3,7 +3,8 @@ import { NgIf, NgFor } from '@angular/common';
 import {
   connDeviceGuidsFromListDevMsg,
   devicesFromSerializableDevicesMessage,
-  isListDevicesMessage
+  isListDevicesMessage,
+  isRelistDevicesMessage
 } from 'model/message';
 import { Device, DeviceCategoryEntry, isDevice } from 'model/uvexplorer-devices-model';
 import { AgGridAngular } from 'ag-grid-angular';
@@ -42,6 +43,9 @@ export class DevicesComponent {
         this.visibleConnectedDeviceGuids = connDeviceGuidsFromListDevMsg(e.data);
         this.selectingDevices = true;
         console.log('Received devices in component');
+      }
+      else if (isRelistDevicesMessage(e.data)) {
+        this.selectingDevices = true;
       }
     });
   }
@@ -158,6 +162,17 @@ export class DevicesComponent {
       '*'
     );
 
+    this.selectingDevices = false;
+  }
+
+  public changeSettings() {
+    parent.postMessage(
+      {
+        action: 'loadMapSettings'
+      },
+      '*'
+    );
+    
     this.selectingDevices = false;
   }
 }
