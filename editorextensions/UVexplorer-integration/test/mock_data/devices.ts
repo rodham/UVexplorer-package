@@ -1,5 +1,7 @@
-import { NetworkSummary } from 'model/uvexplorer-model';
-import { Device } from 'model/uvexplorer-devices-model';
+import { NetworkSummary } from 'model/uvx/network';
+import { Device, DeviceConnection, DeviceLinkEdge, Point } from 'model/uvx/device';
+import { NetworkDeviceBlock } from '@blocks/network-device-block';
+import { ItemProxy } from 'lucid-extension-sdk';
 
 export const mockDeviceList = [
     {
@@ -46,3 +48,102 @@ export const mockNetworkSummaryList = [
         description: 'This is also my network'
     }
 ] as NetworkSummary[];
+
+export const mockNetworkDevice1 = {
+    shapeData: {
+        get: (_key: string) => {
+            return 'dab5626b-d9d5-46fd-bf6a-f1baef34889f';
+        }
+    }
+} as ItemProxy;
+
+export const mockNetworkDevice2 = {
+    shapeData: {
+        get: (_key: string) => {
+            return '20114946-cae7-4453-bec4-035daa310c2e';
+        }
+    }
+} as ItemProxy;
+
+export const mockEndpoint1 = {
+    connection: mockNetworkDevice1
+};
+
+export const mockEndpoint2 = {
+    connection: mockNetworkDevice2
+};
+
+export const mockLinesSelection = [
+    {
+        getEndpoint1: () => {
+            return mockEndpoint1;
+        },
+        getEndpoint2: () => {
+            return mockEndpoint2;
+        }
+    }
+];
+
+export const mockSelectedNetworkDevices = [
+    {
+        shapeData: {
+            get: (_key: string) => {
+                return '5983b166-0e01-434d-9cc5-4889a5ff349a';
+            }
+        },
+        getConnectedLines: () => {
+            return mockLinesSelection;
+        }
+    }
+] as NetworkDeviceBlock[];
+
+export const mockConnection1 = {
+    deviceGuid: 'abcd',
+    nodeId: 1,
+    start: {
+        x: 123,
+        y: 456
+    } as Point,
+    end: {
+        x: 789,
+        y: 120
+    } as Point,
+    mid: {
+        x: 345,
+        y: 678
+    } as Point,
+    connectionType: 1,
+    interfaceLabels: [] as string[],
+    deviceIpAddress: 'asdf',
+    deviceMacAddress: 'jkl',
+    deviceIfIndex: 2,
+    monitorState: 1
+} as DeviceConnection;
+
+export const mockConnection2 = {
+    deviceGuid: 'abcde',
+    nodeId: 2,
+    start: {
+        x: 23,
+        y: 56
+    } as Point,
+    end: {
+        x: 89,
+        y: 12
+    } as Point,
+    mid: {
+        x: 45,
+        y: 78
+    } as Point,
+    connectionType: 2,
+    interfaceLabels: [] as string[],
+    deviceIpAddress: 'sdf',
+    deviceMacAddress: 'ajkl',
+    deviceIfIndex: 1,
+    monitorState: 2
+} as DeviceConnection;
+
+export const mockDeviceLinkEdge = {
+    localConnection: mockConnection1,
+    remoteConnection: mockConnection2
+} as DeviceLinkEdge;

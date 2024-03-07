@@ -1,21 +1,17 @@
 import { EditorClient, isTextXHRResponse, TextXHRResponse, XHRRequest, XHRResponse } from 'lucid-extension-sdk';
-import {
-    DeviceDetailsResponse,
-    InfoSet,
-    isDeviceCategoryListResponse,
-    isDeviceDetailsResponse,
-    isInfoSetListResponse,
-    isNetworkSummariesResponse,
-    NetworkRequest,
-    NetworkSummary
-} from 'model/uvexplorer-model';
+import { isNetworkSummariesResponse, NetworkRequest, NetworkSummary } from 'model/uvx/network';
 import {
     ConnectedDevicesRequest,
     Device,
+    DeviceDetailsResponse,
     DeviceListRequest,
-    isDeviceListResponse
-} from 'model/uvexplorer-devices-model';
-import { TopoMapRequest, isTopoMap, TopoMap } from 'model/uvexplorer-topomap-model';
+    InfoSet,
+    isDeviceCategoryListResponse,
+    isDeviceDetailsResponse,
+    isDeviceListResponse,
+    isInfoSetListResponse
+} from 'model/uvx/device';
+import { TopoMapRequest, isTopoMap, TopoMap } from 'model/uvx/topo-map';
 
 export class UVExplorerClient {
     private readonly basePath: string = '/public/api/v1';
@@ -75,7 +71,7 @@ export class UVExplorerClient {
     }
 
     public async listDeviceCategories(serverUrl: string, sessionGuid: string): Promise<string[]> {
-        const url = serverUrl + this.basePath + '/device/category/list';
+        const url = serverUrl + this.basePath + '/device/device-type.ts/list';
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
         const deviceCategoryResponse: unknown = this.parseResponseJSON(response.responseText);
         if (isDeviceCategoryListResponse(deviceCategoryResponse)) {
@@ -139,7 +135,7 @@ export class UVExplorerClient {
         }
     }
 
-    private async sendXHRRequest(url: string, token: string, method: string, data?: string): Promise<TextXHRResponse> {
+    public async sendXHRRequest(url: string, token: string, method: string, data?: string): Promise<TextXHRResponse> {
         try {
             const request: XHRRequest = {
                 url: url,

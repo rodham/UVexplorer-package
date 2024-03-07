@@ -25,6 +25,6 @@
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",
         "prettier": "prettier . --write",
-        "test": "jest"
+        "test": "jest --coverage"
     }
 }

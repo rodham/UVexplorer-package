@@ -1,4 +1,4 @@
-import { Device } from 'model/uvexplorer-devices-model';
+import { Device } from 'model/uvx/device';
 import { UVXModal } from './uvx-modal';
 import { EditorClient, Viewport } from 'lucid-extension-sdk';
 

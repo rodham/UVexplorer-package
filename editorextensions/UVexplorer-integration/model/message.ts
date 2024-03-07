@@ -1,5 +1,12 @@
-import { DeviceDetailsResponse, isDeviceDetailsResponse, isNetworkSummary, NetworkSummary } from './uvexplorer-model';
-import { Device, isDevice } from './uvexplorer-devices-model';
+import { isNetworkSummary, NetworkSummary } from 'model/uvx/network';
+import {
+    Device,
+    DeviceDetailsResponse,
+    DeviceLinkEdge,
+    isDevice,
+    isDeviceDetailsResponse,
+    isDeviceLinkEdge
+} from 'model/uvx/device';
 
 export interface ListNetworksMessage {
     action: 'listNetworks';
@@ -197,5 +204,41 @@ export function deviceFromSerializableDeviceMessage(message: DeviceDetailsMessag
         return device;
     } else {
         throw Error('Unable to parse as device object');
+    }
+}
+
+export interface LinkDetailsMessage {
+    action: 'viewLinkDetails';
+    linkDetails: string;
+}
+
+export function isLinkDetailsMessage(message: unknown): message is LinkDetailsMessage {
+    return (
+        message !== null &&
+        typeof message === 'object' &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        message.action === 'viewLinkDetails' &&
+        'linkDetails' in message &&
+        typeof message.linkDetails === 'string'
+    );
+}
+
+export function linkFromSerializableLinkMessage(message: LinkDetailsMessage): DeviceLinkEdge {
+    const linkEdge: unknown = JSON.parse(message.linkDetails);
+    if (isDeviceLinkEdge(linkEdge)) {
+        return linkEdge;
+    } else {
+        const isObj = (obj: unknown): obj is DeviceLinkEdge => {
+            return true;
+        };
+
+        if (isObj(linkEdge)) {
+            for (const [key, val] of Object.entries(linkEdge)) {
+                console.log(key);
+                console.log('Value: ', JSON.stringify(val));
+            }
+        }
+        throw Error('Unable to parse as DeviceLinkEdge object');
     }
 }
