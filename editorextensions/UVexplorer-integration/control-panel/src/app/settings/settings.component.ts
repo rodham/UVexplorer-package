@@ -29,6 +29,8 @@ export class SettingsComponent {
 
       if (isMapSettingsMessage(e.data)) {
         this.drawSettings = JSON.parse(e.data.drawSettings?.toString() ?? '');
+        this.updateColors();
+
         this.changingSettings = true;
         console.log('Loaded Map Settings');
       }
@@ -62,5 +64,45 @@ export class SettingsComponent {
       green: Number("0x" + colorCode.substring(3, 5)),
       blue: Number("0x" + colorCode.substring(5, 7))
     }
+  }
+
+  private updateColors() {
+    this.colors.standardPen = this.createColorCode(
+      this.drawSettings.standardPen.color.red,
+      this.drawSettings.standardPen.color.green,
+      this.drawSettings.standardPen.color.blue
+    );
+    this.colors.lagPen = this.createColorCode(
+      this.drawSettings.lagPen.color.red,
+      this.drawSettings.lagPen.color.green,
+      this.drawSettings.lagPen.color.blue
+    );
+    this.colors.manualPen = this.createColorCode(
+      this.drawSettings.manualPen.color.red,
+      this.drawSettings.manualPen.color.green,
+      this.drawSettings.manualPen.color.blue
+    );
+    this.colors.associatedPen = this.createColorCode(
+      this.drawSettings.associatedPen.color.red,
+      this.drawSettings.associatedPen.color.green,
+      this.drawSettings.associatedPen.color.blue
+    );
+    this.colors.multiPen = this.createColorCode(
+      this.drawSettings.multiPen.color.red,
+      this.drawSettings.multiPen.color.green,
+      this.drawSettings.multiPen.color.blue
+    );
+  }
+
+  private createColorCode(red: number, green: number, blue: number) {
+    return "#" + this.toHex(red) + this.toHex(green) + this.toHex(blue);
+  }
+
+  private toHex(num: number): string {
+    const map = "0123456789abcdef";
+    let hex = "";
+    hex += map.charAt(Math.floor(num / 16));
+    hex += map.charAt(num % 16);
+    return hex;
   }
 }

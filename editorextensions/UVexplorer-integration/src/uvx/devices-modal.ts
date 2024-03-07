@@ -81,47 +81,6 @@ export class DevicesModal extends UVXModal {
         this.data.addDevicesToCollection(collection, devices);
     }
 
-    async loadMapSettings() {
-        const collection = this.data.createOrRetrieveSettingsCollection();
-        const page = this.viewport.getCurrentPage();
-
-        let layoutSettings = defaultLayoutSettings;
-        let drawSettings = defaultDrawSettings;
-        if (page !== undefined) {
-            layoutSettings = this.data.getLayoutSettings(collection, page.id);
-            drawSettings = this.data.getDrawSettings(collection, page.id);
-        }
-
-        try {
-            await this.sendMessage({
-                action: 'mapSettings',
-                drawSettings: JSON.stringify(drawSettings)
-            });
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
-    saveSettings(drawSettings: DrawSettings, layoutSettings: LayoutSettings) {
-        try {
-            const page = this.viewport.getCurrentPage();
-
-            if (page !== undefined) {
-                const collection = this.data.createOrRetrieveSettingsCollection();
-                this.data.deleteSettingsFromCollection(collection, page.id);
-                this.data.addSettingsToCollection(
-                    collection, 
-                    page.id, 
-                    layoutSettings, 
-                    drawSettings
-                );
-            }
-        }
-        catch (e) {
-            console.error(e);
-        }
-    }
-
     protected async messageFromFrame(message: JsonSerializable) {
         console.log('Received a message from the child.');
         console.log(message);

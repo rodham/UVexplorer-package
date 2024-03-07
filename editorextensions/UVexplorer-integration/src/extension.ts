@@ -2,6 +2,7 @@
 import { EditorClient, Menu, Viewport } from 'lucid-extension-sdk';
 import { DevicesModal } from '@uvx/devices-modal';
 import { showConnectedDevices, uvDeviceSelected } from '@actions/devices';
+import { SettingsModal } from './uvx/settings-modal';
 
 const client = new EditorClient();
 const menu = new Menu(client);
@@ -38,9 +39,20 @@ client.registerAction('loadNetwork', async () => {
     await modal.listNetworks();
 });
 
+client.registerAction('loadMapSettings', async () => {
+    const modal = new SettingsModal(client, viewport);
+    await modal.show();
+    await modal.loadMapSettings();
+});
+
 menu.addDropdownMenuItem({
     label: 'Load a Network',
     action: 'loadNetwork'
+});
+
+menu.addDropdownMenuItem({
+    label: 'Map Settings',
+    action: 'loadMapSettings'
 });
 
 async function init() {

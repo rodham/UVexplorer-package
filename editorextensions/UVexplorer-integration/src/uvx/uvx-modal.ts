@@ -1,7 +1,7 @@
 import { EditorClient, Modal, PageProxy, Viewport } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvx-client';
 import { drawMap, getGuidFromBlock, isNetworkDeviceBlock } from '@blocks/block-utils';
-import { createTopoMapRequest, defaultDrawSettings, defaultLayoutSettings, TopoMap } from 'model/uvexplorer-topomap-model';
+import { createTopoMapRequest, defaultDrawSettings, defaultLayoutSettings, DrawSettings, LayoutSettings, TopoMap } from 'model/uvexplorer-topomap-model';
 import { DeviceLink } from 'model/uvexplorer-devices-model';
 import { Data } from '@data/data';
 
@@ -169,5 +169,46 @@ export abstract class UVXModal extends Modal {
         const collection = this.data.createOrRetrieveLinkCollection(source);
         this.data.deleteLinksFromCollection(collection); // TODO: Replace once updateLinksInCollection Function is implemented
         this.data.addLinksToCollection(collection, links);
+    }
+
+    async loadMapSettings() {
+        const collection = this.data.createOrRetrieveSettingsCollection();
+        const page = this.viewport.getCurrentPage();
+
+        let layoutSettings = defaultLayoutSettings;
+        let drawSettings = defaultDrawSettings;
+        if (page !== undefined) {
+            layoutSettings = this.data.getLayoutSettings(collection, page.id);
+            drawSettings = this.data.getDrawSettings(collection, page.id);
+        }
+
+        try {
+            await this.sendMessage({
+                action: 'mapSettings',
+                drawSettings: JSON.stringify(drawSettings)
+            });
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    saveSettings(drawSettings: DrawSettings, layoutSettings: LayoutSettings) {
+        try {
+            const page = this.viewport.getCurrentPage();
+
+            if (page !== undefined) {
+                const collection = this.data.createOrRetrieveSettingsCollection();
+                this.data.deleteSettingsFromCollection(collection, page.id);
+                this.data.addSettingsToCollection(
+                    collection, 
+                    page.id, 
+                    layoutSettings, 
+                    drawSettings
+                );
+            }
+        }
+        catch (e) {
+            console.error(e);
+        }
     }
 }
