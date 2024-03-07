@@ -203,7 +203,7 @@ export function isSelectedMapSettingsMessage(message: unknown): message is Selec
         typeof message.action === 'string' &&
         message.action === 'saveMapSettings' &&
         'drawSettings' in message &&
-        // isDrawSettings(message.drawSettings)  // TODO: Not seeing this as DrawSettings right now
+        // isDrawSettings(message.drawSettings) &&
         'layoutSettings' in message  // &&
         // isLayoutSettings(message.layoutSettings)
     );

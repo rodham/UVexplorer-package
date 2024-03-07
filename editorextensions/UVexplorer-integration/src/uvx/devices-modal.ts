@@ -8,7 +8,6 @@ import {
 import { NetworkRequest } from 'model/uvexplorer-model';
 import { Device, DeviceListRequest } from 'model/uvexplorer-devices-model';
 import { UVXModal } from './uvx-modal';
-import { DrawSettings, LayoutSettings, defaultDrawSettings, defaultLayoutSettings } from 'model/uvexplorer-topomap-model';
 
 export class DevicesModal extends UVXModal {
     constructor(client: EditorClient, viewport: Viewport) {

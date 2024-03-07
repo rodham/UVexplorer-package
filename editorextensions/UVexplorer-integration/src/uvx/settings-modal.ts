@@ -1,7 +1,6 @@
 import { EditorClient, JsonSerializable, Viewport } from "lucid-extension-sdk";
 import { UVXModal } from "./uvx-modal";
-import { isLoadMapSettingsMessage, isSelectedMapSettingsMessage } from "model/message";
-import { DrawSettings, LayoutSettings, defaultDrawSettings, defaultLayoutSettings } from "model/uvexplorer-topomap-model";
+import { isSelectedMapSettingsMessage } from "model/message";
 
 export class SettingsModal extends UVXModal {
     constructor(client: EditorClient, viewport: Viewport) {
