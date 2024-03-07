@@ -1,6 +1,6 @@
 import { isNetworkSummary, NetworkSummary } from './uvexplorer-model';
 import { Device, isDevice } from './uvexplorer-devices-model';
-import { isPenSettings, PenSettings } from './uvexplorer-topomap-model';
+import { DrawSettings, isDrawSettings, isLayoutSettings, LayoutSettings } from './uvexplorer-topomap-model';
 
 export interface ListNetworksMessage {
     action: 'listNetworks';
@@ -158,11 +158,11 @@ export function isSelectedDevicesMessage(message: unknown): message is SelectedD
     return isDevicesMessage(message) && message.action === 'selectDevices';
 }
 
-export interface MapSettingsMessage {
+export interface LoadMapSettingsMessage {
     action: 'loadMapSettings';
 }
 
-export function isMapSettingsMessage(message: unknown): message is MapSettingsMessage {
+export function isLoadMapSettingsMessage(message: unknown): message is LoadMapSettingsMessage {
     return (
         typeof message === 'object' &&
         message !== null &&
@@ -172,9 +172,27 @@ export function isMapSettingsMessage(message: unknown): message is MapSettingsMe
     );
 }
 
+export interface MapSettingsMessage {
+    action: 'mapSettings';
+    drawSettings: DrawSettings;
+}
+
+export function isMapSettingsMessage(message: unknown): message is MapSettingsMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        message.action === 'mapSettings' &&
+        'drawSettings' in message // &&
+        // isDrawSettings(message.drawSettings)
+    );
+}
+
 export interface SelectedMapSettingsMessage {
     action: 'saveMapSettings';
-    penSettings: PenSettings;
+    drawSettings: DrawSettings;
+    layoutSettings: LayoutSettings;
 }
 
 export function isSelectedMapSettingsMessage(message: unknown): message is SelectedMapSettingsMessage {
@@ -184,8 +202,9 @@ export function isSelectedMapSettingsMessage(message: unknown): message is Selec
         'action' in message &&
         typeof message.action === 'string' &&
         message.action === 'saveMapSettings' &&
-        'penSettings' in message // &&
-        // typeof message.penSettings === 'object' &&
-        // isPenSettings(message.penSettings)  // TODO: Not seeing this as PenSettings right now
+        'drawSettings' in message &&
+        // isDrawSettings(message.drawSettings)  // TODO: Not seeing this as DrawSettings right now
+        'layoutSettings' in message  // &&
+        // isLayoutSettings(message.layoutSettings)
     );
 }

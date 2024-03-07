@@ -1,14 +1,14 @@
 import { DataSourceProxy, EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
 import {
-    isLoadNetworkMessage, 
-    isMapSettingsMessage, 
+    isLoadMapSettingsMessage,
+    isLoadNetworkMessage,
     isSelectedDevicesMessage, 
     isSelectedMapSettingsMessage
 } from 'model/message';
 import { NetworkRequest } from 'model/uvexplorer-model';
 import { Device, DeviceListRequest } from 'model/uvexplorer-devices-model';
 import { UVXModal } from './uvx-modal';
-import { DrawSettings, LayoutSettings, PenSettings } from 'model/uvexplorer-topomap-model';
+import { DrawSettings, LayoutSettings, defaultDrawSettings, defaultLayoutSettings } from 'model/uvexplorer-topomap-model';
 
 export class DevicesModal extends UVXModal {
     constructor(client: EditorClient, viewport: Viewport) {
@@ -82,32 +82,32 @@ export class DevicesModal extends UVXModal {
     }
 
     async loadMapSettings() {
+        const collection = this.data.createOrRetrieveSettingsCollection();
+        const page = this.viewport.getCurrentPage();
+
+        let layoutSettings = defaultLayoutSettings;
+        let drawSettings = defaultDrawSettings;
+        if (page !== undefined) {
+            layoutSettings = this.data.getLayoutSettings(collection, page.id);
+            drawSettings = this.data.getDrawSettings(collection, page.id);
+        }
+
         try {
             await this.sendMessage({
-                action: 'loadMapSettings'
+                action: 'mapSettings',
+                drawSettings: JSON.stringify(drawSettings)
             });
         } catch (e) {
             console.error(e);
         }
     }
 
-    saveSettings(penSettings: PenSettings) {
+    saveSettings(drawSettings: DrawSettings, layoutSettings: LayoutSettings) {
         try {
             const page = this.viewport.getCurrentPage();
 
             if (page !== undefined) {
                 const collection = this.data.createOrRetrieveSettingsCollection();
-                const layoutSettings: LayoutSettings = this.data.getLayoutSettings(collection, page.id);
-                let drawSettings: DrawSettings = this.data.getDrawSettings(collection, page.id);
-
-                // Update draw settings
-                drawSettings.standardPen = penSettings.standardPen;
-                drawSettings.lagPen = penSettings.lagPen;
-                drawSettings.manualPen = penSettings.manualPen;
-                drawSettings.associatedPen = penSettings.associatedPen;
-                drawSettings.multiPen = penSettings.multiPen;
-
-                // Update settings collection
                 this.data.deleteSettingsFromCollection(collection, page.id);
                 this.data.addSettingsToCollection(
                     collection, 
@@ -139,10 +139,10 @@ export class DevicesModal extends UVXModal {
             await this.drawMap(devices);
             await this.closeSession();
             this.hide();
-        } else if (isMapSettingsMessage(message)) {
+        } else if (isLoadMapSettingsMessage(message)) {
             this.loadMapSettings();
         } else if (isSelectedMapSettingsMessage(message)) {
-            this.saveSettings(message.penSettings);
+            this.saveSettings(message.drawSettings, message.layoutSettings);
             this.reloadDevices();
         }
     }

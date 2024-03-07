@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { isMapSettingsMessage } from 'model/message';
 import { FormsModule } from '@angular/forms';
+import { defaultDrawSettings, defaultLayoutSettings } from 'model/uvexplorer-topomap-model';
 
 @Component({
   selector: 'app-settings',
@@ -11,7 +12,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class SettingsComponent {
   changingSettings = false;
-  penSettings = defaultPenSettings;
+  drawSettings = defaultDrawSettings;
+  layoutSettings = defaultLayoutSettings;
   colors = {
     standardPen: '#000000',
     lagPen: '#000000',
@@ -26,6 +28,7 @@ export class SettingsComponent {
       console.log(e.data);
 
       if (isMapSettingsMessage(e.data)) {
+        this.drawSettings = JSON.parse(e.data.drawSettings?.toString() ?? '');
         this.changingSettings = true;
         console.log('Loaded Map Settings');
       }
@@ -33,16 +36,17 @@ export class SettingsComponent {
   }
 
   public updateSettings() {
-    this.penSettings.standardPen.color = this.parseColor(this.colors.standardPen);
-    this.penSettings.lagPen.color = this.parseColor(this.colors.lagPen);
-    this.penSettings.manualPen.color = this.parseColor(this.colors.manualPen);
-    this.penSettings.associatedPen.color = this.parseColor(this.colors.associatedPen);
-    this.penSettings.multiPen.color = this.parseColor(this.colors.multiPen);
+    this.drawSettings.standardPen.color = this.parseColor(this.colors.standardPen);
+    this.drawSettings.lagPen.color = this.parseColor(this.colors.lagPen);
+    this.drawSettings.manualPen.color = this.parseColor(this.colors.manualPen);
+    this.drawSettings.associatedPen.color = this.parseColor(this.colors.associatedPen);
+    this.drawSettings.multiPen.color = this.parseColor(this.colors.multiPen);
 
     parent.postMessage(
       {
         action: 'saveMapSettings',
-        penSettings: this.penSettings
+        drawSettings: this.drawSettings,
+        layoutSettings: this.layoutSettings
       },
       '*'
     );
@@ -60,51 +64,3 @@ export class SettingsComponent {
     }
   }
 }
-
-const defaultPenSettings = {
-  standardPen: {
-    color: {
-      red: 0,
-      green: 0,
-      blue: 0
-    },
-    width: 1,
-    lineStyle: 'Solid'
-  },
-  lagPen: {
-    color: {
-      red: 0,
-      green: 0,
-      blue: 0
-    },
-    width: 1,
-    lineStyle: 'Solid'
-  },
-  manualPen: {
-    color: {
-      red: 0,
-      green: 0,
-      blue: 0
-    },
-    width: 1,
-    lineStyle: 'Solid'
-  },
-  associatedPen: {
-    color: {
-      red: 0,
-      green: 0,
-      blue: 0
-    },
-    width: 1,
-    lineStyle: 'Solid'
-  },
-  multiPen: {
-    color: {
-      red: 0,
-      green: 0,
-      blue: 0
-    },
-    width: 1,
-    lineStyle: 'Solid'
-  }
-};
