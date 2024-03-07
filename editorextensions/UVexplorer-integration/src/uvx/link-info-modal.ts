@@ -1,12 +1,13 @@
 import { DeviceLinkEdge } from 'model/uvx/device';
 import { UVXModal } from './uvx-modal';
-import { EditorClient, Viewport } from 'lucid-extension-sdk';
+import { EditorClient } from 'lucid-extension-sdk';
+import { DocumentEditor } from 'src/doc/documentEditor';
 
 export class LinkInfoModal extends UVXModal {
     deviceLink: DeviceLinkEdge;
 
-    constructor(client: EditorClient, viewport: Viewport, deviceLink: DeviceLinkEdge) {
-        super(client, viewport, 'link-detail');
+    constructor(client: EditorClient, docEditor: DocumentEditor, deviceLink: DeviceLinkEdge) {
+        super(client, docEditor, 'link-detail');
         this.deviceLink = deviceLink;
     }
 

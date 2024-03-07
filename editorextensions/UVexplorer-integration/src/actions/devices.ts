@@ -3,6 +3,7 @@ import { DeviceDetailModal } from '@uvx/device-detail-modal';
 import { BlockUtils } from '@blocks/block-utils';
 import { EditorClient, ItemProxy, LineProxy, Viewport } from 'lucid-extension-sdk';
 import { LinkInfoModal } from '@uvx/link-info-modal';
+import { DocumentEditor } from 'src/doc/documentEditor';
 
 export function uvDeviceSelected(viewport: Viewport): boolean {
     const selection = viewport.getSelectedItems();
@@ -24,8 +25,11 @@ export function deviceLinkSelected(viewport: Viewport): boolean {
     return isCorrectSelection;
 }
 
-export async function showConnectedDevices(viewport: Viewport, client: EditorClient): Promise<void> {
-    const selection = viewport.getSelectedItems();
+export async function showConnectedDevices(
+    selection: ItemProxy[],
+    client: EditorClient,
+    docEditor: DocumentEditor
+): Promise<void> {
     const deviceGuids: string[] = [];
     const visConnDeviceGuids: string[] = [];
 
@@ -63,21 +67,17 @@ export async function showConnectedDevices(viewport: Viewport, client: EditorCli
         }
     }
 
-    const modal = new ConnectedDevicesModal(client, viewport, deviceGuids, visConnDeviceGuids);
+    const modal = new ConnectedDevicesModal(client, docEditor, deviceGuids, visConnDeviceGuids);
 
-    const additionalSettings: Map<string, string> = new Map<string, string>();
-    additionalSettings.set('apiKey', process.env.UVX_API_KEY!);
-    additionalSettings.set('serverUrl', process.env.UVX_BASE_URL!);
-    await client.setPackageSettings(additionalSettings);
-
-    await modal.loadSettings();
-    await modal.openSession();
     await modal.show();
     await modal.loadConnectedDevices();
 }
 
-export async function viewDeviceDetails(viewport: Viewport, client: EditorClient): Promise<void> {
-    const selection = viewport.getSelectedItems();
+export async function viewDeviceDetails(
+    selection: ItemProxy[],
+    client: EditorClient,
+    docEditor: DocumentEditor
+): Promise<void> {
     if (selection.length !== 1) {
         console.log('Can only view details of one device at a time');
         return;
@@ -94,21 +94,17 @@ export async function viewDeviceDetails(viewport: Viewport, client: EditorClient
         return;
     }
 
-    const modal = new DeviceDetailModal(client, viewport, device);
+    const modal = new DeviceDetailModal(client, docEditor, device);
 
-    const additionalSettings: Map<string, string> = new Map<string, string>();
-    additionalSettings.set('apiKey', process.env.UVX_API_KEY!);
-    additionalSettings.set('serverUrl', process.env.UVX_BASE_URL!);
-    await client.setPackageSettings(additionalSettings);
-
-    await modal.loadSettings();
-    await modal.openSession();
     await modal.show();
     await modal.getDeviceDetails();
 }
 
-export async function viewLinkDetails(viewport: Viewport, client: EditorClient): Promise<void> {
-    const selection = viewport.getSelectedItems();
+export async function viewLinkDetails(
+    selection: ItemProxy[],
+    client: EditorClient,
+    docEditor: DocumentEditor
+): Promise<void> {
     if (selection.length !== 1) {
         console.log('Can only view details of one link at a time');
         return;
@@ -125,15 +121,8 @@ export async function viewLinkDetails(viewport: Viewport, client: EditorClient):
         return;
     }
 
-    const modal = new LinkInfoModal(client, viewport, line);
+    const modal = new LinkInfoModal(client, docEditor, line);
 
-    const additionalSettings: Map<string, string> = new Map<string, string>();
-    additionalSettings.set('apiKey', process.env.UVX_API_KEY!);
-    additionalSettings.set('serverUrl', process.env.UVX_BASE_URL!);
-    await client.setPackageSettings(additionalSettings);
-
-    await modal.loadSettings();
-    await modal.openSession();
     await modal.show();
     await modal.displayLineDetails();
 }

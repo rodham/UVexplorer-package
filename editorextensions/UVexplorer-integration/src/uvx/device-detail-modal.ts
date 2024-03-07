@@ -1,22 +1,19 @@
 import { Device } from 'model/uvx/device';
 import { UVXModal } from './uvx-modal';
-import { EditorClient, Viewport } from 'lucid-extension-sdk';
+import { EditorClient } from 'lucid-extension-sdk';
+import { DocumentEditor } from 'src/doc/documentEditor';
 
 export class DeviceDetailModal extends UVXModal {
     device: Device;
 
-    constructor(client: EditorClient, viewport: Viewport, device: Device) {
-        super(client, viewport, 'device-detail');
+    constructor(client: EditorClient, docEditor: DocumentEditor, device: Device) {
+        super(client, docEditor, 'device-detail');
         this.device = device;
     }
 
     async getDeviceDetails() {
         await this.loadPageNetwork();
-        const deviceDetails = await this.uvexplorerClient.listDeviceDetails(
-            this.serverUrl,
-            this.sessionGuid,
-            this.device.guid
-        );
+        const deviceDetails = await this.uvxClient.listDeviceDetails(this.device.guid);
         console.log('Device details response: ', deviceDetails);
 
         await this.sendMessage({
