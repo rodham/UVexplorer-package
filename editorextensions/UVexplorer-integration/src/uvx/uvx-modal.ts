@@ -1,7 +1,7 @@
 import { EditorClient, Modal, PageProxy, Viewport } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvx-client';
 import { drawMap, getGuidFromBlock, isNetworkDeviceBlock } from '@blocks/block-utils';
-import { createTopoMapRequest, TopoMap } from 'model/uvexplorer-topomap-model';
+import { createTopoMapRequest, defaultDrawSettings, defaultLayoutSettings, TopoMap } from 'model/uvexplorer-topomap-model';
 import { DeviceLink } from 'model/uvexplorer-devices-model';
 import { Data } from '@data/data';
 
@@ -77,7 +77,21 @@ export abstract class UVXModal extends Modal {
 
     async loadTopoMap(deviceGuids: string[]): Promise<TopoMap | undefined> {
         try {
-            const topoMapRequest = createTopoMapRequest(deviceGuids);
+            const collection = this.data.createOrRetrieveSettingsCollection();
+            const page = this.viewport.getCurrentPage();
+
+            let layoutSettings = defaultLayoutSettings;
+            let drawSettings = defaultDrawSettings;
+            if (page !== undefined) {
+                layoutSettings = this.data.getLayoutSettings(collection, page.id);
+                drawSettings = this.data.getDrawSettings(collection, page.id);
+            }
+            
+            const topoMapRequest = createTopoMapRequest(
+                deviceGuids, 
+                layoutSettings,
+                drawSettings
+            );
             return await this.uvexplorerClient.getTopoMap(this.serverUrl, this.sessionGuid, topoMapRequest);
         } catch (e) {
             console.error(e);

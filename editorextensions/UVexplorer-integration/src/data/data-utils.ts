@@ -82,3 +82,7 @@ export function toSnakeCase(val: string): string {
 export function removeQuotationMarks(val: string): string {
     return val.replace(/['"]/g, '');
 }
+
+export function addQuotationMarks(val: string): string {
+    return "\"" + val + "\"";
+}

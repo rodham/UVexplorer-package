@@ -8,7 +8,8 @@ import {
     SchemaDefinition,
     SerializedFieldType
 } from 'lucid-extension-sdk';
-import { createDataProxy, deviceToRecord, linkToRecord, toSnakeCase } from '@data/data-utils';
+import { addQuotationMarks, createDataProxy, deviceToRecord, linkToRecord, removeQuotationMarks, toSnakeCase } from '@data/data-utils';
+import { DrawSettings, LayoutSettings, defaultDrawSettings, defaultLayoutSettings } from 'model/uvexplorer-topomap-model';
 
 export const DEVICE_SCHEMA: SchemaDefinition = {
     fields: [
@@ -36,6 +37,15 @@ export const LINK_SCHEMA: SchemaDefinition = {
     ],
     primaryKey: ['link_members']
 };
+
+export const SETTINGS_SCHEMA: SchemaDefinition = {
+    fields: [
+        { name: 'page_id', type: ScalarFieldTypeEnum.STRING },
+        { name: 'layout_settings', type: ScalarFieldTypeEnum.STRING },
+        { name: 'draw_settings', type: ScalarFieldTypeEnum.STRING }
+    ],
+    primaryKey: ['page_id']
+}
 
 export class Data {
     private static instance: Data;
@@ -103,6 +113,53 @@ export class Data {
         collection.patchItems({
             deleted: keys
         });
+    }
+
+    addSettingsToCollection(collection: CollectionProxy, pageId: string, layoutSettings: LayoutSettings, drawSettings: DrawSettings) {
+        collection.patchItems({
+            added: [{
+                page_id: pageId,
+                layout_settings: JSON.stringify(layoutSettings),
+                draw_settings: JSON.stringify(drawSettings)
+            }]
+        });
+    }
+
+    deleteSettingsFromCollection(collection: CollectionProxy, pageId: string): void {
+        const key = addQuotationMarks(pageId);
+        if (collection.items.keys().includes(key)) {
+            collection.patchItems({
+                deleted: [key]
+            });
+        }
+    }
+
+    createOrRetrieveSettingsCollection(): CollectionProxy {
+        const source = this.createOrRetrievePageMapSource();
+        for (const [, collection] of source.collections) {
+            if (collection.getName() === 'settings') {
+                return collection;
+            }
+        }
+        return source.addCollection('settings', SETTINGS_SCHEMA);
+    }
+
+    getLayoutSettings(collection: CollectionProxy, pageId: string): LayoutSettings {
+        const key = addQuotationMarks(pageId);
+        let layoutSettings = defaultLayoutSettings;
+        if (collection.items.keys().includes(key)) {
+            layoutSettings = JSON.parse(collection.items.get(key).fields.get('layout_settings')?.toString() ?? '');
+        }
+        return layoutSettings;
+    }
+
+    getDrawSettings(collection: CollectionProxy, pageId: string): DrawSettings {
+        const key = addQuotationMarks(pageId);
+        let drawSettings = defaultDrawSettings;
+        if (collection.items.keys().includes(key)) {
+            drawSettings = JSON.parse(collection.items.get(key).fields.get('draw_settings')?.toString() ?? '');
+        }
+        return drawSettings;
     }
 
     createOrRetrievePageMapSource(): DataSourceProxy {

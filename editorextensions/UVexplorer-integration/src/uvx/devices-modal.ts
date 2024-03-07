@@ -1,8 +1,14 @@
 import { DataSourceProxy, EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
-import { isLoadNetworkMessage, isMapSettingsMessage, isSelectedDevicesMessage, isSelectedMapSettingsMessage } from 'model/message';
+import {
+    isLoadNetworkMessage, 
+    isMapSettingsMessage, 
+    isSelectedDevicesMessage, 
+    isSelectedMapSettingsMessage
+} from 'model/message';
 import { NetworkRequest } from 'model/uvexplorer-model';
 import { Device, DeviceListRequest } from 'model/uvexplorer-devices-model';
 import { UVXModal } from './uvx-modal';
+import { DrawSettings, LayoutSettings, PenSettings } from 'model/uvexplorer-topomap-model';
 
 export class DevicesModal extends UVXModal {
     constructor(client: EditorClient, viewport: Viewport) {
@@ -85,10 +91,43 @@ export class DevicesModal extends UVXModal {
         }
     }
 
+    saveSettings(penSettings: PenSettings) {
+        try {
+            const page = this.viewport.getCurrentPage();
+
+            if (page !== undefined) {
+                const collection = this.data.createOrRetrieveSettingsCollection();
+                const layoutSettings: LayoutSettings = this.data.getLayoutSettings(collection, page.id);
+                let drawSettings: DrawSettings = this.data.getDrawSettings(collection, page.id);
+
+                // Update draw settings
+                drawSettings.standardPen = penSettings.standardPen;
+                drawSettings.lagPen = penSettings.lagPen;
+                drawSettings.manualPen = penSettings.manualPen;
+                drawSettings.associatedPen = penSettings.associatedPen;
+                drawSettings.multiPen = penSettings.multiPen;
+
+                // Update settings collection
+                this.data.deleteSettingsFromCollection(collection, page.id);
+                this.data.addSettingsToCollection(
+                    collection, 
+                    page.id, 
+                    layoutSettings, 
+                    drawSettings
+                );
+            }
+        }
+        catch (e) {
+            console.error(e);
+        }
+    }
+
     protected async messageFromFrame(message: JsonSerializable) {
         console.log('Received a message from the child.');
         console.log(message);
         if (isLoadNetworkMessage(message)) {
+            console.log(message.name);
+            console.log(message.network_guid);
             const source = await this.loadNetwork(message.name, message.network_guid);
             if (source !== undefined) {
                 await this.loadDevices(source);
@@ -100,12 +139,10 @@ export class DevicesModal extends UVXModal {
             await this.drawMap(devices);
             await this.closeSession();
             this.hide();
-            
         } else if (isMapSettingsMessage(message)) {
             this.loadMapSettings();
         } else if (isSelectedMapSettingsMessage(message)) {
-            // const penSettings = message.penSettings;
-            // TODO: This should save the settings in a data collection
+            this.saveSettings(message.penSettings);
             this.reloadDevices();
         }
     }
