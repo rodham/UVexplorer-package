@@ -1,4 +1,4 @@
-import { EditorClient, Modal, PageProxy, serializeFieldConstraintDefinition, Viewport } from 'lucid-extension-sdk';
+import { EditorClient, Modal, PageProxy, Viewport } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvx-client';
 import { NetworkRequest } from 'model/uvx/network';
 import { createTopoMapRequest, TopoMap } from 'model/uvx/topo-map';
