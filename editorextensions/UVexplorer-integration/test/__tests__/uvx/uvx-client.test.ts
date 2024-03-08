@@ -16,6 +16,7 @@ describe('UVexplorer client tests', () => {
     const isTextXHRResponseSpy = jest.spyOn(lucid, 'isTextXHRResponse').mockReturnValue(true);
     let mockClient: lucid.EditorClient;
     let client: UVExplorerClient;
+    let settingsSpy: jest.SpyInstance<Promise<Map<string, lucid.JsonSerializable>>, []>;
 
     const createXHRResponse = (status: number, responseText = ''): TextXHRResponse => ({
         url: 'https://my-uvexplorer-server.com/test',
@@ -25,43 +26,57 @@ describe('UVexplorer client tests', () => {
         responseText: responseText
     });
 
+    const url = 'testUrl';
+    const sessionGuid = 'testSessionGuid';
+
+    const openSessionRequest = {
+        url: url + '/public/api/v1/session',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer testKey'
+        },
+        data: undefined
+    };
+
     beforeEach(() => {
         mockClient = new lucid.EditorClient();
+        settingsSpy = jest.spyOn(mockClient, 'getPackageSettings').mockResolvedValue(
+            new Map([
+                ['apiKey', 'testKey'],
+                ['serverUrl', 'testUrl']
+            ])
+        );
         client = new UVExplorerClient(mockClient);
     });
 
-    describe('openSession tests', () => {
-        it('should successfully send open session request and return a string', async () => {
-            const url = 'test';
-            const apiKey = 'test';
-            const mockResponse = createXHRResponse(200, 'success');
+    describe('closeSession tests', () => {
+        it('should set up client session when making first call to it then close session with void response', async () => {
+            const mockResponse = helpers.mockNetworkSummariesXHRResponse;
+            const xhrSpy = createXHRSpy(mockResponse);
+            const isNetworkSummariesResponseSpy = jest.spyOn(model, 'isNetworkSummariesResponse').mockReturnValue(true);
 
-            const xhrSpy = jest.spyOn(mockClient, 'xhr').mockResolvedValue(mockResponse);
+            await expect(client.listNetworks()).resolves.toStrictEqual(
+                helpers.mockNetworkSummariesResponse.network_summaries
+            );
 
-            await expect(client.openSession(url, apiKey)).resolves.toBe(mockResponse.responseText);
-            expect(isTextXHRResponseSpy).toHaveBeenCalledWith(mockResponse);
-            expect(xhrSpy).toHaveBeenCalledWith({
-                url: url + '/public/api/v1/session',
-                method: 'POST',
+            expect(settingsSpy).toHaveBeenCalled();
+            expect(xhrSpy).toHaveBeenNthCalledWith(1, openSessionRequest);
+            expect(xhrSpy).toHaveBeenNthCalledWith(2, {
+                url: url + '/public/api/v1/network/list',
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${apiKey}`
+                    Authorization: `Bearer ${sessionGuid}`
                 },
                 data: undefined
             });
-        });
-    });
+            expect(isNetworkSummariesResponseSpy).toHaveBeenCalledWith(JSON.parse(mockResponse.responseText));
 
-    describe('closeSession tests', () => {
-        it('should successfully send close session request and return void', async () => {
-            const url = 'test';
-            const sessionGuid = 'test';
-            const mockResponse = createXHRResponse(200, '');
-
-            const xhrSpy = jest.spyOn(mockClient, 'xhr').mockResolvedValue(mockResponse);
-
-            await expect(client.closeSession(url, sessionGuid)).resolves.toBeUndefined();
-            expect(xhrSpy).toHaveBeenCalledWith({
+            const mockResponse2 = createXHRResponse(200, '');
+            const xhrSpy2 = createXHRSpy(mockResponse2);
+            await expect(client.closeSession()).resolves.toBeUndefined();
+            expect(xhrSpy2).toHaveBeenCalledWith({
                 url: url + '/public/api/v1/session',
                 method: 'DELETE',
                 headers: {
@@ -75,17 +90,14 @@ describe('UVexplorer client tests', () => {
 
     describe('listNetworks tests', () => {
         it('should successfully send ListNetworks request and return NetworkSummary[]', async () => {
-            const url = 'test';
-            const sessionGuid = 'test';
             const mockResponse = helpers.mockNetworkSummariesXHRResponse;
-
-            const xhrSpy = jest.spyOn(mockClient, 'xhr').mockResolvedValue(mockResponse);
+            const xhrSpy = createXHRSpy(mockResponse);
             const isNetworkSummariesResponseSpy = jest.spyOn(model, 'isNetworkSummariesResponse').mockReturnValue(true);
 
-            await expect(client.listNetworks(url, sessionGuid)).resolves.toStrictEqual(
+            await expect(client.listNetworks()).resolves.toStrictEqual(
                 helpers.mockNetworkSummariesResponse.network_summaries
             );
-            expect(xhrSpy).toHaveBeenCalledWith({
+            expect(xhrSpy).toHaveBeenLastCalledWith({
                 url: url + '/public/api/v1/network/list',
                 method: 'GET',
                 headers: {
@@ -98,31 +110,25 @@ describe('UVexplorer client tests', () => {
         });
 
         it('should error when list networks call does not return network summaries', async () => {
-            const url = 'test';
-            const sessionId = 'test';
             const mockResponse = createXHRResponse(200, '{"test":"test"}');
 
             jest.spyOn(mockClient, 'xhr').mockResolvedValue(mockResponse);
             jest.spyOn(model, 'isNetworkSummariesResponse').mockReturnValue(false);
 
-            await expect(client.listNetworks(url, sessionId)).rejects.toThrow(
-                'Response was not a NetworkSummariesResponse.'
-            );
+            await expect(client.listNetworks()).rejects.toThrow('Response was not a NetworkSummariesResponse.');
         });
     });
 
     describe('loadNetwork tests', () => {
         it('should successfully send NetworkRequest', async () => {
-            const url = 'test';
-            const sessionGuid = 'test';
             const networkRequest = {
                 network_guid: 'test'
             };
             const mockResponse = createXHRResponse(200, '');
-            const xhrSpy = jest.spyOn(mockClient, 'xhr').mockResolvedValue(mockResponse);
+            const xhrSpy = createXHRSpy(mockResponse);
 
-            await expect(client.loadNetwork(url, sessionGuid, networkRequest)).resolves.toBeUndefined();
-            expect(xhrSpy).toHaveBeenCalledWith({
+            await expect(client.loadNetwork(networkRequest)).resolves.toBeUndefined();
+            expect(xhrSpy).toHaveBeenLastCalledWith({
                 url: url + '/public/api/v1/network/load',
                 method: 'POST',
                 headers: {
@@ -136,13 +142,11 @@ describe('UVexplorer client tests', () => {
 
     describe('unloadNetwork tests', () => {
         it('should successfully send unload network request', async () => {
-            const url = 'test';
-            const sessionGuid = 'test';
             const mockResponse = createXHRResponse(200, '');
-            const xhrSpy = jest.spyOn(mockClient, 'xhr').mockResolvedValue(mockResponse);
+            const xhrSpy = createXHRSpy(mockResponse);
 
-            await expect(client.unloadNetwork(url, sessionGuid)).resolves.toBeUndefined();
-            expect(xhrSpy).toHaveBeenCalledWith({
+            await expect(client.unloadNetwork()).resolves.toBeUndefined();
+            expect(xhrSpy).toHaveBeenLastCalledWith({
                 url: url + '/public/api/v1/network/unload',
                 method: 'DELETE',
                 headers: {
@@ -156,17 +160,13 @@ describe('UVexplorer client tests', () => {
 
     describe('listDevices tests', () => {
         it('should successfully send DeviceListRequest', async () => {
-            const url = 'test';
-            const sessionGuid = 'test';
             const mockResponse = helpers.mockDeviceListXHRResponse;
-            const xhrSpy = jest.spyOn(mockClient, 'xhr').mockResolvedValue(mockResponse);
+            const xhrSpy = createXHRSpy(mockResponse);
             const isDeviceListResponseSpy = jest.spyOn(devicesModel, 'isDeviceListResponse').mockReturnValue(true);
 
-            await expect(client.listDevices(url, sessionGuid, {})).resolves.toStrictEqual(
-                helpers.mockDeviceListResponse.devices
-            );
+            await expect(client.listDevices({})).resolves.toStrictEqual(helpers.mockDeviceListResponse.devices);
 
-            expect(xhrSpy).toHaveBeenCalledWith({
+            expect(xhrSpy).toHaveBeenLastCalledWith({
                 url: url + '/public/api/v1/device/list',
                 method: 'POST',
                 headers: {
@@ -179,33 +179,27 @@ describe('UVexplorer client tests', () => {
         });
 
         it('should error when list devices call does not return devices', async () => {
-            const url = 'test';
-            const sessionId = 'test';
             const mockResponse = createXHRResponse(200, '{"test":"test"}');
 
             jest.spyOn(mockClient, 'xhr').mockResolvedValue(mockResponse);
             jest.spyOn(devicesModel, 'isDeviceListResponse').mockReturnValue(false);
 
-            await expect(client.listDevices(url, sessionId, {})).rejects.toThrow(
-                'Response was not a DeviceListResponse.'
-            );
+            await expect(client.listDevices({})).rejects.toThrow('Response was not a DeviceListResponse.');
         });
     });
 
     describe('listConnectedDevices tests', () => {
         it('should successfully send ConnectedDevicesRequest', async () => {
-            const url = 'test';
-            const sessionGuid = 'test';
             const mockRequest = { device_guids: [] };
             const mockResponse = helpers.mockDeviceListXHRResponse;
-            const xhrSpy = jest.spyOn(mockClient, 'xhr').mockResolvedValue(mockResponse);
+            const xhrSpy = createXHRSpy(mockResponse);
             const isDeviceListResponseSpy = jest.spyOn(devicesModel, 'isDeviceListResponse').mockReturnValue(true);
 
-            await expect(client.listConnectedDevices(url, sessionGuid, mockRequest)).resolves.toStrictEqual(
+            await expect(client.listConnectedDevices(mockRequest)).resolves.toStrictEqual(
                 helpers.mockDeviceListResponse.devices
             );
 
-            expect(xhrSpy).toHaveBeenCalledWith({
+            expect(xhrSpy).toHaveBeenLastCalledWith({
                 url: url + '/public/api/v1/device/connected',
                 method: 'POST',
                 headers: {
@@ -218,15 +212,13 @@ describe('UVexplorer client tests', () => {
         });
 
         it('should error when list connected devices call does not return devices', async () => {
-            const url = 'test';
-            const sessionId = 'test';
             const mockRequest = { device_guids: [] };
             const mockResponse = createXHRResponse(200, '{"test":"test"}');
 
             jest.spyOn(mockClient, 'xhr').mockResolvedValue(mockResponse);
             jest.spyOn(devicesModel, 'isDeviceListResponse').mockReturnValue(false);
 
-            await expect(client.listConnectedDevices(url, sessionId, mockRequest)).rejects.toThrow(
+            await expect(client.listConnectedDevices(mockRequest)).rejects.toThrow(
                 'Response was not a DeviceListResponse.'
             );
         });
@@ -234,16 +226,14 @@ describe('UVexplorer client tests', () => {
 
     describe('getTopoMap tests', () => {
         it('should successfully send TopoMapRequest', async () => {
-            const url = 'test';
-            const sessionGuid = 'test';
             const mockRequest = topoMapModel.createTopoMapRequest([]);
             const mockResponse = helpers.mockTopoMapXHRResponse;
-            const xhrSpy = jest.spyOn(mockClient, 'xhr').mockResolvedValue(mockResponse);
+            const xhrSpy = createXHRSpy(mockResponse);
             const isTopoMapSpy = jest.spyOn(topoMapModel, 'isTopoMap').mockReturnValue(true);
 
-            await expect(client.getTopoMap(url, sessionGuid, mockRequest)).resolves.toStrictEqual(helpers.mockTopoMap);
+            await expect(client.getTopoMap(mockRequest)).resolves.toStrictEqual(helpers.mockTopoMap);
 
-            expect(xhrSpy).toHaveBeenCalledWith({
+            expect(xhrSpy).toHaveBeenLastCalledWith({
                 url: url + '/public/api/v1/device/topomap',
                 method: 'POST',
                 headers: {
@@ -256,15 +246,13 @@ describe('UVexplorer client tests', () => {
         });
 
         it('should error when topo map call does not return a TopoMap', async () => {
-            const url = 'test';
-            const sessionId = 'test';
             const mockRequest = topoMapModel.createTopoMapRequest([]);
             const mockResponse = createXHRResponse(200, '{"test":"test"}');
 
             jest.spyOn(mockClient, 'xhr').mockResolvedValue(mockResponse);
             jest.spyOn(topoMapModel, 'isTopoMap').mockReturnValue(false);
 
-            await expect(client.getTopoMap(url, sessionId, mockRequest)).rejects.toThrow('Response was not a TopoMap.');
+            await expect(client.getTopoMap(mockRequest)).rejects.toThrow('Response was not a TopoMap.');
         });
     });
 
@@ -316,4 +304,18 @@ describe('UVexplorer client tests', () => {
             expect(() => client.checkStatusCode(response)).toThrow(errorMessage);
         });
     });
+
+    function createXHRSpy(mockResponse: lucid.XHRResponse) {
+        return jest
+            .spyOn(mockClient, 'xhr')
+            .mockImplementation(async (req: lucid.XHRRequest): Promise<lucid.XHRResponse> => {
+                if (req.url.match('.*(session)') && req.method === 'POST') {
+                    return new Promise<lucid.TextXHRResponse>((resolve) =>
+                        resolve({ responseText: 'testSessionGuid' } as lucid.TextXHRResponse)
+                    );
+                } else {
+                    return new Promise<lucid.XHRResponse>((resolve) => resolve(mockResponse));
+                }
+            });
+    }
 });

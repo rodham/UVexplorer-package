@@ -1,19 +1,18 @@
-import { DataSourceProxy, EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
+import { DataSourceProxy, EditorClient, JsonSerializable } from 'lucid-extension-sdk';
 import { isLoadNetworkMessage, isSelectedDevicesMessage } from 'model/message';
 import { NetworkRequest } from 'model/uvx/network';
 import { Device, DeviceListRequest } from 'model/uvx/device';
 import { UVXModal } from './uvx-modal';
+import { DocumentEditor } from 'src/doc/documentEditor';
 
 export class DevicesModal extends UVXModal {
-    constructor(client: EditorClient, viewport: Viewport) {
-        super(client, viewport, 'networks');
-
-        this.viewport = viewport;
+    constructor(client: EditorClient, docEditor: DocumentEditor) {
+        super(client, docEditor, 'networks');
     }
 
     async listNetworks() {
         try {
-            const networks = await this.uvexplorerClient.listNetworks(this.serverUrl, this.sessionGuid);
+            const networks = await this.uvxClient.listNetworks();
             const filteredNetworks = networks.filter((n) => n.name !== '');
             console.log(`Successfully retrieved network list.`);
             await this.sendMessage({
@@ -28,13 +27,8 @@ export class DevicesModal extends UVXModal {
     async loadNetwork(name: string, guid: string): Promise<DataSourceProxy | undefined> {
         try {
             const networkRequest = new NetworkRequest(guid);
-            await this.uvexplorerClient.loadNetwork(this.serverUrl, this.sessionGuid, networkRequest);
-            const source = this.data.createOrRetrieveNetworkSource(name, guid);
-            const page = this.viewport.getCurrentPage();
-            if (page !== undefined) {
-                this.data.updatePageMap(page.id, guid);
-            }
-            console.log(`Successfully loaded network: ${name}`);
+            await this.uvxClient.loadNetwork(networkRequest);
+            const source = this.docEditor.getNetworkSource(name, guid);
             return source;
         } catch (e) {
             console.error(e);
@@ -45,11 +39,7 @@ export class DevicesModal extends UVXModal {
     async loadDevices(source: DataSourceProxy) {
         try {
             const deviceListRequest = new DeviceListRequest();
-            const devices = await this.uvexplorerClient.listDevices(
-                this.serverUrl,
-                this.sessionGuid,
-                deviceListRequest
-            );
+            const devices = await this.uvxClient.listDevices(deviceListRequest);
 
             this.saveDevices(source, devices);
 
