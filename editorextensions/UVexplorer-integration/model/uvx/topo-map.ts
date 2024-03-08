@@ -1,6 +1,6 @@
 import { DeviceFilter, DeviceLink, DeviceNode } from './uvexplorer-devices-model';
 
-export interface LayoutSettings {
+interface LayoutSettings {
     layoutType: 'Manual' | 'Radial' | 'Hierarchical' | 'Ring';
     useStraightLinks: boolean;
     showLayer2Links: boolean;
@@ -29,7 +29,7 @@ export interface LayoutSettings {
     };
 }
 
-export interface DrawSettings {
+interface DrawSettings {
     shortDeviceNames: boolean;
     deviceTrimLeft: boolean;
     deviceTrimRight: boolean;
@@ -82,118 +82,114 @@ export class TopoMapRequest {
     }
 }
 
-export function createTopoMapRequest(deviceGuids: string[], layoutSettings: LayoutSettings, drawSettings: DrawSettings): TopoMapRequest {
+export function createTopoMapRequest(deviceGuids: string[]): TopoMapRequest {
     return new TopoMapRequest(
-        layoutSettings,
-        drawSettings,
+        {
+            layoutType: 'Hierarchical',
+            radialSettings: {
+                minRadius: 0,
+                maxRadius: 0,
+                maxAngle: 0,
+                maximizeRoot: true
+            },
+            hierarchicalSettings: {
+                levelSpacing: 100,
+                useStraightLinks: true,
+                nodeSpacing: 100,
+                layoutDirection: 'Down',
+                rootAlignment: 'Center'
+            },
+            ringSettings: {
+                minRadius: 0,
+                maxRadius: 0,
+                maxAngle: 0,
+                maximizeRoot: true
+            },
+            showIpPhoneLinks: true,
+            showLayer2Links: true,
+            showLinkLabels: true,
+            showVirtualLinks: true,
+            showWirelessLinks: true,
+            useStraightLinks: true
+        },
+        {
+            shortDeviceNames: false,
+            deviceTrimLeft: false,
+            deviceTrimRight: false,
+            deviceTrimLeftChar: '.',
+            deviceTrimRightChar: '.',
+            deviceTrimRightCount: 1,
+            deviceTrimLeftCount: 1,
+            shortIfNames: false,
+            hideVendorImage: false,
+            hidePlatformImage: false,
+            deviceDisplaySetting: 'Default',
+            standardPen: {
+                color: {
+                    red: 0,
+                    green: 0,
+                    blue: 0
+                },
+                width: 1,
+                dashStyle: 'Solid'
+            },
+            lagPen: {
+                color: {
+                    red: 0,
+                    green: 0,
+                    blue: 0
+                },
+                width: 1,
+                dashStyle: 'Solid'
+            },
+            manualPen: {
+                color: {
+                    red: 0,
+                    green: 0,
+                    blue: 0
+                },
+                width: 1,
+                dashStyle: 'Solid'
+            },
+            associatedPen: {
+                color: {
+                    red: 0,
+                    green: 0,
+                    blue: 0
+                },
+                width: 1,
+                dashStyle: 'Solid'
+            },
+            multiPen: {
+                color: {
+                    red: 0,
+                    green: 0,
+                    blue: 0
+                },
+                width: 1,
+                dashStyle: 'Solid'
+            },
+            stpForwardingPen: {
+                color: {
+                    red: 0,
+                    green: 0,
+                    blue: 0
+                },
+                width: 1,
+                dashStyle: 'Solid'
+            },
+            stpBlockingPen: {
+                color: {
+                    red: 0,
+                    green: 0,
+                    blue: 0
+                },
+                width: 1,
+                dashStyle: 'Solid'
+            }
+        },
         deviceGuids
     );
-}
-
-export const defaultLayoutSettings: LayoutSettings = {
-    layoutType: 'Hierarchical',
-    radialSettings: {
-        minRadius: 0,
-        maxRadius: 0,
-        maxAngle: 0,
-        maximizeRoot: true
-    },
-    hierarchicalSettings: {
-        levelSpacing: 100,
-        useStraightLinks: true,
-        nodeSpacing: 100,
-        layoutDirection: 'Down',
-        rootAlignment: 'Center'
-    },
-    ringSettings: {
-        minRadius: 0,
-        maxRadius: 0,
-        maxAngle: 0,
-        maximizeRoot: true
-    },
-    showIpPhoneLinks: true,
-    showLayer2Links: true,
-    showLinkLabels: true,
-    showVirtualLinks: true,
-    showWirelessLinks: true,
-    useStraightLinks: true
-}
-
-export const defaultDrawSettings: DrawSettings = {
-    shortDeviceNames: false,
-    deviceTrimLeft: false,
-    deviceTrimRight: false,
-    deviceTrimLeftChar: '.',
-    deviceTrimRightChar: '.',
-    deviceTrimRightCount: 1,
-    deviceTrimLeftCount: 1,
-    shortIfNames: false,
-    hideVendorImage: false,
-    hidePlatformImage: false,
-    deviceDisplaySetting: 'Default',
-    standardPen: {
-        color: {
-            red: 0,
-            green: 0,
-            blue: 0
-        },
-        width: 1,
-        dashStyle: 'Solid'
-    },
-    lagPen: {
-        color: {
-            red: 0,
-            green: 0,
-            blue: 0
-        },
-        width: 1,
-        dashStyle: 'Solid'
-    },
-    manualPen: {
-        color: {
-            red: 0,
-            green: 0,
-            blue: 0
-        },
-        width: 1,
-        dashStyle: 'Solid'
-    },
-    associatedPen: {
-        color: {
-            red: 0,
-            green: 0,
-            blue: 0
-        },
-        width: 1,
-        dashStyle: 'Solid'
-    },
-    multiPen: {
-        color: {
-            red: 0,
-            green: 0,
-            blue: 0
-        },
-        width: 1,
-        dashStyle: 'Solid'
-    },
-    stpForwardingPen: {
-        color: {
-            red: 0,
-            green: 0,
-            blue: 0
-        },
-        width: 1,
-        dashStyle: 'Solid'
-    },
-    stpBlockingPen: {
-        color: {
-            red: 0,
-            green: 0,
-            blue: 0
-        },
-        width: 1,
-        dashStyle: 'Solid'
-    }
 }
 
 export interface TopoMap {

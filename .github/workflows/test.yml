@@ -1,0 +1,35 @@
+name: Test
+
+defaults:
+  run:
+    working-directory: editorextensions/UVexplorer-integration
+
+on:
+  pull_request:
+    branches: ["main"]
+
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install
+        run: npm ci
+      - name: Install in Angular app
+        working-directory: editorextensions/UVexplorer-integration/control-panel
+        run: npm ci
+      - name: Install Angular CLI
+        run: npm i -g @angular/cli
+      - name: Jest Tests
+        run: npm run test
+      - name: Angular Tests
+        working-directory: editorextensions/UVexplorer-integration/control-panel
+        run: |
+          npm run test:ci

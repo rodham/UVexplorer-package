@@ -1,7 +1,14 @@
 // import 'dotenv/config';
 import { EditorClient, Menu, Viewport } from 'lucid-extension-sdk';
 import { DevicesModal } from '@uvx/devices-modal';
-import { showConnectedDevices, uvDeviceSelected } from '@actions/devices';
+import {
+    deviceLinkSelected,
+    showConnectedDevices,
+    singleDeviceSelected,
+    uvDeviceSelected,
+    viewDeviceDetails,
+    viewLinkDetails
+} from '@actions/devices';
 import { SettingsModal } from './uvx/settings-modal';
 
 const client = new EditorClient();
@@ -12,12 +19,36 @@ client.registerAction('uvDeviceSelected', () => {
     return uvDeviceSelected(viewport);
 });
 
+client.registerAction('singleDeviceSelected', () => {
+    return singleDeviceSelected(viewport);
+});
+
+client.registerAction('deviceLinkSelected', () => {
+    return deviceLinkSelected(viewport);
+});
+
 client.registerAction('showConnectedDevices', async () => await showConnectedDevices(viewport, client));
+
+client.registerAction('viewDeviceDetails', async () => await viewDeviceDetails(viewport, client));
+
+client.registerAction('viewLinkDetails', async () => await viewLinkDetails(viewport, client));
 
 menu.addContextMenuItem({
     label: 'Add/Remove Connected Devices',
     action: 'showConnectedDevices',
     visibleAction: 'uvDeviceSelected'
+});
+
+menu.addContextMenuItem({
+    label: 'View Device Details',
+    action: 'viewDeviceDetails',
+    visibleAction: 'singleDeviceSelected'
+});
+
+menu.addContextMenuItem({
+    label: 'View Link Details',
+    action: 'viewLinkDetails',
+    visibleAction: 'deviceLinkSelected'
 });
 
 client.registerAction('loadNetwork', async () => {

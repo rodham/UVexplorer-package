@@ -1,12 +1,7 @@
 import { DataSourceProxy, EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
-import {
-    isLoadMapSettingsMessage,
-    isLoadNetworkMessage,
-    isSelectedDevicesMessage, 
-    isSelectedMapSettingsMessage
-} from 'model/message';
-import { NetworkRequest } from 'model/uvexplorer-model';
-import { Device, DeviceListRequest } from 'model/uvexplorer-devices-model';
+import { isLoadNetworkMessage, isSelectedDevicesMessage } from 'model/message';
+import { NetworkRequest } from 'model/uvx/network';
+import { Device, DeviceListRequest } from 'model/uvx/device';
 import { UVXModal } from './uvx-modal';
 
 export class DevicesModal extends UVXModal {
@@ -76,7 +71,7 @@ export class DevicesModal extends UVXModal {
 
     saveDevices(source: DataSourceProxy, devices: Device[]) {
         const collection = this.data.createOrRetrieveDeviceCollection(source);
-        this.data.deleteDevicesFromCollection(collection); // TODO: Replace once updateDevicesInCollection Function is implemented
+        this.data.clearCollection(collection); // TODO: Replace once updateDevicesInCollection Function is implemented
         this.data.addDevicesToCollection(collection, devices);
     }
 
@@ -84,8 +79,6 @@ export class DevicesModal extends UVXModal {
         console.log('Received a message from the child.');
         console.log(message);
         if (isLoadNetworkMessage(message)) {
-            console.log(message.name);
-            console.log(message.network_guid);
             const source = await this.loadNetwork(message.name, message.network_guid);
             if (source !== undefined) {
                 await this.loadDevices(source);

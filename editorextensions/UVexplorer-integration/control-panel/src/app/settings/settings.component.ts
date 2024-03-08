@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { isMapSettingsMessage } from 'model/message';
 import { FormsModule } from '@angular/forms';
-import { defaultDrawSettings, defaultLayoutSettings } from 'model/uvexplorer-topomap-model';
+import { defaultDrawSettings, defaultLayoutSettings } from 'model/uvx/topo-map';
 
 @Component({
   selector: 'app-settings',
@@ -19,8 +19,8 @@ export class SettingsComponent {
     lagPen: '#000000',
     manualPen: '#000000',
     associatedPen: '#000000',
-    multiPen: '#000000',
-  }
+    multiPen: '#000000'
+  };
 
   constructor() {
     window.addEventListener('message', (e) => {

@@ -1,9 +1,11 @@
 import { uvDeviceSelected, showConnectedDevices } from '@actions/devices';
 import * as lucid from 'lucid-extension-sdk';
-import * as block from '@blocks/block-utils';
+import { BlockUtils } from '@blocks/block-utils';
+import { mockSelectedNetworkDevices } from 'mock_data/devices';
 
 jest.mock('lucid-extension-sdk');
-jest.mock('@blocks/block-utils');
+jest.mock('@draw/draw-topo-map');
+jest.mock('@uvx/connected-devices-modal');
 
 beforeEach(() => {
     jest.resetModules();
@@ -11,12 +13,8 @@ beforeEach(() => {
 
 describe('Device actions success tests', () => {
     const mockClient = new lucid.EditorClient();
-    const mockSelection = [
-        new lucid.BlockProxy('1', mockClient),
-        new lucid.BlockProxy('1', mockClient)
-    ] as lucid.ItemProxy[];
+    const mockSelection = mockSelectedNetworkDevices as lucid.ItemProxy[];
     const mockViewport = {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         getSelectedItems: (_deep?: boolean | undefined) => mockSelection
     } as lucid.Viewport;
 
@@ -26,16 +24,16 @@ describe('Device actions success tests', () => {
 
     describe('uvDeviceSelected tests', () => {
         it('should be true when multiple uvDevices are selected', () => {
-            jest.spyOn(block, 'isNetworkDeviceBlock').mockReturnValue(true);
+            jest.spyOn(BlockUtils, 'isNetworkDeviceBlock').mockReturnValue(true);
             expect(uvDeviceSelected(mockViewport)).toBeTruthy();
         });
     });
 
     describe('showConnectedDevices tests', () => {
-        it.skip('should call console.log with selected items', async () => {
-            const logSpy = jest.spyOn(console, 'log');
+        it('should call console.log with selected items', async () => {
+            const isNetworkDeviceBlockSpy = jest.spyOn(BlockUtils, 'isNetworkDeviceBlock').mockReturnValue(true);
             await showConnectedDevices(mockViewport, mockClient);
-            expect(logSpy).toHaveBeenCalledWith('Selection:', mockSelection);
+            expect(isNetworkDeviceBlockSpy).toHaveBeenCalledWith(mockSelectedNetworkDevices[0]);
         });
     });
 });
