@@ -210,16 +210,6 @@ export function linkFromSerializableLinkMessage(message: LinkDetailsMessage): De
     if (isDeviceLinkEdge(linkEdge)) {
         return linkEdge;
     } else {
-        const isObj = (obj: unknown): obj is DeviceLinkEdge => {
-            return true;
-        };
-
-        if (isObj(linkEdge)) {
-            for (const [key, val] of Object.entries(linkEdge)) {
-                console.log(key);
-                console.log('Value: ', JSON.stringify(val));
-            }
-        }
         throw Error('Unable to parse as DeviceLinkEdge object');
     }
 }

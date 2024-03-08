@@ -18,6 +18,7 @@ describe('Connected Devices Modal Tests', () => {
             return { id: '1' };
         }
     } as lucid.Viewport;
+    const mockUvxClient = new UVExplorerClient(mockEditorClient);
     const mockNetworkRequest = {
         network_guid: 'myNetwork'
     };
@@ -40,7 +41,7 @@ describe('Connected Devices Modal Tests', () => {
         const connectedDevicesRequestSpy = jest
             .spyOn(devicesModel, 'ConnectedDevicesRequest')
             .mockReturnValue(mockConnectedDevicesRequest);
-        const modal = new ConnectedDevicesModal(mockEditorClient, mockViewport, mockDeviceGuids, mockDeviceGuids2);
+        const modal = new ConnectedDevicesModal(mockEditorClient, mockViewport, mockUvxClient, mockDeviceGuids, mockDeviceGuids2);
         const sendMessageMock = jest.spyOn(modal, 'sendMessage');
 
         it('Should make uvx request and send message to child', async () => {

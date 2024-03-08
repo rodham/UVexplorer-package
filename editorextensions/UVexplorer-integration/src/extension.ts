@@ -9,10 +9,12 @@ import {
     viewDeviceDetails,
     viewLinkDetails
 } from '@actions/devices';
+import { UVExplorerClient } from '@uvx/uvx-client';
 
 const client = new EditorClient();
 const menu = new Menu(client);
 const viewport: Viewport = new Viewport(client);
+const uvxClient: UVExplorerClient = new UVExplorerClient(client);
 
 client.registerAction('uvDeviceSelected', () => {
     return uvDeviceSelected(viewport);
@@ -26,11 +28,11 @@ client.registerAction('deviceLinkSelected', () => {
     return deviceLinkSelected(viewport);
 });
 
-client.registerAction('showConnectedDevices', async () => await showConnectedDevices(viewport, client));
+client.registerAction('showConnectedDevices', async () => await showConnectedDevices(viewport, client, uvxClient));
 
-client.registerAction('viewDeviceDetails', async () => await viewDeviceDetails(viewport, client));
+client.registerAction('viewDeviceDetails', async () => await viewDeviceDetails(viewport, client, uvxClient));
 
-client.registerAction('viewLinkDetails', async () => await viewLinkDetails(viewport, client));
+client.registerAction('viewLinkDetails', async () => await viewLinkDetails(viewport, client, uvxClient));
 
 menu.addContextMenuItem({
     label: 'Add/Remove Connected Devices',
@@ -51,7 +53,7 @@ menu.addContextMenuItem({
 });
 
 client.registerAction('loadNetwork', async () => {
-    const modal = new DevicesModal(client, viewport);
+    const modal = new DevicesModal(client, viewport, uvxClient);
 
     // TODO: Add back when deploying. Package settings config did not save locally.
     // await modal.configureSetting('apiKey');

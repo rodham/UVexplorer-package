@@ -168,4 +168,17 @@ export class Data {
         const collection = this.createOrRetrieveLinkCollection(source);
         return collection.id;
     }
+
+    saveDevices(source: DataSourceProxy, devices: Device[]) {
+        const collection = this.createOrRetrieveDeviceCollection(source);
+        this.clearCollection(collection); // TODO: Replace once updateDevicesInCollection Function is implemented
+        this.addDevicesToCollection(collection, devices);
+    }
+
+    saveLinks(networkGuid: string, links: DeviceLink[]) {
+        const source = this.createOrRetrieveNetworkSource('', networkGuid);
+        const collection = this.createOrRetrieveLinkCollection(source);
+        this.clearCollection(collection); // TODO: Replace once updateLinksInCollection Function is implemented
+        this.addLinksToCollection(collection, links);
+    }
 }

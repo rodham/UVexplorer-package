@@ -3,6 +3,7 @@ import { DeviceDetailModal } from '@uvx/device-detail-modal';
 import { BlockUtils } from '@blocks/block-utils';
 import { EditorClient, ItemProxy, LineProxy, Viewport } from 'lucid-extension-sdk';
 import { LinkInfoModal } from '@uvx/link-info-modal';
+import { UVExplorerClient } from '@uvx/uvx-client';
 
 export function uvDeviceSelected(viewport: Viewport): boolean {
     const selection = viewport.getSelectedItems();
@@ -24,7 +25,7 @@ export function deviceLinkSelected(viewport: Viewport): boolean {
     return isCorrectSelection;
 }
 
-export async function showConnectedDevices(viewport: Viewport, client: EditorClient): Promise<void> {
+export async function showConnectedDevices(viewport: Viewport, client: EditorClient, uvxClient: UVExplorerClient): Promise<void> {
     const selection = viewport.getSelectedItems();
     const deviceGuids: string[] = [];
     const visConnDeviceGuids: string[] = [];
@@ -63,7 +64,7 @@ export async function showConnectedDevices(viewport: Viewport, client: EditorCli
         }
     }
 
-    const modal = new ConnectedDevicesModal(client, viewport, deviceGuids, visConnDeviceGuids);
+    const modal = new ConnectedDevicesModal(client, viewport, uvxClient, deviceGuids, visConnDeviceGuids);
 
     const additionalSettings: Map<string, string> = new Map<string, string>();
     additionalSettings.set('apiKey', process.env.UVX_API_KEY!);
@@ -76,7 +77,7 @@ export async function showConnectedDevices(viewport: Viewport, client: EditorCli
     await modal.loadConnectedDevices();
 }
 
-export async function viewDeviceDetails(viewport: Viewport, client: EditorClient): Promise<void> {
+export async function viewDeviceDetails(viewport: Viewport, client: EditorClient, uvxClient: UVExplorerClient): Promise<void> {
     const selection = viewport.getSelectedItems();
     if (selection.length !== 1) {
         console.log('Can only view details of one device at a time');
@@ -94,7 +95,7 @@ export async function viewDeviceDetails(viewport: Viewport, client: EditorClient
         return;
     }
 
-    const modal = new DeviceDetailModal(client, viewport, device);
+    const modal = new DeviceDetailModal(client, viewport, uvxClient, device);
 
     const additionalSettings: Map<string, string> = new Map<string, string>();
     additionalSettings.set('apiKey', process.env.UVX_API_KEY!);
@@ -107,7 +108,7 @@ export async function viewDeviceDetails(viewport: Viewport, client: EditorClient
     await modal.getDeviceDetails();
 }
 
-export async function viewLinkDetails(viewport: Viewport, client: EditorClient): Promise<void> {
+export async function viewLinkDetails(viewport: Viewport, client: EditorClient, uvxClient: UVExplorerClient): Promise<void> {
     const selection = viewport.getSelectedItems();
     if (selection.length !== 1) {
         console.log('Can only view details of one link at a time');
@@ -125,7 +126,7 @@ export async function viewLinkDetails(viewport: Viewport, client: EditorClient):
         return;
     }
 
-    const modal = new LinkInfoModal(client, viewport, line);
+    const modal = new LinkInfoModal(client, viewport, uvxClient, line);
 
     const additionalSettings: Map<string, string> = new Map<string, string>();
     additionalSettings.set('apiKey', process.env.UVX_API_KEY!);

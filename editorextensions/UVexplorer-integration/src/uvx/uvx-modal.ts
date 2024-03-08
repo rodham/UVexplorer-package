@@ -1,8 +1,7 @@
-import { EditorClient, Modal, PageProxy, Viewport } from 'lucid-extension-sdk';
+import { EditorClient, Modal, PageProxy, serializeFieldConstraintDefinition, Viewport } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvx-client';
 import { NetworkRequest } from 'model/uvx/network';
 import { createTopoMapRequest, TopoMap } from 'model/uvx/topo-map';
-import { DeviceLink } from 'model/uvx/device';
 import { Data } from '@data/data';
 import { BlockUtils } from '@blocks/block-utils';
 import { DrawTopoMap } from '@draw/draw-topo-map';
@@ -15,7 +14,7 @@ export abstract class UVXModal extends Modal {
     protected apiKey = '';
     protected sessionGuid = '';
 
-    constructor(client: EditorClient, viewport: Viewport, path: string) {
+    constructor(client: EditorClient, viewport: Viewport, uvxClient: UVExplorerClient, path: string) {
         super(client, {
             title: 'UVexplorer',
             width: 800,
@@ -24,7 +23,7 @@ export abstract class UVXModal extends Modal {
         });
 
         this.viewport = viewport;
-        this.uvexplorerClient = new UVExplorerClient(client);
+        this.uvexplorerClient = uvxClient;
         this.data = Data.getInstance(client);
     }
 
@@ -111,7 +110,7 @@ export abstract class UVXModal extends Modal {
 
         const topoMap = await this.loadTopoMap(deviceGuids);
         if (topoMap) {
-            this.saveLinks(this.data.getNetworkForPage(page.id), topoMap.deviceLinks);
+            this.data.saveLinks(this.data.getNetworkForPage(page.id), topoMap.deviceLinks);
             await DrawTopoMap.drawTopoMap(this.client, this.viewport, page, topoMap.deviceNodes, topoMap.deviceLinks);
         } else {
             console.error('Could not load topo map data.');
@@ -142,6 +141,8 @@ export abstract class UVXModal extends Modal {
      *         in addition to new device guids to be drawn.
      */
     clearBlocks(page: PageProxy, devices: string[], removeDevices?: string[]) {
+        console.log('add devices: ' + devices.toString());
+        console.log('remove devices ' + removeDevices?.toString())
         const pageItems = page.allBlocks;
 
         if (pageItems) {
@@ -159,12 +160,5 @@ export abstract class UVXModal extends Modal {
         }
 
         return devices;
-    }
-
-    saveLinks(networkGuid: string, links: DeviceLink[]) {
-        const source = this.data.createOrRetrieveNetworkSource('', networkGuid);
-        const collection = this.data.createOrRetrieveLinkCollection(source);
-        this.data.clearCollection(collection); // TODO: Replace once updateLinksInCollection Function is implemented
-        this.data.addLinksToCollection(collection, links);
     }
 }

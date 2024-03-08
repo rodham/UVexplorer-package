@@ -1,12 +1,13 @@
 import { Device } from 'model/uvx/device';
 import { UVXModal } from './uvx-modal';
 import { EditorClient, Viewport } from 'lucid-extension-sdk';
+import { UVExplorerClient } from '@uvx/uvx-client';
 
 export class DeviceDetailModal extends UVXModal {
     device: Device;
 
-    constructor(client: EditorClient, viewport: Viewport, device: Device) {
-        super(client, viewport, 'device-detail');
+    constructor(client: EditorClient, viewport: Viewport, uvxClient: UVExplorerClient, device: Device) {
+        super(client, viewport, uvxClient, 'device-detail');
         this.device = device;
     }
 

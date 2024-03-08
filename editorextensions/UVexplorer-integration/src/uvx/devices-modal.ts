@@ -1,12 +1,13 @@
 import { DataSourceProxy, EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
 import { isLoadNetworkMessage, isSelectedDevicesMessage } from 'model/message';
 import { NetworkRequest } from 'model/uvx/network';
-import { Device, DeviceListRequest } from 'model/uvx/device';
+import { DeviceListRequest } from 'model/uvx/device';
 import { UVXModal } from './uvx-modal';
+import { UVExplorerClient } from '@uvx/uvx-client';
 
 export class DevicesModal extends UVXModal {
-    constructor(client: EditorClient, viewport: Viewport) {
-        super(client, viewport, 'networks');
+    constructor(client: EditorClient, viewport: Viewport, uvxClient: UVExplorerClient) {
+        super(client, viewport, uvxClient, 'networks');
 
         this.viewport = viewport;
     }
@@ -51,7 +52,7 @@ export class DevicesModal extends UVXModal {
                 deviceListRequest
             );
 
-            this.saveDevices(source, devices);
+            this.data.saveDevices(source, devices);
 
             await this.sendMessage({
                 action: 'listDevices',
@@ -63,11 +64,7 @@ export class DevicesModal extends UVXModal {
         }
     }
 
-    saveDevices(source: DataSourceProxy, devices: Device[]) {
-        const collection = this.data.createOrRetrieveDeviceCollection(source);
-        this.data.clearCollection(collection); // TODO: Replace once updateDevicesInCollection Function is implemented
-        this.data.addDevicesToCollection(collection, devices);
-    }
+
 
     protected async messageFromFrame(message: JsonSerializable) {
         console.log('Received a message from the child.');

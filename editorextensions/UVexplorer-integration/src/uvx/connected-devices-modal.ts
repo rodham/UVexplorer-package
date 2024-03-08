@@ -2,6 +2,7 @@ import { EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
 import { UVXModal } from './uvx-modal';
 import { ConnectedDevicesRequest } from 'model/uvx/device';
 import { isSelectedDevicesMessage } from 'model/message';
+import { UVExplorerClient } from '@uvx/uvx-client';
 
 export class ConnectedDevicesModal extends UVXModal {
     deviceGuids: string[];
@@ -10,10 +11,11 @@ export class ConnectedDevicesModal extends UVXModal {
     constructor(
         client: EditorClient,
         viewport: Viewport,
+        uvxClient: UVExplorerClient,
         deviceGuids: string[],
         visibleConnectedDeviceGuids: string[]
     ) {
-        super(client, viewport, 'devices');
+        super(client, viewport, uvxClient, 'devices');
         this.deviceGuids = deviceGuids;
         this.visibleConnectedDeviceGuids = visibleConnectedDeviceGuids;
     }

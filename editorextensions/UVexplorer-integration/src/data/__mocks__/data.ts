@@ -64,4 +64,12 @@ export class Data {
     getLinksCollectionForPage(_pageId: string): string {
         return 'my_network_link';
     }
+
+    saveDevices(_source: DataSourceProxy, _devices: Device[]) {
+        return;
+    }
+
+    saveLinks(_networkGuid: string, _links: DeviceLink[]) {
+        return;
+    }
 }
