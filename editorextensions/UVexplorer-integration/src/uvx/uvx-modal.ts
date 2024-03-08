@@ -142,7 +142,7 @@ export abstract class UVXModal extends Modal {
      */
     clearBlocks(page: PageProxy, devices: string[], removeDevices?: string[]) {
         console.log('add devices: ' + devices.toString());
-        console.log('remove devices ' + removeDevices?.toString())
+        console.log('remove devices ' + removeDevices?.toString());
         const pageItems = page.allBlocks;
 
         if (pageItems) {

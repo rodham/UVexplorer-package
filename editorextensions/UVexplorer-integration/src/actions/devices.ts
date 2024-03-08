@@ -25,7 +25,11 @@ export function deviceLinkSelected(viewport: Viewport): boolean {
     return isCorrectSelection;
 }
 
-export async function showConnectedDevices(viewport: Viewport, client: EditorClient, uvxClient: UVExplorerClient): Promise<void> {
+export async function showConnectedDevices(
+    viewport: Viewport,
+    client: EditorClient,
+    uvxClient: UVExplorerClient
+): Promise<void> {
     const selection = viewport.getSelectedItems();
     const deviceGuids: string[] = [];
     const visConnDeviceGuids: string[] = [];
@@ -77,7 +81,11 @@ export async function showConnectedDevices(viewport: Viewport, client: EditorCli
     await modal.loadConnectedDevices();
 }
 
-export async function viewDeviceDetails(viewport: Viewport, client: EditorClient, uvxClient: UVExplorerClient): Promise<void> {
+export async function viewDeviceDetails(
+    viewport: Viewport,
+    client: EditorClient,
+    uvxClient: UVExplorerClient
+): Promise<void> {
     const selection = viewport.getSelectedItems();
     if (selection.length !== 1) {
         console.log('Can only view details of one device at a time');
@@ -108,7 +116,11 @@ export async function viewDeviceDetails(viewport: Viewport, client: EditorClient
     await modal.getDeviceDetails();
 }
 
-export async function viewLinkDetails(viewport: Viewport, client: EditorClient, uvxClient: UVExplorerClient): Promise<void> {
+export async function viewLinkDetails(
+    viewport: Viewport,
+    client: EditorClient,
+    uvxClient: UVExplorerClient
+): Promise<void> {
     const selection = viewport.getSelectedItems();
     if (selection.length !== 1) {
         console.log('Can only view details of one link at a time');

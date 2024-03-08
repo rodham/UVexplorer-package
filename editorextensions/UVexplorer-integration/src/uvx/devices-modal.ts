@@ -64,8 +64,6 @@ export class DevicesModal extends UVXModal {
         }
     }
 
-
-
     protected async messageFromFrame(message: JsonSerializable) {
         console.log('Received a message from the child.');
         console.log(message);

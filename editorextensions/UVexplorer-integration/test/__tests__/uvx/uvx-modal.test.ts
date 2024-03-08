@@ -21,7 +21,7 @@ jest.mock('lucid-extension-sdk', (): unknown => ({
 
 jest.mock('@uvx/uvx-client');
 jest.mock('@data/data');
-jest.mock('model/uvx/topo-map')
+jest.mock('model/uvx/topo-map');
 jest.mock('@draw/draw-topo-map');
 jest.mock('@blocks/block-utils');
 
@@ -47,10 +47,10 @@ describe('UVXModal', () => {
 
     describe('configureSetting', () => {
         it('should do nothing if setting is already configured', async () => {
-            const getPackageSettingsSpy = jest.spyOn(mockClient, 'getPackageSettings')
+            const getPackageSettingsSpy = jest.spyOn(mockClient, 'getPackageSettings');
             const mockPackageSettings = new Map<string, JsonSerializable>();
             mockPackageSettings.set('apiKey', 'key');
-            getPackageSettingsSpy.mockResolvedValue(mockPackageSettings)
+            getPackageSettingsSpy.mockResolvedValue(mockPackageSettings);
             const alertSpy = jest.spyOn(mockClient, 'alert');
             const showPackageSettingsModalSpy = jest.spyOn(mockClient, 'showPackageSettingsModal');
 
@@ -62,9 +62,9 @@ describe('UVXModal', () => {
         });
 
         it('should prompt user to configure setting and handle user input', async () => {
-            const getPackageSettingsSpy = jest.spyOn(mockClient, 'getPackageSettings')
+            const getPackageSettingsSpy = jest.spyOn(mockClient, 'getPackageSettings');
             const alertSpy = jest.spyOn(mockClient, 'alert');
-            const canEditPackageSettingsSpy = jest.spyOn(mockClient, 'canEditPackageSettings')
+            const canEditPackageSettingsSpy = jest.spyOn(mockClient, 'canEditPackageSettings');
             const showPackageSettingsModalSpy = jest.spyOn(mockClient, 'showPackageSettingsModal');
             const mockPackageSettings = new Map<string, JsonSerializable>();
 
@@ -77,10 +77,10 @@ describe('UVXModal', () => {
         });
 
         it('should handle case when user cannot edit package settings', async () => {
-            const getPackageSettingsSpy = jest.spyOn(mockClient, 'getPackageSettings')
+            const getPackageSettingsSpy = jest.spyOn(mockClient, 'getPackageSettings');
             const mockPackageSettings = new Map<string, JsonSerializable>();
             getPackageSettingsSpy.mockResolvedValue(mockPackageSettings);
-            const canEditPackageSettingsSpy = jest.spyOn(mockClient, 'canEditPackageSettings')
+            const canEditPackageSettingsSpy = jest.spyOn(mockClient, 'canEditPackageSettings');
             canEditPackageSettingsSpy.mockResolvedValue(false);
             const alertSpy = jest.spyOn(mockClient, 'alert');
             const showPackageSettingsModalSpy = jest.spyOn(mockClient, 'showPackageSettingsModal');
@@ -94,7 +94,7 @@ describe('UVXModal', () => {
 
     describe('loadSettings', () => {
         it('should load settings from client', async () => {
-            const getPackageSettingsSpy = jest.spyOn(mockClient, 'getPackageSettings')
+            const getPackageSettingsSpy = jest.spyOn(mockClient, 'getPackageSettings');
             const mockPackageSettings = new Map<string, JsonSerializable>();
             mockPackageSettings.set('apiKey', 'key');
             mockPackageSettings.set('serverUrl', 'http://example.com');
@@ -103,7 +103,7 @@ describe('UVXModal', () => {
 
             await mockModal.loadSettings();
             expect(getSpy).toHaveBeenCalledWith('apiKey');
-            expect(getSpy).toHaveBeenCalledWith('serverUrl')
+            expect(getSpy).toHaveBeenCalledWith('serverUrl');
         });
     });
 
@@ -119,7 +119,7 @@ describe('UVXModal', () => {
         });
 
         it('should handle errors while opening a session', async () => {
-            const mockError = new Error('failed to open session')
+            const mockError = new Error('failed to open session');
             const openSessionSpy = jest.spyOn(mockUvxClient, 'openSession').mockRejectedValue(mockError);
             const errorSpy = jest.spyOn(console, 'error');
 
@@ -140,7 +140,7 @@ describe('UVXModal', () => {
         });
 
         it('should handle errors while closing the session', async () => {
-            const mockError = new Error('failed to close session')
+            const mockError = new Error('failed to close session');
             const closeSessionSpy = jest.spyOn(mockUvxClient, 'closeSession').mockRejectedValue(mockError);
             const errorSpy = jest.spyOn(console, 'error');
 
@@ -185,7 +185,7 @@ describe('UVXModal', () => {
             const result = await mockModal.loadTopoMap(mockGuids);
 
             expect(createTopoMapRequestSpy).toHaveBeenCalledWith(mockGuids);
-            expect(getTopoMapSpy).toHaveBeenCalled()
+            expect(getTopoMapSpy).toHaveBeenCalled();
             expect(result).toBe(mockTopoMap);
         });
     });
@@ -231,7 +231,7 @@ describe('UVXModal', () => {
     describe('clearMap', () => {
         it('should clear the map successfully with valid inputs', () => {
             const mockDeviceGuids = ['deviceGuid1', 'deviceGuid2'];
-            const mockRemoveDeviceGuids = ['deviceGuidToRemove']
+            const mockRemoveDeviceGuids = ['deviceGuidToRemove'];
             const clearLinesSpy = jest.spyOn(mockModal, 'clearLines').mockImplementation();
             const clearBlocksSpy = jest.spyOn(mockModal, 'clearBlocks').mockReturnValue(mockDeviceGuids);
 
@@ -247,7 +247,12 @@ describe('UVXModal', () => {
         it('should delete all device connection lines', () => {
             const mockLine = { delete: jest.fn() };
             const deleteSpy = jest.spyOn(mockLine, 'delete');
-            mockPage = {allLines: new Map([['line1', mockLine], ['line2', mockLine]])} as unknown as PageProxy;
+            mockPage = {
+                allLines: new Map([
+                    ['line1', mockLine],
+                    ['line2', mockLine]
+                ])
+            } as unknown as PageProxy;
             mockModal.clearLines(mockPage);
 
             expect(deleteSpy).toHaveBeenCalledTimes(2);
@@ -260,10 +265,15 @@ describe('UVXModal', () => {
             const getGuidFromBlockSpy = jest.spyOn(BlockUtils, 'getGuidFromBlock').mockReturnValue('guid');
             const mockPageItem1 = { delete: jest.fn() };
             const mockPageItem2 = { delete: jest.fn() };
-            mockPage = {allBlocks: new Map([['block1', mockPageItem1], ['block2', mockPageItem2]])} as unknown as PageProxy;
+            mockPage = {
+                allBlocks: new Map([
+                    ['block1', mockPageItem1],
+                    ['block2', mockPageItem2]
+                ])
+            } as unknown as PageProxy;
 
             const mockDevices = ['deviceGuid1', 'deviceGuid2'];
-            const mockRemoveDevices = ['deviceGuidToRemove']
+            const mockRemoveDevices = ['deviceGuidToRemove'];
             const result = mockModal.clearBlocks(mockPage, mockDevices, mockRemoveDevices);
 
             expect(isNetworkDeviceBlockSpy).toHaveBeenCalledTimes(mockPage.allBlocks.size);
