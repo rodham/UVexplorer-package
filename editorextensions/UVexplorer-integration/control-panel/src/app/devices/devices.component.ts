@@ -27,7 +27,6 @@ import { SettingsComponent } from '../settings/settings.component';
 })
 export class DevicesComponent {
   devices: Device[] = [];
-  selectingDevices = false;
   visibleConnectedDeviceGuids: string[] = [];
   themeClass = 'ag-theme-quartz';
   rowSelection: 'multiple' | 'single' = 'multiple';
@@ -41,11 +40,11 @@ export class DevicesComponent {
       if (isListDevicesMessage(e.data)) {
         this.devices = devicesFromSerializableDevicesMessage(e.data);
         this.visibleConnectedDeviceGuids = connDeviceGuidsFromListDevMsg(e.data);
-        this.selectingDevices = true;
+        document.getElementById("devicesComponent")!.style.display = "block";
         console.log('Received devices in component');
       }
       else if (isRelistDevicesMessage(e.data)) {
-        this.selectingDevices = true;
+        document.getElementById("devicesComponent")!.style.display = "block";
       }
     });
   }
@@ -162,7 +161,7 @@ export class DevicesComponent {
       '*'
     );
 
-    this.selectingDevices = false;
+    document.getElementById("devicesComponent")!.style.display = "none";
   }
 
   public changeSettings() {
@@ -173,6 +172,6 @@ export class DevicesComponent {
       '*'
     );
     
-    this.selectingDevices = false;
+    document.getElementById("devicesComponent")!.style.display = "none";
   }
 }
