@@ -4,6 +4,7 @@ import {
     CustomBlockProxy,
     EditorClient,
     ItemProxy,
+    LineProxy,
     LineShape,
     PageProxy,
     Viewport,
@@ -128,7 +129,7 @@ export async function drawMap(
     deviceNodes: DeviceNode[],
     deviceLinks: DeviceLink[]
 ) {
-    const customBlockDef = await client.getCustomShapeDefinition(LIBRARY, SHAPE);
+    const customBlockDef = await client.getCustomShapeDefinition(NetworkDeviceBlock.library, NetworkDeviceBlock.shape);
     if (!customBlockDef) {
         return;
     }

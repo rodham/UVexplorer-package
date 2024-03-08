@@ -1,4 +1,4 @@
-import { isNetworkSummary, NetworkSummary } from './uvexplorer-model';
+import { isNetworkSummary, NetworkSummary } from './uvx/network';
 import {
     Device,
     DeviceDetailsResponse,

@@ -1,7 +1,43 @@
-import { DeviceFilter, DeviceLink, DeviceNode } from './uvexplorer-devices-model';
+import { DeviceFilter, DeviceLink, DeviceNode } from './device';
 
-interface LayoutSettings {
-    layoutType: 'Manual' | 'Radial' | 'Hierarchical' | 'Ring';
+export enum LayoutType {
+    Manual,
+    Radial,
+    Hierarchical,
+    Ring
+}
+
+export enum LayoutDirection {
+    Left,
+    Right,
+    Up,
+    Down
+}
+
+export enum RootAlignment {
+    Left,
+    Center,
+    Right
+}
+
+export enum DeviceDisplaySetting {
+    Default,
+    Hostname,
+    IpAddress,
+    HostnameAndIpAddress
+}
+
+export enum DashStyle {
+    Solid = 0,
+    Dash = 1,
+    Dot = 2,
+    DashDot = 3,
+    DashDotDot = 4,
+    Custom = 5
+}
+
+export interface LayoutSettings {
+    layoutType: LayoutType;
     useStraightLinks: boolean;
     showLayer2Links: boolean;
     showVirtualLinks: boolean;
@@ -18,8 +54,8 @@ interface LayoutSettings {
         levelSpacing: number;
         useStraightLinks: boolean;
         nodeSpacing: number;
-        layoutDirection: 'Left' | 'Right' | 'Up' | 'Down';
-        rootAlignment: 'Left' | 'Center' | 'Right';
+        layoutDirection: LayoutDirection;
+        rootAlignment: RootAlignment;
     };
     ringSettings?: {
         minRadius: number;
@@ -27,9 +63,10 @@ interface LayoutSettings {
         maxAngle: number;
         maximizeRoot: boolean;
     };
+    rootNodes?: unknown;
 }
 
-interface DrawSettings {
+export interface DrawSettings {
     shortDeviceNames: boolean;
     deviceTrimLeft: boolean;
     deviceTrimRight: boolean;
@@ -40,7 +77,7 @@ interface DrawSettings {
     shortIfNames: boolean;
     hideVendorImage: boolean;
     hidePlatformImage: boolean;
-    deviceDisplaySetting: 'Default' | 'Hostname' | 'IpAddress' | 'HostnameAndIpAddress';
+    deviceDisplaySetting: DeviceDisplaySetting;
     standardPen: PenPattern;
     lagPen: PenPattern;
     manualPen: PenPattern;
@@ -50,14 +87,14 @@ interface DrawSettings {
     stpBlockingPen: PenPattern;
 }
 
-interface PenPattern {
+export interface PenPattern {
     color: {
         red: number;
         green: number;
         blue: number;
     };
     width: number;
-    dashStyle: 'Solid' | 'Dash' | 'Dot' | 'DashDot' | 'DashDotDot';
+    dashStyle: DashStyle;
 }
 
 export class TopoMapRequest {
@@ -82,114 +119,118 @@ export class TopoMapRequest {
     }
 }
 
-export function createTopoMapRequest(deviceGuids: string[]): TopoMapRequest {
-    return new TopoMapRequest(
-        {
-            layoutType: 'Hierarchical',
-            radialSettings: {
-                minRadius: 0,
-                maxRadius: 0,
-                maxAngle: 0,
-                maximizeRoot: true
-            },
-            hierarchicalSettings: {
-                levelSpacing: 100,
-                useStraightLinks: true,
-                nodeSpacing: 100,
-                layoutDirection: 'Down',
-                rootAlignment: 'Center'
-            },
-            ringSettings: {
-                minRadius: 0,
-                maxRadius: 0,
-                maxAngle: 0,
-                maximizeRoot: true
-            },
-            showIpPhoneLinks: true,
-            showLayer2Links: true,
-            showLinkLabels: true,
-            showVirtualLinks: true,
-            showWirelessLinks: true,
-            useStraightLinks: true
-        },
-        {
-            shortDeviceNames: false,
-            deviceTrimLeft: false,
-            deviceTrimRight: false,
-            deviceTrimLeftChar: '.',
-            deviceTrimRightChar: '.',
-            deviceTrimRightCount: 1,
-            deviceTrimLeftCount: 1,
-            shortIfNames: false,
-            hideVendorImage: false,
-            hidePlatformImage: false,
-            deviceDisplaySetting: 'Default',
-            standardPen: {
-                color: {
-                    red: 0,
-                    green: 0,
-                    blue: 0
-                },
-                width: 1,
-                dashStyle: 'Solid'
-            },
-            lagPen: {
-                color: {
-                    red: 0,
-                    green: 0,
-                    blue: 0
-                },
-                width: 1,
-                dashStyle: 'Solid'
-            },
-            manualPen: {
-                color: {
-                    red: 0,
-                    green: 0,
-                    blue: 0
-                },
-                width: 1,
-                dashStyle: 'Solid'
-            },
-            associatedPen: {
-                color: {
-                    red: 0,
-                    green: 0,
-                    blue: 0
-                },
-                width: 1,
-                dashStyle: 'Solid'
-            },
-            multiPen: {
-                color: {
-                    red: 0,
-                    green: 0,
-                    blue: 0
-                },
-                width: 1,
-                dashStyle: 'Solid'
-            },
-            stpForwardingPen: {
-                color: {
-                    red: 0,
-                    green: 0,
-                    blue: 0
-                },
-                width: 1,
-                dashStyle: 'Solid'
-            },
-            stpBlockingPen: {
-                color: {
-                    red: 0,
-                    green: 0,
-                    blue: 0
-                },
-                width: 1,
-                dashStyle: 'Solid'
-            }
-        },
+export function createTopoMapRequest(deviceGuids: string[], layoutSettings: LayoutSettings, drawSettings: DrawSettings): TopoMapRequest {
+        return new TopoMapRequest(
+        layoutSettings,
+        drawSettings,
         deviceGuids
     );
+}
+
+export const defaultLayoutSettings: LayoutSettings = {
+    layoutType: LayoutType.Hierarchical,
+    radialSettings: {
+        minRadius: 0,
+        maxRadius: 0,
+        maxAngle: 0,
+        maximizeRoot: true
+    },
+    hierarchicalSettings: {
+        levelSpacing: 100,
+        useStraightLinks: true,
+        nodeSpacing: 100,
+        layoutDirection: LayoutDirection.Down,
+        rootAlignment: RootAlignment.Center
+    },
+    ringSettings: {
+        minRadius: 0,
+        maxRadius: 0,
+        maxAngle: 0,
+        maximizeRoot: true
+    },
+    showIpPhoneLinks: true,
+    showLayer2Links: true,
+    showLinkLabels: true,
+    showVirtualLinks: true,
+    showWirelessLinks: true,
+    useStraightLinks: true
+}
+
+export const defaultDrawSettings: DrawSettings = {
+    shortDeviceNames: false,
+    deviceTrimLeft: false,
+    deviceTrimRight: false,
+    deviceTrimLeftChar: '.',
+    deviceTrimRightChar: '.',
+    deviceTrimRightCount: 1,
+    deviceTrimLeftCount: 1,
+    shortIfNames: false,
+    hideVendorImage: false,
+    hidePlatformImage: false,
+    deviceDisplaySetting: DeviceDisplaySetting.Default,
+    standardPen: {
+        color: {
+            red: 0,
+            green: 0,
+            blue: 0
+        },
+        width: 1,
+        dashStyle: DashStyle.Solid
+    },
+    lagPen: {
+        color: {
+            red: 0,
+            green: 0,
+            blue: 0
+        },
+        width: 1,
+        dashStyle: DashStyle.Solid
+    },
+    manualPen: {
+        color: {
+            red: 0,
+            green: 0,
+            blue: 0
+        },
+        width: 1,
+        dashStyle: DashStyle.Solid
+    },
+    associatedPen: {
+        color: {
+            red: 0,
+            green: 0,
+            blue: 0
+        },
+        width: 1,
+        dashStyle: DashStyle.Solid
+    },
+    multiPen: {
+        color: {
+            red: 0,
+            green: 0,
+            blue: 0
+        },
+        width: 1,
+        dashStyle: DashStyle.Solid
+    },
+    stpForwardingPen: {
+        color: {
+            red: 0,
+            green: 0,
+            blue: 0
+        },
+        width: 1,
+        dashStyle: DashStyle.Solid
+    },
+    stpBlockingPen: {
+        color: {
+            red: 0,
+            green: 0,
+            blue: 0
+        },
+        width: 1,
+        dashStyle: DashStyle.Solid
+    }
 }
 
 export interface TopoMap {
@@ -198,7 +239,7 @@ export interface TopoMap {
     deviceNodes: DeviceNode[];
     deviceGroupNodes: DeviceNode[];
     hubNodes: DeviceNode[];
-    imageNodes: unknown; //TODO: Find out this typing. The example request was [].
+    imageNodes: unknown;
     deviceLinks: DeviceLink[];
     width: number;
     height: number;
@@ -250,13 +291,6 @@ export function isTopoMap(obj: unknown): obj is TopoMap {
     );
 }
 
-export enum LayoutType {
-    Manual,
-    Radial,
-    Hierarchical,
-    Ring
-}
-
 export function isLayoutSettings(obj: unknown): obj is LayoutSettings {
     return (
         typeof obj === 'object' &&
@@ -264,12 +298,6 @@ export function isLayoutSettings(obj: unknown): obj is LayoutSettings {
         'layoutType' in obj &&
         typeof obj.layoutType === 'number' &&
         Object.values(LayoutType).includes(obj.layoutType) &&
-        'hierarchicalSettings' in obj &&
-        (obj.hierarchicalSettings === null || isHierarchicalLayoutSettings(obj.hierarchicalSettings)) &&
-        'radialSettings' in obj &&
-        isRingRadialLayoutSettings(obj.radialSettings) &&
-        'ringSettings' in obj &&
-        isRingRadialLayoutSettings(obj.ringSettings) &&
         'useStraightLinks' in obj &&
         typeof obj.useStraightLinks === 'boolean' &&
         'showLinkLabels' in obj &&
@@ -283,21 +311,13 @@ export function isLayoutSettings(obj: unknown): obj is LayoutSettings {
         'showIpPhoneLinks' in obj &&
         typeof obj.showIpPhoneLinks === 'boolean' &&
         'rootNodes' in obj &&
-        Array.isArray(obj.rootNodes)
+        Array.isArray(obj.rootNodes) &&
+        (!('hierarchicalSettings' in obj) ||
+            obj.hierarchicalSettings === null ||
+            isHierarchicalLayoutSettings(obj.hierarchicalSettings)) &&
+        (!('radialSettings' in obj) || obj.radialSettings === null || isRingRadialLayoutSettings(obj.radialSettings)) &&
+        (!('ringSettings' in obj) || obj.ringSettings === null || isRingRadialLayoutSettings(obj.ringSettings))
     );
-}
-
-export enum LayoutDirection {
-    Left,
-    Right,
-    Up,
-    Down
-}
-
-export enum RootAlignment {
-    Left,
-    Center,
-    Right
 }
 
 export interface HierarchicalLayoutSettings {
@@ -375,6 +395,7 @@ export function isDrawSettings(obj: unknown): obj is DrawSettings {
         typeof obj.hidePlatformImage === 'boolean' &&
         'deviceDisplaySetting' in obj &&
         typeof obj.deviceDisplaySetting === 'number' &&
+        Object.values(DeviceDisplaySetting).includes(obj.deviceDisplaySetting) &&
         'standardPen' in obj &&
         isPenPattern(obj.standardPen) &&
         'lagPen' in obj &&
@@ -409,15 +430,6 @@ export function isColor(obj: unknown): obj is Color {
         'blue' in obj &&
         typeof obj.blue === 'number'
     );
-}
-
-export enum DashStyle {
-    Solid = 0,
-    Dash = 1,
-    Dot = 2,
-    DashDot = 3,
-    DashDotDot = 4,
-    Custom = 5
 }
 
 export function isPenPattern(obj: unknown): obj is PenPattern {

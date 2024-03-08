@@ -16,6 +16,9 @@ import {
     removeQuotationMarks,
     addQuotationMarks
 } from '@data/data-utils';
+import { DrawSettings, LayoutSettings, defaultDrawSettings, defaultLayoutSettings } from 'model/uvx/topo-map';
+export const DEVICE_REFERENCE_KEY = 'device_reference_key';
+export const LINK_REFERENCE_KEY = 'link_reference_key';
 
 export const DEVICE_SCHEMA: SchemaDefinition = {
     fields: [

@@ -1,5 +1,5 @@
 import { DataSourceProxy, EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
-import { isLoadNetworkMessage, isSelectedDevicesMessage } from 'model/message';
+import { isLoadMapSettingsMessage, isLoadNetworkMessage, isSelectedDevicesMessage, isSelectedMapSettingsMessage } from 'model/message';
 import { NetworkRequest } from 'model/uvx/network';
 import { Device, DeviceListRequest } from 'model/uvx/device';
 import { UVXModal } from './uvx-modal';
@@ -61,12 +61,6 @@ export class DevicesModal extends UVXModal {
         } catch (e) {
             console.error(e);
         }
-    }
-
-    async reloadDevices() {
-        await this.sendMessage({
-            action: 'relistDevices'
-        });
     }
 
     saveDevices(source: DataSourceProxy, devices: Device[]) {

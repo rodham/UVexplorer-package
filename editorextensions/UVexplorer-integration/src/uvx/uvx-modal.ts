@@ -1,8 +1,7 @@
 import { EditorClient, Modal, PageProxy, Viewport } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvx-client';
 import { NetworkRequest } from 'model/uvx/network';
-import { drawMap, getGuidFromBlock, isNetworkDeviceBlock } from '@blocks/block-utils';
-import { createTopoMapRequest, TopoMap } from 'model/uvx/topo-map';
+import { createTopoMapRequest, defaultDrawSettings, defaultLayoutSettings, DrawSettings, LayoutSettings, TopoMap } from 'model/uvx/topo-map';
 import { DeviceLink } from 'model/uvx/device';
 import { Data } from '@data/data';
 import { BlockUtils } from '@blocks/block-utils';
@@ -222,5 +221,11 @@ export abstract class UVXModal extends Modal {
         catch (e) {
             console.error(e);
         }
+    }
+
+    async reloadDevices() {
+        await this.sendMessage({
+            action: 'relistDevices'
+        });
     }
 }

@@ -1,7 +1,7 @@
 import { EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
 import { UVXModal } from './uvx-modal';
 import { ConnectedDevicesRequest } from 'model/uvx/device';
-import { isSelectedDevicesMessage } from 'model/message';
+import { isLoadMapSettingsMessage, isSelectedDevicesMessage, isSelectedMapSettingsMessage } from 'model/message';
 
 export class ConnectedDevicesModal extends UVXModal {
     deviceGuids: string[];
@@ -48,6 +48,11 @@ export class ConnectedDevicesModal extends UVXModal {
             await this.drawMap(devices, removeDevices);
             await this.closeSession();
             this.hide();
+        } else if (isLoadMapSettingsMessage(message)) {
+            this.loadMapSettings();
+        } else if (isSelectedMapSettingsMessage(message)) {
+            this.saveSettings(message.drawSettings, message.layoutSettings);
+            this.reloadDevices();
         }
     }
 }
