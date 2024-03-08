@@ -68,7 +68,10 @@ export class UVExplorerClient {
     }
 
     public async closeSession(): Promise<void> {
-        if (!this.sessionGuid) return;
+        if (!this.sessionGuid) {
+            console.log('No session open');
+            return;
+        }
         if (!this.serverUrl) {
             console.error('No server url set');
             return;
