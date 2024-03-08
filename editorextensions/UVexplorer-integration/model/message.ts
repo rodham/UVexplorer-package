@@ -264,8 +264,8 @@ export function isMapSettingsMessage(message: unknown): message is MapSettingsMe
         'action' in message &&
         typeof message.action === 'string' &&
         message.action === 'mapSettings' &&
-        'drawSettings' in message // &&
-        // isDrawSettings(message.drawSettings)
+        'drawSettings' in message &&
+        isDrawSettings(JSON.parse(message.drawSettings?.toString() ?? ''))
     );
 }
 
@@ -283,8 +283,8 @@ export function isSelectedMapSettingsMessage(message: unknown): message is Selec
         typeof message.action === 'string' &&
         message.action === 'saveMapSettings' &&
         'drawSettings' in message &&
-        // isDrawSettings(message.drawSettings) &&
-        'layoutSettings' in message  // &&
-        // isLayoutSettings(message.layoutSettings)
+        isDrawSettings(JSON.parse(message.drawSettings?.toString() ?? '')) &&
+        'layoutSettings' in message &&
+        isLayoutSettings(JSON.parse(message.layoutSettings?.toString() ?? ''))
     );
 }
