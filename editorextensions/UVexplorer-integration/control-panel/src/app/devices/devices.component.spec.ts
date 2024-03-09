@@ -8,7 +8,7 @@ import {
     ProtocolProfile,
     ProtocolProfileEntry
 } from 'model/uvx/device';
-import { SelectedDevicesMessage } from 'model/message';
+//import { SelectedDevicesMessage } from 'model/message';
 
 describe('DevicesComponent', () => {
     let component: DevicesComponent;
