@@ -121,10 +121,7 @@ export interface ListDevicesMessage extends SerializableDevicesMessage {
 }
 
 export function isListDevicesMessage(message: unknown): message is ListDevicesMessage {
-    return (
-        isSerializableDevicesMessage(message) &&
-        message.action === 'listDevices'
-    );
+    return isSerializableDevicesMessage(message) && message.action === 'listDevices';
 }
 
 export function getForcedAutoLayoutFromListDevMsg(message: ListDevicesMessage): boolean {

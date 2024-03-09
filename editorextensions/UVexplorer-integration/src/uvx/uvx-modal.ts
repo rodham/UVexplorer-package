@@ -65,7 +65,7 @@ export abstract class UVXModal extends Modal {
 
         if (autoLayout) {
             const deviceGuids = this.docEditor.clearMap(devices, removeDevices);
-            topoMap = await this.loadTopoMap(deviceGuids, LayoutType.Hierarchical)
+            topoMap = await this.loadTopoMap(deviceGuids, LayoutType.Hierarchical);
         } else {
             this.docEditor.removeBlocksAndLines(removeDevices);
             if (devices.length > 0) {

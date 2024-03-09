@@ -73,7 +73,7 @@ export class DevicesModal extends UVXModal {
                 console.error(`Could not load network: ${message.name}`);
             }
         } else if (isSelectedDevicesMessage(message)) {
-            console.log('Received isSelectedDevicesMessage')
+            console.log('Received isSelectedDevicesMessage');
             await this.drawMap(message.devices, message.autoLayout, message.removeDevices);
             await this.closeSession();
             this.hide();
