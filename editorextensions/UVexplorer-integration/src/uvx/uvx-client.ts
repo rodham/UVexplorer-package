@@ -15,25 +15,84 @@ import { TopoMapRequest, isTopoMap, TopoMap } from 'model/uvx/topo-map';
 
 export class UVExplorerClient {
     private readonly basePath: string = '/public/api/v1';
+    private apiKey?: string;
+    private serverUrl?: string;
+    private sessionGuid?: string;
+    private static instance: UVExplorerClient;
 
-    constructor(private client: EditorClient) {}
+    constructor(private client: EditorClient) { }
 
-    public async openSession(serverUrl: string, apiKey: string): Promise<string> {
-        const url = serverUrl + this.basePath + '/session';
-        const response = await this.sendXHRRequest(url, apiKey, 'POST');
-        return response.responseText;
+    static getInstance(client: EditorClient) {
+        if (!UVExplorerClient.instance) {
+            UVExplorerClient.instance = new UVExplorerClient(client);
+        }
+        return UVExplorerClient.instance;
     }
 
-    public async closeSession(serverUrl: string, sessionGuid: string): Promise<void> {
-        const url = serverUrl + this.basePath + '/session';
-        const response = await this.sendXHRRequest(url, sessionGuid, 'DELETE');
+    private async getCredentials() {
+        const settings = await this.client.getPackageSettings();
+        const apiKey = settings.get('apiKey');
+        const serverUrl = settings.get('serverUrl');
+
+        if (typeof apiKey !== 'string' || typeof serverUrl !== 'string') {
+            throw Error('Unable to get package settings for uvx client');
+        }
+
+        this.apiKey = apiKey;
+        this.serverUrl = serverUrl;
+    }
+
+    private async openSession(): Promise<void> {
+        if (!this.serverUrl || !this.apiKey) {
+            await this.getCredentials();
+        }
+        if (!this.serverUrl || !this.apiKey) {
+            throw Error('Unable to open session without package settings');
+        }
+        const url = this.serverUrl + this.basePath + '/session';
+        const response = await this.sendXHRRequest(url, this.apiKey, 'POST');
+        if (!response.responseText) {
+            throw Error('Error occurred while opening session');
+        }
+        this.sessionGuid = response.responseText;
+    }
+
+    private async getSessionGuid(): Promise<string> {
+        if (!this.sessionGuid) {
+            await this.openSession();
+        }
+        if (!this.sessionGuid) {
+            throw Error('Unable to get session guid');
+        }
+        return this.sessionGuid;
+    }
+
+    public async closeSession(): Promise<void> {
+        if (!this.sessionGuid) {
+            console.log('No session open');
+            return;
+        }
+        if (!this.serverUrl) {
+            console.error('No server url set');
+            return;
+        }
+        const url = this.serverUrl + this.basePath + '/session';
+        const response = await this.sendXHRRequest(url, this.sessionGuid, 'DELETE');
         if (response.status !== 200) {
             throw new Error('Session close was unsuccessful.');
+        } else {
+            this.sessionGuid = undefined;
         }
     }
 
-    public async listNetworks(serverUrl: string, sessionGuid: string): Promise<NetworkSummary[]> {
-        const url = serverUrl + this.basePath + '/network/list';
+    public async listNetworks(): Promise<NetworkSummary[]> {
+        console.log('listNetworks about to make call', this.sessionGuid)
+        const sessionGuid = await this.getSessionGuid();
+        console.log('retrieved session guid', sessionGuid)
+        if (!this.serverUrl || !this.sessionGuid) {
+            throw Error('Unable to make listNetworks request');
+        }
+        const url = this.serverUrl + this.basePath + '/network/list';
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
         const networkSummariesResponse: unknown = this.parseResponseJSON(response.responseText);
         if (isNetworkSummariesResponse(networkSummariesResponse)) {
@@ -43,23 +102,31 @@ export class UVExplorerClient {
         }
     }
 
-    public async loadNetwork(serverUrl: string, sessionGuid: string, networkRequest: NetworkRequest): Promise<void> {
-        const url = serverUrl + this.basePath + '/network/load';
+    public async loadNetwork(networkRequest: NetworkRequest): Promise<void> {
+        const sessionGuid = await this.getSessionGuid();
+        if (!this.serverUrl || !this.sessionGuid) {
+            throw Error('Unable to make loadNetwork request');
+        }
+        const url = this.serverUrl + this.basePath + '/network/load';
         const body = JSON.stringify(networkRequest);
         await this.sendXHRRequest(url, sessionGuid, 'POST', body);
     }
 
-    public async unloadNetwork(serverUrl: string, sessionGuid: string): Promise<void> {
-        const url = serverUrl + this.basePath + '/network/unload';
+    public async unloadNetwork(): Promise<void> {
+        const sessionGuid = await this.getSessionGuid();
+        if (!this.serverUrl || !this.sessionGuid) {
+            throw Error('Unable to make loadNetwork request');
+        }
+        const url = this.serverUrl + this.basePath + '/network/unload';
         await this.sendXHRRequest(url, sessionGuid, 'DELETE');
     }
 
-    public async listDevices(
-        serverUrl: string,
-        sessionGuid: string,
-        deviceListRequest: DeviceListRequest
-    ): Promise<Device[]> {
-        const url = serverUrl + this.basePath + '/device/list';
+    public async listDevices(deviceListRequest: DeviceListRequest): Promise<Device[]> {
+        const sessionGuid = await this.getSessionGuid();
+        if (!this.serverUrl || !this.sessionGuid) {
+            throw Error('Unable to make loadNetwork request');
+        }
+        const url = this.serverUrl + this.basePath + '/device/list';
         const data = JSON.stringify(deviceListRequest);
         const response = await this.sendXHRRequest(url, sessionGuid, 'POST', data);
         const deviceListResponse: unknown = this.parseResponseJSON(response.responseText);
@@ -70,8 +137,12 @@ export class UVExplorerClient {
         }
     }
 
-    public async listDeviceCategories(serverUrl: string, sessionGuid: string): Promise<string[]> {
-        const url = serverUrl + this.basePath + '/device/device-type.ts/list';
+    public async listDeviceCategories(): Promise<string[]> {
+        const sessionGuid = await this.getSessionGuid();
+        if (!this.serverUrl || !this.sessionGuid) {
+            throw Error('Unable to make loadNetwork request');
+        }
+        const url = this.serverUrl + this.basePath + '/device/device-type.ts/list';
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
         const deviceCategoryResponse: unknown = this.parseResponseJSON(response.responseText);
         if (isDeviceCategoryListResponse(deviceCategoryResponse)) {
@@ -81,8 +152,12 @@ export class UVExplorerClient {
         }
     }
 
-    public async listDeviceInfoSets(serverUrl: string, sessionGuid: string): Promise<InfoSet[]> {
-        const url = serverUrl + this.basePath + '/device/infoset/list';
+    public async listDeviceInfoSets(): Promise<InfoSet[]> {
+        const sessionGuid = await this.getSessionGuid();
+        if (!this.serverUrl || !this.sessionGuid) {
+            throw Error('Unable to make loadNetwork request');
+        }
+        const url = this.serverUrl + this.basePath + '/device/infoset/list';
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
         const infoSetListResponse: unknown = this.parseResponseJSON(response.responseText);
         if (isInfoSetListResponse(infoSetListResponse)) {
@@ -92,12 +167,12 @@ export class UVExplorerClient {
         }
     }
 
-    public async listDeviceDetails(
-        serverUrl: string,
-        sessionGuid: string,
-        deviceGuid: string
-    ): Promise<DeviceDetailsResponse | undefined> {
-        const url = serverUrl + this.basePath + `/device/details/${deviceGuid}`;
+    public async listDeviceDetails(deviceGuid: string): Promise<DeviceDetailsResponse | undefined> {
+        const sessionGuid = await this.getSessionGuid();
+        if (!this.serverUrl || !this.sessionGuid) {
+            throw Error('Unable to make loadNetwork request');
+        }
+        const url = this.serverUrl + this.basePath + `/device/details/${deviceGuid}`;
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
         const deviceDetailsResponse: unknown = this.parseResponseJSON(response.responseText);
         if (isDeviceDetailsResponse(deviceDetailsResponse)) {
@@ -107,12 +182,12 @@ export class UVExplorerClient {
         }
     }
 
-    public async listConnectedDevices(
-        serverUrl: string,
-        sessionGuid: string,
-        connectedDevicesRequest: ConnectedDevicesRequest
-    ): Promise<Device[]> {
-        const url = serverUrl + this.basePath + `/device/connected`;
+    public async listConnectedDevices(connectedDevicesRequest: ConnectedDevicesRequest): Promise<Device[]> {
+        const sessionGuid = await this.getSessionGuid();
+        if (!this.serverUrl || !this.sessionGuid) {
+            throw Error('Unable to make loadNetwork request');
+        }
+        const url = this.serverUrl + this.basePath + `/device/connected`;
         const body = JSON.stringify(connectedDevicesRequest);
         const response = await this.sendXHRRequest(url, sessionGuid, 'POST', body);
         const deviceListResponse: unknown = this.parseResponseJSON(response.responseText);
@@ -123,8 +198,12 @@ export class UVExplorerClient {
         }
     }
 
-    public async getTopoMap(serverUrl: string, sessionGuid: string, topoMapRequest: TopoMapRequest): Promise<TopoMap> {
-        const url = serverUrl + this.basePath + `/device/topomap`;
+    public async getTopoMap(topoMapRequest: TopoMapRequest): Promise<TopoMap> {
+        const sessionGuid = await this.getSessionGuid();
+        if (!this.serverUrl || !this.sessionGuid) {
+            throw Error('Unable to make loadNetwork request');
+        }
+        const url = this.serverUrl + this.basePath + `/device/topomap`;
         const body = JSON.stringify(topoMapRequest);
         const response = await this.sendXHRRequest(url, sessionGuid, 'POST', body);
         const topoMap: unknown = this.parseResponseJSON(response.responseText);

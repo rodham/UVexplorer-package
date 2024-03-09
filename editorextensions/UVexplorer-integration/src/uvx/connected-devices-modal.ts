@@ -1,7 +1,8 @@
-import { EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
+import { EditorClient, JsonSerializable } from 'lucid-extension-sdk';
 import { UVXModal } from './uvx-modal';
 import { ConnectedDevicesRequest } from 'model/uvx/device';
 import { isSelectedDevicesMessage } from 'model/message';
+import { DocumentEditor } from 'src/doc/documentEditor';
 
 export class ConnectedDevicesModal extends UVXModal {
     deviceGuids: string[];
@@ -9,11 +10,11 @@ export class ConnectedDevicesModal extends UVXModal {
 
     constructor(
         client: EditorClient,
-        viewport: Viewport,
+        docEditor: DocumentEditor,
         deviceGuids: string[],
         visibleConnectedDeviceGuids: string[]
     ) {
-        super(client, viewport, 'devices');
+        super(client, docEditor, 'devices');
         this.deviceGuids = deviceGuids;
         this.visibleConnectedDeviceGuids = visibleConnectedDeviceGuids;
     }
@@ -21,11 +22,7 @@ export class ConnectedDevicesModal extends UVXModal {
     async loadConnectedDevices() {
         await this.loadPageNetwork();
         const connectedDevicesRequest = new ConnectedDevicesRequest(this.deviceGuids);
-        const devices = await this.uvexplorerClient.listConnectedDevices(
-            this.serverUrl,
-            this.sessionGuid,
-            connectedDevicesRequest
-        );
+        const devices = await this.uvxClient.listConnectedDevices(connectedDevicesRequest);
         console.log('Devices to send to modal', devices);
         console.log('Visible connected devices to send to modal', this.visibleConnectedDeviceGuids);
 

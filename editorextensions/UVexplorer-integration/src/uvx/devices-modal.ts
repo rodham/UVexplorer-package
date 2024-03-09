@@ -1,20 +1,18 @@
-import { DataSourceProxy, EditorClient, JsonSerializable, Viewport } from 'lucid-extension-sdk';
+import { DataSourceProxy, EditorClient, JsonSerializable } from 'lucid-extension-sdk';
 import { isLoadNetworkMessage, isSelectedDevicesMessage } from 'model/message';
 import { NetworkRequest } from 'model/uvx/network';
 import { Device, DeviceListRequest } from 'model/uvx/device';
 import { UVXModal } from './uvx-modal';
-import { BlockUtils } from 'src/blocks/block-utils';
+import { DocumentEditor } from 'src/doc/documentEditor';
 
 export class DevicesModal extends UVXModal {
-    constructor(client: EditorClient, viewport: Viewport) {
-        super(client, viewport, 'networks');
-
-        this.viewport = viewport;
+    constructor(client: EditorClient, docEditor: DocumentEditor) {
+        super(client, docEditor, 'networks');
     }
 
     async listNetworks() {
         try {
-            const networks = await this.uvexplorerClient.listNetworks(this.serverUrl, this.sessionGuid);
+            const networks = await this.uvxClient.listNetworks();
             const filteredNetworks = networks.filter((n) => n.name !== '');
             console.log(`Successfully retrieved network list.`);
             await this.sendMessage({
@@ -29,13 +27,8 @@ export class DevicesModal extends UVXModal {
     async loadNetwork(name: string, guid: string): Promise<DataSourceProxy | undefined> {
         try {
             const networkRequest = new NetworkRequest(guid);
-            await this.uvexplorerClient.loadNetwork(this.serverUrl, this.sessionGuid, networkRequest);
-            const source = this.data.createOrRetrieveNetworkSource(name, guid);
-            const page = this.viewport.getCurrentPage();
-            if (page !== undefined) {
-                this.data.updatePageMap(page.id, guid);
-            }
-            console.log(`Successfully loaded network: ${name}`);
+            await this.uvxClient.loadNetwork(networkRequest);
+            const source = this.docEditor.getNetworkSource(name, guid);
             return source;
         } catch (e) {
             console.error(e);
@@ -46,24 +39,10 @@ export class DevicesModal extends UVXModal {
     async loadDevices(source: DataSourceProxy) {
         try {
             const deviceListRequest = new DeviceListRequest();
-            const devices = await this.uvexplorerClient.listDevices(
-                this.serverUrl,
-                this.sessionGuid,
-                deviceListRequest
-            );
+            const devices = await this.uvxClient.listDevices(deviceListRequest);
 
             this.saveDevices(source, devices);
-            const pageItems = this.viewport.getCurrentPage()?.allItems;
-            const devicesShown: string[] = [];
-            if (pageItems) {
-                for (const [, item] of pageItems) {
-                    if (BlockUtils.isNetworkDeviceBlock(item)) {
-                        const guid = BlockUtils.getGuidFromBlock(item);
-                        if (!guid) continue;
-                        devicesShown.push(guid);
-                    }
-                }
-            }
+            const devicesShown = this.docEditor.getCurrentPageItems();
 
             await this.sendMessage({
                 action: 'listDevices',
@@ -94,14 +73,8 @@ export class DevicesModal extends UVXModal {
                 console.error(`Could not load network: ${message.name}`);
             }
         } else if (isSelectedDevicesMessage(message)) {
-            //const devices = message.devices.map((d) => d.guid);
             console.log('Received isSelectedDevicesMessage')
             await this.drawMap(message.devices, message.autoLayout, message.removeDevices);
-            //if (message.autoLayout) {
-            //   await this.drawMap(message.devices, message.removeDevices);
-            //} else {
-            //    await this.manuallyDrawMap(message.devices, message.removeDevices);
-            //}
             await this.closeSession();
             this.hide();
         }

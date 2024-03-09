@@ -7,6 +7,10 @@ import { mockDeviceList, mockDeviceList2, mockNetworkSummaryList } from 'mock_da
 export class UVExplorerClient {
     constructor(private client: EditorClient) {}
 
+    static getInstance = (client: EditorClient): UVExplorerClient => {
+        return new UVExplorerClient(client);
+    };
+
     public openSession = async (): Promise<string> => {
         return new Promise<string>((resolve) => resolve('efbb4e65-bac3-43d4-98b5-4e8b1f6279f1'));
     };
