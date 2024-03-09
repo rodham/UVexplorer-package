@@ -31,8 +31,8 @@ export class DevicesComponent {
     themeClass = 'ag-theme-quartz';
     rowSelection: 'multiple' | 'single' = 'multiple';
     private gridApi?: GridApi;
-    forcedAutoLayout: boolean = false;
-    autoLayout: boolean = true;
+    forcedAutoLayout = false;
+    autoLayout = true;
 
     constructor() {
         window.addEventListener('message', (e) => {
