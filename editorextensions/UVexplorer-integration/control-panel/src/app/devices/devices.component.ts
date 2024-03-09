@@ -16,7 +16,7 @@ import {
     GetRowIdParams,
     GetRowIdFunc,
     GridApi,
-    RowDataUpdatedEvent,
+    RowDataUpdatedEvent
 } from 'ag-grid-community';
 
 @Component({
@@ -115,7 +115,7 @@ export class DevicesComponent {
         console.log('setPreselectedDevices - this.devices', this.devices);
         for (const device of this.devices) {
             const guid = device.guid;
-            console.log('setPreselectedDevices', guid)
+            console.log('setPreselectedDevices', guid);
             //console.log('Checking node with guid: ', guid);
             if (!this.gridApi) {
                 //   console.log('Grid not ready');
@@ -128,7 +128,7 @@ export class DevicesComponent {
                     //console.log('Node does not exist');
                     continue;
                 }*/
-                console.log('setting selected', guid)
+                console.log('setting selected', guid);
                 node.setSelected(true);
             } else {
                 console.log('No matching guid', guid);
@@ -142,7 +142,7 @@ export class DevicesComponent {
         console.log('Api selected rows: ', selectedDevices);
         const removeDevices: string[] = [];
         const selectedDeviceGuids = selectedDevices.map((d) => d.guid);
-        console.log(selectedDeviceGuids)
+        console.log(selectedDeviceGuids);
         console.log('Visible connected device guids to check for removal: ', this.preselectedDeviceGuids);
         for (const guid of this.preselectedDeviceGuids) {
             if (!selectedDeviceGuids.includes(guid)) {
@@ -156,12 +156,12 @@ export class DevicesComponent {
                     action: 'selectDevices',
                     devices: selectedDeviceGuids,
                     removeDevices: removeDevices,
-                    autoLayout: (this.autoLayout || this.forcedAutoLayout)
+                    autoLayout: this.autoLayout || this.forcedAutoLayout
                 },
                 '*'
             );
         } else {
-            console.log('Preparing message of type Manual')
+            console.log('Preparing message of type Manual');
             const newlySelectedDeviceGuids: string[] = [];
 
             for (const guid of selectedDeviceGuids) {
@@ -170,7 +170,7 @@ export class DevicesComponent {
                 }
             }
 
-            console.log('Sending Manual Message')
+            console.log('Sending Manual Message');
             parent.postMessage(
                 {
                     action: 'selectDevices',

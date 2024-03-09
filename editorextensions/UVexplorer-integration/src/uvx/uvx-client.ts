@@ -20,7 +20,7 @@ export class UVExplorerClient {
     private sessionGuid?: string;
     private static instance: UVExplorerClient;
 
-    constructor(private client: EditorClient) { }
+    constructor(private client: EditorClient) {}
 
     static getInstance(client: EditorClient) {
         if (!UVExplorerClient.instance) {
@@ -86,9 +86,9 @@ export class UVExplorerClient {
     }
 
     public async listNetworks(): Promise<NetworkSummary[]> {
-        console.log('listNetworks about to make call', this.sessionGuid)
+        console.log('listNetworks about to make call', this.sessionGuid);
         const sessionGuid = await this.getSessionGuid();
-        console.log('retrieved session guid', sessionGuid)
+        console.log('retrieved session guid', sessionGuid);
         if (!this.serverUrl || !this.sessionGuid) {
             throw Error('Unable to make listNetworks request');
         }
