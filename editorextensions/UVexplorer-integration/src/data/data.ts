@@ -13,7 +13,6 @@ import {
     deviceToRecord,
     linkEdgeToRecord,
     toSnakeCase,
-    removeQuotationMarks,
     addQuotationMarks
 } from '@data/data-utils';
 import { DrawSettings, LayoutSettings, defaultDrawSettings, defaultLayoutSettings } from 'model/uvx/topo-map';
@@ -146,18 +145,18 @@ export class Data {
 
     getLayoutSettings(collection: CollectionProxy, pageId: string): LayoutSettings {
         const key = addQuotationMarks(pageId);
-        let layoutSettings = defaultLayoutSettings;
+        let layoutSettings: LayoutSettings = defaultLayoutSettings;
         if (collection.items.keys().includes(key)) {
-            layoutSettings = JSON.parse(collection.items.get(key).fields.get('layout_settings')?.toString() ?? '');
+            layoutSettings = JSON.parse(collection.items.get(key).fields.get('layout_settings')?.toString() ?? '') as LayoutSettings;
         }
         return layoutSettings;
     }
 
     getDrawSettings(collection: CollectionProxy, pageId: string): DrawSettings {
         const key = addQuotationMarks(pageId);
-        let drawSettings = defaultDrawSettings;
+        let drawSettings: DrawSettings = defaultDrawSettings;
         if (collection.items.keys().includes(key)) {
-            drawSettings = JSON.parse(collection.items.get(key).fields.get('draw_settings')?.toString() ?? '');
+            drawSettings = JSON.parse(collection.items.get(key).fields.get('draw_settings')?.toString() ?? '') as DrawSettings;
         }
         return drawSettings;
     }

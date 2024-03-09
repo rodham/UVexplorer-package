@@ -9,7 +9,7 @@ export class SettingsModal extends UVXModal {
         this.viewport = viewport;
     }
 
-    protected async messageFromFrame(message: JsonSerializable) {
+    protected messageFromFrame(message: JsonSerializable) {
         console.log('Received a message from the child.');
         console.log(message);
         if (isSelectedMapSettingsMessage(message)) {

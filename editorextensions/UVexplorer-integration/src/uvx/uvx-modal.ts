@@ -186,8 +186,8 @@ export abstract class UVXModal extends Modal {
         const collection = this.data.createOrRetrieveSettingsCollection();
         const page = this.viewport.getCurrentPage();
 
-        let layoutSettings = defaultLayoutSettings;
-        let drawSettings = defaultDrawSettings;
+        let layoutSettings: LayoutSettings = defaultLayoutSettings;
+        let drawSettings: DrawSettings = defaultDrawSettings;
         if (page !== undefined) {
             layoutSettings = this.data.getLayoutSettings(collection, page.id);
             drawSettings = this.data.getDrawSettings(collection, page.id);
@@ -196,7 +196,8 @@ export abstract class UVXModal extends Modal {
         try {
             await this.sendMessage({
                 action: 'mapSettings',
-                drawSettings: JSON.stringify(drawSettings)
+                drawSettings: JSON.stringify(drawSettings),
+                layoutSettings: JSON.stringify(layoutSettings)
             });
         } catch (e) {
             console.error(e);

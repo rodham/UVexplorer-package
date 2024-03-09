@@ -254,7 +254,8 @@ export function isLoadMapSettingsMessage(message: unknown): message is LoadMapSe
 
 export interface MapSettingsMessage {
     action: 'mapSettings';
-    drawSettings: DrawSettings;
+    drawSettings: string;
+    layoutSettings: string;
 }
 
 export function isMapSettingsMessage(message: unknown): message is MapSettingsMessage {
@@ -265,7 +266,9 @@ export function isMapSettingsMessage(message: unknown): message is MapSettingsMe
         typeof message.action === 'string' &&
         message.action === 'mapSettings' &&
         'drawSettings' in message &&
-        isDrawSettings(JSON.parse(message.drawSettings?.toString() ?? ''))
+        isDrawSettings(JSON.parse(message.drawSettings?.toString() ?? '')) &&
+        'layoutSettings' in message &&
+        isLayoutSettings(JSON.parse(message.layoutSettings?.toString() ?? ''))
     );
 }
 
@@ -283,8 +286,8 @@ export function isSelectedMapSettingsMessage(message: unknown): message is Selec
         typeof message.action === 'string' &&
         message.action === 'saveMapSettings' &&
         'drawSettings' in message &&
-        isDrawSettings(JSON.parse(message.drawSettings?.toString() ?? '')) &&
+        isDrawSettings(message.drawSettings) &&
         'layoutSettings' in message &&
-        isLayoutSettings(JSON.parse(message.layoutSettings?.toString() ?? ''))
+        isLayoutSettings(message.layoutSettings)
     );
 }

@@ -85,10 +85,10 @@ export class DevicesModal extends UVXModal {
             await this.closeSession();
             this.hide();
         } else if (isLoadMapSettingsMessage(message)) {
-            this.loadMapSettings();
+            await this.loadMapSettings();
         } else if (isSelectedMapSettingsMessage(message)) {
             this.saveSettings(message.drawSettings, message.layoutSettings);
-            this.reloadDevices();
+            await this.reloadDevices();
         }
     }
 }

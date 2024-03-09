@@ -153,7 +153,8 @@ export const defaultLayoutSettings: LayoutSettings = {
     showLinkLabels: true,
     showVirtualLinks: true,
     showWirelessLinks: true,
-    useStraightLinks: true
+    useStraightLinks: true,
+    rootNodes: []
 }
 
 export const defaultDrawSettings: DrawSettings = {
