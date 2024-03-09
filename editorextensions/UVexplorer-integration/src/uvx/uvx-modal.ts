@@ -1,7 +1,7 @@
 import { EditorClient, Modal, PageProxy, Viewport } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvx-client';
 import { NetworkRequest } from 'model/uvx/network';
-import { createTopoMapRequest, defaultDrawSettings, defaultLayoutSettings, DrawSettings, LayoutSettings, TopoMap } from 'model/uvx/topo-map';
+import { createTopoMapRequest, defaultDrawSettings, defaultLayoutSettings, DrawSettings, LayoutSettings, PenPattern, TopoMap } from 'model/uvx/topo-map';
 import { DeviceLink } from 'model/uvx/device';
 import { Data } from '@data/data';
 import { BlockUtils } from '@blocks/block-utils';
@@ -126,7 +126,7 @@ export abstract class UVXModal extends Modal {
         const topoMap = await this.loadTopoMap(deviceGuids);
         if (topoMap) {
             this.saveLinks(this.data.getNetworkForPage(page.id), topoMap.deviceLinks);
-            await DrawTopoMap.drawTopoMap(this.client, this.viewport, page, topoMap.deviceNodes, topoMap.deviceLinks);
+            await DrawTopoMap.drawTopoMap(this.client, this.viewport, page, topoMap.deviceNodes, topoMap.deviceLinks, topoMap.drawSettings);
         } else {
             console.error('Could not load topo map data.');
         }
