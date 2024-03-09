@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import {
     connDeviceGuidsFromListDevMsg,
     devicesFromSerializableDevicesMessage,
@@ -15,13 +16,13 @@ import {
     GetRowIdParams,
     GetRowIdFunc,
     GridApi,
-    RowDataUpdatedEvent
+    RowDataUpdatedEvent,
 } from 'ag-grid-community';
 
 @Component({
     selector: 'app-devices',
     standalone: true,
-    imports: [NgIf, AgGridAngular],
+    imports: [NgIf, AgGridAngular, FormsModule],
     templateUrl: './devices.component.html'
 })
 export class DevicesComponent {
@@ -76,11 +77,15 @@ export class DevicesComponent {
                 if (!isDevice(params.data) || !params.data.device_categories.entries) {
                     return '';
                 }
-                console.log('Device GUID: ', params.data.guid);
+                //console.log('Device GUID: ', params.data.guid);
                 return this.appendDeviceCategories(params.data.device_categories.entries);
             }
         }
     ];
+
+    public checkDevicesLength(): boolean {
+        return this.devices.length > 0;
+    }
 
     public appendDeviceCategories(categories: DeviceCategoryEntry[]): string {
         let returnString = categories[0].device_category;
@@ -94,7 +99,7 @@ export class DevicesComponent {
     }
 
     public getRowId: GetRowIdFunc = (params: GetRowIdParams<Device>) => {
-        console.log('Setting row id for guid: ', params.data.guid);
+        //console.log('Setting row id for guid: ', params.data.guid);
         return params.data.guid;
     };
 
@@ -107,23 +112,29 @@ export class DevicesComponent {
     }
 
     private setPreselectedDevices() {
+        console.log('setPreselectedDevices - this.devices', this.devices);
         for (const device of this.devices) {
             const guid = device.guid;
-            console.log('Checking node with guid: ', guid);
+            console.log('setPreselectedDevices', guid)
+            //console.log('Checking node with guid: ', guid);
             if (!this.gridApi) {
-                console.log('Grid not ready');
+                //   console.log('Grid not ready');
                 return;
             }
             if (this.preselectedDeviceGuids.includes(guid)) {
                 const node = this.gridApi.getRowNode(guid);
-                if (node) console.log('Node exists');
-                else {
-                    console.log('Node does not exist');
+                if (!node) continue; //console.log('Node exists');
+                /*else {
+                    //console.log('Node does not exist');
                     continue;
-                }
+                }*/
+                console.log('setting selected', guid)
                 node.setSelected(true);
+            } else {
+                console.log('No matching guid', guid);
             }
         }
+        console.log(this.preselectedDeviceGuids);
     }
 
     public selectDevices() {
@@ -131,6 +142,7 @@ export class DevicesComponent {
         console.log('Api selected rows: ', selectedDevices);
         const removeDevices: string[] = [];
         const selectedDeviceGuids = selectedDevices.map((d) => d.guid);
+        console.log(selectedDeviceGuids)
         console.log('Visible connected device guids to check for removal: ', this.preselectedDeviceGuids);
         for (const guid of this.preselectedDeviceGuids) {
             if (!selectedDeviceGuids.includes(guid)) {
@@ -138,17 +150,37 @@ export class DevicesComponent {
             }
         }
 
-        console.log('Selected devices: ', selectedDeviceGuids);
-        console.log('Devices to remove: ', removeDevices);
-        parent.postMessage(
-            {
-                action: 'selectDevices',
-                devices: selectedDevices,
-                removeDevices: removeDevices,
-                autoLayout: (this.autoLayout || this.forcedAutoLayout)
-            },
-            '*'
-        );
+        if (this.autoLayout || this.forcedAutoLayout) {
+            parent.postMessage(
+                {
+                    action: 'selectDevices',
+                    devices: selectedDeviceGuids,
+                    removeDevices: removeDevices,
+                    autoLayout: (this.autoLayout || this.forcedAutoLayout)
+                },
+                '*'
+            );
+        } else {
+            console.log('Preparing message of type Manual')
+            const newlySelectedDeviceGuids: string[] = [];
+
+            for (const guid of selectedDeviceGuids) {
+                if (!this.preselectedDeviceGuids.includes(guid)) {
+                    newlySelectedDeviceGuids.push(guid);
+                }
+            }
+
+            console.log('Sending Manual Message')
+            parent.postMessage(
+                {
+                    action: 'selectDevices',
+                    devices: newlySelectedDeviceGuids,
+                    removeDevices: removeDevices,
+                    autoLayout: this.autoLayout
+                },
+                '*'
+            );
+        }
     }
 
     public getSelectedDevices(): Device[] {

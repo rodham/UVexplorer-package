@@ -7,6 +7,7 @@ import {
     isDeviceDetailsResponse,
     isDeviceLinkEdge
 } from 'model/uvx/device';
+import { isString } from 'lucid-extension-sdk';
 
 export interface ListNetworksMessage {
     action: 'listNetworks';
@@ -79,7 +80,7 @@ export function devicesFromSerializableDevicesMessage(message: SerializableDevic
 
 export interface DevicesMessage {
     action: string;
-    devices: Device[];
+    devices: string[];
 }
 
 export function isDevicesMessage(message: unknown): message is DevicesMessage {
@@ -90,7 +91,8 @@ export function isDevicesMessage(message: unknown): message is DevicesMessage {
         typeof message.action === 'string' &&
         'devices' in message &&
         Array.isArray(message.devices) &&
-        message.devices.every(isDevice)
+        //message.devices.every(isDevice)
+        message.devices.every(isString)
     );
 }
 

@@ -1,7 +1,7 @@
-import { EditorClient, ItemProxy, Modal, PageProxy, Viewport } from 'lucid-extension-sdk';
+import { EditorClient, ItemProxy, Modal, PageProxy, Viewport, LineProxy } from 'lucid-extension-sdk';
 import { UVExplorerClient } from './uvx-client';
 import { NetworkRequest } from 'model/uvx/network';
-import { createTopoMapRequest, TopoMap } from 'model/uvx/topo-map';
+import { createTopoMapRequest, LayoutType, TopoMap } from 'model/uvx/topo-map';
 import { DeviceLink } from 'model/uvx/device';
 import { Data } from '@data/data';
 import { BlockUtils } from '@blocks/block-utils';
@@ -86,7 +86,7 @@ export abstract class UVXModal extends Modal {
         await this.uvexplorerClient.loadNetwork(this.serverUrl, this.sessionGuid, networkRequest);
     }
 
-    async loadTopoMap(deviceGuids: string[], layoutType: 'Hierarchical' | 'Manual' | 'Radial' | 'Ring'): Promise<TopoMap | undefined> {
+    async loadTopoMap(deviceGuids: string[], layoutType: LayoutType): Promise<TopoMap | undefined> {
         try {
             const topoMapRequest = createTopoMapRequest(deviceGuids, layoutType);
             return await this.uvexplorerClient.getTopoMap(this.serverUrl, this.sessionGuid, topoMapRequest);
@@ -101,15 +101,26 @@ export abstract class UVXModal extends Modal {
      * @param devices New device guids to be drawn on the map.
      * @param removeDevices Device guids to be removed from the map.
      */
-    async drawMap(devices: string[], removeDevices?: string[]): Promise<void> {
+    async drawMap(devices: string[], autoLayout: boolean, removeDevices?: string[]): Promise<void> {
         const page = this.viewport.getCurrentPage();
         if (!page) {
             return;
         }
 
-        const deviceGuids = this.clearMap(page, devices, removeDevices);
+        let topoMap: TopoMap | undefined = undefined;
 
-        const topoMap = await this.loadTopoMap(deviceGuids, 'Hierarchical');
+        if (autoLayout) {
+            const deviceGuids = this.clearMap(page, devices, removeDevices);
+            topoMap = await this.loadTopoMap(deviceGuids, LayoutType.Hierarchical);
+        } else {
+
+            this.removeBlocksAndLines(page, removeDevices);
+
+            if (devices.length != 0) {
+                topoMap = await this.loadTopoMap(devices, LayoutType.Manual);
+            }
+        }
+
         if (topoMap) {
             this.saveLinks(this.data.getNetworkForPage(page.id), topoMap.deviceLinks);
             await DrawTopoMap.drawTopoMap(this.client, this.viewport, page, topoMap.deviceNodes, topoMap.deviceLinks);
@@ -173,11 +184,13 @@ export abstract class UVXModal extends Modal {
         }
 
         this.removeBlocksAndLines(page, removeDevices);
-        const topoMap = await this.loadTopoMap(devices, 'Manual');
+
+        if (devices.length == 0) return;
+        const topoMap = await this.loadTopoMap(devices, LayoutType.Manual);
 
         if (topoMap) {
             this.saveLinks(this.data.getNetworkForPage(page.id), topoMap.deviceLinks);
-            await drawMap(this.client, this.viewport, page, topoMap.deviceNodes, topoMap.deviceLinks);
+            await DrawTopoMap.drawTopoMap(this.client, this.viewport, page, topoMap.deviceNodes, topoMap.deviceLinks);
         } else {
             console.error('Could not load topo map data.');
         }
@@ -188,26 +201,17 @@ export abstract class UVXModal extends Modal {
 
         if (items) {
             for (const [, item] of items) {
-                if (isNetworkDeviceBlock(item)) {
-                    const guid = getGuidFromBlock(item);
+                if (BlockUtils.isNetworkDeviceBlock(item)) {
+                    const guid = BlockUtils.getGuidFromBlock(item);
                     if (!guid) continue;
                     if (devices && devices.includes(guid)) {
-                        this.deleteLinesOfBlock(item, page);
+                        const lines: LineProxy[] = item.getConnectedLines();
+                        for (const line of lines) {
+                            line.delete();
+                        }
+
                         item.delete();
                     }
-                }
-            }
-        }
-    }
-
-    deleteLinesOfBlock(item: ItemProxy, page: PageProxy) {
-        const lines = page.allLines;
-
-        if (lines) {
-            for (const [, line] of lines) {
-                if ((line.getEndpoint1().x === item.getLocation().x && line.getEndpoint1().y === item.getLocation().y) ||
-                    (line.getEndpoint2().x === item.getLocation().x && line.getEndpoint2().y === item.getLocation().y)) {
-                    line.delete();
                 }
             }
         }

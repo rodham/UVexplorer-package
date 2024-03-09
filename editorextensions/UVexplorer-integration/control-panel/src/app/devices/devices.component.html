@@ -1,4 +1,4 @@
-<div *ngIf="devices">
+<div [hidden]="!checkDevicesLength()">
   <ag-grid-angular
     style="width: 100%; height: 550px"
     [class]="themeClass"
@@ -11,7 +11,7 @@
     (rowDataUpdated)="onRowDataUpdated($event)"
   >
   </ag-grid-angular>
-  <div class="flex flex-col">
+  <div class="flex flex-row">
     <button
       (click)="selectDevices()"
       class="bg-blue-500 text-white py-2 px-4 rounded mx-2 mt-1"
