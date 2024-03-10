@@ -83,10 +83,16 @@ export class TopoMapRequest {
     }
 }
 
-export function createTopoMapRequest(deviceGuids: string[]): TopoMapRequest {
+export function createTopoMapRequest(deviceGuids: string[], layoutType: LayoutType): TopoMapRequest {
     return new TopoMapRequest(
         {
-            layoutType: LayoutType.Hierarchical,
+            layoutType: layoutType,
+            radialSettings: {
+                minRadius: 0,
+                maxRadius: 0,
+                maxAngle: 0,
+                maximizeRoot: true
+            },
             hierarchicalSettings: {
                 levelSpacing: 100,
                 useStraightLinks: true,

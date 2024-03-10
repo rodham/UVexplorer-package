@@ -42,10 +42,13 @@ export class DevicesModal extends UVXModal {
             const devices = await this.uvxClient.listDevices(deviceListRequest);
 
             this.saveDevices(source, devices);
+            const devicesShown = this.docEditor.getCurrentPageItems();
 
             await this.sendMessage({
                 action: 'listDevices',
-                devices: JSON.stringify(devices)
+                devices: JSON.stringify(devices),
+                visibleConnectedDeviceGuids: JSON.stringify(devicesShown),
+                forcedAutoLayout: false
             });
             console.log(`Successfully loaded devices: ${source.getName()}`);
         } catch (e) {
@@ -70,8 +73,8 @@ export class DevicesModal extends UVXModal {
                 console.error(`Could not load network: ${message.name}`);
             }
         } else if (isSelectedDevicesMessage(message)) {
-            const devices = message.devices.map((d) => d.guid);
-            await this.drawMap(devices);
+            console.log('Received isSelectedDevicesMessage');
+            await this.drawMap(message.devices, message.autoLayout, message.removeDevices);
             await this.closeSession();
             this.hide();
         }

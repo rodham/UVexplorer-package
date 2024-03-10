@@ -29,7 +29,8 @@ export class ConnectedDevicesModal extends UVXModal {
         await this.sendMessage({
             action: 'listDevices',
             devices: JSON.stringify(devices),
-            visibleConnectedDeviceGuids: JSON.stringify(this.visibleConnectedDeviceGuids)
+            visibleConnectedDeviceGuids: JSON.stringify(this.visibleConnectedDeviceGuids),
+            forceAutoLayout: true
         });
         console.log('Done sending message');
     }
@@ -37,12 +38,12 @@ export class ConnectedDevicesModal extends UVXModal {
     protected async messageFromFrame(message: JsonSerializable) {
         console.log('Received message from child', message);
         if (isSelectedDevicesMessage(message)) {
-            const devices = message.devices.map((d) => d.guid);
+            //const devices = message.devices.map((d) => d.guid);
             let removeDevices: string[] = [];
             if (message.removeDevices) {
                 removeDevices = message.removeDevices;
             }
-            await this.drawMap(devices, removeDevices);
+            await this.drawMap(message.devices, message.autoLayout, removeDevices);
             await this.closeSession();
             this.hide();
         }

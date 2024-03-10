@@ -91,6 +91,12 @@ export class Data {
         });
     }
 
+    clearPartOfCollection(collection: CollectionProxy, removeDevices: string[]): void {
+        collection.patchItems({
+            deleted: removeDevices
+        });
+    }
+
     addLinksToCollection(collection: CollectionProxy, links: DeviceLink[]): void {
         const linkEdges: DeviceLinkEdge[] = links.flatMap((link) => link.linkEdges);
         collection.patchItems({

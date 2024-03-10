@@ -1,4 +1,4 @@
-import { EditorClient, PageProxy, Viewport } from 'lucid-extension-sdk';
+import { EditorClient, LineProxy, PageProxy, Viewport } from 'lucid-extension-sdk';
 import { DeviceLink } from 'model/uvx/device';
 import { TopoMap } from 'model/uvx/topo-map';
 import { BlockUtils } from '@blocks/block-utils';
@@ -126,5 +126,49 @@ export class DocumentEditor {
         const collection = this.data.createOrRetrieveLinkCollection(source);
         this.data.clearCollection(collection); // TODO: Replace once updateLinksInCollection Function is implemented
         this.data.addLinksToCollection(collection, links);
+    }
+
+    removeBlocksAndLines(devices?: string[]) {
+        if (!devices || devices.length == 0) return;
+
+        const page = this.viewport.getCurrentPage();
+        if (!page) {
+            return;
+        }
+
+        const blocks = page.allBlocks;
+
+        if (blocks) {
+            for (const [, block] of blocks) {
+                if (BlockUtils.isNetworkDeviceBlock(block)) {
+                    const guid = BlockUtils.getGuidFromBlock(block);
+                    if (!guid) continue;
+                    if (devices && devices.includes(guid)) {
+                        const lines: LineProxy[] = block.getConnectedLines();
+                        for (const line of lines) {
+                            line.delete();
+                        }
+
+                        block.delete();
+                    }
+                }
+            }
+        }
+    }
+
+    getCurrentPageItems(): string[] {
+        const pageItems = this.viewport.getCurrentPage()?.allItems;
+        const devicesShown: string[] = [];
+        if (pageItems) {
+            for (const [, item] of pageItems) {
+                if (BlockUtils.isNetworkDeviceBlock(item)) {
+                    const guid = BlockUtils.getGuidFromBlock(item);
+                    if (!guid) continue;
+                    devicesShown.push(guid);
+                }
+            }
+        }
+
+        return devicesShown;
     }
 }

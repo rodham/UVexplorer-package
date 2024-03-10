@@ -1,7 +1,7 @@
 import { EditorClient } from 'lucid-extension-sdk';
 import { DocumentEditor } from 'src/doc/documentEditor';
 import { UVExplorerClient } from '@uvx/uvx-client';
-import { createTopoMapRequest } from 'model/uvx/topo-map';
+import { LayoutType, createTopoMapRequest } from 'model/uvx/topo-map';
 
 export async function syncDisplayedMap(docEditor: DocumentEditor, client: EditorClient): Promise<void> {
     // TODO: behave differently depending on auto/manual layout and selection
@@ -20,7 +20,7 @@ async function redrawMap(docEditor: DocumentEditor, client: EditorClient) {
     const uvxClient = UVExplorerClient.getInstance(client);
     const deviceGuids = docEditor.clearMap([]);
     console.log('Device guids for redraw map: ', deviceGuids);
-    const topoMapRequest = createTopoMapRequest(deviceGuids);
+    const topoMapRequest = createTopoMapRequest(deviceGuids, LayoutType.Manual);
     const topoMap = await uvxClient.getTopoMap(topoMapRequest);
     await docEditor.drawMap(topoMap, client);
 }

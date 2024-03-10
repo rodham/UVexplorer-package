@@ -226,7 +226,7 @@ describe('UVexplorer client tests', () => {
 
     describe('getTopoMap tests', () => {
         it('should successfully send TopoMapRequest', async () => {
-            const mockRequest = topoMapModel.createTopoMapRequest([]);
+            const mockRequest = topoMapModel.createTopoMapRequest([], topoMapModel.LayoutType.Hierarchical);
             const mockResponse = helpers.mockTopoMapXHRResponse;
             const xhrSpy = createXHRSpy(mockResponse);
             const isTopoMapSpy = jest.spyOn(topoMapModel, 'isTopoMap').mockReturnValue(true);
@@ -246,7 +246,7 @@ describe('UVexplorer client tests', () => {
         });
 
         it('should error when topo map call does not return a TopoMap', async () => {
-            const mockRequest = topoMapModel.createTopoMapRequest([]);
+            const mockRequest = topoMapModel.createTopoMapRequest([], topoMapModel.LayoutType.Hierarchical);
             const mockResponse = createXHRResponse(200, '{"test":"test"}');
 
             jest.spyOn(mockClient, 'xhr').mockResolvedValue(mockResponse);

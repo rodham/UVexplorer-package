@@ -80,11 +80,15 @@ export class UVExplorerClient {
         const response = await this.sendXHRRequest(url, this.sessionGuid, 'DELETE');
         if (response.status !== 200) {
             throw new Error('Session close was unsuccessful.');
+        } else {
+            this.sessionGuid = undefined;
         }
     }
 
     public async listNetworks(): Promise<NetworkSummary[]> {
+        console.log('listNetworks about to make call', this.sessionGuid);
         const sessionGuid = await this.getSessionGuid();
+        console.log('retrieved session guid', sessionGuid);
         if (!this.serverUrl || !this.sessionGuid) {
             throw Error('Unable to make listNetworks request');
         }
