@@ -11,7 +11,7 @@ import {
 } from '@actions/devices';
 import { Data } from './data/data';
 import { DocumentEditor } from './doc/documentEditor';
-import { syncDisplayedMap } from './actions/network';
+import { pageHasNetwork, syncDisplayedMap } from './actions/network';
 
 const client = new EditorClient();
 const menu = new Menu(client);
@@ -84,6 +84,11 @@ client.registerAction('syncDisplayedMap', async () => {
     await syncDisplayedMap(docEditor, client);
 });
 
+client.registerAction('pageHasNetwork', () => {
+    const docEditor = createDocEditor();
+    return pageHasNetwork(docEditor);
+});
+
 menu.addDropdownMenuItem({
     label: 'Load a Network',
     action: 'loadNetwork'
@@ -91,7 +96,8 @@ menu.addDropdownMenuItem({
 
 menu.addDropdownMenuItem({
     label: 'Sync Page with UVExplorer',
-    action: ''
+    action: 'syncDisplayedMap',
+    visibleAction: 'pageHasNetwork'
 });
 
 async function init() {
