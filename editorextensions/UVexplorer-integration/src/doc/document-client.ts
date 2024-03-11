@@ -92,7 +92,7 @@ export class DocumentClient {
     }
 
     removeFromMap(devices: string[]) {
-        const page =  this.viewport.getCurrentPage();
+        const page = this.viewport.getCurrentPage();
         if (!page) {
             console.error('Unable to get page');
             return;

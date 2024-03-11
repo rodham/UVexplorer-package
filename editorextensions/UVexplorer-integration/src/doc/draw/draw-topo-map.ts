@@ -38,7 +38,6 @@ export class DrawTopoMap {
         return DrawBlocks.clearBlocks(page, removeDevices);
     }
 
-
     // Takes in a list of device guids to be removed
     // Removes those device blocks and any connected lines.
     static removeBlocksAndLines(page: PageProxy, removeDevices: string[]) {
