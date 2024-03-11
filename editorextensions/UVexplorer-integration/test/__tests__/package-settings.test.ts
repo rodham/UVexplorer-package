@@ -32,7 +32,7 @@ describe('Package Settings Tests', () => {
             const alertSpy = jest.spyOn(mockClient, 'alert');
             const showPackageSettingsModalSpy = jest.spyOn(mockClient, 'showPackageSettingsModal');
 
-            await configureSetting(mockClient,'apiKey');
+            await configureSetting(mockClient, 'apiKey');
 
             expect(getPackageSettingsSpy).toHaveBeenCalled();
             expect(alertSpy).not.toHaveBeenCalled();
@@ -48,7 +48,7 @@ describe('Package Settings Tests', () => {
 
             getPackageSettingsSpy.mockResolvedValue(mockPackageSettings);
             canEditPackageSettingsSpy.mockResolvedValue(true);
-            await configureSetting(mockClient,'apiKey');
+            await configureSetting(mockClient, 'apiKey');
 
             expect(alertSpy).toHaveBeenCalled();
             expect(showPackageSettingsModalSpy).toHaveBeenCalled();
@@ -63,7 +63,7 @@ describe('Package Settings Tests', () => {
             const alertSpy = jest.spyOn(mockClient, 'alert');
             const showPackageSettingsModalSpy = jest.spyOn(mockClient, 'showPackageSettingsModal');
 
-            await configureSetting(mockClient,'apiKey');
+            await configureSetting(mockClient, 'apiKey');
 
             expect(alertSpy).toHaveBeenCalled();
             expect(showPackageSettingsModalSpy).not.toHaveBeenCalled();

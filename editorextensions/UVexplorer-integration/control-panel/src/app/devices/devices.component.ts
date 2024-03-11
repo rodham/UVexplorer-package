@@ -21,10 +21,10 @@ import {
 import { SettingsComponent } from '../settings/settings.component';
 
 @Component({
-  selector: 'app-devices',
-  standalone: true,
-  imports: [NgIf, AgGridAngular, SettingsComponent, FormsModule],
-  templateUrl: './devices.component.html'
+    selector: 'app-devices',
+    standalone: true,
+    imports: [NgIf, AgGridAngular, SettingsComponent, FormsModule],
+    templateUrl: './devices.component.html'
 })
 export class DevicesComponent {
     devices: Device[] = [];
@@ -203,6 +203,6 @@ export class DevicesComponent {
             '*'
         );
 
-        document.getElementById("devicesComponent")!.style.display = "none";
+        document.getElementById('devicesComponent')!.style.display = 'none';
     }
 }

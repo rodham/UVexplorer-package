@@ -60,7 +60,13 @@ describe('Map', () => {
                 mockCustomBlockDefinition,
                 'my_network_device'
             );
-            expect(drawLinesSpy).toHaveBeenCalledWith(mockPage, mockTopoMap.deviceLinks, mockGuidToBlockMap, 'my_network_link', mockTopoMap.drawSettings);
+            expect(drawLinesSpy).toHaveBeenCalledWith(
+                mockPage,
+                mockTopoMap.deviceLinks,
+                mockGuidToBlockMap,
+                'my_network_link',
+                mockTopoMap.drawSettings
+            );
         });
     });
 });

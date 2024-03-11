@@ -24,7 +24,13 @@ describe('Link Info Modal tests', () => {
     });
 
     describe('Display Line Details tests', () => {
-        const modal = new LinkInfoModal(mockEditorClient, mockDocEditor, mockUvxClient, mockDataClient, mockDeviceLinkEdge);
+        const modal = new LinkInfoModal(
+            mockEditorClient,
+            mockDocEditor,
+            mockUvxClient,
+            mockDataClient,
+            mockDeviceLinkEdge
+        );
         const sendMessageMock = jest.spyOn(modal, 'sendMessage');
 
         it('should send message to child', async () => {

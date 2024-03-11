@@ -8,13 +8,7 @@ import {
     SchemaDefinition,
     SerializedFieldType
 } from 'lucid-extension-sdk';
-import {
-    createDataProxy,
-    deviceToRecord,
-    linkEdgeToRecord,
-    toSnakeCase,
-    addQuotationMarks
-} from '@data/data-utils';
+import { createDataProxy, deviceToRecord, linkEdgeToRecord, toSnakeCase, addQuotationMarks } from '@data/data-utils';
 import { DrawSettings, LayoutSettings, defaultDrawSettings, defaultLayoutSettings } from 'model/uvx/topo-map';
 export const DEVICE_REFERENCE_KEY = 'device_reference_key';
 export const LINK_REFERENCE_KEY = 'link_reference_key';
@@ -50,7 +44,7 @@ export const SETTINGS_SCHEMA: SchemaDefinition = {
         { name: 'draw_settings', type: ScalarFieldTypeEnum.STRING }
     ],
     primaryKey: ['page_id']
-}
+};
 
 export class DataClient {
     private static instance: DataClient;
@@ -120,13 +114,20 @@ export class DataClient {
         });
     }
 
-    addSettingsToCollection(collection: CollectionProxy, pageId: string, layoutSettings: LayoutSettings, drawSettings: DrawSettings) {
+    addSettingsToCollection(
+        collection: CollectionProxy,
+        pageId: string,
+        layoutSettings: LayoutSettings,
+        drawSettings: DrawSettings
+    ) {
         collection.patchItems({
-            added: [{
-                page_id: pageId,
-                layout_settings: JSON.stringify(layoutSettings),
-                draw_settings: JSON.stringify(drawSettings)
-            }]
+            added: [
+                {
+                    page_id: pageId,
+                    layout_settings: JSON.stringify(layoutSettings),
+                    draw_settings: JSON.stringify(drawSettings)
+                }
+            ]
         });
     }
 
@@ -153,7 +154,9 @@ export class DataClient {
         const key = addQuotationMarks(pageId);
         let layoutSettings: LayoutSettings = defaultLayoutSettings;
         if (collection.items.keys().includes(key)) {
-            layoutSettings = JSON.parse(collection.items.get(key).fields.get('layout_settings')?.toString() ?? '') as LayoutSettings;
+            layoutSettings = JSON.parse(
+                collection.items.get(key).fields.get('layout_settings')?.toString() ?? ''
+            ) as LayoutSettings;
         }
         return layoutSettings;
     }
@@ -162,7 +165,9 @@ export class DataClient {
         const key = addQuotationMarks(pageId);
         let drawSettings: DrawSettings = defaultDrawSettings;
         if (collection.items.keys().includes(key)) {
-            drawSettings = JSON.parse(collection.items.get(key).fields.get('draw_settings')?.toString() ?? '') as DrawSettings;
+            drawSettings = JSON.parse(
+                collection.items.get(key).fields.get('draw_settings')?.toString() ?? ''
+            ) as DrawSettings;
         }
         return drawSettings;
     }

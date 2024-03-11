@@ -33,7 +33,12 @@ describe('UVXModal', () => {
     let mockDataClient: DataClient;
     let mockDocClient: DocumentClient;
     class MockModal extends UVXModal {
-        constructor(client: EditorClient, docClient: DocumentClient, uvxClient: UVExplorerClient, dataClient: DataClient) {
+        constructor(
+            client: EditorClient,
+            docClient: DocumentClient,
+            uvxClient: UVExplorerClient,
+            dataClient: DataClient
+        ) {
             super(client, docClient, uvxClient, dataClient, 'path');
         }
     }
@@ -82,16 +87,14 @@ describe('UVXModal', () => {
             await mockModal.loadPageNetwork();
 
             expect(getCurrentPageSpy).toHaveBeenCalled();
-            expect(loadNetworkSpy).toHaveBeenCalledWith(
-                new NetworkRequest('My Network')
-            );
+            expect(loadNetworkSpy).toHaveBeenCalledWith(new NetworkRequest('My Network'));
         });
 
         it('should throw an error if no networkGuid is found for the page', async () => {
             const getCurrentPageSpy = jest.spyOn(mockDocClient, 'getPageNetworkGuid').mockReturnValue(undefined);
             const errorSpy = jest.spyOn(console, 'error');
 
-            await mockModal.loadPageNetwork()
+            await mockModal.loadPageNetwork();
             expect(errorSpy).toHaveBeenCalledWith('Unable to get networkGuid');
             expect(getCurrentPageSpy).toHaveBeenCalled();
         });
@@ -110,5 +113,4 @@ describe('UVXModal', () => {
             expect(result).toBe(mockTopoMap);
         });
     });
-
 });

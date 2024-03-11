@@ -119,12 +119,12 @@ export class TopoMapRequest {
     }
 }
 
-export function createTopoMapRequest(deviceGuids: string[], layoutSettings: LayoutSettings, drawSettings: DrawSettings): TopoMapRequest {
-        return new TopoMapRequest(
-        layoutSettings,
-        drawSettings,
-        deviceGuids
-    );
+export function createTopoMapRequest(
+    deviceGuids: string[],
+    layoutSettings: LayoutSettings,
+    drawSettings: DrawSettings
+): TopoMapRequest {
+    return new TopoMapRequest(layoutSettings, drawSettings, deviceGuids);
 }
 
 export const manualLayoutSettings: LayoutSettings = {
@@ -136,7 +136,7 @@ export const manualLayoutSettings: LayoutSettings = {
     showWirelessLinks: true,
     useStraightLinks: true,
     rootNodes: []
-}
+};
 
 export const defaultLayoutSettings: LayoutSettings = {
     layoutType: LayoutType.Hierarchical,
@@ -166,7 +166,7 @@ export const defaultLayoutSettings: LayoutSettings = {
     showWirelessLinks: true,
     useStraightLinks: true,
     rootNodes: []
-}
+};
 
 export const defaultDrawSettings: DrawSettings = {
     shortDeviceNames: false,
@@ -243,7 +243,7 @@ export const defaultDrawSettings: DrawSettings = {
         width: 1,
         dashStyle: DashStyle.Solid
     }
-}
+};
 
 export interface TopoMap {
     layoutSettings: LayoutSettings;

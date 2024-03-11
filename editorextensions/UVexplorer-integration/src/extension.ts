@@ -15,14 +15,12 @@ import { syncDisplayedMap } from '@actions/network';
 import { UVExplorerClient } from '@uvx/uvx-client';
 import { configureClientPackageSettings } from 'src/package-settings';
 
-
 const client = new EditorClient();
 const viewport: Viewport = new Viewport(client);
 const menu = new Menu(client);
 const uvxClient = new UVExplorerClient(client);
 const dataClient = new DataClient(client);
 const docClient = new DocumentClient(viewport, dataClient);
-
 
 client.registerAction('uvDeviceSelected', () => {
     return uvDeviceSelected(viewport);
