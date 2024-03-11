@@ -57,8 +57,10 @@ export class DrawBlocks {
         });
     }
 
-    // Removes a list of given
-    static removeBlocks(page: PageProxy, removeDevices?: string[]) {
+    // Takes in a list of deviceGuids that should be removed from the map
+    // Removes all device blocks from the map
+    // Returns the list of deviceGuids that should be redrawn
+    static clearBlocks(page: PageProxy, removeDevices?: string[]) {
         const pageItems = page.allBlocks;
         const remainDevices = [];
 

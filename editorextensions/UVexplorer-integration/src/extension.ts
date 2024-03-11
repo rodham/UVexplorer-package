@@ -10,7 +10,7 @@ import {
 } from '@actions/devices';
 import { SettingsModal } from '@uvx/settings-modal';
 import { DataClient } from '@data/data-client';
-import { DocumentClient } from './doc/document-client';
+import { DocumentClient } from '@doc/document-client';
 import { syncDisplayedMap } from '@actions/network';
 import { UVExplorerClient } from '@uvx/uvx-client';
 import { configureClientPackageSettings } from 'src/package-settings';

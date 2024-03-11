@@ -82,25 +82,22 @@ export abstract class UVXModal extends Modal {
         }
     }
 
-    /**
-     *
-     * @param addDevices to be drawn (additional)
-     * @param autoLayout (false: manual)
-     * @param removeDevices to be removed
-     */
     async drawMap(addDevices: string[], autoLayout: boolean, removeDevices?: string[]): Promise<void> {
         let topoMap: TopoMap | undefined = undefined;
 
         if (autoLayout) {
             // Auto layout
             // Remove all devices
-            const remainDevices = this.docClient.clearMap(addDevices, removeDevices);
+            const remainDevices = this.docClient.clearMap(removeDevices);
             // Redraw new devices with auto layout
             topoMap = await this.loadTopoMap([...addDevices, ...remainDevices], autoLayout);
         } else {
             // Manual layout
             // Remove only unwanted devices
-            this.docClient.removeBlocksAndLines(removeDevices);
+            if (removeDevices) {
+                this.docClient.removeFromMap(removeDevices);
+            }
+
             if (addDevices.length > 0) {
                 // Draw only the new devices with manual layout
                 topoMap = await this.loadTopoMap(addDevices, autoLayout);
