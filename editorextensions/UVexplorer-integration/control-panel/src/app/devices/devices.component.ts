@@ -18,11 +18,12 @@ import {
     GridApi,
     RowDataUpdatedEvent
 } from 'ag-grid-community';
+import { SettingsComponent } from '../settings/settings.component';
 
 @Component({
     selector: 'app-devices',
     standalone: true,
-    imports: [NgIf, AgGridAngular, FormsModule],
+    imports: [NgIf, AgGridAngular, SettingsComponent, FormsModule],
     templateUrl: './devices.component.html'
 })
 export class DevicesComponent {
@@ -192,5 +193,16 @@ export class DevicesComponent {
             }
         }
         return selectedDevices;
+    }
+
+    public changeSettings() {
+        parent.postMessage(
+            {
+                action: 'loadMapSettings'
+            },
+            '*'
+        );
+
+        document.getElementById('devicesComponent')!.style.display = 'none';
     }
 }

@@ -1,6 +1,6 @@
-import { DEVICE_REFERENCE_KEY, LINK_REFERENCE_KEY } from '@data/data';
 import { BlockProxy, CustomBlockProxy, ItemProxy, LineProxy, PageProxy } from 'lucid-extension-sdk';
 import { Device, DeviceLinkEdge } from 'model/uvx/device';
+import { DEVICE_REFERENCE_KEY, LINK_REFERENCE_KEY } from '@data/data-client';
 import { itemToDevice, itemToLinkEdge, removeQuotationMarks } from '@data/data-utils';
 import { NetworkDeviceBlock } from './network-device-block';
 

@@ -39,7 +39,8 @@
             "@uvx/*": ["./src/uvx/*"],
             "@actions/*": ["./src/actions/*"],
             "@blocks/*": ["./src/blocks/*"],
-            "@draw/*": ["./src/draw/*"],
+            "@doc/*": ["./src/doc/*"],
+            "@draw/*": ["./src/doc/draw/*"],
             "@data/*": ["./src/data/*"],
             "mock_data/*": ["./test/mock_data/*"]
         }

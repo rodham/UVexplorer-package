@@ -2,19 +2,19 @@ import { Device, DeviceLink } from 'model/uvx/device';
 import { CollectionProxy, DataProxy, DataSourceProxy, EditorClient } from 'lucid-extension-sdk';
 import { createDataProxy } from '@data/data-utils';
 
-export class Data {
-    private static instance: Data;
+export class DataClient {
+    private static instance: DataClient;
     private data: DataProxy;
 
     constructor(client: EditorClient) {
         this.data = createDataProxy(client);
     }
 
-    static getInstance(client: EditorClient): Data {
-        if (!Data.instance) {
-            Data.instance = new Data(client);
+    static getInstance(client: EditorClient): DataClient {
+        if (!DataClient.instance) {
+            DataClient.instance = new DataClient(client);
         }
-        return Data.instance;
+        return DataClient.instance;
     }
 
     createOrRetrieveNetworkSource(_name: string, _guid: string): DataSourceProxy {
@@ -63,5 +63,9 @@ export class Data {
 
     getLinksCollectionForPage(_pageId: string): string {
         return 'my_network_link';
+    }
+
+    createOrRetrieveSettingsCollection(): CollectionProxy {
+        return new CollectionProxy('', new EditorClient());
     }
 }

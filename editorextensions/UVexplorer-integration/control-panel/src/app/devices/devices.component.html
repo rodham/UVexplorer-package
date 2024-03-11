@@ -26,5 +26,13 @@
             ></div>
             <span class="ms-3 text-sm font-medium text-black-900 dark:text-black-300">Auto Layout</span>
         </label>
+        <button
+            (click)="changeSettings()"
+            class="bg-gray-400 text-white py-2 px-4 rounded mx-2 mt-1"
+            [hidden]="devices.length === 0"
+        >
+            Change Settings
+        </button>
     </div>
 </div>
+<app-settings></app-settings>

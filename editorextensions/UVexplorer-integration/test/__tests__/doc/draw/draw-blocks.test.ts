@@ -1,6 +1,6 @@
 import * as lucid from 'lucid-extension-sdk';
-import { mockCustomBlockDefinition, mockDeviceNode } from '../helpers';
-import { DrawBlocks } from '@draw/draw-blocks';
+import { mockCustomBlockDefinition, mockDeviceNode } from '../../helpers';
+import { DrawBlocks } from 'src/doc/draw/draw-blocks';
 import { DeviceNode } from 'model/uvx/device';
 
 jest.mock('lucid-extension-sdk');

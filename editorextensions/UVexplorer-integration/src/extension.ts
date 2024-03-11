@@ -1,4 +1,3 @@
-// import 'dotenv/config';
 import { EditorClient, Menu, Viewport } from 'lucid-extension-sdk';
 import { DevicesModal } from '@uvx/devices-modal';
 import {
@@ -9,13 +8,19 @@ import {
     viewDeviceDetails,
     viewLinkDetails
 } from '@actions/devices';
-import { Data } from './data/data';
-import { DocumentEditor } from './doc/documentEditor';
-import { syncDisplayedMap } from './actions/network';
+import { SettingsModal } from '@uvx/settings-modal';
+import { DataClient } from '@data/data-client';
+import { DocumentClient } from '@doc/document-client';
+import { syncDisplayedMap } from '@actions/network';
+import { UVExplorerClient } from '@uvx/uvx-client';
+import { configureClientPackageSettings } from 'src/package-settings';
 
 const client = new EditorClient();
-const menu = new Menu(client);
 const viewport: Viewport = new Viewport(client);
+const menu = new Menu(client);
+const uvxClient = new UVExplorerClient(client);
+const dataClient = new DataClient(client);
+const docClient = new DocumentClient(viewport, dataClient);
 
 client.registerAction('uvDeviceSelected', () => {
     return uvDeviceSelected(viewport);
@@ -30,24 +35,21 @@ client.registerAction('deviceLinkSelected', () => {
 });
 
 client.registerAction('showConnectedDevices', async () => {
-    await configureClientPackageSettings();
+    await configureClientPackageSettings(client);
     const selection = viewport.getSelectedItems();
-    const docEditor = createDocEditor();
-    await showConnectedDevices(selection, client, docEditor);
+    await showConnectedDevices(selection, client, docClient, uvxClient, dataClient);
 });
 
 client.registerAction('viewDeviceDetails', async () => {
-    await configureClientPackageSettings();
+    await configureClientPackageSettings(client);
     const selection = viewport.getSelectedItems();
-    const docEditor = createDocEditor();
-    await viewDeviceDetails(selection, client, docEditor);
+    await viewDeviceDetails(selection, client, docClient, uvxClient, dataClient);
 });
 
 client.registerAction('viewLinkDetails', async () => {
-    await configureClientPackageSettings();
+    await configureClientPackageSettings(client);
     const selection = viewport.getSelectedItems();
-    const docEditor = createDocEditor();
-    await viewLinkDetails(selection, client, docEditor);
+    await viewLinkDetails(selection, client, docClient, uvxClient, dataClient);
 });
 
 menu.addContextMenuItem({
@@ -69,24 +71,33 @@ menu.addContextMenuItem({
 });
 
 client.registerAction('loadNetwork', async () => {
-    const docEditor = createDocEditor();
-    const modal = new DevicesModal(client, docEditor);
+    const modal = new DevicesModal(client, docClient, uvxClient, dataClient);
 
-    await configureClientPackageSettings();
+    await configureClientPackageSettings(client);
 
     await modal.show();
-    await modal.listNetworks();
+    await modal.sendNetworks();
 });
 
 client.registerAction('syncDisplayedMap', async () => {
-    await configureClientPackageSettings();
-    const docEditor = createDocEditor();
-    await syncDisplayedMap(docEditor, client);
+    await configureClientPackageSettings(client);
+    await syncDisplayedMap(docClient, client);
+});
+
+client.registerAction('loadMapSettings', async () => {
+    const modal = new SettingsModal(client, docClient, uvxClient, dataClient);
+    await modal.show();
+    await modal.sendMapSettings();
 });
 
 menu.addDropdownMenuItem({
     label: 'Load a Network',
     action: 'loadNetwork'
+});
+
+menu.addDropdownMenuItem({
+    label: 'Map Settings',
+    action: 'loadMapSettings'
 });
 
 menu.addDropdownMenuItem({
@@ -96,42 +107,6 @@ menu.addDropdownMenuItem({
 
 async function init() {
     await client.loadBlockClasses(['NetworkDeviceBlock']);
-}
-
-async function configureClientPackageSettings() {
-    // TODO: Add back when deploying. Package settings config did not save locally.
-    // await configureSetting('apiKey');
-    // await configureSetting('serverUrl');
-    const additionalSettings: Map<string, string> = new Map<string, string>();
-    additionalSettings.set('apiKey', process.env.UVX_API_KEY!);
-    additionalSettings.set('serverUrl', process.env.UVX_BASE_URL!);
-
-    await client.setPackageSettings(additionalSettings);
-}
-
-async function _configureSetting(setting: string) {
-    let settings = await client.getPackageSettings();
-    if (!settings.get(setting)) {
-        if (await client.canEditPackageSettings()) {
-            await client.alert(
-                `You have not configured the ${setting}. You will now be prompted to complete that configuration.`
-            );
-            await client.showPackageSettingsModal();
-            settings = await client.getPackageSettings();
-            if (!settings.get(setting)) {
-                return;
-            }
-        } else {
-            await client.alert(
-                `Your account has not configured the ${setting}. Talk with your Lucid account administrator to complete configuration.`
-            );
-        }
-    }
-}
-
-function createDocEditor() {
-    const data = Data.getInstance(client);
-    return new DocumentEditor(viewport, data);
 }
 
 void init();
