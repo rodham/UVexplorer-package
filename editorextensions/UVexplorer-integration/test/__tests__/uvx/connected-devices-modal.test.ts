@@ -44,11 +44,17 @@ describe('Connected Devices Modal Tests', () => {
         const connectedDevicesRequestSpy = jest
             .spyOn(devicesModel, 'ConnectedDevicesRequest')
             .mockReturnValue(mockConnectedDevicesRequest);
-        const modal = new ConnectedDevicesModal(mockEditorClient, mockDocClient, mockUvxClient, mockDataClient, mockDeviceGuids, mockDeviceGuids2);
+        const modal = new ConnectedDevicesModal(
+            mockEditorClient,
+            mockDocClient,
+            mockUvxClient,
+            mockDataClient,
+            mockDeviceGuids,
+            mockDeviceGuids2
+        );
         jest.spyOn(modal, 'loadPageNetwork').mockResolvedValue();
 
         const sendMessageMock = jest.spyOn(modal, 'sendMessage');
-
 
         it('Should make uvx request and send message to child', async () => {
             await modal.sendConnectedDevices();

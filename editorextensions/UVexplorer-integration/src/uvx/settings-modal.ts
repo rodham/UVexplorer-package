@@ -1,6 +1,6 @@
-import { EditorClient, JsonSerializable } from "lucid-extension-sdk";
-import { UVXModal } from "./uvx-modal";
-import { isSelectedMapSettingsMessage } from "model/message";
+import { EditorClient, JsonSerializable } from 'lucid-extension-sdk';
+import { UVXModal } from './uvx-modal';
+import { isSelectedMapSettingsMessage } from 'model/message';
 import { DocumentClient } from 'src/doc/document-client';
 import { UVExplorerClient } from '@uvx/uvx-client';
 import { DataClient } from '@data/data-client';

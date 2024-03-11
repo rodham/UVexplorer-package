@@ -8,7 +8,13 @@ import { DataClient } from '@data/data-client';
 export class DeviceDetailModal extends UVXModal {
     device: Device;
 
-    constructor(client: EditorClient, docEditor: DocumentClient, uvxClient: UVExplorerClient, data: DataClient, device: Device) {
+    constructor(
+        client: EditorClient,
+        docEditor: DocumentClient,
+        uvxClient: UVExplorerClient,
+        data: DataClient,
+        device: Device
+    ) {
         super(client, docEditor, uvxClient, data, 'device-detail');
         this.device = device;
     }

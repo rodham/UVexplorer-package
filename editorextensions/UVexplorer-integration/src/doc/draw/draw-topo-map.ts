@@ -6,12 +6,7 @@ import { NetworkDeviceBlock } from '@blocks/network-device-block';
 import { TopoMap } from 'model/uvx/topo-map';
 
 export class DrawTopoMap {
-    static async drawTopoMap(
-        client: EditorClient,
-        viewport: Viewport,
-        page: PageProxy,
-        topoMap: TopoMap
-    ) {
+    static async drawTopoMap(client: EditorClient, viewport: Viewport, page: PageProxy, topoMap: TopoMap) {
         const customBlockDef = await client.getCustomShapeDefinition(
             NetworkDeviceBlock.library,
             NetworkDeviceBlock.shape
@@ -24,7 +19,13 @@ export class DrawTopoMap {
         const deviceCollectionId = data.getDeviceCollectionForPage(page.id);
         const linksCollectionId = data.getLinksCollectionForPage(page.id);
 
-        const guidToBlockMap = DrawBlocks.drawBlocks(viewport, page, topoMap.deviceNodes, customBlockDef, deviceCollectionId);
+        const guidToBlockMap = DrawBlocks.drawBlocks(
+            viewport,
+            page,
+            topoMap.deviceNodes,
+            customBlockDef,
+            deviceCollectionId
+        );
         DrawLines.drawLines(page, topoMap.deviceLinks, guidToBlockMap, linksCollectionId, topoMap.drawSettings);
     }
 

@@ -1,5 +1,10 @@
 import { DataSourceProxy, EditorClient, JsonSerializable } from 'lucid-extension-sdk';
-import { isLoadMapSettingsMessage, isLoadNetworkMessage, isSelectedDevicesMessage, isSelectedMapSettingsMessage } from 'model/message';
+import {
+    isLoadMapSettingsMessage,
+    isLoadNetworkMessage,
+    isSelectedDevicesMessage,
+    isSelectedMapSettingsMessage
+} from 'model/message';
 import { NetworkRequest } from 'model/uvx/network';
 import { DeviceListRequest } from 'model/uvx/device';
 import { UVXModal } from './uvx-modal';

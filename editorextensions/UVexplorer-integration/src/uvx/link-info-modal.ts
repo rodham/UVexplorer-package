@@ -8,7 +8,13 @@ import { DataClient } from '@data/data-client';
 export class LinkInfoModal extends UVXModal {
     deviceLink: DeviceLinkEdge;
 
-    constructor(client: EditorClient, docEditor: DocumentClient, uvxClient: UVExplorerClient, data: DataClient, deviceLink: DeviceLinkEdge) {
+    constructor(
+        client: EditorClient,
+        docEditor: DocumentClient,
+        uvxClient: UVExplorerClient,
+        data: DataClient,
+        deviceLink: DeviceLinkEdge
+    ) {
         super(client, docEditor, uvxClient, data, 'link-detail');
         this.deviceLink = deviceLink;
     }

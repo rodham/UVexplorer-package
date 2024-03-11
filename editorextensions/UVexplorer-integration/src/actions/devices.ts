@@ -32,7 +32,7 @@ export async function showConnectedDevices(
     client: EditorClient,
     docEditor: DocumentClient,
     uvxClient: UVExplorerClient,
-    data: DataClient,
+    data: DataClient
 ): Promise<void> {
     const deviceGuids: string[] = [];
     const visConnDeviceGuids: string[] = [];

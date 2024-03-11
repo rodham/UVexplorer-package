@@ -74,5 +74,5 @@ export function removeQuotationMarks(val: string): string {
 }
 
 export function addQuotationMarks(val: string): string {
-    return "\"" + val + "\"";
+    return '"' + val + '"';
 }

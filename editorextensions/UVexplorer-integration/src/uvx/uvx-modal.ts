@@ -6,7 +6,8 @@ import {
     defaultDrawSettings,
     defaultLayoutSettings,
     DrawSettings,
-    LayoutSettings, manualLayoutSettings,
+    LayoutSettings,
+    manualLayoutSettings,
     TopoMap
 } from 'model/uvx/topo-map';
 import { DataClient } from '@data/data-client';
@@ -19,7 +20,13 @@ export abstract class UVXModal extends Modal {
     protected apiKey = '';
     protected sessionGuid = '';
 
-    protected constructor(client: EditorClient, docClient: DocumentClient, uvxClient: UVExplorerClient, dataClient: DataClient, path: string) {
+    protected constructor(
+        client: EditorClient,
+        docClient: DocumentClient,
+        uvxClient: UVExplorerClient,
+        dataClient: DataClient,
+        path: string
+    ) {
         super(client, {
             title: 'UVexplorer',
             width: 800,
@@ -69,11 +76,7 @@ export abstract class UVXModal extends Modal {
         }
 
         try {
-            const topoMapRequest = createTopoMapRequest(
-                deviceGuids,
-                layoutSettings,
-                drawSettings
-            );
+            const topoMapRequest = createTopoMapRequest(deviceGuids, layoutSettings, drawSettings);
 
             return await this.uvxClient.getTopoMap(topoMapRequest);
         } catch (e) {
@@ -145,15 +148,9 @@ export abstract class UVXModal extends Modal {
             if (page !== undefined) {
                 const collection = this.dataClient.createOrRetrieveSettingsCollection();
                 this.dataClient.deleteSettingsFromCollection(collection, page);
-                this.dataClient.addSettingsToCollection(
-                    collection,
-                    page,
-                    layoutSettings,
-                    drawSettings
-                );
+                this.dataClient.addSettingsToCollection(collection, page, layoutSettings, drawSettings);
             }
-        }
-        catch (e) {
+        } catch (e) {
             console.error(e);
         }
     }

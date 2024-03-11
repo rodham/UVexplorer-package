@@ -48,7 +48,7 @@ export class DrawLines {
         });
         line.setShape(LineShape.Diagonal);
         line.changeZOrder(ZOrderOperation.BOTTOM);
-        line.addTextArea("Width: " + penSettings.width, {location: 0.5, side: 0});  // TODO: Temp solution
+        line.addTextArea('Width: ' + penSettings.width, { location: 0.5, side: 0 }); // TODO: Temp solution
         return line;
     }
 
@@ -61,12 +61,17 @@ export class DrawLines {
     }
 
     private static getPenSettings(drawSettings: DrawSettings, linkType: string): PenPattern {
-        switch(linkType) {
-            case 'LAG': return drawSettings.lagPen;
-            case 'Manual': return drawSettings.manualPen;
-            case 'Associated': return drawSettings.associatedPen;
-            case 'Multi': return drawSettings.multiPen;
-            default: return drawSettings.standardPen;
+        switch (linkType) {
+            case 'LAG':
+                return drawSettings.lagPen;
+            case 'Manual':
+                return drawSettings.manualPen;
+            case 'Associated':
+                return drawSettings.associatedPen;
+            case 'Multi':
+                return drawSettings.multiPen;
+            default:
+                return drawSettings.standardPen;
         }
     }
 
@@ -79,5 +84,4 @@ export class DrawLines {
             }
         }
     }
-
 }
