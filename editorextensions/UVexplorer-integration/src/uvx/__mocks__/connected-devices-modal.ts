@@ -25,4 +25,8 @@ export class ConnectedDevicesModal {
     async loadConnectedDevices() {
         return new Promise<void>((resolve) => resolve());
     }
+
+    async sendConnectedDevices() {
+        return new Promise<void>((resolve) => resolve());
+    }
 }

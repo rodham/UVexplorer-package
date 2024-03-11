@@ -1,8 +1,9 @@
 import * as lucid from 'lucid-extension-sdk';
-import { DrawLines } from '@draw/draw-lines';
+import { DrawLines } from 'src/doc/draw/draw-lines';
 import { DeviceLink } from 'model/uvx/device';
 import { BlockProxy, LineProxy } from 'lucid-extension-sdk';
-import { mockDeviceLink } from '../helpers';
+import { mockDeviceLink, mockTopoMap } from '../../helpers';
+import { PenPattern } from 'model/uvx/topo-map';
 
 jest.mock('lucid-extension-sdk');
 describe('DrawTopoMap DrawLines tests', () => {
@@ -21,23 +22,24 @@ describe('DrawTopoMap DrawLines tests', () => {
     describe('drawLine Tests', () => {
         it('should add a line with the correct properties', () => {
             const mockBlocks: BlockProxy[] = [{} as lucid.BlockProxy, {} as lucid.BlockProxy];
+            const mockPenSettings = {} as PenPattern;
             const mockLine = new LineProxy('', mockClient);
             const setShapeSpy = jest.spyOn(mockLine, 'setShape');
             const addLineSpy = jest.spyOn(mockPage, 'addLine').mockReturnValue(mockLine);
 
-            DrawLines.drawLine(mockPage, mockBlocks[0], mockBlocks[1]);
+            DrawLines.drawLine(mockPage, mockBlocks[0], mockBlocks[1], mockPenSettings);
 
             expect(addLineSpy).toHaveBeenCalledWith({
                 endpoint1: {
                     connection: mockBlocks[0],
                     linkX: 0.5,
-                    linkY: 1,
+                    linkY: 0.5,
                     style: 'none'
                 },
                 endpoint2: {
                     connection: mockBlocks[1],
                     linkX: 0.5,
-                    linkY: 0,
+                    linkY: 0.5,
                     style: 'none'
                 }
             });
@@ -61,10 +63,11 @@ describe('DrawTopoMap DrawLines tests', () => {
                 [mockDeviceLink.linkEdges[1].remoteConnection.deviceGuid, mockBlocks[2]]
             ]);
             const mockCollectionId = 'collectionId';
+            const mockDrawSettings = mockTopoMap.drawSettings;
             const drawLineSpy = jest.spyOn(DrawLines, 'drawLine').mockReturnValue({} as lucid.LineProxy);
             const setReferenceKeySpy = jest.spyOn(DrawLines, 'setReferenceKey').mockImplementation();
 
-            DrawLines.drawLines(mockPage, mockDeviceLinks, mockGuidToBlockMap, mockCollectionId);
+            DrawLines.drawLines(mockPage, mockDeviceLinks, mockGuidToBlockMap, mockCollectionId, mockDrawSettings);
 
             expect(drawLineSpy).toHaveBeenCalledTimes(mockDeviceLink.linkEdges.length);
             expect(setReferenceKeySpy).toHaveBeenCalledTimes(mockDeviceLink.linkEdges.length);

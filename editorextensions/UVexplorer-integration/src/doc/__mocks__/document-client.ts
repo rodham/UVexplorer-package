@@ -1,9 +1,9 @@
 import { Viewport } from 'lucid-extension-sdk';
-import { Data } from '@data/data';
+import { DataClient } from '@data/data-client';
 
-export class DocumentEditor {
+export class DocumentClient {
     constructor(
         private _viewport: Viewport,
-        private _data: Data
+        private _data: DataClient
     ) {}
 }

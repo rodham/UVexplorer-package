@@ -1,17 +1,16 @@
-import { EditorClient, LineProxy, PageProxy, Viewport } from 'lucid-extension-sdk';
-import { DeviceLink } from 'model/uvx/device';
+import { EditorClient, LineProxy, Viewport } from 'lucid-extension-sdk';
 import { TopoMap } from 'model/uvx/topo-map';
 import { BlockUtils } from '@blocks/block-utils';
-import { Data } from '@data/data';
-import { DrawTopoMap } from '@draw/draw-topo-map';
+import { DataClient } from '@data/data-client';
+import { DrawTopoMap } from 'src/doc/draw/draw-topo-map';
 
-export class DocumentEditor {
+export class DocumentClient {
     protected viewport: Viewport;
-    protected data: Data;
+    protected dataClient: DataClient;
 
-    constructor(viewport: Viewport, data: Data) {
+    constructor(viewport: Viewport, data: DataClient) {
         this.viewport = viewport;
-        this.data = data;
+        this.dataClient = data;
     }
 
     getPageId() {
@@ -24,33 +23,28 @@ export class DocumentEditor {
             console.error('No page id found');
             return;
         }
-        const networkGuid = this.data.getNetworkForPage(pageId);
+        const networkGuid = this.dataClient.getNetworkForPage(pageId);
         return networkGuid;
     }
 
     getNetworkSource(name: string, guid: string) {
-        const source = this.data.createOrRetrieveNetworkSource(name, guid);
+        const source = this.dataClient.createOrRetrieveNetworkSource(name, guid);
         const page = this.viewport.getCurrentPage();
-        if (page !== undefined) {
-            this.data.updatePageMap(page.id, guid);
+        if (page) {
+            this.dataClient.updatePageMap(page.id, guid);
         }
         console.log(`Successfully loaded network: ${name}`);
         return source;
     }
 
-    /**
-     * TopoMap TopoMap
-     * @param devices New device guids to be drawn on the map.
-     * @param removeDevices Device guids to be removed from the map.
-     */
     async drawMap(topoMap: TopoMap, client: EditorClient): Promise<void> {
         const page = this.viewport.getCurrentPage();
         if (!page) {
             console.error('Unable to get page');
             return;
         }
-        this.saveLinks(this.data.getNetworkForPage(page.id), topoMap.deviceLinks);
-        await DrawTopoMap.drawTopoMap(client, this.viewport, page, topoMap.deviceNodes, topoMap.deviceLinks);
+        this.dataClient.saveLinks(this.dataClient.getNetworkForPage(page.id), topoMap.deviceLinks);
+        await DrawTopoMap.drawTopoMap(client, this.viewport, page, topoMap);
     }
 
     clearMap(devices: string[], removeDevices?: string[]): string[] {
@@ -59,46 +53,7 @@ export class DocumentEditor {
             console.error('Unable to get page');
             return [];
         }
-        this.clearLines(page);
-        return this.clearBlocks(page, devices, removeDevices);
-    }
-
-    clearLines(page: PageProxy) {
-        // TODO: only delete device connection lines not all lines
-        const lines = page.allLines;
-        if (lines) {
-            for (const [, line] of lines) {
-                line.delete();
-            }
-        }
-    }
-
-    /**
-     * Clear Blocks
-     * @param page The page to clear
-     * @param devices New device guids to be drawn on the map.
-     * @param removeDevices Device guids to be removed from the map.
-     * @return List of device guids that already exist on the map and should not be removed
-     *         in addition to new device guids to be drawn.
-     */
-    clearBlocks(page: PageProxy, devices: string[], removeDevices?: string[]) {
-        const pageItems = page.allBlocks;
-
-        if (pageItems) {
-            for (const [, item] of pageItems) {
-                if (BlockUtils.isNetworkDeviceBlock(item)) {
-                    const guid = BlockUtils.getGuidFromBlock(item);
-                    if (!guid) continue;
-                    item.delete();
-                    if (!devices.includes(guid) && !(removeDevices && removeDevices.includes(guid))) {
-                        // Device should remain
-                        devices.push(guid);
-                    }
-                }
-            }
-        }
-
-        return devices;
+        return DrawTopoMap.clearMap(page, devices, removeDevices);
     }
 
     getNetworkDeviceBlockGuids(): string[] {
@@ -121,13 +76,7 @@ export class DocumentEditor {
         return guids;
     }
 
-    saveLinks(networkGuid: string, links: DeviceLink[]) {
-        const source = this.data.createOrRetrieveNetworkSource('', networkGuid);
-        const collection = this.data.createOrRetrieveLinkCollection(source);
-        this.data.clearCollection(collection); // TODO: Replace once updateLinksInCollection Function is implemented
-        this.data.addLinksToCollection(collection, links);
-    }
-
+    // Given a list of deviceGuids, removes all device blocks and any connected lines.
     removeBlocksAndLines(devices?: string[]) {
         if (!devices || devices.length == 0) return;
 

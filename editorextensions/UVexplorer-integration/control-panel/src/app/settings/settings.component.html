@@ -1,0 +1,227 @@
+<div *ngIf="changingSettings">
+    <form>
+        <h3>Draw Settings</h3>
+
+        <div>
+            <h4>Standard Pen</h4>
+            <p>
+                The standard pen type is the default pen for all links not specified as one of the below 
+                types.
+            </p>
+            <div>
+                <label>Color:</label>
+                <input type="color" [(ngModel)]="colors.standardPen" name="stdColor" value="#000000">
+            </div>
+            <div>
+                <label>Width:</label>
+                <input type="number" [(ngModel)]="drawSettings.standardPen.width" name="stdWidth" value="1" min="1" max="10">
+            </div>
+            <fieldset>
+                <legend>Line Style:</legend>
+                <div class="inline-flex flex-row">
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.standardPen.dashStyle" name="stdStyle" [value]="0">
+                        <label>Solid</label>
+                    </div>
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.standardPen.dashStyle" name="stdStyle" [value]="1">
+                        <label>Dash</label>
+                    </div>
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.standardPen.dashStyle" name="stdStyle" [value]="2">
+                        <label>Dot</label>
+                    </div>
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.standardPen.dashStyle" name="stdStyle" [value]="3">
+                        <label>DashDot</label>
+                    </div>
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.standardPen.dashStyle" name="stdStyle" [value]="4">
+                        <label>DashDotDot</label>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <br/>
+
+        <div>
+            <h4>Lag Pen</h4>
+            <p>
+                A LAG link is a special kind of link between two network switches for efficiently passing 
+                network packets between them.
+            </p>
+            <div>
+                <label>Color:</label>
+                <input type="color" [(ngModel)]="colors.lagPen" name="lagColor" value="#000000">
+            </div>
+            <div>
+                <label>Width:</label>
+                <input type="number" [(ngModel)]="drawSettings.lagPen.width" name="lagWidth" value="1" min="1" max="10">
+            </div>
+            <fieldset>
+                <legend>Line Style:</legend>
+                <div class="inline-flex flex-row">
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.lagPen.dashStyle" name="lagStyle" [value]="0">
+                        <label>Solid</label>
+                    </div>
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.lagPen.dashStyle" name="lagStyle" [value]="1">
+                        <label>Dash</label>
+                    </div>
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.lagPen.dashStyle" name="lagStyle" [value]="2">
+                        <label>Dot</label>
+                    </div>
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.lagPen.dashStyle" name="lagStyle" [value]="3">
+                        <label>DashDot</label>
+                    </div>
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.lagPen.dashStyle" name="lagStyle" [value]="4">
+                        <label>DashDotDot</label>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <br/>
+        
+        <div>
+            <h4>Manual Pen</h4>
+            <p>
+                A Manual link is a link created manually by a user, usually because they know of a network 
+                link in their network that was not automatically discovered by UVX.
+            </p>
+            <div>
+                <label>Color:</label>
+                <input type="color" [(ngModel)]="colors.manualPen" name="manualColor" value="#000000">
+            </div>
+            <div>
+                <label>Width:</label>
+                <input type="number" [(ngModel)]="drawSettings.manualPen.width" name="manualWidth" value="1" min="1" max="10">
+            </div>
+            <fieldset>
+                <legend>Line Style:</legend>
+                <div class="inline-flex flex-row">
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.manualPen.dashStyle" name="manualStyle" [value]="0">
+                        <label>Solid</label>
+                    </div>
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.manualPen.dashStyle" name="manualStyle" [value]="1">
+                        <label>Dash</label>
+                    </div>
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.manualPen.dashStyle" name="manualStyle" [value]="2">
+                        <label>Dot</label>
+                    </div>
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.manualPen.dashStyle" name="manualStyle" [value]="3">
+                        <label>DashDot</label>
+                    </div>
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.manualPen.dashStyle" name="manualStyle" [value]="4">
+                        <label>DashDotDot</label>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <br/>
+        
+        <div>
+            <h4>Associated Pen</h4>
+            <p>
+                Some devices are controlled by other devices known as  "controllers" (e.g., IP phones are 
+                managed by an IP phone controller, wireless access points are managed by a wireless access 
+                point controller, etc.) An Associated link is a link between a device its "controller" 
+                device.
+            </p>
+            <div>
+                <label>Color:</label>
+                <input type="color" [(ngModel)]="colors.associatedPen" name="associatedColor" value="#000000">
+            </div>
+            <div>
+                <label>Width:</label>
+                <input type="number" [(ngModel)]="drawSettings.associatedPen.width" name="associatedWidth" value="1" min="1" max="10">
+            </div>
+            <fieldset>
+                <legend>Line Style:</legend>
+                <div class="inline-flex flex-row">
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.associatedPen.dashStyle" name="associatedStyle" [value]="0">
+                        <label>Solid</label>
+                    </div>
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.associatedPen.dashStyle" name="associatedStyle" [value]="1">
+                        <label>Dash</label>
+                    </div>
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.associatedPen.dashStyle" name="associatedStyle" [value]="2">
+                        <label>Dot</label>
+                    </div>
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.associatedPen.dashStyle" name="associatedStyle" [value]="3">
+                        <label>DashDot</label>
+                    </div>
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.associatedPen.dashStyle" name="associatedStyle" [value]="4">
+                        <label>DashDotDot</label>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <br/>
+        
+        <div>
+            <h4>Multi Pen</h4>
+            <p>
+                Multi links are links that involve multiple devices. Most links are point-to-point between 
+                just two devices, but some links involve more than two devices. Multi links are drawn in a 
+                "hub with spokes" fashion. There is one icon at the center that represents the link as a 
+                whole (the "hub"), and all the devices that participate in the link are drawn around the 
+                hub icon (these are the "spokes"). Therefore, a multi link consists of multiple edges 
+                between participating nodes (devices).
+            </p>
+            <div>
+                <label>Color:</label>
+                <input type="color" [(ngModel)]="colors.multiPen" name="multiColor" value="#000000">
+            </div>
+            <div>
+                <label>Width:</label>
+                <input type="number" [(ngModel)]="drawSettings.multiPen.width" name="multiWidth" value="1" min="1" max="10">
+            </div>
+            <fieldset>
+                <legend>Line Style:</legend>
+                <div class="inline-flex flex-row">
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.multiPen.dashStyle" name="multiStyle" [value]="0">
+                        <label>Solid</label>
+                    </div>
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.multiPen.dashStyle" name="multiStyle" [value]="1">
+                        <label>Dash</label>
+                    </div>
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.multiPen.dashStyle" name="multiStyle" [value]="2">
+                        <label>Dot</label>
+                    </div>
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.multiPen.dashStyle" name="multiStyle" [value]="3">
+                        <label>DashDot</label>
+                    </div>
+                    <div>
+                        <input type="radio" [(ngModel)]="drawSettings.multiPen.dashStyle" name="multiStyle" [value]="4">
+                        <label>DashDotDot</label>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </form>
+
+    <button
+        (click)="updateSettings()"
+        class="bg-blue-500 text-white py-2 px-4 rounded mx-2 mt-1"
+    >
+    Update Settings
+    </button>
+</div>

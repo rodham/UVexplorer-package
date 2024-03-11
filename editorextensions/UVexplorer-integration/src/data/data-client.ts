@@ -8,7 +8,14 @@ import {
     SchemaDefinition,
     SerializedFieldType
 } from 'lucid-extension-sdk';
-import { createDataProxy, deviceToRecord, linkEdgeToRecord, toSnakeCase } from '@data/data-utils';
+import {
+    createDataProxy,
+    deviceToRecord,
+    linkEdgeToRecord,
+    toSnakeCase,
+    addQuotationMarks
+} from '@data/data-utils';
+import { DrawSettings, LayoutSettings, defaultDrawSettings, defaultLayoutSettings } from 'model/uvx/topo-map';
 export const DEVICE_REFERENCE_KEY = 'device_reference_key';
 export const LINK_REFERENCE_KEY = 'link_reference_key';
 
@@ -36,19 +43,28 @@ export const LINK_SCHEMA: SchemaDefinition = {
     primaryKey: ['local_device_guid', 'remote_device_guid']
 };
 
-export class Data {
-    private static instance: Data;
+export const SETTINGS_SCHEMA: SchemaDefinition = {
+    fields: [
+        { name: 'page_id', type: ScalarFieldTypeEnum.STRING },
+        { name: 'layout_settings', type: ScalarFieldTypeEnum.STRING },
+        { name: 'draw_settings', type: ScalarFieldTypeEnum.STRING }
+    ],
+    primaryKey: ['page_id']
+}
+
+export class DataClient {
+    private static instance: DataClient;
     private data: DataProxy;
 
     constructor(client: EditorClient) {
         this.data = createDataProxy(client);
     }
 
-    static getInstance(client: EditorClient): Data {
-        if (!Data.instance) {
-            Data.instance = new Data(client);
+    static getInstance(client: EditorClient): DataClient {
+        if (!DataClient.instance) {
+            DataClient.instance = new DataClient(client);
         }
-        return Data.instance;
+        return DataClient.instance;
     }
 
     createOrRetrieveNetworkSource(name: string, guid: string): DataSourceProxy {
@@ -102,6 +118,53 @@ export class Data {
         collection.patchItems({
             added: linkEdges.map(linkEdgeToRecord)
         });
+    }
+
+    addSettingsToCollection(collection: CollectionProxy, pageId: string, layoutSettings: LayoutSettings, drawSettings: DrawSettings) {
+        collection.patchItems({
+            added: [{
+                page_id: pageId,
+                layout_settings: JSON.stringify(layoutSettings),
+                draw_settings: JSON.stringify(drawSettings)
+            }]
+        });
+    }
+
+    deleteSettingsFromCollection(collection: CollectionProxy, pageId: string): void {
+        const key = addQuotationMarks(pageId);
+        if (collection.items.keys().includes(key)) {
+            collection.patchItems({
+                deleted: [key]
+            });
+        }
+    }
+
+    createOrRetrieveSettingsCollection(): CollectionProxy {
+        const source = this.createOrRetrievePageMapSource();
+        for (const [, collection] of source.collections) {
+            if (collection.getName() === 'settings') {
+                return collection;
+            }
+        }
+        return source.addCollection('settings', SETTINGS_SCHEMA);
+    }
+
+    getLayoutSettings(collection: CollectionProxy, pageId: string): LayoutSettings {
+        const key = addQuotationMarks(pageId);
+        let layoutSettings: LayoutSettings = defaultLayoutSettings;
+        if (collection.items.keys().includes(key)) {
+            layoutSettings = JSON.parse(collection.items.get(key).fields.get('layout_settings')?.toString() ?? '') as LayoutSettings;
+        }
+        return layoutSettings;
+    }
+
+    getDrawSettings(collection: CollectionProxy, pageId: string): DrawSettings {
+        const key = addQuotationMarks(pageId);
+        let drawSettings: DrawSettings = defaultDrawSettings;
+        if (collection.items.keys().includes(key)) {
+            drawSettings = JSON.parse(collection.items.get(key).fields.get('draw_settings')?.toString() ?? '') as DrawSettings;
+        }
+        return drawSettings;
     }
 
     createOrRetrievePageMapSource(): DataSourceProxy {
@@ -173,5 +236,18 @@ export class Data {
         const source = this.createOrRetrieveNetworkSource('', networkGuid);
         const collection = this.createOrRetrieveLinkCollection(source);
         return collection.id;
+    }
+
+    saveDevices(source: DataSourceProxy, devices: Device[]) {
+        const collection = this.createOrRetrieveDeviceCollection(source);
+        this.clearCollection(collection); // TODO: Replace once updateDevicesInCollection Function is implemented
+        this.addDevicesToCollection(collection, devices);
+    }
+
+    saveLinks(networkGuid: string, links: DeviceLink[]) {
+        const source = this.createOrRetrieveNetworkSource('', networkGuid);
+        const collection = this.createOrRetrieveLinkCollection(source);
+        this.clearCollection(collection); // TODO: Replace once updateLinksInCollection Function is implemented
+        this.addLinksToCollection(collection, links);
     }
 }

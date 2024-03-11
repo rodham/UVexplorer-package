@@ -1,8 +1,9 @@
 import { BlockDefinition, BlockProxy, PageProxy, Viewport } from 'lucid-extension-sdk';
 import { DeviceNode } from 'model/uvx/device';
-import { DEVICE_REFERENCE_KEY } from '@data/data';
+import { DEVICE_REFERENCE_KEY } from '@data/data-client';
 import { getVendor } from 'model/uvx/vendor';
 import { getDeviceType } from 'model/uvx/device-type';
+import { BlockUtils } from '@blocks/block-utils';
 
 export class DrawBlocks {
     static drawBlocks(
@@ -54,5 +55,27 @@ export class DrawBlocks {
             primaryKey: `"${deviceNode.deviceGuid}"`,
             readonly: true
         });
+    }
+
+    // Removes a list of given
+    static removeBlocks(page: PageProxy, removeDevices?: string[]) {
+        const pageItems = page.allBlocks;
+        const remainDevices = [];
+
+        if (pageItems) {
+            for (const [, item] of pageItems) {
+                if (BlockUtils.isNetworkDeviceBlock(item)) {
+                    const guid = BlockUtils.getGuidFromBlock(item);
+                    if (!guid) continue;
+                    item.delete();
+                    if (!(removeDevices && removeDevices.includes(guid))) {
+                        // Device should remain
+                        remainDevices.push(guid);
+                    }
+                }
+            }
+        }
+
+        return remainDevices;
     }
 }

@@ -3,7 +3,9 @@ import { DeviceDetailModal } from '@uvx/device-detail-modal';
 import { BlockUtils } from '@blocks/block-utils';
 import { EditorClient, ItemProxy, LineProxy, Viewport } from 'lucid-extension-sdk';
 import { LinkInfoModal } from '@uvx/link-info-modal';
-import { DocumentEditor } from 'src/doc/documentEditor';
+import { DocumentClient } from 'src/doc/document-client';
+import { UVExplorerClient } from '@uvx/uvx-client';
+import { DataClient } from '@data/data-client';
 
 export function uvDeviceSelected(viewport: Viewport): boolean {
     const selection = viewport.getSelectedItems();
@@ -28,7 +30,9 @@ export function deviceLinkSelected(viewport: Viewport): boolean {
 export async function showConnectedDevices(
     selection: ItemProxy[],
     client: EditorClient,
-    docEditor: DocumentEditor
+    docEditor: DocumentClient,
+    uvxClient: UVExplorerClient,
+    data: DataClient,
 ): Promise<void> {
     const deviceGuids: string[] = [];
     const visConnDeviceGuids: string[] = [];
@@ -67,16 +71,18 @@ export async function showConnectedDevices(
         }
     }
 
-    const modal = new ConnectedDevicesModal(client, docEditor, deviceGuids, visConnDeviceGuids);
+    const modal = new ConnectedDevicesModal(client, docEditor, uvxClient, data, deviceGuids, visConnDeviceGuids);
 
     await modal.show();
-    await modal.loadConnectedDevices();
+    await modal.sendConnectedDevices();
 }
 
 export async function viewDeviceDetails(
     selection: ItemProxy[],
     client: EditorClient,
-    docEditor: DocumentEditor
+    docEditor: DocumentClient,
+    uvxClient: UVExplorerClient,
+    data: DataClient
 ): Promise<void> {
     if (selection.length !== 1) {
         console.log('Can only view details of one device at a time');
@@ -94,16 +100,18 @@ export async function viewDeviceDetails(
         return;
     }
 
-    const modal = new DeviceDetailModal(client, docEditor, device);
+    const modal = new DeviceDetailModal(client, docEditor, uvxClient, data, device);
 
     await modal.show();
-    await modal.getDeviceDetails();
+    await modal.sendDeviceDetails();
 }
 
 export async function viewLinkDetails(
     selection: ItemProxy[],
     client: EditorClient,
-    docEditor: DocumentEditor
+    docEditor: DocumentClient,
+    uvxClient: UVExplorerClient,
+    data: DataClient
 ): Promise<void> {
     if (selection.length !== 1) {
         console.log('Can only view details of one link at a time');
@@ -121,8 +129,8 @@ export async function viewLinkDetails(
         return;
     }
 
-    const modal = new LinkInfoModal(client, docEditor, line);
+    const modal = new LinkInfoModal(client, docEditor, uvxClient, data, line);
 
     await modal.show();
-    await modal.displayLineDetails();
+    await modal.sendLineDetails();
 }

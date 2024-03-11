@@ -1,4 +1,4 @@
-import { isNetworkSummary, NetworkSummary } from 'model/uvx/network';
+import { isNetworkSummary, NetworkSummary } from './uvx/network';
 import {
     Device,
     DeviceDetailsResponse,
@@ -8,6 +8,7 @@ import {
     isDeviceLinkEdge
 } from 'model/uvx/device';
 import { isString } from 'lucid-extension-sdk';
+import { DrawSettings, isDrawSettings, isLayoutSettings, LayoutSettings } from './uvx/topo-map';
 
 export interface ListNetworksMessage {
     action: 'listNetworks';
@@ -131,6 +132,20 @@ export function getForcedAutoLayoutFromListDevMsg(message: ListDevicesMessage): 
     return message.forceAutoLayout;
 }
 
+export interface RelistDevicesMessage {
+    action: 'relistDevices';
+}
+
+export function isRelistDevicesMessage(message: unknown): message is ListDevicesMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        message.action === 'relistDevices'
+    );
+}
+
 export function connDeviceGuidsFromListDevMsg(message: ListDevicesMessage): string[] {
     if (!message.visibleConnectedDeviceGuids) {
         return [];
@@ -167,7 +182,6 @@ export function isSelectedDevicesMessage(message: unknown): message is SelectedD
         typeof message.autoLayout === 'boolean'
     );
 }
-
 export interface DeviceDetailsMessage {
     action: 'viewDeviceDetails';
     deviceDetails: string;
@@ -228,16 +242,60 @@ export function linkFromSerializableLinkMessage(message: LinkDetailsMessage): De
     if (isDeviceLinkEdge(linkEdge)) {
         return linkEdge;
     } else {
-        const isObj = (obj: unknown): obj is DeviceLinkEdge => {
-            return true;
-        };
-
-        if (isObj(linkEdge)) {
-            for (const [key, val] of Object.entries(linkEdge)) {
-                console.log(key);
-                console.log('Value: ', JSON.stringify(val));
-            }
-        }
         throw Error('Unable to parse as DeviceLinkEdge object');
     }
+}
+
+export interface LoadMapSettingsMessage {
+    action: 'loadMapSettings';
+}
+
+export function isLoadMapSettingsMessage(message: unknown): message is LoadMapSettingsMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        message.action === 'loadMapSettings'
+    );
+}
+
+export interface MapSettingsMessage {
+    action: 'mapSettings';
+    drawSettings: string;
+    layoutSettings: string;
+}
+
+export function isMapSettingsMessage(message: unknown): message is MapSettingsMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        message.action === 'mapSettings' &&
+        'drawSettings' in message &&
+        isDrawSettings(JSON.parse(message.drawSettings?.toString() ?? '')) &&
+        'layoutSettings' in message &&
+        isLayoutSettings(JSON.parse(message.layoutSettings?.toString() ?? ''))
+    );
+}
+
+export interface SelectedMapSettingsMessage {
+    action: 'saveMapSettings';
+    drawSettings: DrawSettings;
+    layoutSettings: LayoutSettings;
+}
+
+export function isSelectedMapSettingsMessage(message: unknown): message is SelectedMapSettingsMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        message.action === 'saveMapSettings' &&
+        'drawSettings' in message &&
+        isDrawSettings(message.drawSettings) &&
+        'layoutSettings' in message &&
+        isLayoutSettings(message.layoutSettings)
+    );
 }
