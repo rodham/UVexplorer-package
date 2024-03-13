@@ -2,7 +2,13 @@ import { Component } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { isMapSettingsMessage } from 'model/message';
 import { FormsModule } from '@angular/forms';
-import { DrawSettings, LayoutSettings, defaultDrawSettings, defaultLayoutSettings } from 'model/uvx/topo-map';
+import {
+    DrawSettings,
+    LayoutSettings,
+    LayoutType,
+    defaultDrawSettings,
+    defaultLayoutSettings
+} from 'model/uvx/topo-map';
 
 @Component({
     selector: 'app-settings',
@@ -14,6 +20,7 @@ export class SettingsComponent {
     changingSettings = false;
     drawSettings: DrawSettings = defaultDrawSettings;
     layoutSettings: LayoutSettings = defaultLayoutSettings;
+    layoutTypes = LayoutType;
     colors = {
         standardPen: '#000000',
         lagPen: '#000000',

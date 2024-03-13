@@ -31,7 +31,7 @@ export class DevicesComponent {
     preselectedDeviceGuids: string[] = [];
     themeClass = 'ag-theme-quartz';
     rowSelection: 'multiple' | 'single' = 'multiple';
-    private gridApi?: GridApi;
+    gridApi?: GridApi;
     forcedAutoLayout = false;
     autoLayout = true;
 
