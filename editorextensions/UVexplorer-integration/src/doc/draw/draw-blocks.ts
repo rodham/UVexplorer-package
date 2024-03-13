@@ -58,6 +58,7 @@ export class DrawBlocks {
         });
 
         const deviceType = DEVICE_TYPE_NAME_MAP.get(HubNodeUtil.getCategoryImageKey(hubNode));
+        block.shapeData.set('Make', 'Hub Node');
         block.shapeData.set('DeviceType', deviceType);
         return block;
     }
