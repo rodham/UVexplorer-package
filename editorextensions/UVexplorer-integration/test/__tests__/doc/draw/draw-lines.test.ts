@@ -57,17 +57,17 @@ describe('DrawTopoMap DrawLines tests', () => {
                     return { x: 0, y: 0, h: 0, w: 0 };
                 });
             }
-            const mockGuidToBlockMap = new Map<string, BlockProxy>([
-                [mockDeviceLink.linkEdges[0].localConnection.deviceGuid, mockBlocks[0]],
-                [mockDeviceLink.linkEdges[0].remoteConnection.deviceGuid, mockBlocks[1]],
-                [mockDeviceLink.linkEdges[1].remoteConnection.deviceGuid, mockBlocks[2]]
+            const mockNodeIdToBlockMap = new Map<number, BlockProxy>([
+                [mockDeviceLink.linkEdges[0].localConnection.nodeId, mockBlocks[0]],
+                [mockDeviceLink.linkEdges[0].remoteConnection.nodeId, mockBlocks[1]],
+                [mockDeviceLink.linkEdges[1].remoteConnection.nodeId, mockBlocks[2]]
             ]);
             const mockCollectionId = 'collectionId';
             const mockDrawSettings = mockTopoMap.drawSettings;
             const drawLineSpy = jest.spyOn(DrawLines, 'drawLine').mockReturnValue({} as lucid.LineProxy);
             const setReferenceKeySpy = jest.spyOn(DrawLines, 'setReferenceKey').mockImplementation();
 
-            DrawLines.drawLines(mockPage, mockDeviceLinks, mockGuidToBlockMap, mockCollectionId, mockDrawSettings);
+            DrawLines.drawLines(mockPage, mockDeviceLinks, mockNodeIdToBlockMap, mockCollectionId, mockDrawSettings);
 
             expect(drawLineSpy).toHaveBeenCalledTimes(mockDeviceLink.linkEdges.length);
             expect(setReferenceKeySpy).toHaveBeenCalledTimes(mockDeviceLink.linkEdges.length);

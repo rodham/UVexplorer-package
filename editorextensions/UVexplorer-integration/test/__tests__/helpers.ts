@@ -14,6 +14,7 @@ import {
     InfoSetListResponse,
     MonitorState
 } from 'model/uvx/device';
+import { HubNode, MultiNodeType } from 'model/uvx/hub-node';
 
 export const mockNetworkSummariesXHRResponse: TextXHRResponse = {
     url: 'https://my-uvexplorer-server.com/public/api/v1/network/list',
@@ -152,6 +153,20 @@ export const mockDeviceNode: DeviceNode = {
     width: 0,
     height: 0
 };
+
+export const mockHubNode: HubNode = {
+    bottom: 0,
+    centerX: 0,
+    height: 0,
+    label: '',
+    nodeId: 3,
+    type: MultiNodeType.Hub,
+    width: 0,
+    x: 0,
+    y: 0
+}
+
+
 
 export const mockDeviceListResponse: DeviceListResponse = {
     devices: [mockDevice]

@@ -1,4 +1,5 @@
 import { DeviceFilter, DeviceLink, DeviceNode } from './device';
+import { HubNode } from 'model/uvx/hub-node';
 
 export enum LayoutType {
     Manual,
@@ -249,8 +250,8 @@ export interface TopoMap {
     layoutSettings: LayoutSettings;
     drawSettings: DrawSettings;
     deviceNodes: DeviceNode[];
-    deviceGroupNodes: DeviceNode[];
-    hubNodes: DeviceNode[];
+    deviceGroupNodes: unknown;
+    hubNodes: HubNode[];
     imageNodes: unknown;
     deviceLinks: DeviceLink[];
     width: number;
