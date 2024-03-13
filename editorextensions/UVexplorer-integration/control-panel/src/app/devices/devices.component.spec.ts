@@ -8,7 +8,7 @@ import {
     ProtocolProfile,
     ProtocolProfileEntry
 } from 'model/uvx/device';
-//import { SelectedDevicesMessage } from 'model/message';
+import { SelectedDevicesMessage } from 'model/message';
 
 describe('DevicesComponent', () => {
     let component: DevicesComponent;
@@ -31,7 +31,7 @@ describe('DevicesComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    /*it('should call parent.postMessage on selectDevices', () => {
+    it('should call parent.postMessage on selectDevices', () => {
         const postMessageSpy: jasmine.Spy<(message: SelectedDevicesMessage, targetOrigin: string) => void> = spyOn(
             window.parent,
             'postMessage'
@@ -48,14 +48,15 @@ describe('DevicesComponent', () => {
         expect(postMessageSpy).toHaveBeenCalledWith(
             {
                 action: 'selectDevices',
-                devices: [device],
+                devices: [device.guid],
+                autoLayout: true,
                 removeDevices: []
             },
             '*'
         );
 
         expect(getSelectedDevicesSpy).toHaveBeenCalledWith();
-    });*/
+    });
 
     it('validate appended DeviceCategories', () => {
         const expectedValue = 'device1, device11';
@@ -63,15 +64,15 @@ describe('DevicesComponent', () => {
         expect(expectedValue).toEqual(component.appendDeviceCategories(device.device_categories.entries!));
     });
 
-    // it('test select and deselect of devices', () => {
-    //   expect(component.selectedDevices).toEqual([]);
-    //   component.addRemoveRowSelection(device, true);
-    //
-    //   expect(component.selectedDevices).toEqual([device]);
-    //   component.addRemoveRowSelection(device, false);
-    //
-    //   expect(component.selectedDevices).toEqual([]);
-    // });
+    it('test select and deselect of devices', () => {
+        expect(component.getSelectedDevices()).toEqual([]);
+        component.gridApi?.selectAll();
+
+        expect(component.getSelectedDevices()).toEqual([device]);
+        component.gridApi?.deselectAll();
+
+        expect(component.getSelectedDevices()).toEqual([]);
+    });
 });
 
 function createDevice(increment: string): Device {
