@@ -164,9 +164,7 @@ export const mockHubNode: HubNode = {
     width: 0,
     x: 0,
     y: 0
-}
-
-
+};
 
 export const mockDeviceListResponse: DeviceListResponse = {
     devices: [mockDevice]

@@ -51,11 +51,7 @@ export class DrawBlocks {
         return block;
     }
 
-    static drawHubNode(
-        page: PageProxy,
-        hubNode: HubNode,
-        customBlockDef: BlockDefinition
-    ): BlockProxy {
+    static drawHubNode(page: PageProxy, hubNode: HubNode, customBlockDef: BlockDefinition): BlockProxy {
         const block = page.addBlock({
             ...customBlockDef,
             boundingBox: { x: hubNode.x, y: hubNode.y, w: 50, h: 50 }

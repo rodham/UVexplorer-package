@@ -28,7 +28,12 @@ describe('DrawTopoMap Block Tests', () => {
             const setShapeDataSpy = jest.spyOn(DrawBlocks, 'setShapeData').mockImplementation();
             const setReferenceKeySpy = jest.spyOn(DrawBlocks, 'setReferenceKey').mockImplementation();
 
-            const result = DrawBlocks.drawDeviceNode(mockPage, mockDeviceNode, mockCustomBlockDefinition, mockCollectionId);
+            const result = DrawBlocks.drawDeviceNode(
+                mockPage,
+                mockDeviceNode,
+                mockCustomBlockDefinition,
+                mockCollectionId
+            );
             expect(addBlockSpy).toHaveBeenCalledWith({
                 ...mockCustomBlockDefinition,
                 boundingBox: { x: mockDeviceNode.x, y: mockDeviceNode.y, w: 50, h: 50 }
@@ -43,7 +48,11 @@ describe('DrawTopoMap Block Tests', () => {
         it('should draw multiple blocks and focus camera on them', () => {
             const mockDeviceNodes: DeviceNode[] = [mockDeviceNode, { ...mockDeviceNode, nodeId: 1 }];
             const mockHubNodes: HubNode[] = [mockHubNode];
-            const mockBlocks: lucid.BlockProxy[] = [{} as lucid.BlockProxy, {} as lucid.BlockProxy, {} as lucid.BlockProxy];
+            const mockBlocks: lucid.BlockProxy[] = [
+                {} as lucid.BlockProxy,
+                {} as lucid.BlockProxy,
+                {} as lucid.BlockProxy
+            ];
             const mockCollectionId = 'collectionId';
             const drawDeviceNodeSpy = jest.spyOn(DrawBlocks, 'drawDeviceNode').mockReturnValue({} as lucid.BlockProxy);
             const drawHubNodeSpy = jest.spyOn(DrawBlocks, 'drawHubNode').mockReturnValue({} as lucid.BlockProxy);

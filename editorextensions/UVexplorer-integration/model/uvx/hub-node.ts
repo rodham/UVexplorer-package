@@ -17,7 +17,7 @@ export enum MultiNodeType {
 }
 
 export class HubNodeUtil {
-     static getCategoryImageKey(node: HubNode): string {
+    static getCategoryImageKey(node: HubNode): string {
         switch (node.type) {
             case MultiNodeType.VirtualPortGroup:
                 return 'virtual-port-group';
