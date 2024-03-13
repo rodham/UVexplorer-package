@@ -1,6 +1,102 @@
 <div *ngIf="changingSettings">
     <form>
-        <h3>Draw Settings</h3>
+        <h2>Draw Settings</h2>
+
+        <div>
+            <label>Short Device Names: </label>
+            <input 
+                type="checkbox"
+                [(ngModel)]="drawSettings.shortDeviceNames"
+                name="shortDeviceNames"
+                value="false"
+            />
+        </div>
+
+        <div>
+            <div>
+                <label>Left Device Trim: </label>
+                <input 
+                    type="checkbox" 
+                    [(ngModel)]="drawSettings.deviceTrimLeft" 
+                    name="deviceTrimLeft" 
+                    value="false" 
+                    [disabled]="!drawSettings.shortDeviceNames"
+                />
+            </div>
+
+            <div>
+                <label>Left Device Trim Char: </label>
+                <input 
+                    type="text" 
+                    [(ngModel)]="drawSettings.deviceTrimLeftChar" 
+                    name="deviceTrimLeftChar" 
+                    value="." 
+                    style="border: 1px solid #DCDCDC;" 
+                    [disabled]="!drawSettings.shortDeviceNames || !drawSettings.deviceTrimLeft"
+                />
+            </div>
+
+            <div>
+                <label>Left Device Trim Count: </label>
+                <input 
+                    type="number" 
+                    [(ngModel)]="drawSettings.deviceTrimLeftCount" 
+                    name="deviceTrimLeftCount" 
+                    [value]="1" 
+                    style="border: 1px solid #DCDCDC;" 
+                    [disabled]="!drawSettings.shortDeviceNames || !drawSettings.deviceTrimLeft"
+                />
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <label>Right Device Trim: </label>
+                <input 
+                    type="checkbox" 
+                    [(ngModel)]="drawSettings.deviceTrimRight" 
+                    name="deviceTrimRight" 
+                    value="false" 
+                    [disabled]="!drawSettings.shortDeviceNames"
+                />
+            </div>
+
+            <div>
+                <label>Right Device Trim Char: </label>
+                <input 
+                    type="text" 
+                    [(ngModel)]="drawSettings.deviceTrimRightChar" 
+                    name="deviceTrimRightChar" 
+                    value="." 
+                    style="border: 1px solid #DCDCDC;"
+                    [disabled]="!drawSettings.shortDeviceNames || !drawSettings.deviceTrimRight"
+                />
+            </div>
+
+            <div>
+                <label>Right Device Trim Count: </label>
+                <input 
+                    type="number" 
+                    [(ngModel)]="drawSettings.deviceTrimRightCount" 
+                    name="deviceTrimRightCount" 
+                    [value]="1" 
+                    style="border: 1px solid #DCDCDC;" 
+                    [disabled]="!drawSettings.shortDeviceNames || !drawSettings.deviceTrimRight"
+                />
+            </div>
+        </div>
+
+        <div>
+            <label>Short Interface Names: </label>
+            <input 
+                type="checkbox" 
+                [(ngModel)]="drawSettings.shortIfNames" 
+                name="shortIfNames" 
+                value="false"
+            />
+        </div>
+
+        <br/>
 
         <div>
             <h4>Standard Pen</h4>
