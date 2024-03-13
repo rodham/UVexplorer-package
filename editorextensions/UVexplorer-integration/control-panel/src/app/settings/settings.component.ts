@@ -2,7 +2,13 @@ import { Component } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { isMapSettingsMessage } from 'model/message';
 import { FormsModule } from '@angular/forms';
-import { DrawSettings, LayoutSettings, LayoutType, defaultDrawSettings, defaultLayoutSettings } from 'model/uvx/topo-map';
+import {
+    DrawSettings,
+    LayoutSettings,
+    LayoutType,
+    defaultDrawSettings,
+    defaultLayoutSettings
+} from 'model/uvx/topo-map';
 
 @Component({
     selector: 'app-settings',
