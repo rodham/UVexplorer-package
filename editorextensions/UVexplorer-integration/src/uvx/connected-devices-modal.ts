@@ -1,8 +1,10 @@
 import { EditorClient, JsonSerializable } from 'lucid-extension-sdk';
 import { UVXModal } from './uvx-modal';
 import { ConnectedDevicesRequest } from 'model/uvx/device';
-import { isSelectedDevicesMessage } from 'model/message';
-import { DocumentEditor } from 'src/doc/documentEditor';
+import { DocumentClient } from 'src/doc/document-client';
+import { isLoadMapSettingsMessage, isSelectedDevicesMessage, isSelectedMapSettingsMessage } from 'model/message';
+import { UVExplorerClient } from '@uvx/uvx-client';
+import { DataClient } from '@data/data-client';
 
 export class ConnectedDevicesModal extends UVXModal {
     deviceGuids: string[];
@@ -10,16 +12,18 @@ export class ConnectedDevicesModal extends UVXModal {
 
     constructor(
         client: EditorClient,
-        docEditor: DocumentEditor,
+        docEditor: DocumentClient,
+        uvxClient: UVExplorerClient,
+        data: DataClient,
         deviceGuids: string[],
         visibleConnectedDeviceGuids: string[]
     ) {
-        super(client, docEditor, 'devices');
+        super(client, docEditor, uvxClient, data, 'devices');
         this.deviceGuids = deviceGuids;
         this.visibleConnectedDeviceGuids = visibleConnectedDeviceGuids;
     }
 
-    async loadConnectedDevices() {
+    async sendConnectedDevices() {
         await this.loadPageNetwork();
         const connectedDevicesRequest = new ConnectedDevicesRequest(this.deviceGuids);
         const devices = await this.uvxClient.listConnectedDevices(connectedDevicesRequest);
@@ -46,6 +50,11 @@ export class ConnectedDevicesModal extends UVXModal {
             await this.drawMap(message.devices, message.autoLayout, removeDevices);
             await this.closeSession();
             this.hide();
+        } else if (isLoadMapSettingsMessage(message)) {
+            await this.sendMapSettings();
+        } else if (isSelectedMapSettingsMessage(message)) {
+            this.saveSettings(message.drawSettings, message.layoutSettings);
+            await this.reloadDevices();
         }
     }
 }

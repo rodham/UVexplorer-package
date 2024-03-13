@@ -2,12 +2,13 @@ import { uvDeviceSelected, showConnectedDevices } from '@actions/devices';
 import * as lucid from 'lucid-extension-sdk';
 import { BlockUtils } from '@blocks/block-utils';
 import { mockSelectedNetworkDevices } from 'mock_data/devices';
-import { DocumentEditor } from 'src/doc/documentEditor';
-import { Data } from '@data/data';
+import { DocumentClient } from 'src/doc/document-client';
+import { DataClient } from '@data/data-client';
+import { UVExplorerClient } from '@uvx/uvx-client';
 
 jest.mock('lucid-extension-sdk');
-jest.mock('@data/data');
-jest.mock('@draw/draw-topo-map');
+jest.mock('@data/data-client');
+jest.mock('src/doc/draw/draw-topo-map');
 jest.mock('@uvx/connected-devices-modal');
 
 beforeEach(() => {
@@ -20,8 +21,9 @@ describe('Device actions success tests', () => {
     const mockViewport = {
         getSelectedItems: (_deep?: boolean | undefined) => mockSelection
     } as lucid.Viewport;
-    const mockData = Data.getInstance(mockClient);
-    const mockDocEditor = new DocumentEditor(mockViewport, mockData);
+    const mockDataClient = DataClient.getInstance(mockClient);
+    const mockDocEditor = new DocumentClient(mockViewport, mockDataClient);
+    const mockUvxClient = new UVExplorerClient(mockClient);
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -37,7 +39,7 @@ describe('Device actions success tests', () => {
     describe('showConnectedDevices tests', () => {
         it('should call console.log with selected items', async () => {
             const isNetworkDeviceBlockSpy = jest.spyOn(BlockUtils, 'isNetworkDeviceBlock').mockReturnValue(true);
-            await showConnectedDevices(mockSelection, mockClient, mockDocEditor);
+            await showConnectedDevices(mockSelection, mockClient, mockDocEditor, mockUvxClient, mockDataClient);
             expect(isNetworkDeviceBlockSpy).toHaveBeenCalledWith(mockSelectedNetworkDevices[0]);
         });
     });

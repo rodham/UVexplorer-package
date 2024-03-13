@@ -3,6 +3,7 @@ import { NetworksComponent } from './networks/networks.component';
 import { DevicesComponent } from './devices/devices.component';
 import { DeviceDetailComponent } from './device-details/device-detail.component';
 import { LinkDetailComponent } from './link-details/link-detail.component';
+import { SettingsComponent } from './settings/settings.component';
 
 export const routes: Routes = [
     {
@@ -20,5 +21,9 @@ export const routes: Routes = [
     {
         path: 'link-detail',
         component: LinkDetailComponent
+    },
+    {
+        path: 'settings',
+        component: SettingsComponent
     }
 ];

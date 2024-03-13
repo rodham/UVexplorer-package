@@ -1,12 +1,13 @@
 import { LinkInfoModal } from '@uvx/link-info-modal';
 import * as lucid from 'lucid-extension-sdk';
 import { mockDeviceLinkEdge } from 'mock_data/devices';
-import { DocumentEditor } from 'src/doc/documentEditor';
-import { Data } from '@data/data';
+import { DocumentClient } from 'src/doc/document-client';
+import { DataClient } from '@data/data-client';
+import { UVExplorerClient } from '@uvx/uvx-client';
 
 jest.mock('lucid-extension-sdk');
-jest.mock('src/doc/documentEditor');
-jest.mock('@data/data');
+jest.mock('src/doc/document-client');
+jest.mock('@data/data-client');
 
 describe('Link Info Modal tests', () => {
     const mockEditorClient = new lucid.EditorClient();
@@ -15,18 +16,25 @@ describe('Link Info Modal tests', () => {
             return { id: '1' };
         }
     } as lucid.Viewport;
-    const mockData = Data.getInstance(mockEditorClient);
-    const mockDocEditor = new DocumentEditor(mockViewport, mockData);
+    const mockDataClient = DataClient.getInstance(mockEditorClient);
+    const mockDocEditor = new DocumentClient(mockViewport, mockDataClient);
+    const mockUvxClient = new UVExplorerClient(mockEditorClient);
     beforeEach(() => {
         jest.restoreAllMocks();
     });
 
     describe('Display Line Details tests', () => {
-        const modal = new LinkInfoModal(mockEditorClient, mockDocEditor, mockDeviceLinkEdge);
+        const modal = new LinkInfoModal(
+            mockEditorClient,
+            mockDocEditor,
+            mockUvxClient,
+            mockDataClient,
+            mockDeviceLinkEdge
+        );
         const sendMessageMock = jest.spyOn(modal, 'sendMessage');
 
         it('should send message to child', async () => {
-            await modal.displayLineDetails();
+            await modal.sendLineDetails();
 
             expect(sendMessageMock).toHaveBeenCalledWith({
                 action: 'viewLinkDetails',

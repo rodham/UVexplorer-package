@@ -1,5 +1,5 @@
 import { BlockProxy, CustomBlockProxy, ItemProxy, PageProxy, ReferenceKeyProxy } from 'lucid-extension-sdk';
-import { DEVICE_REFERENCE_KEY } from '@data/data';
+import { DEVICE_REFERENCE_KEY } from '@data/data-client';
 
 import * as lucid from 'lucid-extension-sdk';
 import * as dataUtils from '@data/data-utils';
