@@ -21,6 +21,47 @@
                 />
             </div>
             <fieldset>
+                <legend>Layout Type:</legend>
+                <div class="inline-flex flex-row">
+                    <div>
+                        <input
+                            type="radio"
+                            [(ngModel)]="layoutSettings.layoutType"
+                            name="stdLayout"
+                            [value]="layoutTypes.Manual"
+                        />
+                        <label>Manual</label>
+                    </div>
+                    <div>
+                        <input
+                            type="radio"
+                            [(ngModel)]="layoutSettings.layoutType"
+                            name="stdLayout"
+                            [value]="layoutTypes.Hierarchical"
+                        />
+                        <label>Hierarchical</label>
+                    </div>
+                    <div>
+                        <input
+                            type="radio"
+                            [(ngModel)]="layoutSettings.layoutType"
+                            name="stdLayout"
+                            [value]="layoutTypes.Radial"
+                        />
+                        <label>Radial</label>
+                    </div>
+                    <div>
+                        <input
+                            type="radio"
+                            [(ngModel)]="layoutSettings.layoutType"
+                            name="stdLayout"
+                            [value]="layoutTypes.Ring"
+                        />
+                        <label>Ring</label>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
                 <legend>Line Style:</legend>
                 <div class="inline-flex flex-row">
                     <div>
