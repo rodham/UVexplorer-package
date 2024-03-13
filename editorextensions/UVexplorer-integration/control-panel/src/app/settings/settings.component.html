@@ -6,22 +6,23 @@
             <h4>Standard Pen</h4>
             <p>The standard pen type is the default pen for all links not specified as one of the below types.</p>
             <div>
-                <label>Color:</label>
+                <label>Color: </label>
                 <input type="color" [(ngModel)]="colors.standardPen" name="stdColor" value="#000000" />
             </div>
             <div>
-                <label>Width:</label>
+                <label>Width: </label>
                 <input
                     type="number"
                     [(ngModel)]="drawSettings.standardPen.width"
                     name="stdWidth"
                     value="1"
-                    min="1"
+                    min="0"
                     max="10"
+                    style="border: 1px solid #DCDCDC;"
                 />
             </div>
             <fieldset>
-                <legend>Line Style:</legend>
+                <legend>Line Style: </legend>
                 <div class="inline-flex flex-row">
                     <div>
                         <input
@@ -80,22 +81,23 @@
                 packets between them.
             </p>
             <div>
-                <label>Color:</label>
+                <label>Color: </label>
                 <input type="color" [(ngModel)]="colors.lagPen" name="lagColor" value="#000000" />
             </div>
             <div>
-                <label>Width:</label>
+                <label>Width: </label>
                 <input
                     type="number"
                     [(ngModel)]="drawSettings.lagPen.width"
                     name="lagWidth"
                     value="1"
-                    min="1"
+                    min="0"
                     max="10"
+                    style="border: 1px solid #DCDCDC;"
                 />
             </div>
             <fieldset>
-                <legend>Line Style:</legend>
+                <legend>Line Style: </legend>
                 <div class="inline-flex flex-row">
                     <div>
                         <input type="radio" [(ngModel)]="drawSettings.lagPen.dashStyle" name="lagStyle" [value]="0" />
@@ -129,22 +131,23 @@
                 network that was not automatically discovered by UVX.
             </p>
             <div>
-                <label>Color:</label>
+                <label>Color: </label>
                 <input type="color" [(ngModel)]="colors.manualPen" name="manualColor" value="#000000" />
             </div>
             <div>
-                <label>Width:</label>
+                <label>Width: </label>
                 <input
                     type="number"
                     [(ngModel)]="drawSettings.manualPen.width"
                     name="manualWidth"
                     value="1"
-                    min="1"
+                    min="0"
                     max="10"
+                    style="border: 1px solid #DCDCDC;"
                 />
             </div>
             <fieldset>
-                <legend>Line Style:</legend>
+                <legend>Line Style: </legend>
                 <div class="inline-flex flex-row">
                     <div>
                         <input
@@ -204,22 +207,23 @@
                 Associated link is a link between a device its "controller" device.
             </p>
             <div>
-                <label>Color:</label>
+                <label>Color: </label>
                 <input type="color" [(ngModel)]="colors.associatedPen" name="associatedColor" value="#000000" />
             </div>
             <div>
-                <label>Width:</label>
+                <label>Width: </label>
                 <input
                     type="number"
                     [(ngModel)]="drawSettings.associatedPen.width"
                     name="associatedWidth"
                     value="1"
-                    min="1"
+                    min="0"
                     max="10"
+                    style="border: 1px solid #DCDCDC;"
                 />
             </div>
             <fieldset>
-                <legend>Line Style:</legend>
+                <legend>Line Style: </legend>
                 <div class="inline-flex flex-row">
                     <div>
                         <input
@@ -281,22 +285,23 @@
                 a multi link consists of multiple edges between participating nodes (devices).
             </p>
             <div>
-                <label>Color:</label>
+                <label>Color: </label>
                 <input type="color" [(ngModel)]="colors.multiPen" name="multiColor" value="#000000" />
             </div>
             <div>
-                <label>Width:</label>
+                <label>Width: </label>
                 <input
                     type="number"
                     [(ngModel)]="drawSettings.multiPen.width"
                     name="multiWidth"
                     value="1"
-                    min="1"
+                    min="0"
                     max="10"
+                    style="border: 1px solid #DCDCDC;"
                 />
             </div>
             <fieldset>
-                <legend>Line Style:</legend>
+                <legend>Line Style: </legend>
                 <div class="inline-flex flex-row">
                     <div>
                         <input
