@@ -1,7 +1,8 @@
 import * as lucid from 'lucid-extension-sdk';
-import { mockCustomBlockDefinition, mockDeviceNode } from '../../helpers';
+import { mockCustomBlockDefinition, mockDeviceNode, mockHubNode } from '../../helpers';
 import { DrawBlocks } from 'src/doc/draw/draw-blocks';
 import { DeviceNode } from 'model/uvx/device';
+import { HubNode } from 'model/uvx/hub-node';
 
 jest.mock('lucid-extension-sdk');
 describe('DrawTopoMap Block Tests', () => {
@@ -27,7 +28,12 @@ describe('DrawTopoMap Block Tests', () => {
             const setShapeDataSpy = jest.spyOn(DrawBlocks, 'setShapeData').mockImplementation();
             const setReferenceKeySpy = jest.spyOn(DrawBlocks, 'setReferenceKey').mockImplementation();
 
-            const result = DrawBlocks.drawBlock(mockPage, mockDeviceNode, mockCustomBlockDefinition, mockCollectionId);
+            const result = DrawBlocks.drawDeviceNode(
+                mockPage,
+                mockDeviceNode,
+                mockCustomBlockDefinition,
+                mockCollectionId
+            );
             expect(addBlockSpy).toHaveBeenCalledWith({
                 ...mockCustomBlockDefinition,
                 boundingBox: { x: mockDeviceNode.x, y: mockDeviceNode.y, w: 50, h: 50 }
@@ -40,22 +46,30 @@ describe('DrawTopoMap Block Tests', () => {
 
     describe('drawBlocks Tests', () => {
         it('should draw multiple blocks and focus camera on them', () => {
-            const mockDeviceNodes: DeviceNode[] = [mockDeviceNode, { ...mockDeviceNode, deviceGuid: 'otherGuid' }];
-            const mockBlocks: lucid.BlockProxy[] = [{} as lucid.BlockProxy, {} as lucid.BlockProxy];
+            const mockDeviceNodes: DeviceNode[] = [mockDeviceNode, { ...mockDeviceNode, nodeId: 1 }];
+            const mockHubNodes: HubNode[] = [mockHubNode];
+            const mockBlocks: lucid.BlockProxy[] = [
+                {} as lucid.BlockProxy,
+                {} as lucid.BlockProxy,
+                {} as lucid.BlockProxy
+            ];
             const mockCollectionId = 'collectionId';
-            const drawBlockSpy = jest.spyOn(DrawBlocks, 'drawBlock').mockReturnValue({} as lucid.BlockProxy);
+            const drawDeviceNodeSpy = jest.spyOn(DrawBlocks, 'drawDeviceNode').mockReturnValue({} as lucid.BlockProxy);
+            const drawHubNodeSpy = jest.spyOn(DrawBlocks, 'drawHubNode').mockReturnValue({} as lucid.BlockProxy);
             const focusCameraOnItemsSpy = jest.spyOn(mockViewport, 'focusCameraOnItems');
 
-            const guidToBlockMap = DrawBlocks.drawBlocks(
+            const nodeIdToBlockMap = DrawBlocks.drawBlocks(
                 mockViewport,
                 mockPage,
                 mockDeviceNodes,
+                mockHubNodes,
                 mockCustomBlockDefinition,
                 mockCollectionId
             );
-            expect(drawBlockSpy).toHaveBeenCalledTimes(mockDeviceNodes.length);
+            expect(drawDeviceNodeSpy).toHaveBeenCalledTimes(mockDeviceNodes.length);
+            expect(drawHubNodeSpy).toHaveBeenCalledTimes(mockHubNodes.length);
             expect(focusCameraOnItemsSpy).toHaveBeenCalledWith(mockBlocks);
-            expect(guidToBlockMap.size).toBe(mockDeviceNodes.length);
+            expect(nodeIdToBlockMap.size).toBe(mockDeviceNodes.length + mockHubNodes.length);
         });
     });
 });
