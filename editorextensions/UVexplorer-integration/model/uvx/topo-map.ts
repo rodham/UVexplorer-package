@@ -266,6 +266,7 @@ export interface TopoMap {
     displayEdges?: unknown;
 }
 
+//TODO this type guard can be stricter once we are in a more final state
 export function isTopoMap(obj: unknown): obj is TopoMap {
     return (
         typeof obj === 'object' &&
@@ -281,7 +282,7 @@ export function isTopoMap(obj: unknown): obj is TopoMap {
         'hubNodes' in obj &&
         Array.isArray(obj.hubNodes) &&
         'imageNodes' in obj &&
-        Array.isArray(obj.imageNodes) && // Adjust the typing once known
+        Array.isArray(obj.imageNodes) &&
         'deviceLinks' in obj &&
         Array.isArray(obj.deviceLinks) &&
         'width' in obj &&
