@@ -39,9 +39,9 @@ export class SettingsComponent {
     };
     colors = {
         standardPen: '#000000',
-        lagPen: '#000000',
-        manualPen: '#000000',
-        associatedPen: '#000000',
+        lagPen: '#ffd700',
+        manualPen: '#0000ff',
+        associatedPen: '#ffa500',
         multiPen: '#000000'
     };
 
