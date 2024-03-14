@@ -20,6 +20,15 @@
                     max="10"
                 />
             </div>
+            <label>Include Associated Links:</label>
+            <input type="checkBox" [(ngModel)]="layoutSettings.showVirtualLinks" />
+            <label for="virtualLinks">Virtual Links</label>
+            <input type="checkBox" [(ngModel)]="layoutSettings.showWirelessLinks" />
+            <label for="wirelessLinks">Wireless Links</label>
+            <input type="checkBox" [(ngModel)]="layoutSettings.showIpPhoneLinks" />
+            <label for="ipPhoneLinks">IP Phone Links</label>
+            <input type="checkBox" [(ngModel)]="layoutSettings.showLinkLabels" />
+            <label>Draw Link Labels</label>
             <fieldset>
                 <legend>Layout Type:</legend>
                 <div class="inline-flex flex-row">
@@ -61,6 +70,98 @@
                     </div>
                 </div>
             </fieldset>
+            <div [hidden]="layoutSettings.layoutType != layoutTypes.Manual">
+                <p>No additional settings for Manual Layout</p>
+            </div>
+            <div [hidden]="layoutSettings.layoutType != layoutTypes.Hierarchical">
+                <label for="levelSpacing">Level Spacing: </label>
+                <input
+                    type="number"
+                    id="levelSpacing"
+                    name="levelSpacing"
+                    min="0"
+                    max="9999"
+                    [(ngModel)]="layoutSettings.hierarchicalSettings!.levelSpacing"
+                />
+                <label for="nodeSpacing">Node Spacing: </label>
+                <input
+                    type="number"
+                    id="nodeSpacing"
+                    name="nodeSpacing"
+                    min="0"
+                    max="9999"
+                    [(ngModel)]="layoutSettings.hierarchicalSettings!.nodeSpacing"
+                />
+                <label for="rootAlignment">Root Alignment: </label>
+                <select
+                    name="rootAlignment"
+                    id="rootAlignment"
+                    [(ngModel)]="layoutSettings.hierarchicalSettings!.layoutDirection"
+                >
+                    <option value="layoutDirection.Left">Left</option>
+                    <option value="layoutDirection.Right">Right</option>
+                    <option value="layoutDirection.Up">Up</option>
+                    <option value="layoutDirection.Down">Down</option>
+                </select>
+            </div>
+            <div [hidden]="layoutSettings.layoutType != layoutTypes.Radial">
+                <label for="minRadiusRadial">Minimum Radius: </label>
+                <input
+                    type="number"
+                    id="minRadiusRadial"
+                    name="minRadiusRadial"
+                    min="0"
+                    max="9999"
+                    [(ngModel)]="layoutSettings.radialSettings!.minRadius"
+                />
+                <label for="maxRadiusRadial">Node Spacing: </label>
+                <input
+                    type="number"
+                    id="maxRadiusRadial"
+                    name="maxRadiusRadial"
+                    min="0"
+                    max="9999"
+                    [(ngModel)]="layoutSettings.radialSettings!.maxRadius"
+                />
+                <label for="maxAngleRadial">Maximum Angle: </label>
+                <input
+                    type="number"
+                    id="maxAngleRadial"
+                    name="maxAngleRadial"
+                    min="0"
+                    max="9999"
+                    [(ngModel)]="layoutSettings.radialSettings!.maxAngle"
+                />
+            </div>
+            <div [hidden]="layoutSettings.layoutType != layoutTypes.Ring">
+                <label for="minRadiusRing">Minimum Radius: </label>
+                <input
+                    type="number"
+                    id="minRadiusRing"
+                    name="minRadiusRing"
+                    min="0"
+                    max="9999"
+                    [(ngModel)]="layoutSettings.ringSettings!.minRadius"
+                />
+                <label for="maxRadiusRing">Node Spacing: </label>
+                <input
+                    type="number"
+                    id="maxRadiusRing"
+                    name="maxRadiusRing"
+                    min="0"
+                    max="9999"
+                    [(ngModel)]="layoutSettings.ringSettings!.maxRadius"
+                />
+                <label for="maxAngleRing">Maximum Angle: </label>
+                <input
+                    type="number"
+                    id="maxAngleRing"
+                    name="maxAngleRing"
+                    min="0"
+                    max="9999"
+                    [(ngModel)]="layoutSettings.ringSettings!.maxAngle"
+                />
+            </div>
             <fieldset>
                 <legend>Line Style:</legend>
                 <div class="inline-flex flex-row">
