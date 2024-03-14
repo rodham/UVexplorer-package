@@ -90,7 +90,7 @@ export abstract class UVXModal extends Modal {
         const layoutSettings = this.dataClient.getLayoutSettings(collection, page);
         const layoutType = layoutSettings.layoutType;
 
-        console.log("selected layout type", layoutType)
+        console.log('selected layout type', layoutType);
         if (layoutType !== LayoutType.Manual) {
             // Auto layout
             // Remove all devices
@@ -108,13 +108,13 @@ export abstract class UVXModal extends Modal {
 
             const blocksToAdd: string[] = [];
             for (const newDevice of addDevices) {
-                console.log("newDevice - drawMap", newDevice);
+                console.log('newDevice - drawMap', newDevice);
                 if (!blocks.includes(newDevice)) {
                     blocksToAdd.push(newDevice);
                 }
             }
 
-            console.log("new blocks to add", blocksToAdd);
+            console.log('new blocks to add', blocksToAdd);
 
             if (blocksToAdd.length > 0) {
                 // Draw only the new devices with manual layout

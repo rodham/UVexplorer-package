@@ -164,10 +164,7 @@ export function isSelectedDevicesMessage(message: unknown): message is SelectedD
             message.action === 'selectDevices'
         );
     }
-    return (
-        isDevicesMessage(message) &&
-        message.action === 'selectDevices'
-    );
+    return isDevicesMessage(message) && message.action === 'selectDevices';
 }
 export interface DeviceDetailsMessage {
     action: 'viewDeviceDetails';

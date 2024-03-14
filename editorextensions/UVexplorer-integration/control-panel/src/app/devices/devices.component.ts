@@ -155,7 +155,7 @@ export class DevicesComponent {
             {
                 action: 'selectDevices',
                 devices: selectedDeviceGuids,
-                removeDevices: removeDevices,
+                removeDevices: removeDevices
             },
             '*'
         );
