@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import {
     connDeviceGuidsFromListDevMsg,
     devicesFromSerializableDevicesMessage,
-    getForcedAutoLayoutFromListDevMsg,
     isListDevicesMessage,
     isRelistDevicesMessage
 } from 'model/message';
@@ -33,8 +32,6 @@ export class DevicesComponent {
     themeClass = 'ag-theme-quartz';
     rowSelection: 'multiple' | 'single' = 'multiple';
     gridApi?: GridApi;
-    forcedAutoLayout = false;
-    autoLayout = true;
 
     constructor() {
         window.addEventListener('message', (e) => {
@@ -44,7 +41,6 @@ export class DevicesComponent {
             if (isListDevicesMessage(e.data)) {
                 this.devices = devicesFromSerializableDevicesMessage(e.data);
                 this.preselectedDeviceGuids = connDeviceGuidsFromListDevMsg(e.data);
-                this.forcedAutoLayout = getForcedAutoLayoutFromListDevMsg(e.data);
                 document.getElementById('devicesComponent')!.style.display = 'block';
                 console.log('Received devices in component');
             } else if (isRelistDevicesMessage(e.data)) {
@@ -155,38 +151,14 @@ export class DevicesComponent {
             }
         }
 
-        if (this.autoLayout || this.forcedAutoLayout) {
-            parent.postMessage(
-                {
-                    action: 'selectDevices',
-                    devices: selectedDeviceGuids,
-                    removeDevices: removeDevices,
-                    autoLayout: this.autoLayout || this.forcedAutoLayout
-                },
-                '*'
-            );
-        } else {
-            console.log('Preparing message of type Manual');
-            const newlySelectedDeviceGuids: string[] = [];
-
-            for (const guid of selectedDeviceGuids) {
-                if (!this.preselectedDeviceGuids.includes(guid)) {
-                    newlySelectedDeviceGuids.push(guid);
-                }
-            }
-
-            console.log('Sending Manual Message');
-            parent.postMessage(
-                {
-                    action: 'selectDevices',
-                    devices: newlySelectedDeviceGuids,
-                    removeDevices: removeDevices,
-                    autoLayout: this.autoLayout
-                },
-                '*'
-            );
-        }
-
+        parent.postMessage(
+            {
+                action: 'selectDevices',
+                devices: selectedDeviceGuids,
+                removeDevices: removeDevices
+            },
+            '*'
+        );
         document.getElementById('devicesComponent')!.style.display = 'none';
     }
 

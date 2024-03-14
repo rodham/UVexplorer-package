@@ -106,7 +106,7 @@ describe('UVXModal', () => {
             const getTopoMapSpy = jest.spyOn(mockUvxClient, 'getTopoMap').mockResolvedValue(mockTopoMap);
 
             const mockGuids = ['deviceGuid1', 'deviceGuid2'];
-            const result = await mockModal.loadTopoMap(mockGuids, true);
+            const result = await mockModal.loadTopoMap(mockGuids);
 
             expect(createTopoMapRequestSpy).toHaveBeenCalledWith(mockGuids, defaultLayoutSettings, defaultDrawSettings);
             expect(getTopoMapSpy).toHaveBeenCalled();
