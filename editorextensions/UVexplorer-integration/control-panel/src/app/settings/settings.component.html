@@ -1,38 +1,45 @@
-<div *ngIf="changingSettings">
+<div *ngIf="changingSettings" class="p-0.5">
+    <h1 class="font-semibold text-3xl">Settings</h1>
+
+    <hr/>
+    <br/>
+
     <form>
         <h2 class="font-semibold text-xl">Layout Settings</h2>
 
         <hr/>
 
-        <fieldset>
-            <legend>Layout Type:</legend>
+        <fieldset class="pl-4 inline-flex flex-row">
+            <div class="pr-1.5">
+                <legend class="font-semibold">Layout Type: </legend>
+            </div>
             <div class="inline-flex flex-row">
-                <div>
+                <div class="pr-2">
                     <input
                         type="radio"
                         [(ngModel)]="layoutSettings.layoutType"
                         name="stdLayout"
                         [value]="layoutTypes.Manual"
                     />
-                    <label>Manual</label>
+                    <label class="pl-0.5">Manual</label>
                 </div>
-                <div>
+                <div class="pr-2">
                     <input
                         type="radio"
                         [(ngModel)]="layoutSettings.layoutType"
                         name="stdLayout"
                         [value]="layoutTypes.Hierarchical"
                     />
-                    <label>Hierarchical</label>
+                    <label class="pl-0.5">Hierarchical</label>
                 </div>
-                <div>
+                <div class="pr-2">
                     <input
                         type="radio"
                         [(ngModel)]="layoutSettings.layoutType"
                         name="stdLayout"
                         [value]="layoutTypes.Radial"
                     />
-                    <label>Radial</label>
+                    <label class="pl-0.5">Radial</label>
                 </div>
                 <div>
                     <input
@@ -41,11 +48,13 @@
                         name="stdLayout"
                         [value]="layoutTypes.Ring"
                     />
-                    <label>Ring</label>
+                    <label class="pl-0.5">Ring</label>
                 </div>
             </div>
         </fieldset>
     </form>
+
+    <br/>
 
     <form>
         <h2 class="font-semibold text-xl">Draw Settings</h2>
@@ -63,7 +72,7 @@
                 />
             </div>
 
-            <div class="pl-4 flex flex-row">
+            <div class="pl-4 inline-flex flex-row">
                 <div class="pr-4">
                     <label class="font-semibold">Left Device Trim: </label>
                     <input 
@@ -102,7 +111,7 @@
                 </div>
             </div>
 
-            <div class="pl-4 flex flex-row">
+            <div class="pl-4 inline-flex flex-row">
                 <div class="pr-4">
                     <label class="font-semibold">Right Device Trim: </label>
                     <input 
@@ -157,14 +166,14 @@
                 <h4 class="font-semibold text-lg">Standard Pen</h4>
 
                 <div class="pl-4">
-                    <div class="flex flex-row">
+                    <div class="inline-flex flex-row">
                         <h4 class="pr-1 font-semibold">Description: </h4>
                         <p>
                             The standard pen type is the default pen for all links not specified as one of the below types.
                         </p>
                     </div>
 
-                    <div class="flex flex-row">
+                    <div class="inline-flex flex-row">
                         <div class="pr-4">
                             <label class="font-semibold">Color: </label>
                             <input 
@@ -187,8 +196,8 @@
                                 class="w-16"
                             />
                         </div>
-                        <fieldset class="flex flex-row">
-                            <div class="pr-1">
+                        <fieldset class="inline-flex flex-row">
+                            <div class="pr-1.5">
                                 <legend class="font-semibold">Line Style: </legend>
                             </div>
                             <div class="inline-flex flex-row">
@@ -248,7 +257,7 @@
                 <h4 class="font-semibold text-lg">Lag Pen</h4>
                 
                 <div class="pl-4">
-                    <div class="flex flex-row">
+                    <div class="inline-flex flex-row">
                         <h4 class="pr-1 font-semibold">Description: </h4>
                         <p>
                             A LAG link is a special kind of link between two network switches for efficiently passing network
@@ -256,7 +265,7 @@
                         </p>
                     </div>
                     
-                    <div class="flex flex-row">
+                    <div class="inline-flex flex-row">
                         <div class="pr-4">
                             <label class="font-semibold">Color: </label>
                             <input 
@@ -279,8 +288,8 @@
                                 class="w-16"
                             />
                         </div>
-                        <fieldset class="flex flex-row">
-                            <div class="pr-1">
+                        <fieldset class="inline-flex flex-row">
+                            <div class="pr-1.5">
                                 <legend class="font-semibold">Line Style: </legend>
                             </div>
                             <div class="inline-flex flex-row">
@@ -340,7 +349,7 @@
                 <h4 class="font-semibold text-lg">Manual Pen</h4>
                 
                 <div class="pl-4">
-                    <div class="flex flex-row">
+                    <div class="inline-flex flex-row">
                         <h4 class="pr-1 font-semibold">Description: </h4>
                         <p>
                             A Manual link is a link created manually by a user, usually because they know of a network link in their
@@ -348,7 +357,7 @@
                         </p>
                     </div>
                     
-                    <div class="flex flex-row">
+                    <div class="inline-flex flex-row">
                         <div class="pr-4">
                             <label class="font-semibold">Color: </label>
                             <input 
@@ -371,8 +380,8 @@
                                 class="w-16"
                             />
                         </div>
-                        <fieldset class="flex flex-row">
-                            <div class="pr-1">
+                        <fieldset class="inline-flex flex-row">
+                            <div class="pr-1.5">
                                 <legend class="font-semibold">Line Style: </legend>
                             </div>
                             <div class="inline-flex flex-row">
@@ -432,7 +441,7 @@
                 <h4 class="font-semibold text-lg">Associated Pen</h4>
                 
                 <div class="pl-4">
-                    <div class="flex flex-row">
+                    <div class="inline-flex flex-row">
                         <h4 class="pr-1 font-semibold">Description: </h4>
                         <p>
                             Some devices are controlled by other devices known as "controllers" (e.g., IP phones are managed by an
@@ -441,7 +450,7 @@
                         </p>
                     </div>
                     
-                    <div class="flex flex-row">
+                    <div class="inline-flex flex-row">
                         <div class="pr-4">
                             <label class="font-semibold">Color: </label>
                             <input 
@@ -464,8 +473,8 @@
                                 class="w-16"
                             />
                         </div>
-                        <fieldset class="flex flex-row">
-                            <div class="pr-1">
+                        <fieldset class="inline-flex flex-row">
+                            <div class="pr-1.5">
                                 <legend class="font-semibold">Line Style: </legend>
                             </div>
                             <div class="inline-flex flex-row">
@@ -526,7 +535,7 @@
                 
                 <div class="pl-4">
                     
-                    <div class="flex flex-row">
+                    <div class="inline-flex flex-row">
                         <h4 class="pr-1 font-semibold">Description: </h4>
                         <p>
                             Multi links are links that involve multiple devices. Most links are point-to-point between just two
@@ -537,7 +546,7 @@
                         </p>
                     </div>
                     
-                    <div class="flex flex-row">
+                    <div class="inline-flex flex-row">
                         <div class="pr-4">
                             <label class="font-semibold">Color: </label>
                             <input 
@@ -560,8 +569,8 @@
                                 class="w-16"
                             />
                         </div>
-                        <fieldset class="flex flex-row">
-                            <div class="pr-1">
+                        <fieldset class="inline-flex flex-row">
+                            <div class="pr-1.5">
                                 <legend class="font-semibold">Line Style: </legend>
                             </div>
                             <div class="inline-flex flex-row">
@@ -617,6 +626,8 @@
             </div>
         </div>
     </form>
+
+    <br/>
 
     <button (click)="updateSettings()" class="bg-blue-500 text-white py-2 px-4 rounded mx-2 mt-1">
         Update Settings
