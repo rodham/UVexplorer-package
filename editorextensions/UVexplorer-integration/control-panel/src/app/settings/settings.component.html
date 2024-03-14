@@ -1,5 +1,5 @@
 <div *ngIf="changingSettings">
-    <form>
+    <form name="settingsComponent">
         <h3>Draw Settings</h3>
 
         <div>
@@ -21,13 +21,13 @@
                 />
             </div>
             <label>Include Associated Links:</label>
-            <input type="checkBox" [(ngModel)]="layoutSettings.showVirtualLinks">
+            <input type="checkBox" name="virtualLinks" id="virtualLinks" [(ngModel)]="layoutSettings.showVirtualLinks">
             <label for="virtualLinks">Virtual Links</label>
-            <input type="checkBox" [(ngModel)]="layoutSettings.showWirelessLinks">
+            <input type="checkBox" name="wirelessLinks" id="wirelessLinks" [(ngModel)]="layoutSettings.showWirelessLinks">
             <label for="wirelessLinks">Wireless Links</label>
-            <input type="checkBox" [(ngModel)]="layoutSettings.showIpPhoneLinks">
+            <input type="checkBox" name="ipPhoneLinks" id="ipPhoneLinks" [(ngModel)]="layoutSettings.showIpPhoneLinks">
             <label for="ipPhoneLinks">IP Phone Links</label>
-            <input type="checkBox" [(ngModel)]="layoutSettings.showLinkLabels">
+            <input type="checkBox" name="linkLabels" id="linkLabels" [(ngModel)]="layoutSettings.showLinkLabels">
             <label>Draw Link Labels</label>
             <fieldset>
                 <legend>Layout Type:</legend>

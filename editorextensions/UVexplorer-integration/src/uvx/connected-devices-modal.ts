@@ -47,7 +47,7 @@ export class ConnectedDevicesModal extends UVXModal {
             if (message.removeDevices) {
                 removeDevices = message.removeDevices;
             }
-            await this.drawMap(message.devices, message.autoLayout, removeDevices);
+            await this.drawMap(message.devices, removeDevices);
             await this.closeSession();
             this.hide();
         } else if (isLoadMapSettingsMessage(message)) {

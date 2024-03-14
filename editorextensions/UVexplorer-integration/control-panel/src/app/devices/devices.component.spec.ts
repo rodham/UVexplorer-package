@@ -49,7 +49,6 @@ describe('DevicesComponent', () => {
             {
                 action: 'selectDevices',
                 devices: [device.guid],
-                autoLayout: true,
                 removeDevices: []
             },
             '*'

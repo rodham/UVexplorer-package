@@ -75,7 +75,7 @@ export class DevicesModal extends UVXModal {
             }
         } else if (isSelectedDevicesMessage(message)) {
             console.log('Received isSelectedDevicesMessage');
-            await this.drawMap(message.devices, message.autoLayout, message.removeDevices);
+            await this.drawMap(message.devices, message.removeDevices);
             await this.closeSession();
             this.hide();
         } else if (isLoadMapSettingsMessage(message)) {
