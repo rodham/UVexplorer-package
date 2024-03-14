@@ -142,9 +142,9 @@ export const manualLayoutSettings: LayoutSettings = {
 export const defaultLayoutSettings: LayoutSettings = {
     layoutType: LayoutType.Hierarchical,
     radialSettings: {
-        minRadius: 0,
-        maxRadius: 0,
-        maxAngle: 0,
+        minRadius: 200,
+        maxRadius: 3000,
+        maxAngle: 360,
         maximizeRoot: true
     },
     hierarchicalSettings: {
@@ -155,9 +155,9 @@ export const defaultLayoutSettings: LayoutSettings = {
         rootAlignment: RootAlignment.Center
     },
     ringSettings: {
-        minRadius: 0,
-        maxRadius: 0,
-        maxAngle: 0,
+        minRadius: 200,
+        maxRadius: 3000,
+        maxAngle: 360,
         maximizeRoot: true
     },
     showIpPhoneLinks: true,
