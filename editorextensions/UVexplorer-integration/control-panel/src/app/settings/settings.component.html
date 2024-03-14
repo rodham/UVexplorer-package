@@ -1,13 +1,13 @@
 <div *ngIf="changingSettings" class="p-0.5">
     <h1 class="font-semibold text-3xl">Settings</h1>
 
-    <hr/>
-    <br/>
+    <hr />
+    <br />
 
     <form>
         <h2 class="font-semibold text-xl">Layout Settings</h2>
 
-        <hr/>
+        <hr />
 
         <div class="pl-4">
             <h3 class="font-semibold">Include Associated Links:</h3>
@@ -37,7 +37,7 @@
 
         <fieldset class="pl-4 inline-flex flex-row">
             <div class="pr-1.5">
-                <legend class="font-semibold">Layout Type: </legend>
+                <legend class="font-semibold">Layout Type:</legend>
             </div>
             <div class="inline-flex flex-row">
                 <div class="pr-2">
@@ -94,7 +94,7 @@
                             min="0"
                             max="9999"
                             [(ngModel)]="layoutSettings.hierarchicalSettings!.levelSpacing"
-                            style="border: 1px solid #DCDCDC;"
+                            style="border: 1px solid #dcdcdc"
                             class="w-16"
                         />
                     </div>
@@ -108,7 +108,7 @@
                             min="0"
                             max="9999"
                             [(ngModel)]="layoutSettings.hierarchicalSettings!.nodeSpacing"
-                            style="border: 1px solid #DCDCDC;"
+                            style="border: 1px solid #dcdcdc"
                             class="w-16"
                         />
                     </div>
@@ -119,7 +119,7 @@
                             name="rootAlignment"
                             id="rootAlignment"
                             [(ngModel)]="layoutSettings.hierarchicalSettings!.layoutDirection"
-                            style="border: 1px solid #DCDCDC;"
+                            style="border: 1px solid #dcdcdc"
                             class="w-16"
                         >
                             <option value="layoutDirection.Left">Left</option>
@@ -141,7 +141,7 @@
                             min="0"
                             max="9999"
                             [(ngModel)]="layoutSettings.radialSettings!.minRadius"
-                            style="border: 1px solid #DCDCDC;"
+                            style="border: 1px solid #dcdcdc"
                             class="w-16"
                         />
                     </div>
@@ -155,7 +155,7 @@
                             min="0"
                             max="9999"
                             [(ngModel)]="layoutSettings.radialSettings!.maxRadius"
-                            style="border: 1px solid #DCDCDC;"
+                            style="border: 1px solid #dcdcdc"
                             class="w-16"
                         />
                     </div>
@@ -169,7 +169,7 @@
                             min="0"
                             max="9999"
                             [(ngModel)]="layoutSettings.radialSettings!.maxAngle"
-                            style="border: 1px solid #DCDCDC;"
+                            style="border: 1px solid #dcdcdc"
                             class="w-16"
                         />
                     </div>
@@ -186,11 +186,11 @@
                             min="0"
                             max="9999"
                             [(ngModel)]="layoutSettings.ringSettings!.minRadius"
-                            style="border: 1px solid #DCDCDC;"
+                            style="border: 1px solid #dcdcdc"
                             class="w-16 pr"
                         />
                     </div>
-                    
+
                     <div class="pr-4">
                         <label class="font-semibold" for="maxRadiusRing">Node Spacing: </label>
                         <input
@@ -200,7 +200,7 @@
                             min="0"
                             max="9999"
                             [(ngModel)]="layoutSettings.ringSettings!.maxRadius"
-                            style="border: 1px solid #DCDCDC;"
+                            style="border: 1px solid #dcdcdc"
                             class="w-16"
                         />
                     </div>
@@ -214,7 +214,7 @@
                             min="0"
                             max="9999"
                             [(ngModel)]="layoutSettings.ringSettings!.maxAngle"
-                            style="border: 1px solid #DCDCDC;"
+                            style="border: 1px solid #dcdcdc"
                             class="w-16"
                         />
                     </div>
@@ -223,17 +223,17 @@
         </div>
     </form>
 
-    <br/>
+    <br />
 
     <form>
         <h2 class="font-semibold text-xl">Draw Settings</h2>
 
-        <hr/>
+        <hr />
 
         <div class="pl-4">
             <div>
                 <label class="font-semibold">Short Device Names: </label>
-                <input 
+                <input
                     type="checkbox"
                     [(ngModel)]="drawSettings.shortDeviceNames"
                     name="shortDeviceNames"
@@ -244,23 +244,23 @@
             <div class="pl-4 inline-flex flex-row">
                 <div class="pr-4">
                     <label class="font-semibold">Left Device Trim: </label>
-                    <input 
-                        type="checkbox" 
-                        [(ngModel)]="drawSettings.deviceTrimLeft" 
-                        name="deviceTrimLeft" 
-                        value="false" 
+                    <input
+                        type="checkbox"
+                        [(ngModel)]="drawSettings.deviceTrimLeft"
+                        name="deviceTrimLeft"
+                        value="false"
                         [disabled]="!drawSettings.shortDeviceNames"
                     />
                 </div>
 
                 <div class="pr-4">
                     <label class="font-semibold">Left Device Trim Char: </label>
-                    <input 
-                        type="text" 
-                        [(ngModel)]="drawSettings.deviceTrimLeftChar" 
-                        name="deviceTrimLeftChar" 
-                        value="." 
-                        style="border: 1px solid #DCDCDC;" 
+                    <input
+                        type="text"
+                        [(ngModel)]="drawSettings.deviceTrimLeftChar"
+                        name="deviceTrimLeftChar"
+                        value="."
+                        style="border: 1px solid #dcdcdc"
                         [disabled]="!drawSettings.shortDeviceNames || !drawSettings.deviceTrimLeft"
                         class="w-16"
                     />
@@ -268,12 +268,12 @@
 
                 <div>
                     <label class="font-semibold">Left Device Trim Count: </label>
-                    <input 
-                        type="number" 
-                        [(ngModel)]="drawSettings.deviceTrimLeftCount" 
-                        name="deviceTrimLeftCount" 
-                        value="1" 
-                        style="border: 1px solid #DCDCDC;" 
+                    <input
+                        type="number"
+                        [(ngModel)]="drawSettings.deviceTrimLeftCount"
+                        name="deviceTrimLeftCount"
+                        value="1"
+                        style="border: 1px solid #dcdcdc"
                         [disabled]="!drawSettings.shortDeviceNames || !drawSettings.deviceTrimLeft"
                         class="w-16"
                     />
@@ -283,23 +283,23 @@
             <div class="pl-4 inline-flex flex-row">
                 <div class="pr-4">
                     <label class="font-semibold">Right Device Trim: </label>
-                    <input 
-                        type="checkbox" 
-                        [(ngModel)]="drawSettings.deviceTrimRight" 
-                        name="deviceTrimRight" 
-                        value="false" 
+                    <input
+                        type="checkbox"
+                        [(ngModel)]="drawSettings.deviceTrimRight"
+                        name="deviceTrimRight"
+                        value="false"
                         [disabled]="!drawSettings.shortDeviceNames"
                     />
                 </div>
 
                 <div class="pr-4">
                     <label class="font-semibold">Right Device Trim Char: </label>
-                    <input 
-                        type="text" 
-                        [(ngModel)]="drawSettings.deviceTrimRightChar" 
-                        name="deviceTrimRightChar" 
-                        value="." 
-                        style="border: 1px solid #DCDCDC;"
+                    <input
+                        type="text"
+                        [(ngModel)]="drawSettings.deviceTrimRightChar"
+                        name="deviceTrimRightChar"
+                        value="."
+                        style="border: 1px solid #dcdcdc"
                         [disabled]="!drawSettings.shortDeviceNames || !drawSettings.deviceTrimRight"
                         class="w-16"
                     />
@@ -307,12 +307,12 @@
 
                 <div>
                     <label class="font-semibold">Right Device Trim Count: </label>
-                    <input 
-                        type="number" 
-                        [(ngModel)]="drawSettings.deviceTrimRightCount" 
-                        name="deviceTrimRightCount" 
-                        value="1" 
-                        style="border: 1px solid #DCDCDC;" 
+                    <input
+                        type="number"
+                        [(ngModel)]="drawSettings.deviceTrimRightCount"
+                        name="deviceTrimRightCount"
+                        value="1"
+                        style="border: 1px solid #dcdcdc"
                         [disabled]="!drawSettings.shortDeviceNames || !drawSettings.deviceTrimRight"
                         class="w-16"
                     />
@@ -321,36 +321,27 @@
 
             <div>
                 <label class="font-semibold">Short Interface Names: </label>
-                <input 
-                    type="checkbox" 
-                    [(ngModel)]="drawSettings.shortIfNames" 
-                    name="shortIfNames" 
-                    value="false"
-                />
+                <input type="checkbox" [(ngModel)]="drawSettings.shortIfNames" name="shortIfNames" value="false" />
             </div>
 
-            <br/>
+            <br />
 
             <div>
                 <h4 class="font-semibold text-lg">Standard Pen</h4>
 
                 <div class="pl-4">
                     <div class="inline-flex flex-row">
-                        <h4 class="pr-1 font-semibold">Description: </h4>
+                        <h4 class="pr-1 font-semibold">Description:</h4>
                         <p>
-                            The standard pen type is the default pen for all links not specified as one of the below types.
+                            The standard pen type is the default pen for all links not specified as one of the below
+                            types.
                         </p>
                     </div>
 
                     <div class="inline-flex flex-row">
                         <div class="pr-4">
                             <label class="font-semibold">Color: </label>
-                            <input 
-                                type="color" 
-                                [(ngModel)]="colors.standardPen" 
-                                name="stdColor" 
-                                value="#000000" 
-                            />
+                            <input type="color" [(ngModel)]="colors.standardPen" name="stdColor" value="#000000" />
                         </div>
                         <div class="pr-4">
                             <label class="font-semibold">Width: </label>
@@ -361,13 +352,13 @@
                                 value="1"
                                 min="0"
                                 max="10"
-                                style="border: 1px solid #DCDCDC;"
+                                style="border: 1px solid #dcdcdc"
                                 class="w-16"
                             />
                         </div>
                         <fieldset class="inline-flex flex-row">
                             <div class="pr-1.5">
-                                <legend class="font-semibold">Line Style: </legend>
+                                <legend class="font-semibold">Line Style:</legend>
                             </div>
                             <div class="inline-flex flex-row">
                                 <div class="pr-2">
@@ -424,25 +415,20 @@
 
             <div>
                 <h4 class="font-semibold text-lg">Lag Pen</h4>
-                
+
                 <div class="pl-4">
                     <div class="inline-flex flex-row">
-                        <h4 class="pr-1 font-semibold">Description: </h4>
+                        <h4 class="pr-1 font-semibold">Description:</h4>
                         <p>
-                            A LAG link is a special kind of link between two network switches for efficiently passing network
-                            packets between them.
+                            A LAG link is a special kind of link between two network switches for efficiently passing
+                            network packets between them.
                         </p>
                     </div>
-                    
+
                     <div class="inline-flex flex-row">
                         <div class="pr-4">
                             <label class="font-semibold">Color: </label>
-                            <input 
-                                type="color"
-                                [(ngModel)]="colors.lagPen" 
-                                name="lagColor" 
-                                value="#000000" 
-                            />
+                            <input type="color" [(ngModel)]="colors.lagPen" name="lagColor" value="#000000" />
                         </div>
                         <div class="pr-4">
                             <label class="font-semibold">Width: </label>
@@ -453,13 +439,13 @@
                                 value="1"
                                 min="0"
                                 max="10"
-                                style="border: 1px solid #DCDCDC;"
+                                style="border: 1px solid #dcdcdc"
                                 class="w-16"
                             />
                         </div>
                         <fieldset class="inline-flex flex-row">
                             <div class="pr-1.5">
-                                <legend class="font-semibold">Line Style: </legend>
+                                <legend class="font-semibold">Line Style:</legend>
                             </div>
                             <div class="inline-flex flex-row">
                                 <div class="pr-2">
@@ -516,25 +502,20 @@
 
             <div>
                 <h4 class="font-semibold text-lg">Manual Pen</h4>
-                
+
                 <div class="pl-4">
                     <div class="inline-flex flex-row">
-                        <h4 class="pr-1 font-semibold">Description: </h4>
+                        <h4 class="pr-1 font-semibold">Description:</h4>
                         <p>
-                            A Manual link is a link created manually by a user, usually because they know of a network link in their
-                            network that was not automatically discovered by UVX.
+                            A Manual link is a link created manually by a user, usually because they know of a network
+                            link in their network that was not automatically discovered by UVX.
                         </p>
                     </div>
-                    
+
                     <div class="inline-flex flex-row">
                         <div class="pr-4">
                             <label class="font-semibold">Color: </label>
-                            <input 
-                                type="color" 
-                                [(ngModel)]="colors.manualPen" 
-                                name="manualColor" 
-                                value="#000000" 
-                            />
+                            <input type="color" [(ngModel)]="colors.manualPen" name="manualColor" value="#000000" />
                         </div>
                         <div class="pr-4">
                             <label class="font-semibold">Width: </label>
@@ -545,13 +526,13 @@
                                 value="1"
                                 min="0"
                                 max="10"
-                                style="border: 1px solid #DCDCDC;"
+                                style="border: 1px solid #dcdcdc"
                                 class="w-16"
                             />
                         </div>
                         <fieldset class="inline-flex flex-row">
                             <div class="pr-1.5">
-                                <legend class="font-semibold">Line Style: </legend>
+                                <legend class="font-semibold">Line Style:</legend>
                             </div>
                             <div class="inline-flex flex-row">
                                 <div class="pr-2">
@@ -608,25 +589,26 @@
 
             <div>
                 <h4 class="font-semibold text-lg">Associated Pen</h4>
-                
+
                 <div class="pl-4">
                     <div class="inline-flex flex-row">
-                        <h4 class="pr-1 font-semibold">Description: </h4>
+                        <h4 class="pr-1 font-semibold">Description:</h4>
                         <p>
-                            Some devices are controlled by other devices known as "controllers" (e.g., IP phones are managed by an
-                            IP phone controller, wireless access points are managed by a wireless access point controller, etc.) An
-                            Associated link is a link between a device its "controller" device.
+                            Some devices are controlled by other devices known as "controllers" (e.g., IP phones are
+                            managed by an IP phone controller, wireless access points are managed by a wireless access
+                            point controller, etc.) An Associated link is a link between a device its "controller"
+                            device.
                         </p>
                     </div>
-                    
+
                     <div class="inline-flex flex-row">
                         <div class="pr-4">
                             <label class="font-semibold">Color: </label>
-                            <input 
-                                type="color" 
-                                [(ngModel)]="colors.associatedPen" 
-                                name="associatedColor" 
-                                value="#000000" 
+                            <input
+                                type="color"
+                                [(ngModel)]="colors.associatedPen"
+                                name="associatedColor"
+                                value="#000000"
                             />
                         </div>
                         <div class="pr-4">
@@ -638,13 +620,13 @@
                                 value="1"
                                 min="0"
                                 max="10"
-                                style="border: 1px solid #DCDCDC;"
+                                style="border: 1px solid #dcdcdc"
                                 class="w-16"
                             />
                         </div>
                         <fieldset class="inline-flex flex-row">
                             <div class="pr-1.5">
-                                <legend class="font-semibold">Line Style: </legend>
+                                <legend class="font-semibold">Line Style:</legend>
                             </div>
                             <div class="inline-flex flex-row">
                                 <div class="pr-2">
@@ -701,29 +683,24 @@
 
             <div>
                 <h4 class="font-semibold text-lg">Multi Pen</h4>
-                
+
                 <div class="pl-4">
-                    
                     <div class="inline-flex flex-row">
-                        <h4 class="pr-1 font-semibold">Description: </h4>
+                        <h4 class="pr-1 font-semibold">Description:</h4>
                         <p>
-                            Multi links are links that involve multiple devices. Most links are point-to-point between just two
-                            devices, but some links involve more than two devices. Multi links are drawn in a "hub with spokes"
-                            fashion. There is one icon at the center that represents the link as a whole (the "hub"), and all the
-                            devices that participate in the link are drawn around the hub icon (these are the "spokes"). Therefore,
-                            a multi link consists of multiple edges between participating nodes (devices).
+                            Multi links are links that involve multiple devices. Most links are point-to-point between
+                            just two devices, but some links involve more than two devices. Multi links are drawn in a
+                            "hub with spokes" fashion. There is one icon at the center that represents the link as a
+                            whole (the "hub"), and all the devices that participate in the link are drawn around the hub
+                            icon (these are the "spokes"). Therefore, a multi link consists of multiple edges between
+                            participating nodes (devices).
                         </p>
                     </div>
-                    
+
                     <div class="inline-flex flex-row">
                         <div class="pr-4">
                             <label class="font-semibold">Color: </label>
-                            <input 
-                                type="color" 
-                                [(ngModel)]="colors.multiPen" 
-                                name="multiColor" 
-                                value="#000000" 
-                            />
+                            <input type="color" [(ngModel)]="colors.multiPen" name="multiColor" value="#000000" />
                         </div>
                         <div class="pr-4">
                             <label class="font-semibold">Width: </label>
@@ -734,13 +711,13 @@
                                 value="1"
                                 min="0"
                                 max="10"
-                                style="border: 1px solid #DCDCDC;"
+                                style="border: 1px solid #dcdcdc"
                                 class="w-16"
                             />
                         </div>
                         <fieldset class="inline-flex flex-row">
                             <div class="pr-1.5">
-                                <legend class="font-semibold">Line Style: </legend>
+                                <legend class="font-semibold">Line Style:</legend>
                             </div>
                             <div class="inline-flex flex-row">
                                 <div class="pr-2">
@@ -796,7 +773,7 @@
         </div>
     </form>
 
-    <br/>
+    <br />
 
     <button (click)="updateSettings()" class="bg-blue-500 text-white py-2 px-4 rounded mx-2 mt-1">
         Update Settings

@@ -45,11 +45,10 @@ export class DevicesComponent {
                 this.devices = devicesFromSerializableDevicesMessage(e.data);
                 this.preselectedDeviceGuids = connDeviceGuidsFromListDevMsg(e.data);
                 this.forcedAutoLayout = getForcedAutoLayoutFromListDevMsg(e.data);
-                document.getElementById("devicesComponent")!.style.display = "block";
+                document.getElementById('devicesComponent')!.style.display = 'block';
                 console.log('Received devices in component');
-            }
-            else if (isRelistDevicesMessage(e.data)) {
-                document.getElementById("devicesComponent")!.style.display = "block";
+            } else if (isRelistDevicesMessage(e.data)) {
+                document.getElementById('devicesComponent')!.style.display = 'block';
             }
         });
     }
@@ -188,7 +187,7 @@ export class DevicesComponent {
             );
         }
 
-        document.getElementById("devicesComponent")!.style.display = "none";
+        document.getElementById('devicesComponent')!.style.display = 'none';
     }
 
     public getSelectedDevices(): Device[] {

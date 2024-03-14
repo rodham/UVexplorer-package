@@ -49,14 +49,17 @@ export class DrawLines {
         line.setShape(LineShape.Diagonal);
         line.changeZOrder(ZOrderOperation.BOTTOM);
         if (line.properties !== undefined) {
-            line.properties.set('LineColor', this.toColorCode(penSettings.color.red, penSettings.color.green, penSettings.color.blue));
+            line.properties.set(
+                'LineColor',
+                this.toColorCode(penSettings.color.red, penSettings.color.green, penSettings.color.blue)
+            );
             line.properties.set('LineWidth', penSettings.width);
             line.properties.set('StrokeStyle', this.toStrokeStyle(penSettings.dashStyle));
         }
         return line;
     }
 
-    private static toColorCode(red: number, green: number, blue:  number) {
+    private static toColorCode(red: number, green: number, blue: number) {
         return '#' + this.toHex(red) + this.toHex(green) + this.toHex(blue);
     }
 
@@ -69,7 +72,7 @@ export class DrawLines {
     }
 
     private static toStrokeStyle(dashStyle: DashStyle) {
-        switch(dashStyle) {
+        switch (dashStyle) {
             case DashStyle.Solid: {
                 return 'solid';
             }
@@ -86,7 +89,7 @@ export class DrawLines {
                 return 'dashdotdot';
             }
             default: {
-                console.error("Invalid dashStyle given");
+                console.error('Invalid dashStyle given');
                 return 'solid';
             }
         }
