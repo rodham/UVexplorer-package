@@ -68,19 +68,19 @@ export class DrawLines {
 
     private static toStrokeStyle(dashStyle: DashStyle) {
         switch(dashStyle) {
-            case 0: {
+            case DashStyle.Solid: {
                 return 'solid';
             }
-            case 1: {
+            case DashStyle.Dash: {
                 return 'dashed';
             }
-            case 2: {
+            case DashStyle.Dot: {
                 return 'dotted';
             }
-            case 3: {
+            case DashStyle.DashDot: {
                 return 'dashdot';
             }
-            case 4: {
+            case DashStyle.DashDotDot: {
                 return 'dashdotdot';
             }
             default: {
