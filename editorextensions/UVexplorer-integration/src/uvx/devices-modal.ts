@@ -49,7 +49,7 @@ export class DevicesModal extends UVXModal {
             const devices = await this.uvxClient.listDevices(deviceListRequest);
 
             this.dataClient.saveDevices(source, devices);
-            const devicesShown = this.docClient.getCurrentPageItems();
+            const devicesShown = this.docClient.getNetworkDeviceBlockGuids();
 
             await this.sendMessage({
                 action: 'listDevices',
@@ -81,7 +81,7 @@ export class DevicesModal extends UVXModal {
         } else if (isLoadMapSettingsMessage(message)) {
             await this.sendMapSettings();
         } else if (isSelectedMapSettingsMessage(message)) {
-            this.saveSettings(message.drawSettings, message.layoutSettings);
+            this.docClient.saveSettings(message.drawSettings, message.layoutSettings);
             await this.reloadDevices();
         }
     }

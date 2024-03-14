@@ -53,7 +53,7 @@ export class ConnectedDevicesModal extends UVXModal {
         } else if (isLoadMapSettingsMessage(message)) {
             await this.sendMapSettings();
         } else if (isSelectedMapSettingsMessage(message)) {
-            this.saveSettings(message.drawSettings, message.layoutSettings);
+            this.docClient.saveSettings(message.drawSettings, message.layoutSettings);
             await this.reloadDevices();
         }
     }

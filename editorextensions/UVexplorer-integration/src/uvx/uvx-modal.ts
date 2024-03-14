@@ -138,20 +138,6 @@ export abstract class UVXModal extends Modal {
         }
     }
 
-    saveSettings(drawSettings: DrawSettings, layoutSettings: LayoutSettings) {
-        try {
-            const page = this.docClient.getPageId();
-
-            if (page !== undefined) {
-                const collection = this.dataClient.createOrRetrieveSettingsCollection();
-                this.dataClient.deleteSettingsFromCollection(collection, page);
-                this.dataClient.addSettingsToCollection(collection, page, layoutSettings, drawSettings);
-            }
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
     async reloadDevices() {
         await this.sendMessage({
             action: 'relistDevices'

@@ -8,10 +8,10 @@ import {
     viewDeviceDetails,
     viewLinkDetails
 } from '@actions/devices';
+import { pageHasNetwork, syncDisplayedMap } from '@actions/network';
 import { SettingsModal } from '@uvx/settings-modal';
 import { DataClient } from '@data/data-client';
 import { DocumentClient } from '@doc/document-client';
-import { syncDisplayedMap } from '@actions/network';
 import { UVExplorerClient } from '@uvx/uvx-client';
 import { configureClientPackageSettings } from 'src/package-settings';
 
@@ -90,6 +90,10 @@ client.registerAction('loadMapSettings', async () => {
     await modal.sendMapSettings();
 });
 
+client.registerAction('pageHasNetwork', () => {
+    return pageHasNetwork(docClient);
+});
+
 menu.addDropdownMenuItem({
     label: 'Load a Network',
     action: 'loadNetwork'
@@ -102,7 +106,8 @@ menu.addDropdownMenuItem({
 
 menu.addDropdownMenuItem({
     label: 'Sync Page with UVExplorer',
-    action: ''
+    action: 'syncDisplayedMap',
+    visibleAction: 'pageHasNetwork'
 });
 
 async function init() {

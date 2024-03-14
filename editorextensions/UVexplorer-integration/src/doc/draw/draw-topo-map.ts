@@ -1,4 +1,4 @@
-import { EditorClient, LineProxy, PageProxy, Viewport } from 'lucid-extension-sdk';
+import { BlockProxy, EditorClient, LineProxy, MapProxy, PageProxy, Viewport } from 'lucid-extension-sdk';
 import { DataClient } from '@data/data-client';
 import { DrawBlocks } from 'src/doc/draw/draw-blocks';
 import { DrawLines } from 'src/doc/draw/draw-lines';
@@ -30,6 +30,11 @@ export class DrawTopoMap {
         );
 
         DrawLines.drawLines(page, topoMap.deviceLinks, nodeIdToBlockMap, linksCollectionId, topoMap.drawSettings);
+    }
+
+    static refreshPageItems(data: DataClient, pageId: string, topoMap: TopoMap, items: MapProxy<string, BlockProxy>) {
+        const deviceCollectionId = data.getDeviceCollectionForPage(pageId);
+        DrawBlocks.updateBlocks(topoMap.deviceNodes, deviceCollectionId, items);
     }
 
     // Takes in a list of devices to remove
