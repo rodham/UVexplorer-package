@@ -45,8 +45,8 @@ describe('Map', () => {
                 .mockResolvedValue(mockCustomBlockDefinition);
             const getInstanceSpy = jest.spyOn(DataClient, 'getInstance');
 
-            const mockGuidToBlockMap = new Map<string, BlockProxy>();
-            const drawBlocksSpy = jest.spyOn(DrawBlocks, 'drawBlocks').mockReturnValue(mockGuidToBlockMap);
+            const mockNodeIdToBlockMap = new Map<number, BlockProxy>();
+            const drawBlocksSpy = jest.spyOn(DrawBlocks, 'drawBlocks').mockReturnValue(mockNodeIdToBlockMap);
             const drawLinesSpy = jest.spyOn(DrawLines, 'drawLines');
 
             await DrawTopoMap.drawTopoMap(mockClient, mockViewport, mockPage, mockTopoMap);
@@ -57,13 +57,14 @@ describe('Map', () => {
                 mockViewport,
                 mockPage,
                 mockTopoMap.deviceNodes,
+                mockTopoMap.hubNodes,
                 mockCustomBlockDefinition,
                 'my_network_device'
             );
             expect(drawLinesSpy).toHaveBeenCalledWith(
                 mockPage,
                 mockTopoMap.deviceLinks,
-                mockGuidToBlockMap,
+                mockNodeIdToBlockMap,
                 'my_network_link',
                 mockTopoMap.drawSettings
             );
