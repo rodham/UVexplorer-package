@@ -1,7 +1,7 @@
 import { BlockProxy, LineProxy, LineShape, PageProxy, ZOrderOperation } from 'lucid-extension-sdk';
 import { DeviceLink, DeviceLinkEdge } from 'model/uvx/device';
 import { LINK_REFERENCE_KEY } from '@data/data-client';
-import { PenPattern, DrawSettings } from 'model/uvx/topo-map';
+import { PenPattern, DrawSettings, DashStyle } from 'model/uvx/topo-map';
 
 export class DrawLines {
     static drawLines(
@@ -48,8 +48,51 @@ export class DrawLines {
         });
         line.setShape(LineShape.Diagonal);
         line.changeZOrder(ZOrderOperation.BOTTOM);
-        line.addTextArea('Width: ' + penSettings.width, { location: 0.5, side: 0 }); // TODO: Temp solution
+        if (line.properties !== undefined) {
+            line.properties.set(
+                'LineColor',
+                this.toColorCode(penSettings.color.red, penSettings.color.green, penSettings.color.blue)
+            );
+            line.properties.set('LineWidth', penSettings.width);
+            line.properties.set('StrokeStyle', this.toStrokeStyle(penSettings.dashStyle));
+        }
         return line;
+    }
+
+    private static toColorCode(red: number, green: number, blue: number) {
+        return '#' + this.toHex(red) + this.toHex(green) + this.toHex(blue);
+    }
+
+    private static toHex(num: number): string {
+        const map = '0123456789abcdef';
+        let hex = '';
+        hex += map.charAt(Math.floor(num / 16));
+        hex += map.charAt(num % 16);
+        return hex;
+    }
+
+    private static toStrokeStyle(dashStyle: DashStyle) {
+        switch (dashStyle) {
+            case DashStyle.Solid: {
+                return 'solid';
+            }
+            case DashStyle.Dash: {
+                return 'dashed';
+            }
+            case DashStyle.Dot: {
+                return 'dotted';
+            }
+            case DashStyle.DashDot: {
+                return 'dashdot';
+            }
+            case DashStyle.DashDotDot: {
+                return 'dashdotdot';
+            }
+            default: {
+                console.error('Invalid dashStyle given');
+                return 'solid';
+            }
+        }
     }
 
     static setReferenceKey(line: LineProxy, linkEdge: DeviceLinkEdge, collectionId: string) {

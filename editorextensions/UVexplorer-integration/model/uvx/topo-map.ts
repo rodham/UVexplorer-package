@@ -142,9 +142,9 @@ export const manualLayoutSettings: LayoutSettings = {
 export const defaultLayoutSettings: LayoutSettings = {
     layoutType: LayoutType.Hierarchical,
     radialSettings: {
-        minRadius: 0,
-        maxRadius: 0,
-        maxAngle: 0,
+        minRadius: 200,
+        maxRadius: 3000,
+        maxAngle: 360,
         maximizeRoot: true
     },
     hierarchicalSettings: {
@@ -155,9 +155,9 @@ export const defaultLayoutSettings: LayoutSettings = {
         rootAlignment: RootAlignment.Center
     },
     ringSettings: {
-        minRadius: 0,
-        maxRadius: 0,
-        maxAngle: 0,
+        minRadius: 200,
+        maxRadius: 3000,
+        maxAngle: 360,
         maximizeRoot: true
     },
     showIpPhoneLinks: true,
@@ -192,8 +192,8 @@ export const defaultDrawSettings: DrawSettings = {
     },
     lagPen: {
         color: {
-            red: 0,
-            green: 0,
+            red: 255,
+            green: 215,
             blue: 0
         },
         width: 1,
@@ -203,15 +203,15 @@ export const defaultDrawSettings: DrawSettings = {
         color: {
             red: 0,
             green: 0,
-            blue: 0
+            blue: 255
         },
         width: 1,
         dashStyle: DashStyle.Solid
     },
     associatedPen: {
         color: {
-            red: 0,
-            green: 0,
+            red: 255,
+            green: 165,
             blue: 0
         },
         width: 1,

@@ -5,7 +5,8 @@ import {
     connDeviceGuidsFromListDevMsg,
     devicesFromSerializableDevicesMessage,
     getForcedAutoLayoutFromListDevMsg,
-    isListDevicesMessage
+    isListDevicesMessage,
+    isRelistDevicesMessage
 } from 'model/message';
 import { Device, DeviceCategoryEntry, isDevice } from 'model/uvx/device';
 import { AgGridAngular } from 'ag-grid-angular';
@@ -44,7 +45,10 @@ export class DevicesComponent {
                 this.devices = devicesFromSerializableDevicesMessage(e.data);
                 this.preselectedDeviceGuids = connDeviceGuidsFromListDevMsg(e.data);
                 this.forcedAutoLayout = getForcedAutoLayoutFromListDevMsg(e.data);
+                document.getElementById('devicesComponent')!.style.display = 'block';
                 console.log('Received devices in component');
+            } else if (isRelistDevicesMessage(e.data)) {
+                document.getElementById('devicesComponent')!.style.display = 'block';
             }
         });
     }
@@ -182,6 +186,8 @@ export class DevicesComponent {
                 '*'
             );
         }
+
+        document.getElementById('devicesComponent')!.style.display = 'none';
     }
 
     public getSelectedDevices(): Device[] {
