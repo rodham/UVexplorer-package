@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { isMapSettingsMessage } from 'model/message';
 import { FormsModule } from '@angular/forms';
-import { DrawSettings, LayoutSettings, LayoutType, defaultDrawSettings, defaultLayoutSettings } from 'model/uvx/topo-map';
+import { DrawSettings, LayoutDirection, LayoutSettings, LayoutType, RootAlignment, defaultDrawSettings, defaultLayoutSettings } from 'model/uvx/topo-map';
 
 @Component({
     selector: 'app-settings',
@@ -15,6 +15,20 @@ export class SettingsComponent {
     drawSettings: DrawSettings = defaultDrawSettings;
     layoutSettings: LayoutSettings = defaultLayoutSettings;
     layoutTypes = LayoutType;
+    layoutDirection = LayoutDirection;
+    rootAlignment = RootAlignment;
+    radialSettings = {
+        minRadius: 200,
+        maxRadius: 3000,
+        maxAngle: 360,
+        maximizeRoot: true
+    }
+    ringSettings = {
+        minRadius: 200,
+        maxRadius: 3000,
+        maxAngle: 360,
+        maximizeRoot: true
+    }
     colors = {
         standardPen: '#000000',
         lagPen: '#000000',
