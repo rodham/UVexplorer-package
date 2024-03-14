@@ -1,5 +1,5 @@
 import { EditorClient, Viewport } from 'lucid-extension-sdk';
-import { TopoMap } from 'model/uvx/topo-map';
+import { DrawSettings, LayoutSettings, TopoMap } from 'model/uvx/topo-map';
 import { BlockUtils } from '@blocks/block-utils';
 import { DataClient } from '@data/data-client';
 import { DrawTopoMap } from 'src/doc/draw/draw-topo-map';
@@ -24,6 +24,25 @@ export class DocumentClient {
             return;
         }
         return this.dataClient.getNetworkForPage(pageId);
+    }
+
+    saveSettings(drawSettings: DrawSettings, layoutSettings: LayoutSettings) {
+        const pageId = this.getPageId();
+        if (pageId === undefined) {
+            throw Error('Unable to save settings, no page id found');
+        }
+        const collection = this.dataClient.createOrRetrieveSettingsCollection();
+        this.dataClient.deleteSettingsFromCollection(collection, pageId);
+        this.dataClient.addSettingsToCollection(collection, pageId, layoutSettings, drawSettings);
+    }
+
+    getLayoutSettings() {
+        const pageId = this.getPageId();
+        if (pageId === undefined) {
+            throw Error('Unable to retrieve layout settings, no page id found');
+        }
+        const collection = this.dataClient.createOrRetrieveSettingsCollection();
+        return this.dataClient.getLayoutSettings(collection, pageId);
     }
 
     getNetworkSource(name: string, guid: string) {
@@ -56,20 +75,21 @@ export class DocumentClient {
         return guids;
     }
 
-    getCurrentPageItems(): string[] {
-        const pageItems = this.viewport.getCurrentPage()?.allItems;
-        const devicesShown: string[] = [];
-        if (pageItems) {
-            for (const [, item] of pageItems) {
-                if (BlockUtils.isNetworkDeviceBlock(item)) {
-                    const guid = BlockUtils.getGuidFromBlock(item);
-                    if (!guid) continue;
-                    devicesShown.push(guid);
-                }
-            }
+    updateItemsInfo(topoMap: TopoMap) {
+        const pageItems = this.viewport.getCurrentPage()?.allBlocks;
+        const pageId = this.getPageId();
+
+        if (!pageItems) {
+            console.log('No blocks on page');
+            return;
+        }
+        if (!pageId) {
+            console.error('Unable to get page');
+            return;
         }
 
-        return devicesShown;
+        DrawTopoMap.refreshPageItems(this.dataClient, pageId, topoMap, pageItems);
+        this.dataClient.saveLinks(this.dataClient.getNetworkForPage(pageId), topoMap.deviceLinks);
     }
 
     async drawMap(topoMap: TopoMap, client: EditorClient): Promise<void> {

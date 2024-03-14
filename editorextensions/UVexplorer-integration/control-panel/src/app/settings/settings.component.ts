@@ -25,23 +25,11 @@ export class SettingsComponent {
     layoutTypes = LayoutType;
     layoutDirection = LayoutDirection;
     rootAlignment = RootAlignment;
-    radialSettings = {
-        minRadius: 200,
-        maxRadius: 3000,
-        maxAngle: 360,
-        maximizeRoot: true
-    };
-    ringSettings = {
-        minRadius: 200,
-        maxRadius: 3000,
-        maxAngle: 360,
-        maximizeRoot: true
-    };
     colors = {
         standardPen: '#000000',
-        lagPen: '#000000',
-        manualPen: '#000000',
-        associatedPen: '#000000',
+        lagPen: '#ffd700',
+        manualPen: '#0000ff',
+        associatedPen: '#ffa500',
         multiPen: '#000000'
     };
 

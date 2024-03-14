@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import {
     connDeviceGuidsFromListDevMsg,
     devicesFromSerializableDevicesMessage,
-    isListDevicesMessage
+    isListDevicesMessage,
+    isRelistDevicesMessage
 } from 'model/message';
 import { Device, DeviceCategoryEntry, isDevice } from 'model/uvx/device';
 import { AgGridAngular } from 'ag-grid-angular';
@@ -40,7 +41,10 @@ export class DevicesComponent {
             if (isListDevicesMessage(e.data)) {
                 this.devices = devicesFromSerializableDevicesMessage(e.data);
                 this.preselectedDeviceGuids = connDeviceGuidsFromListDevMsg(e.data);
+                document.getElementById('devicesComponent')!.style.display = 'block';
                 console.log('Received devices in component');
+            } else if (isRelistDevicesMessage(e.data)) {
+                document.getElementById('devicesComponent')!.style.display = 'block';
             }
         });
     }
@@ -155,6 +159,7 @@ export class DevicesComponent {
             },
             '*'
         );
+        document.getElementById('devicesComponent')!.style.display = 'none';
     }
 
     public getSelectedDevices(): Device[] {

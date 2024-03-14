@@ -1,4 +1,4 @@
-import { BlockDefinition, BlockProxy, PageProxy, Viewport } from 'lucid-extension-sdk';
+import { BlockDefinition, BlockProxy, MapProxy, PageProxy, Viewport } from 'lucid-extension-sdk';
 import { DeviceNode } from 'model/uvx/device';
 import { DEVICE_REFERENCE_KEY } from '@data/data-client';
 import { getVendor } from 'model/uvx/vendor';
@@ -49,6 +49,22 @@ export class DrawBlocks {
         this.setReferenceKey(block, deviceNode, collectionId);
 
         return block;
+    }
+
+    static updateBlocks(deviceNodes: DeviceNode[], collectionId: string, items: MapProxy<string, BlockProxy>) {
+        console.log('Updating blocks data');
+        for (const [, item] of items) {
+            const guid = item.shapeData.get('Guid');
+            if (!guid) continue;
+            const deviceNode = deviceNodes.find((node) => node.deviceGuid === guid);
+            if (!deviceNode) continue;
+            this.updateBlock(item, deviceNode, collectionId);
+        }
+    }
+
+    static updateBlock(item: BlockProxy, deviceNode: DeviceNode, collectionId: string) {
+        this.setShapeData(item, deviceNode);
+        this.setReferenceKey(item, deviceNode, collectionId);
     }
 
     static drawHubNode(page: PageProxy, hubNode: HubNode, customBlockDef: BlockDefinition): BlockProxy {

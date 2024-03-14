@@ -104,7 +104,7 @@ export abstract class UVXModal extends Modal {
                 this.docClient.removeFromMap(removeDevices);
             }
 
-            const blocks = this.docClient.getCurrentPageItems();
+            const blocks = this.docClient.getNetworkDeviceBlockGuids();
 
             const blocksToAdd: string[] = [];
             for (const newDevice of addDevices) {
@@ -148,20 +148,6 @@ export abstract class UVXModal extends Modal {
                 drawSettings: JSON.stringify(drawSettings),
                 layoutSettings: JSON.stringify(layoutSettings)
             });
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
-    saveSettings(drawSettings: DrawSettings, layoutSettings: LayoutSettings) {
-        try {
-            const page = this.docClient.getPageId();
-
-            if (page !== undefined) {
-                const collection = this.dataClient.createOrRetrieveSettingsCollection();
-                this.dataClient.deleteSettingsFromCollection(collection, page);
-                this.dataClient.addSettingsToCollection(collection, page, layoutSettings, drawSettings);
-            }
         } catch (e) {
             console.error(e);
         }

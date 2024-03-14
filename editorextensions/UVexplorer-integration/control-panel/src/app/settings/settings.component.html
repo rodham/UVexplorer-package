@@ -1,494 +1,779 @@
-<div *ngIf="changingSettings">
-    <form name="settingsComponent">
-        <h3>Draw Settings</h3>
+<div *ngIf="changingSettings" class="p-0.5">
+    <h1 class="font-semibold text-3xl">Settings</h1>
 
-        <div>
-            <h4>Standard Pen</h4>
-            <p>The standard pen type is the default pen for all links not specified as one of the below types.</p>
-            <div>
-                <label>Color:</label>
-                <input type="color" [(ngModel)]="colors.standardPen" name="stdColor" value="#000000" />
-            </div>
-            <div>
-                <label>Width:</label>
-                <input
-                    type="number"
-                    [(ngModel)]="drawSettings.standardPen.width"
-                    name="stdWidth"
-                    value="1"
-                    min="1"
-                    max="10"
-                />
-            </div>
-            <label>Include Associated Links:</label>
-            <input type="checkBox" name="virtualLinks" id="virtualLinks" [(ngModel)]="layoutSettings.showVirtualLinks">
-            <label for="virtualLinks">Virtual Links</label>
-            <input type="checkBox" name="wirelessLinks" id="wirelessLinks" [(ngModel)]="layoutSettings.showWirelessLinks">
-            <label for="wirelessLinks">Wireless Links</label>
-            <input type="checkBox" name="ipPhoneLinks" id="ipPhoneLinks" [(ngModel)]="layoutSettings.showIpPhoneLinks">
-            <label for="ipPhoneLinks">IP Phone Links</label>
-            <input type="checkBox" name="linkLabels" id="linkLabels" [(ngModel)]="layoutSettings.showLinkLabels">
-            <label>Draw Link Labels</label>
-            <fieldset>
-                <legend>Layout Type:</legend>
-                <div class="inline-flex flex-row">
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="layoutSettings.layoutType"
-                            name="stdLayout"
-                            [value]="layoutTypes.Manual"
-                        />
-                        <label>Manual</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="layoutSettings.layoutType"
-                            name="stdLayout"
-                            [value]="layoutTypes.Hierarchical"
-                        />
-                        <label>Hierarchical</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="layoutSettings.layoutType"
-                            name="stdLayout"
-                            [value]="layoutTypes.Radial"
-                        />
-                        <label>Radial</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="layoutSettings.layoutType"
-                            name="stdLayout"
-                            [value]="layoutTypes.Ring"
-                        />
-                        <label>Ring</label>
-                    </div>
+    <hr />
+    <br />
+
+    <form>
+        <h2 class="font-semibold text-xl">Layout Settings</h2>
+
+        <hr />
+
+        <div class="pl-4">
+            <h3 class="font-semibold">Include Associated Links:</h3>
+
+            <div class="pl-4 flex flex-col">
+                <div>
+                    <input type="checkBox" [(ngModel)]="layoutSettings.showVirtualLinks" name="showVirtualLinks" />
+                    <label for="virtualLinks"> Virtual Links</label>
                 </div>
-            </fieldset>
+
+                <div>
+                    <input type="checkBox" [(ngModel)]="layoutSettings.showWirelessLinks" name="showWirelessLinks" />
+                    <label for="wirelessLinks"> Wireless Links</label>
+                </div>
+
+                <div>
+                    <input type="checkBox" [(ngModel)]="layoutSettings.showIpPhoneLinks" name="showIpPhoneLinks" />
+                    <label for="ipPhoneLinks"> IP Phone Links</label>
+                </div>
+
+                <div>
+                    <input type="checkBox" [(ngModel)]="layoutSettings.showLinkLabels" name="showLinkLabels" />
+                    <label> Draw Link Labels</label>
+                </div>
+            </div>
+        </div>
+
+        <fieldset class="pl-4 inline-flex flex-row">
+            <div class="pr-1.5">
+                <legend class="font-semibold">Layout Type:</legend>
+            </div>
+            <div class="inline-flex flex-row">
+                <div class="pr-2">
+                    <input
+                        type="radio"
+                        [(ngModel)]="layoutSettings.layoutType"
+                        name="stdLayout"
+                        [value]="layoutTypes.Manual"
+                    />
+                    <label class="pl-0.5">Manual</label>
+                </div>
+                <div class="pr-2">
+                    <input
+                        type="radio"
+                        [(ngModel)]="layoutSettings.layoutType"
+                        name="stdLayout"
+                        [value]="layoutTypes.Hierarchical"
+                    />
+                    <label class="pl-0.5">Hierarchical</label>
+                </div>
+                <div class="pr-2">
+                    <input
+                        type="radio"
+                        [(ngModel)]="layoutSettings.layoutType"
+                        name="stdLayout"
+                        [value]="layoutTypes.Radial"
+                    />
+                    <label class="pl-0.5">Radial</label>
+                </div>
+                <div>
+                    <input
+                        type="radio"
+                        [(ngModel)]="layoutSettings.layoutType"
+                        name="stdLayout"
+                        [value]="layoutTypes.Ring"
+                    />
+                    <label class="pl-0.5">Ring</label>
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="pl-8">
             <div [hidden]="layoutSettings.layoutType != layoutTypes.Manual">
                 <p>No additional settings for Manual Layout</p>
             </div>
             <div [hidden]="layoutSettings.layoutType != layoutTypes.Hierarchical">
-                <label for="levelSpacing">Level Spacing: </label>
-                <input
-                    type="number"
-                    id="levelSpacing"
-                    name="levelSpacing"
-                    min="0"
-                    max="9999"
-                    [(ngModel)]="layoutSettings.hierarchicalSettings!.levelSpacing"
-                />
-                <label for="nodeSpacing">Node Spacing: </label>
-                <input
-                    type="number"
-                    id="nodeSpacing"
-                    name="nodeSpacing"
-                    min="0"
-                    max="9999"
-                    [(ngModel)]="layoutSettings.hierarchicalSettings!.nodeSpacing"
-                />
-                <label for="rootAlignment">Root Alignment: </label>
-                <select
-                    name="rootAlignment"
-                    id="rootAlignment"
-                    [(ngModel)]="layoutSettings.hierarchicalSettings!.layoutDirection"
-                >
-                    <option value="layoutDirection.Left">Left</option>
-                    <option value="layoutDirection.Right">Right</option>
-                    <option value="layoutDirection.Up">Up</option>
-                    <option value="layoutDirection.Down">Down</option>
-                </select>
+                <div class="inline-flex flex-row">
+                    <div class="pr-4">
+                        <label class="font-semibold" for="levelSpacing">Level Spacing: </label>
+                        <input
+                            type="number"
+                            id="levelSpacing"
+                            name="levelSpacing"
+                            min="0"
+                            max="9999"
+                            [(ngModel)]="layoutSettings.hierarchicalSettings!.levelSpacing"
+                            style="border: 1px solid #dcdcdc"
+                            class="w-16"
+                        />
+                    </div>
+
+                    <div class="pr-4">
+                        <label class="font-semibold" for="nodeSpacing">Node Spacing: </label>
+                        <input
+                            type="number"
+                            id="nodeSpacing"
+                            name="nodeSpacing"
+                            min="0"
+                            max="9999"
+                            [(ngModel)]="layoutSettings.hierarchicalSettings!.nodeSpacing"
+                            style="border: 1px solid #dcdcdc"
+                            class="w-16"
+                        />
+                    </div>
+
+                    <div>
+                        <label class="font-semibold" for="rootAlignment">Root Alignment: </label>
+                        <select
+                            name="rootAlignment"
+                            id="rootAlignment"
+                            [(ngModel)]="layoutSettings.hierarchicalSettings!.layoutDirection"
+                            style="border: 1px solid #dcdcdc"
+                            class="w-16"
+                        >
+                            <option value="layoutDirection.Left">Left</option>
+                            <option value="layoutDirection.Right">Right</option>
+                            <option value="layoutDirection.Up">Up</option>
+                            <option value="layoutDirection.Down">Down</option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <div [hidden]="layoutSettings.layoutType != layoutTypes.Radial">
-                <label for="minRadiusRadial">Minimum Radius: </label>
-                <input
-                    type="number"
-                    id="minRadiusRadial"
-                    name="minRadiusRadial"
-                    min="0"
-                    max="9999"
-                    [(ngModel)]="layoutSettings.radialSettings!.minRadius"
-                />
-                <label for="maxRadiusRadial">Node Spacing: </label>
-                <input
-                    type="number"
-                    id="maxRadiusRadial"
-                    name="maxRadiusRadial"
-                    min="0"
-                    max="9999"
-                    [(ngModel)]="layoutSettings.radialSettings!.maxRadius"
-                />
-                <label for="maxAngleRadial">Maximum Angle: </label>
-                <input
-                    type="number"
-                    id="maxAngleRadial"
-                    name="maxAngleRadial"
-                    min="0"
-                    max="9999"
-                    [(ngModel)]="layoutSettings.radialSettings!.maxAngle"
-                />
+                <div class="inline-flex flex-row">
+                    <div class="pr-4">
+                        <label class="font-semibold" for="minRadiusRadial">Minimum Radius: </label>
+                        <input
+                            type="number"
+                            id="minRadiusRadial"
+                            name="minRadiusRadial"
+                            min="0"
+                            max="9999"
+                            [(ngModel)]="layoutSettings.radialSettings!.minRadius"
+                            style="border: 1px solid #dcdcdc"
+                            class="w-16"
+                        />
+                    </div>
+
+                    <div class="pr-4">
+                        <label class="font-semibold" for="maxRadiusRadial">Node Spacing: </label>
+                        <input
+                            type="number"
+                            id="maxRadiusRadial"
+                            name="maxRadiusRadial"
+                            min="0"
+                            max="9999"
+                            [(ngModel)]="layoutSettings.radialSettings!.maxRadius"
+                            style="border: 1px solid #dcdcdc"
+                            class="w-16"
+                        />
+                    </div>
+
+                    <div>
+                        <label class="font-semibold" for="maxAngleRadial">Maximum Angle: </label>
+                        <input
+                            type="number"
+                            id="maxAngleRadial"
+                            name="maxAngleRadial"
+                            min="0"
+                            max="9999"
+                            [(ngModel)]="layoutSettings.radialSettings!.maxAngle"
+                            style="border: 1px solid #dcdcdc"
+                            class="w-16"
+                        />
+                    </div>
+                </div>
             </div>
             <div [hidden]="layoutSettings.layoutType != layoutTypes.Ring">
-                <label for="minRadiusRing">Minimum Radius: </label>
-                <input
-                    type="number"
-                    id="minRadiusRing"
-                    name="minRadiusRing"
-                    min="0"
-                    max="9999"
-                    [(ngModel)]="layoutSettings.ringSettings!.minRadius"
-                />
-                <label for="maxRadiusRing">Node Spacing: </label>
-                <input
-                    type="number"
-                    id="maxRadiusRing"
-                    name="maxRadiusRing"
-                    min="0"
-                    max="9999"
-                    [(ngModel)]="layoutSettings.ringSettings!.maxRadius"
-                />
-                <label for="maxAngleRing">Maximum Angle: </label>
-                <input
-                    type="number"
-                    id="maxAngleRing"
-                    name="maxAngleRing"
-                    min="0"
-                    max="9999"
-                    [(ngModel)]="layoutSettings.ringSettings!.maxAngle"
-                />
-            </div>
-            <fieldset>
-                <legend>Line Style:</legend>
                 <div class="inline-flex flex-row">
-                    <div>
+                    <div class="pr-4">
+                        <label class="font-semibold" for="minRadiusRing">Minimum Radius: </label>
                         <input
-                            type="radio"
-                            [(ngModel)]="drawSettings.standardPen.dashStyle"
-                            name="stdStyle"
-                            [value]="0"
+                            type="number"
+                            id="minRadiusRing"
+                            name="minRadiusRing"
+                            min="0"
+                            max="9999"
+                            [(ngModel)]="layoutSettings.ringSettings!.minRadius"
+                            style="border: 1px solid #dcdcdc"
+                            class="w-16 pr"
                         />
-                        <label>Solid</label>
                     </div>
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="drawSettings.standardPen.dashStyle"
-                            name="stdStyle"
-                            [value]="1"
-                        />
-                        <label>Dash</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="drawSettings.standardPen.dashStyle"
-                            name="stdStyle"
-                            [value]="2"
-                        />
-                        <label>Dot</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="drawSettings.standardPen.dashStyle"
-                            name="stdStyle"
-                            [value]="3"
-                        />
-                        <label>DashDot</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="drawSettings.standardPen.dashStyle"
-                            name="stdStyle"
-                            [value]="4"
-                        />
-                        <label>DashDotDot</label>
-                    </div>
-                </div>
-            </fieldset>
-        </div>
-        <br />
 
-        <div>
-            <h4>Lag Pen</h4>
-            <p>
-                A LAG link is a special kind of link between two network switches for efficiently passing network
-                packets between them.
-            </p>
-            <div>
-                <label>Color:</label>
-                <input type="color" [(ngModel)]="colors.lagPen" name="lagColor" value="#000000" />
-            </div>
-            <div>
-                <label>Width:</label>
-                <input
-                    type="number"
-                    [(ngModel)]="drawSettings.lagPen.width"
-                    name="lagWidth"
-                    value="1"
-                    min="1"
-                    max="10"
-                />
-            </div>
-            <fieldset>
-                <legend>Line Style:</legend>
-                <div class="inline-flex flex-row">
-                    <div>
-                        <input type="radio" [(ngModel)]="drawSettings.lagPen.dashStyle" name="lagStyle" [value]="0" />
-                        <label>Solid</label>
+                    <div class="pr-4">
+                        <label class="font-semibold" for="maxRadiusRing">Node Spacing: </label>
+                        <input
+                            type="number"
+                            id="maxRadiusRing"
+                            name="maxRadiusRing"
+                            min="0"
+                            max="9999"
+                            [(ngModel)]="layoutSettings.ringSettings!.maxRadius"
+                            style="border: 1px solid #dcdcdc"
+                            class="w-16"
+                        />
                     </div>
-                    <div>
-                        <input type="radio" [(ngModel)]="drawSettings.lagPen.dashStyle" name="lagStyle" [value]="1" />
-                        <label>Dash</label>
-                    </div>
-                    <div>
-                        <input type="radio" [(ngModel)]="drawSettings.lagPen.dashStyle" name="lagStyle" [value]="2" />
-                        <label>Dot</label>
-                    </div>
-                    <div>
-                        <input type="radio" [(ngModel)]="drawSettings.lagPen.dashStyle" name="lagStyle" [value]="3" />
-                        <label>DashDot</label>
-                    </div>
-                    <div>
-                        <input type="radio" [(ngModel)]="drawSettings.lagPen.dashStyle" name="lagStyle" [value]="4" />
-                        <label>DashDotDot</label>
-                    </div>
-                </div>
-            </fieldset>
-        </div>
-        <br />
 
-        <div>
-            <h4>Manual Pen</h4>
-            <p>
-                A Manual link is a link created manually by a user, usually because they know of a network link in their
-                network that was not automatically discovered by UVX.
-            </p>
-            <div>
-                <label>Color:</label>
-                <input type="color" [(ngModel)]="colors.manualPen" name="manualColor" value="#000000" />
-            </div>
-            <div>
-                <label>Width:</label>
-                <input
-                    type="number"
-                    [(ngModel)]="drawSettings.manualPen.width"
-                    name="manualWidth"
-                    value="1"
-                    min="1"
-                    max="10"
-                />
-            </div>
-            <fieldset>
-                <legend>Line Style:</legend>
-                <div class="inline-flex flex-row">
                     <div>
+                        <label class="font-semibold" for="maxAngleRing">Maximum Angle: </label>
                         <input
-                            type="radio"
-                            [(ngModel)]="drawSettings.manualPen.dashStyle"
-                            name="manualStyle"
-                            [value]="0"
+                            type="number"
+                            id="maxAngleRing"
+                            name="maxAngleRing"
+                            min="0"
+                            max="9999"
+                            [(ngModel)]="layoutSettings.ringSettings!.maxAngle"
+                            style="border: 1px solid #dcdcdc"
+                            class="w-16"
                         />
-                        <label>Solid</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="drawSettings.manualPen.dashStyle"
-                            name="manualStyle"
-                            [value]="1"
-                        />
-                        <label>Dash</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="drawSettings.manualPen.dashStyle"
-                            name="manualStyle"
-                            [value]="2"
-                        />
-                        <label>Dot</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="drawSettings.manualPen.dashStyle"
-                            name="manualStyle"
-                            [value]="3"
-                        />
-                        <label>DashDot</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="drawSettings.manualPen.dashStyle"
-                            name="manualStyle"
-                            [value]="4"
-                        />
-                        <label>DashDotDot</label>
                     </div>
                 </div>
-            </fieldset>
-        </div>
-        <br />
-
-        <div>
-            <h4>Associated Pen</h4>
-            <p>
-                Some devices are controlled by other devices known as "controllers" (e.g., IP phones are managed by an
-                IP phone controller, wireless access points are managed by a wireless access point controller, etc.) An
-                Associated link is a link between a device its "controller" device.
-            </p>
-            <div>
-                <label>Color:</label>
-                <input type="color" [(ngModel)]="colors.associatedPen" name="associatedColor" value="#000000" />
             </div>
-            <div>
-                <label>Width:</label>
-                <input
-                    type="number"
-                    [(ngModel)]="drawSettings.associatedPen.width"
-                    name="associatedWidth"
-                    value="1"
-                    min="1"
-                    max="10"
-                />
-            </div>
-            <fieldset>
-                <legend>Line Style:</legend>
-                <div class="inline-flex flex-row">
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="drawSettings.associatedPen.dashStyle"
-                            name="associatedStyle"
-                            [value]="0"
-                        />
-                        <label>Solid</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="drawSettings.associatedPen.dashStyle"
-                            name="associatedStyle"
-                            [value]="1"
-                        />
-                        <label>Dash</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="drawSettings.associatedPen.dashStyle"
-                            name="associatedStyle"
-                            [value]="2"
-                        />
-                        <label>Dot</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="drawSettings.associatedPen.dashStyle"
-                            name="associatedStyle"
-                            [value]="3"
-                        />
-                        <label>DashDot</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="drawSettings.associatedPen.dashStyle"
-                            name="associatedStyle"
-                            [value]="4"
-                        />
-                        <label>DashDotDot</label>
-                    </div>
-                </div>
-            </fieldset>
-        </div>
-        <br />
-
-        <div>
-            <h4>Multi Pen</h4>
-            <p>
-                Multi links are links that involve multiple devices. Most links are point-to-point between just two
-                devices, but some links involve more than two devices. Multi links are drawn in a "hub with spokes"
-                fashion. There is one icon at the center that represents the link as a whole (the "hub"), and all the
-                devices that participate in the link are drawn around the hub icon (these are the "spokes"). Therefore,
-                a multi link consists of multiple edges between participating nodes (devices).
-            </p>
-            <div>
-                <label>Color:</label>
-                <input type="color" [(ngModel)]="colors.multiPen" name="multiColor" value="#000000" />
-            </div>
-            <div>
-                <label>Width:</label>
-                <input
-                    type="number"
-                    [(ngModel)]="drawSettings.multiPen.width"
-                    name="multiWidth"
-                    value="1"
-                    min="1"
-                    max="10"
-                />
-            </div>
-            <fieldset>
-                <legend>Line Style:</legend>
-                <div class="inline-flex flex-row">
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="drawSettings.multiPen.dashStyle"
-                            name="multiStyle"
-                            [value]="0"
-                        />
-                        <label>Solid</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="drawSettings.multiPen.dashStyle"
-                            name="multiStyle"
-                            [value]="1"
-                        />
-                        <label>Dash</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="drawSettings.multiPen.dashStyle"
-                            name="multiStyle"
-                            [value]="2"
-                        />
-                        <label>Dot</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="drawSettings.multiPen.dashStyle"
-                            name="multiStyle"
-                            [value]="3"
-                        />
-                        <label>DashDot</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            [(ngModel)]="drawSettings.multiPen.dashStyle"
-                            name="multiStyle"
-                            [value]="4"
-                        />
-                        <label>DashDotDot</label>
-                    </div>
-                </div>
-            </fieldset>
         </div>
     </form>
+
+    <br />
+
+    <form>
+        <h2 class="font-semibold text-xl">Draw Settings</h2>
+
+        <hr />
+
+        <div class="pl-4">
+            <div>
+                <label class="font-semibold">Short Device Names: </label>
+                <input
+                    type="checkbox"
+                    [(ngModel)]="drawSettings.shortDeviceNames"
+                    name="shortDeviceNames"
+                    value="false"
+                />
+            </div>
+
+            <div class="pl-4 inline-flex flex-row">
+                <div class="pr-4">
+                    <label class="font-semibold">Left Device Trim: </label>
+                    <input
+                        type="checkbox"
+                        [(ngModel)]="drawSettings.deviceTrimLeft"
+                        name="deviceTrimLeft"
+                        value="false"
+                        [disabled]="!drawSettings.shortDeviceNames"
+                    />
+                </div>
+
+                <div class="pr-4">
+                    <label class="font-semibold">Left Device Trim Char: </label>
+                    <input
+                        type="text"
+                        [(ngModel)]="drawSettings.deviceTrimLeftChar"
+                        name="deviceTrimLeftChar"
+                        value="."
+                        style="border: 1px solid #dcdcdc"
+                        [disabled]="!drawSettings.shortDeviceNames || !drawSettings.deviceTrimLeft"
+                        class="w-16"
+                    />
+                </div>
+
+                <div>
+                    <label class="font-semibold">Left Device Trim Count: </label>
+                    <input
+                        type="number"
+                        [(ngModel)]="drawSettings.deviceTrimLeftCount"
+                        name="deviceTrimLeftCount"
+                        value="1"
+                        style="border: 1px solid #dcdcdc"
+                        [disabled]="!drawSettings.shortDeviceNames || !drawSettings.deviceTrimLeft"
+                        class="w-16"
+                    />
+                </div>
+            </div>
+
+            <div class="pl-4 inline-flex flex-row">
+                <div class="pr-4">
+                    <label class="font-semibold">Right Device Trim: </label>
+                    <input
+                        type="checkbox"
+                        [(ngModel)]="drawSettings.deviceTrimRight"
+                        name="deviceTrimRight"
+                        value="false"
+                        [disabled]="!drawSettings.shortDeviceNames"
+                    />
+                </div>
+
+                <div class="pr-4">
+                    <label class="font-semibold">Right Device Trim Char: </label>
+                    <input
+                        type="text"
+                        [(ngModel)]="drawSettings.deviceTrimRightChar"
+                        name="deviceTrimRightChar"
+                        value="."
+                        style="border: 1px solid #dcdcdc"
+                        [disabled]="!drawSettings.shortDeviceNames || !drawSettings.deviceTrimRight"
+                        class="w-16"
+                    />
+                </div>
+
+                <div>
+                    <label class="font-semibold">Right Device Trim Count: </label>
+                    <input
+                        type="number"
+                        [(ngModel)]="drawSettings.deviceTrimRightCount"
+                        name="deviceTrimRightCount"
+                        value="1"
+                        style="border: 1px solid #dcdcdc"
+                        [disabled]="!drawSettings.shortDeviceNames || !drawSettings.deviceTrimRight"
+                        class="w-16"
+                    />
+                </div>
+            </div>
+
+            <div>
+                <label class="font-semibold">Short Interface Names: </label>
+                <input type="checkbox" [(ngModel)]="drawSettings.shortIfNames" name="shortIfNames" value="false" />
+            </div>
+
+            <br />
+
+            <div>
+                <h4 class="font-semibold text-lg">Standard Pen</h4>
+
+                <div class="pl-4">
+                    <div class="inline-flex flex-row">
+                        <h4 class="pr-1 font-semibold">Description:</h4>
+                        <p>
+                            The standard pen type is the default pen for all links not specified as one of the below
+                            types.
+                        </p>
+                    </div>
+
+                    <div class="inline-flex flex-row">
+                        <div class="pr-4">
+                            <label class="font-semibold">Color: </label>
+                            <input type="color" [(ngModel)]="colors.standardPen" name="stdColor" value="#000000" />
+                        </div>
+                        <div class="pr-4">
+                            <label class="font-semibold">Width: </label>
+                            <input
+                                type="number"
+                                [(ngModel)]="drawSettings.standardPen.width"
+                                name="stdWidth"
+                                value="1"
+                                min="0"
+                                max="10"
+                                style="border: 1px solid #dcdcdc"
+                                class="w-16"
+                            />
+                        </div>
+                        <fieldset class="inline-flex flex-row">
+                            <div class="pr-1.5">
+                                <legend class="font-semibold">Line Style:</legend>
+                            </div>
+                            <div class="inline-flex flex-row">
+                                <div class="pr-2">
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.standardPen.dashStyle"
+                                        name="stdStyle"
+                                        [value]="0"
+                                    />
+                                    <label class="pl-0.5">Solid</label>
+                                </div>
+                                <div class="pr-2">
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.standardPen.dashStyle"
+                                        name="stdStyle"
+                                        [value]="1"
+                                    />
+                                    <label class="pl-0.5">Dash</label>
+                                </div>
+                                <div class="pr-2">
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.standardPen.dashStyle"
+                                        name="stdStyle"
+                                        [value]="2"
+                                    />
+                                    <label class="pl-0.5">Dot</label>
+                                </div>
+                                <div class="pr-2">
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.standardPen.dashStyle"
+                                        name="stdStyle"
+                                        [value]="3"
+                                    />
+                                    <label class="pl-0.5">DashDot</label>
+                                </div>
+                                <div>
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.standardPen.dashStyle"
+                                        name="stdStyle"
+                                        [value]="4"
+                                    />
+                                    <label class="pl-0.5">DashDotDot</label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <br />
+
+            <div>
+                <h4 class="font-semibold text-lg">Lag Pen</h4>
+
+                <div class="pl-4">
+                    <div class="inline-flex flex-row">
+                        <h4 class="pr-1 font-semibold">Description:</h4>
+                        <p>
+                            A LAG link is a special kind of link between two network switches for efficiently passing
+                            network packets between them.
+                        </p>
+                    </div>
+
+                    <div class="inline-flex flex-row">
+                        <div class="pr-4">
+                            <label class="font-semibold">Color: </label>
+                            <input type="color" [(ngModel)]="colors.lagPen" name="lagColor" value="#000000" />
+                        </div>
+                        <div class="pr-4">
+                            <label class="font-semibold">Width: </label>
+                            <input
+                                type="number"
+                                [(ngModel)]="drawSettings.lagPen.width"
+                                name="lagWidth"
+                                value="1"
+                                min="0"
+                                max="10"
+                                style="border: 1px solid #dcdcdc"
+                                class="w-16"
+                            />
+                        </div>
+                        <fieldset class="inline-flex flex-row">
+                            <div class="pr-1.5">
+                                <legend class="font-semibold">Line Style:</legend>
+                            </div>
+                            <div class="inline-flex flex-row">
+                                <div class="pr-2">
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.lagPen.dashStyle"
+                                        name="lagStyle"
+                                        [value]="0"
+                                    />
+                                    <label class="pl-0.5">Solid</label>
+                                </div>
+                                <div class="pr-2">
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.lagPen.dashStyle"
+                                        name="lagStyle"
+                                        [value]="1"
+                                    />
+                                    <label class="pl-0.5">Dash</label>
+                                </div>
+                                <div class="pr-2">
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.lagPen.dashStyle"
+                                        name="lagStyle"
+                                        [value]="2"
+                                    />
+                                    <label class="pl-0.5">Dot</label>
+                                </div>
+                                <div class="pr-2">
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.lagPen.dashStyle"
+                                        name="lagStyle"
+                                        [value]="3"
+                                    />
+                                    <label class="pl-0.5">DashDot</label>
+                                </div>
+                                <div>
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.lagPen.dashStyle"
+                                        name="lagStyle"
+                                        [value]="4"
+                                    />
+                                    <label class="pl-0.5">DashDotDot</label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <br />
+
+            <div>
+                <h4 class="font-semibold text-lg">Manual Pen</h4>
+
+                <div class="pl-4">
+                    <div class="inline-flex flex-row">
+                        <h4 class="pr-1 font-semibold">Description:</h4>
+                        <p>
+                            A Manual link is a link created manually by a user, usually because they know of a network
+                            link in their network that was not automatically discovered by UVX.
+                        </p>
+                    </div>
+
+                    <div class="inline-flex flex-row">
+                        <div class="pr-4">
+                            <label class="font-semibold">Color: </label>
+                            <input type="color" [(ngModel)]="colors.manualPen" name="manualColor" value="#000000" />
+                        </div>
+                        <div class="pr-4">
+                            <label class="font-semibold">Width: </label>
+                            <input
+                                type="number"
+                                [(ngModel)]="drawSettings.manualPen.width"
+                                name="manualWidth"
+                                value="1"
+                                min="0"
+                                max="10"
+                                style="border: 1px solid #dcdcdc"
+                                class="w-16"
+                            />
+                        </div>
+                        <fieldset class="inline-flex flex-row">
+                            <div class="pr-1.5">
+                                <legend class="font-semibold">Line Style:</legend>
+                            </div>
+                            <div class="inline-flex flex-row">
+                                <div class="pr-2">
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.manualPen.dashStyle"
+                                        name="manualStyle"
+                                        [value]="0"
+                                    />
+                                    <label class="pl-0.5">Solid</label>
+                                </div>
+                                <div class="pr-2">
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.manualPen.dashStyle"
+                                        name="manualStyle"
+                                        [value]="1"
+                                    />
+                                    <label class="pl-0.5">Dash</label>
+                                </div>
+                                <div class="pr-2">
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.manualPen.dashStyle"
+                                        name="manualStyle"
+                                        [value]="2"
+                                    />
+                                    <label class="pl-0.5">Dot</label>
+                                </div>
+                                <div class="pr-2">
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.manualPen.dashStyle"
+                                        name="manualStyle"
+                                        [value]="3"
+                                    />
+                                    <label class="pl-0.5">DashDot</label>
+                                </div>
+                                <div>
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.manualPen.dashStyle"
+                                        name="manualStyle"
+                                        [value]="4"
+                                    />
+                                    <label class="pl-0.5">DashDotDot</label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <br />
+
+            <div>
+                <h4 class="font-semibold text-lg">Associated Pen</h4>
+
+                <div class="pl-4">
+                    <div class="inline-flex flex-row">
+                        <h4 class="pr-1 font-semibold">Description:</h4>
+                        <p>
+                            Some devices are controlled by other devices known as "controllers" (e.g., IP phones are
+                            managed by an IP phone controller, wireless access points are managed by a wireless access
+                            point controller, etc.) An Associated link is a link between a device its "controller"
+                            device.
+                        </p>
+                    </div>
+
+                    <div class="inline-flex flex-row">
+                        <div class="pr-4">
+                            <label class="font-semibold">Color: </label>
+                            <input
+                                type="color"
+                                [(ngModel)]="colors.associatedPen"
+                                name="associatedColor"
+                                value="#000000"
+                            />
+                        </div>
+                        <div class="pr-4">
+                            <label class="font-semibold">Width: </label>
+                            <input
+                                type="number"
+                                [(ngModel)]="drawSettings.associatedPen.width"
+                                name="associatedWidth"
+                                value="1"
+                                min="0"
+                                max="10"
+                                style="border: 1px solid #dcdcdc"
+                                class="w-16"
+                            />
+                        </div>
+                        <fieldset class="inline-flex flex-row">
+                            <div class="pr-1.5">
+                                <legend class="font-semibold">Line Style:</legend>
+                            </div>
+                            <div class="inline-flex flex-row">
+                                <div class="pr-2">
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.associatedPen.dashStyle"
+                                        name="associatedStyle"
+                                        [value]="0"
+                                    />
+                                    <label class="pl-0.5">Solid</label>
+                                </div>
+                                <div class="pr-2">
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.associatedPen.dashStyle"
+                                        name="associatedStyle"
+                                        [value]="1"
+                                    />
+                                    <label class="pl-0.5">Dash</label>
+                                </div>
+                                <div class="pr-2">
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.associatedPen.dashStyle"
+                                        name="associatedStyle"
+                                        [value]="2"
+                                    />
+                                    <label class="pl-0.5">Dot</label>
+                                </div>
+                                <div class="pr-2">
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.associatedPen.dashStyle"
+                                        name="associatedStyle"
+                                        [value]="3"
+                                    />
+                                    <label class="pl-0.5">DashDot</label>
+                                </div>
+                                <div>
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.associatedPen.dashStyle"
+                                        name="associatedStyle"
+                                        [value]="4"
+                                    />
+                                    <label class="pl-0.5">DashDotDot</label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <br />
+
+            <div>
+                <h4 class="font-semibold text-lg">Multi Pen</h4>
+
+                <div class="pl-4">
+                    <div class="inline-flex flex-row">
+                        <h4 class="pr-1 font-semibold">Description:</h4>
+                        <p>
+                            Multi links are links that involve multiple devices. Most links are point-to-point between
+                            just two devices, but some links involve more than two devices. Multi links are drawn in a
+                            "hub with spokes" fashion. There is one icon at the center that represents the link as a
+                            whole (the "hub"), and all the devices that participate in the link are drawn around the hub
+                            icon (these are the "spokes"). Therefore, a multi link consists of multiple edges between
+                            participating nodes (devices).
+                        </p>
+                    </div>
+
+                    <div class="inline-flex flex-row">
+                        <div class="pr-4">
+                            <label class="font-semibold">Color: </label>
+                            <input type="color" [(ngModel)]="colors.multiPen" name="multiColor" value="#000000" />
+                        </div>
+                        <div class="pr-4">
+                            <label class="font-semibold">Width: </label>
+                            <input
+                                type="number"
+                                [(ngModel)]="drawSettings.multiPen.width"
+                                name="multiWidth"
+                                value="1"
+                                min="0"
+                                max="10"
+                                style="border: 1px solid #dcdcdc"
+                                class="w-16"
+                            />
+                        </div>
+                        <fieldset class="inline-flex flex-row">
+                            <div class="pr-1.5">
+                                <legend class="font-semibold">Line Style:</legend>
+                            </div>
+                            <div class="inline-flex flex-row">
+                                <div class="pr-2">
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.multiPen.dashStyle"
+                                        name="multiStyle"
+                                        [value]="0"
+                                    />
+                                    <label class="pl-0.5">Solid</label>
+                                </div>
+                                <div class="pr-2">
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.multiPen.dashStyle"
+                                        name="multiStyle"
+                                        [value]="1"
+                                    />
+                                    <label class="pl-0.5">Dash</label>
+                                </div>
+                                <div class="pr-2">
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.multiPen.dashStyle"
+                                        name="multiStyle"
+                                        [value]="2"
+                                    />
+                                    <label class="pl-0.5">Dot</label>
+                                </div>
+                                <div class="pr-2">
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.multiPen.dashStyle"
+                                        name="multiStyle"
+                                        [value]="3"
+                                    />
+                                    <label class="pl-0.5">DashDot</label>
+                                </div>
+                                <div>
+                                    <input
+                                        type="radio"
+                                        [(ngModel)]="drawSettings.multiPen.dashStyle"
+                                        name="multiStyle"
+                                        [value]="4"
+                                    />
+                                    <label class="pl-0.5">DashDotDot</label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <br />
 
     <button (click)="updateSettings()" class="bg-blue-500 text-white py-2 px-4 rounded mx-2 mt-1">
         Update Settings
