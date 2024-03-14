@@ -30,13 +30,13 @@ export class SettingsComponent {
         maxRadius: 3000,
         maxAngle: 360,
         maximizeRoot: true
-    }
+    };
     ringSettings = {
         minRadius: 200,
         maxRadius: 3000,
         maxAngle: 360,
         maximizeRoot: true
-    }
+    };
     colors = {
         standardPen: '#000000',
         lagPen: '#000000',
