@@ -48,9 +48,11 @@ export class DrawLines {
         });
         line.setShape(LineShape.Diagonal);
         line.changeZOrder(ZOrderOperation.BOTTOM);
-        line.properties.set('LineColor', this.toColorCode(penSettings.color.red, penSettings.color.green, penSettings.color.blue));
-        line.properties.set('LineWidth', penSettings.width);
-        line.properties.set('StrokeStyle', this.toStrokeStyle(penSettings.dashStyle));
+        if (line.properties !== undefined) {
+            line.properties.set('LineColor', this.toColorCode(penSettings.color.red, penSettings.color.green, penSettings.color.blue));
+            line.properties.set('LineWidth', penSettings.width);
+            line.properties.set('StrokeStyle', this.toStrokeStyle(penSettings.dashStyle));
+        }
         return line;
     }
 
