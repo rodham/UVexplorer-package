@@ -1,8 +1,9 @@
-import { BlockDefinition, BlockProxy, PageProxy, Viewport } from 'lucid-extension-sdk';
+import { BlockDefinition, BlockProxy, MapProxy, PageProxy, Viewport } from 'lucid-extension-sdk';
 import { DeviceNode } from 'model/uvx/device';
-import { DEVICE_REFERENCE_KEY } from '@data/data';
+import { DEVICE_REFERENCE_KEY } from '@data/data-client';
 import { getVendor } from 'model/uvx/vendor';
 import { getDeviceType } from 'model/uvx/device-type';
+import { BlockUtils } from '@blocks/block-utils';
 
 export class DrawBlocks {
     static drawBlocks(
@@ -42,6 +43,22 @@ export class DrawBlocks {
         return block;
     }
 
+    static updateBlocks(deviceNodes: DeviceNode[], collectionId: string, items: MapProxy<string, BlockProxy>) {
+        console.log('Updating blocks data');
+        for (const [, item] of items) {
+            const guid = item.shapeData.get('Guid');
+            if (!guid) continue;
+            const deviceNode = deviceNodes.find((node) => node.deviceGuid === guid);
+            if (!deviceNode) continue;
+            this.updateBlock(item, deviceNode, collectionId);
+        }
+    }
+
+    static updateBlock(item: BlockProxy, deviceNode: DeviceNode, collectionId: string) {
+        this.setShapeData(item, deviceNode);
+        this.setReferenceKey(item, deviceNode, collectionId);
+    }
+
     static setShapeData(block: BlockProxy, deviceNode: DeviceNode) {
         block.shapeData.set('Make', getVendor(deviceNode));
         block.shapeData.set('DeviceType', getDeviceType(deviceNode));
@@ -54,5 +71,29 @@ export class DrawBlocks {
             primaryKey: `"${deviceNode.deviceGuid}"`,
             readonly: true
         });
+    }
+
+    // Takes in a list of deviceGuids that should be removed from the map
+    // Removes all device blocks from the map
+    // Returns the list of deviceGuids that should be redrawn
+    static clearBlocks(page: PageProxy, removeDevices?: string[]) {
+        const pageItems = page.allBlocks;
+        const remainDevices = [];
+
+        if (pageItems) {
+            for (const [, item] of pageItems) {
+                if (BlockUtils.isNetworkDeviceBlock(item)) {
+                    const guid = BlockUtils.getGuidFromBlock(item);
+                    if (!guid) continue;
+                    item.delete();
+                    if (!(removeDevices && removeDevices.includes(guid))) {
+                        // Device should remain
+                        remainDevices.push(guid);
+                    }
+                }
+            }
+        }
+
+        return remainDevices;
     }
 }

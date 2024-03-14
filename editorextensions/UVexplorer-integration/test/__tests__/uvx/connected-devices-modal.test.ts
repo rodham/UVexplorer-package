@@ -4,11 +4,11 @@ import * as devicesModel from 'model/uvx/device';
 import * as lucid from 'lucid-extension-sdk';
 import { UVExplorerClient } from '@uvx/uvx-client';
 import { mockDeviceGuids, mockDeviceGuids2, mockDeviceList, mockDeviceList2 } from 'mock_data/devices';
-import { Data } from '@data/data';
-import { DocumentEditor } from 'src/doc/documentEditor';
+import { DataClient } from '@data/data-client';
+import { DocumentClient } from 'src/doc/document-client';
 
 jest.mock('lucid-extension-sdk');
-jest.mock('@data/data');
+jest.mock('@data/data-client');
 jest.mock('model/uvx/network');
 jest.mock('model/uvx/device');
 jest.mock('@uvx/uvx-client');
@@ -20,8 +20,10 @@ describe('Connected Devices Modal Tests', () => {
             return { id: '1' };
         }
     } as lucid.Viewport;
-    const mockData = Data.getInstance(mockEditorClient);
-    const mockDocEditor = new DocumentEditor(mockViewport, mockData);
+    const mockDataClient = DataClient.getInstance(mockEditorClient);
+
+    const mockDocClient = new DocumentClient(mockViewport, mockDataClient);
+    const mockUvxClient = new UVExplorerClient(mockEditorClient);
     const mockNetworkRequest = {
         network_guid: 'myNetwork'
     };
@@ -42,17 +44,27 @@ describe('Connected Devices Modal Tests', () => {
         const connectedDevicesRequestSpy = jest
             .spyOn(devicesModel, 'ConnectedDevicesRequest')
             .mockReturnValue(mockConnectedDevicesRequest);
-        const modal = new ConnectedDevicesModal(mockEditorClient, mockDocEditor, mockDeviceGuids, mockDeviceGuids2);
+        const modal = new ConnectedDevicesModal(
+            mockEditorClient,
+            mockDocClient,
+            mockUvxClient,
+            mockDataClient,
+            mockDeviceGuids,
+            mockDeviceGuids2
+        );
+        jest.spyOn(modal, 'loadPageNetwork').mockResolvedValue();
+
         const sendMessageMock = jest.spyOn(modal, 'sendMessage');
 
         it('Should make uvx request and send message to child', async () => {
-            await modal.loadConnectedDevices();
+            await modal.sendConnectedDevices();
 
             expect(networkRequestSpy).toHaveBeenCalledWith('My Network');
             expect(connectedDevicesRequestSpy).toHaveBeenCalledWith(mockDeviceGuids);
             expect(sendMessageMock).toHaveBeenCalledWith({
                 action: 'listDevices',
                 devices: JSON.stringify(mockDeviceList2),
+                forceAutoLayout: true,
                 visibleConnectedDeviceGuids: JSON.stringify(mockDeviceGuids2)
             });
         });

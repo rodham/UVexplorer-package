@@ -8,7 +8,7 @@ import {
     SchemaDefinition,
     SerializedFieldType
 } from 'lucid-extension-sdk';
-import { Data, DEVICE_SCHEMA } from '@data/data';
+import { DataClient, DEVICE_SCHEMA } from '@data/data-client';
 
 import * as dataUtils from '@data/data-utils';
 
@@ -72,17 +72,17 @@ jest.mock('lucid-extension-sdk', (): unknown => ({
         }))
 }));
 
-describe('Data Tests', () => {
+describe('DataClient Tests', () => {
     let mockEditorClient: EditorClient;
     let mockDataProxy: DataProxy;
-    let data: Data;
+    let data: DataClient;
 
     beforeEach(() => {
         jest.restoreAllMocks();
         mockEditorClient = new EditorClient();
         mockDataProxy = new DataProxy(mockEditorClient);
         jest.spyOn(dataUtils, 'createDataProxy').mockReturnValue(mockDataProxy);
-        data = new Data(mockEditorClient);
+        data = new DataClient(mockEditorClient);
     });
 
     describe('createOrRetrieveNetworkSource tests', () => {

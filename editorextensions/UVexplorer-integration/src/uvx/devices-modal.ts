@@ -1,16 +1,23 @@
 import { DataSourceProxy, EditorClient, JsonSerializable } from 'lucid-extension-sdk';
-import { isLoadNetworkMessage, isSelectedDevicesMessage } from 'model/message';
+import {
+    isLoadMapSettingsMessage,
+    isLoadNetworkMessage,
+    isSelectedDevicesMessage,
+    isSelectedMapSettingsMessage
+} from 'model/message';
 import { NetworkRequest } from 'model/uvx/network';
-import { Device, DeviceListRequest } from 'model/uvx/device';
+import { DeviceListRequest } from 'model/uvx/device';
 import { UVXModal } from './uvx-modal';
-import { DocumentEditor } from 'src/doc/documentEditor';
+import { DocumentClient } from 'src/doc/document-client';
+import { UVExplorerClient } from '@uvx/uvx-client';
+import { DataClient } from '@data/data-client';
 
 export class DevicesModal extends UVXModal {
-    constructor(client: EditorClient, docEditor: DocumentEditor) {
-        super(client, docEditor, 'networks');
+    constructor(client: EditorClient, docEditor: DocumentClient, uvxClient: UVExplorerClient, data: DataClient) {
+        super(client, docEditor, uvxClient, data, 'networks');
     }
 
-    async listNetworks() {
+    async sendNetworks() {
         try {
             const networks = await this.uvxClient.listNetworks();
             const filteredNetworks = networks.filter((n) => n.name !== '');
@@ -28,7 +35,7 @@ export class DevicesModal extends UVXModal {
         try {
             const networkRequest = new NetworkRequest(guid);
             await this.uvxClient.loadNetwork(networkRequest);
-            const source = this.docEditor.getNetworkSource(name, guid);
+            const source = this.docClient.getNetworkSource(name, guid);
             return source;
         } catch (e) {
             console.error(e);
@@ -36,27 +43,24 @@ export class DevicesModal extends UVXModal {
         }
     }
 
-    async loadDevices(source: DataSourceProxy) {
+    async sendDevices(source: DataSourceProxy) {
         try {
             const deviceListRequest = new DeviceListRequest();
             const devices = await this.uvxClient.listDevices(deviceListRequest);
 
-            this.saveDevices(source, devices);
+            this.dataClient.saveDevices(source, devices);
+            const devicesShown = this.docClient.getNetworkDeviceBlockGuids();
 
             await this.sendMessage({
                 action: 'listDevices',
-                devices: JSON.stringify(devices)
+                devices: JSON.stringify(devices),
+                visibleConnectedDeviceGuids: JSON.stringify(devicesShown),
+                forcedAutoLayout: false
             });
             console.log(`Successfully loaded devices: ${source.getName()}`);
         } catch (e) {
             console.error(e);
         }
-    }
-
-    saveDevices(source: DataSourceProxy, devices: Device[]) {
-        const collection = this.data.createOrRetrieveDeviceCollection(source);
-        this.data.clearCollection(collection); // TODO: Replace once updateDevicesInCollection Function is implemented
-        this.data.addDevicesToCollection(collection, devices);
     }
 
     protected async messageFromFrame(message: JsonSerializable) {
@@ -65,15 +69,20 @@ export class DevicesModal extends UVXModal {
         if (isLoadNetworkMessage(message)) {
             const source = await this.loadNetwork(message.name, message.network_guid);
             if (source !== undefined) {
-                await this.loadDevices(source);
+                await this.sendDevices(source);
             } else {
                 console.error(`Could not load network: ${message.name}`);
             }
         } else if (isSelectedDevicesMessage(message)) {
-            const devices = message.devices.map((d) => d.guid);
-            await this.drawMap(devices);
+            console.log('Received isSelectedDevicesMessage');
+            await this.drawMap(message.devices, message.autoLayout, message.removeDevices);
             await this.closeSession();
             this.hide();
+        } else if (isLoadMapSettingsMessage(message)) {
+            await this.sendMapSettings();
+        } else if (isSelectedMapSettingsMessage(message)) {
+            this.docClient.saveSettings(message.drawSettings, message.layoutSettings);
+            await this.reloadDevices();
         }
     }
 }
