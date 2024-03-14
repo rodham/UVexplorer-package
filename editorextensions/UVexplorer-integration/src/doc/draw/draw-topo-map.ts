@@ -20,14 +20,16 @@ export class DrawTopoMap {
         const deviceCollectionId = data.getDeviceCollectionForPage(page.id);
         const linksCollectionId = data.getLinksCollectionForPage(page.id);
 
-        const guidToBlockMap = DrawBlocks.drawBlocks(
+        const nodeIdToBlockMap = DrawBlocks.drawBlocks(
             viewport,
             page,
             topoMap.deviceNodes,
+            topoMap.hubNodes,
             customBlockDef,
             deviceCollectionId
         );
-        DrawLines.drawLines(page, topoMap.deviceLinks, guidToBlockMap, linksCollectionId, topoMap.drawSettings);
+
+        DrawLines.drawLines(page, topoMap.deviceLinks, nodeIdToBlockMap, linksCollectionId, topoMap.drawSettings);
     }
 
     static refreshPageItems(data: DataClient, pageId: string, topoMap: TopoMap, items: MapProxy<string, BlockProxy>) {

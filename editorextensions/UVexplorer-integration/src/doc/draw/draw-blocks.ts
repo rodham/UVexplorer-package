@@ -2,31 +2,39 @@ import { BlockDefinition, BlockProxy, MapProxy, PageProxy, Viewport } from 'luci
 import { DeviceNode } from 'model/uvx/device';
 import { DEVICE_REFERENCE_KEY } from '@data/data-client';
 import { getVendor } from 'model/uvx/vendor';
-import { getDeviceType } from 'model/uvx/device-type';
+import { DEVICE_TYPE_NAME_MAP, getDeviceType } from 'model/uvx/device-type';
 import { BlockUtils } from '@blocks/block-utils';
+import { HubNode, HubNodeUtil } from 'model/uvx/hub-node';
 
 export class DrawBlocks {
     static drawBlocks(
         viewport: Viewport,
         page: PageProxy,
         deviceNodes: DeviceNode[],
+        hubNodes: HubNode[],
         customBlockDef: BlockDefinition,
         collectionId: string
     ) {
         const addedBlocks = [];
-        const guidToBlockMap = new Map<string, BlockProxy>();
+        const nodeIdToBlockMap = new Map<number, BlockProxy>();
 
         for (const deviceNode of deviceNodes) {
-            const block = this.drawBlock(page, deviceNode, customBlockDef, collectionId);
+            const block = this.drawDeviceNode(page, deviceNode, customBlockDef, collectionId);
             addedBlocks.push(block);
-            guidToBlockMap.set(deviceNode.deviceGuid, block);
+            nodeIdToBlockMap.set(deviceNode.nodeId, block);
+        }
+
+        for (const hubNode of hubNodes) {
+            const block = this.drawHubNode(page, hubNode, customBlockDef);
+            addedBlocks.push(block);
+            nodeIdToBlockMap.set(hubNode.nodeId, block);
         }
 
         viewport.focusCameraOnItems(addedBlocks);
-        return guidToBlockMap;
+        return nodeIdToBlockMap;
     }
 
-    static drawBlock(
+    static drawDeviceNode(
         page: PageProxy,
         deviceNode: DeviceNode,
         customBlockDef: BlockDefinition,
@@ -57,6 +65,18 @@ export class DrawBlocks {
     static updateBlock(item: BlockProxy, deviceNode: DeviceNode, collectionId: string) {
         this.setShapeData(item, deviceNode);
         this.setReferenceKey(item, deviceNode, collectionId);
+    }
+
+    static drawHubNode(page: PageProxy, hubNode: HubNode, customBlockDef: BlockDefinition): BlockProxy {
+        const block = page.addBlock({
+            ...customBlockDef,
+            boundingBox: { x: hubNode.x, y: hubNode.y, w: 50, h: 50 }
+        });
+
+        const deviceType = DEVICE_TYPE_NAME_MAP.get(HubNodeUtil.getCategoryImageKey(hubNode));
+        block.shapeData.set('Make', 'Hub Node');
+        block.shapeData.set('DeviceType', deviceType);
+        return block;
     }
 
     static setShapeData(block: BlockProxy, deviceNode: DeviceNode) {

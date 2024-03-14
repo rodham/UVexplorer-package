@@ -7,14 +7,14 @@ export class DrawLines {
     static drawLines(
         page: PageProxy,
         deviceLinks: DeviceLink[],
-        guidToBlockMap: Map<string, BlockProxy>,
+        idToBlockMap: Map<number, BlockProxy>,
         collectionId: string,
         drawSettings: DrawSettings
     ) {
         for (const link of deviceLinks) {
             for (const linkEdge of link.linkEdges) {
-                const deviceBlock = guidToBlockMap.get(linkEdge.localConnection.deviceGuid);
-                const connectedDeviceBlock = guidToBlockMap.get(linkEdge.remoteConnection.deviceGuid);
+                const deviceBlock = idToBlockMap.get(linkEdge.localConnection.nodeId);
+                const connectedDeviceBlock = idToBlockMap.get(linkEdge.remoteConnection.nodeId);
 
                 if (deviceBlock && connectedDeviceBlock) {
                     const penSettings: PenPattern = this.getPenSettings(drawSettings, link.linkType);
