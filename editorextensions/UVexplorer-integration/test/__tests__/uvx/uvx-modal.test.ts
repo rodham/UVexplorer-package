@@ -116,10 +116,11 @@ describe('UVXModal', () => {
 
     describe('sendMapSettings', () => {
         it('should get and send settings successfully', async () => {
-            const settingsCollectionSpy = jest.spyOn(mockDataClient, 'createOrRetrieveSettingsCollection');
-            const sendMessageSpy = jest.spyOn(mockModal, 'sendMessage');
+            const mockCollection = new CollectionProxy('settings', mockClient);
+            const settingsCollectionSpy = jest.spyOn(mockDataClient, 'createOrRetrieveSettingsCollection').mockReturnValue(mockCollection);
+            const sendMessageSpy = jest.spyOn(mockModal, 'sendMessage').mockResolvedValue();
 
-            mockModal.sendMapSettings();
+            await mockModal.sendMapSettings();
 
             expect(settingsCollectionSpy).toHaveBeenCalledTimes(1);
             expect(sendMessageSpy).toHaveBeenCalledWith({
@@ -142,9 +143,9 @@ describe('UVXModal', () => {
 
     describe('reloadDevices', () => {
         it('should reload devices successfully', async () => {
-            const sendMessageSpy = jest.spyOn(mockModal, 'sendMessage');
+            const sendMessageSpy = jest.spyOn(mockModal, 'sendMessage').mockResolvedValue();
 
-            mockModal.reloadDevices();
+            await mockModal.reloadDevices();
             expect(sendMessageSpy).toHaveBeenCalledWith({action: 'relistDevices'});
         });
 

@@ -12,7 +12,7 @@ export class SettingsModal extends UVXModal {
     }
 
     async redrawMap() {
-        let devices: string[] = this.docClient.getNetworkDeviceBlockGuids();
+        const devices: string[] = this.docClient.getNetworkDeviceBlockGuids();
         if (devices.length > 1) {
             const networkGuid: string = this.dataClient.getNetworkForPage(this.docClient.getPageId()!);
             await this.uvxClient.loadNetwork(new NetworkRequest(networkGuid));

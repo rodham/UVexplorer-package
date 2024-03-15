@@ -30,7 +30,6 @@ describe('SettingsComponent', () => {
 
         component.drawSettings = defaultDrawSettings;
         component.layoutSettings = defaultLayoutSettings;
-        component.changingSettings = true;
         component.updateSettings();
 
         expect(postMessageSpy).toHaveBeenCalledWith(
@@ -41,7 +40,5 @@ describe('SettingsComponent', () => {
             },
             '*'
         );
-
-        expect(component.changingSettings).toBeFalse;
     });
 });
