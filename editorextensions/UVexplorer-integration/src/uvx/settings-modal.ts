@@ -14,7 +14,6 @@ export class SettingsModal extends UVXModal {
     async redrawMap() {
         let devices: string[] = this.docClient.getNetworkDeviceBlockGuids();
         if (devices.length > 1) {
-            // TODO: I need to load the correct network before I redraw the map - just need to test this
             const networkGuid: string = this.dataClient.getNetworkForPage(this.docClient.getPageId()!);
             await this.uvxClient.loadNetwork(new NetworkRequest(networkGuid));
             await this.drawMap(devices, []);
