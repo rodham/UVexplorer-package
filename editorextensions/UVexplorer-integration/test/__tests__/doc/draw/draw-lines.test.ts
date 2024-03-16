@@ -25,6 +25,7 @@ describe('DrawTopoMap DrawLines tests', () => {
             const mockPenSettings = {} as PenPattern;
             const mockLine = new LineProxy('', mockClient);
             const setShapeSpy = jest.spyOn(mockLine, 'setShape');
+            const changeZOrderSpy = jest.spyOn(mockLine, 'changeZOrder');
             const addLineSpy = jest.spyOn(mockPage, 'addLine').mockReturnValue(mockLine);
 
             DrawLines.drawLine(mockPage, mockBlocks[0], mockBlocks[1], mockPenSettings);
@@ -45,6 +46,8 @@ describe('DrawTopoMap DrawLines tests', () => {
             });
 
             expect(setShapeSpy).toHaveBeenCalledWith(lucid.LineShape.Diagonal);
+            expect(changeZOrderSpy).toHaveBeenCalledWith(lucid.ZOrderOperation.BOTTOM);
+            // properties is undefined for the setShapeSpy, so we cannot test that
         });
     });
 
