@@ -1,4 +1,4 @@
-import { EditorClient, PageProxy, Viewport } from 'lucid-extension-sdk';
+import { CollectionProxy, EditorClient, PageProxy, Viewport } from 'lucid-extension-sdk';
 import { UVXModal } from '@uvx/uvx-modal';
 import { UVExplorerClient } from '@uvx/uvx-client';
 import { NetworkRequest } from 'model/uvx/network';
@@ -111,6 +111,54 @@ describe('UVXModal', () => {
             expect(createTopoMapRequestSpy).toHaveBeenCalledWith(mockGuids, defaultLayoutSettings, defaultDrawSettings);
             expect(getTopoMapSpy).toHaveBeenCalled();
             expect(result).toBe(mockTopoMap);
+        });
+    });
+
+    describe('sendMapSettings', () => {
+        it('should get and send settings successfully', async () => {
+            const mockCollection = new CollectionProxy('settings', mockClient);
+            const settingsCollectionSpy = jest
+                .spyOn(mockDataClient, 'createOrRetrieveSettingsCollection')
+                .mockReturnValue(mockCollection);
+            const sendMessageSpy = jest.spyOn(mockModal, 'sendMessage').mockResolvedValue();
+
+            await mockModal.sendMapSettings();
+
+            expect(settingsCollectionSpy).toHaveBeenCalledTimes(1);
+            expect(sendMessageSpy).toHaveBeenCalledWith({
+                action: 'mapSettings',
+                drawSettings: JSON.stringify(defaultDrawSettings),
+                layoutSettings: JSON.stringify(defaultLayoutSettings)
+            });
+        });
+
+        it('should handle errors while sending map settings', async () => {
+            const mockError = new Error('failed to send settings');
+            const sendMessageSpy = jest.spyOn(mockModal, 'sendMessage').mockRejectedValue(mockError);
+            const errorSpy = jest.spyOn(console, 'error');
+
+            await mockModal.sendMapSettings();
+            expect(sendMessageSpy).toHaveBeenCalled();
+            expect(errorSpy).toHaveBeenCalledWith(mockError);
+        });
+    });
+
+    describe('reloadDevices', () => {
+        it('should reload devices successfully', async () => {
+            const sendMessageSpy = jest.spyOn(mockModal, 'sendMessage').mockResolvedValue();
+
+            await mockModal.reloadDevices();
+            expect(sendMessageSpy).toHaveBeenCalledWith({ action: 'relistDevices' });
+        });
+
+        it('should handle errors while reloading devices', async () => {
+            const mockError = new Error('failed to send settings');
+            const sendMessageSpy = jest.spyOn(mockModal, 'sendMessage').mockRejectedValue(mockError);
+            const errorSpy = jest.spyOn(console, 'error');
+
+            await mockModal.reloadDevices();
+            expect(sendMessageSpy).toHaveBeenCalled();
+            expect(errorSpy).toHaveBeenCalledWith(mockError);
         });
     });
 });

@@ -154,8 +154,12 @@ export abstract class UVXModal extends Modal {
     }
 
     async reloadDevices() {
-        await this.sendMessage({
-            action: 'relistDevices'
-        });
+        try {
+            await this.sendMessage({
+                action: 'relistDevices'
+            });
+        } catch (e) {
+            console.error(e);
+        }
     }
 }
