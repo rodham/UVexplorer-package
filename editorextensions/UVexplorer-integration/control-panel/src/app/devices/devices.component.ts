@@ -19,11 +19,12 @@ import {
     RowDataUpdatedEvent
 } from 'ag-grid-community';
 import { SettingsComponent } from '../settings/settings.component';
+import { DynamicLayoutSelect } from '../dynamic-layout-select/dl-select.component';
 
 @Component({
     selector: 'app-devices',
     standalone: true,
-    imports: [NgIf, AgGridAngular, SettingsComponent, FormsModule],
+    imports: [NgIf, AgGridAngular, SettingsComponent, FormsModule, DynamicLayoutSelect],
     templateUrl: './devices.component.html'
 })
 export class DevicesComponent {

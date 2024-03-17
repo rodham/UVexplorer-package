@@ -1,31 +1,41 @@
 <div id="devicesComponent" [hidden]="!checkDevicesLength()">
-    <ag-grid-angular
-        style="width: 100%; height: 550px"
-        [class]="themeClass"
-        [rowData]="devices"
-        [columnDefs]="columnDefs"
-        [getRowId]="getRowId"
-        [rowSelection]="rowSelection"
-        [rowMultiSelectWithClick]="true"
-        (gridReady)="onGridReady($event)"
-        (rowDataUpdated)="onRowDataUpdated($event)"
-    >
-    </ag-grid-angular>
-    <div class="flex flex-row">
-        <button
-            (click)="selectDevices()"
-            class="bg-blue-500 text-white py-2 px-4 rounded mx-2 mt-1"
-            [hidden]="devices.length === 0"
-        >
-            Select Devices
-        </button>
-        <button
-            (click)="changeSettings()"
-            class="bg-gray-400 text-white py-2 px-4 rounded mx-2 mt-1"
-            [hidden]="devices.length === 0"
-        >
-            Change Settings
-        </button>
+    <div role="tablist" class="tabs tabs-lifted">
+        <input type="radio" name="selection_type_tabs" role="tab" class="tab" aria-label="Manual Selection" checked />
+        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+            <ag-grid-angular
+                style="width: 100%; height: 475px"
+                [class]="themeClass"
+                [rowData]="devices"
+                [columnDefs]="columnDefs"
+                [getRowId]="getRowId"
+                [rowSelection]="rowSelection"
+                [rowMultiSelectWithClick]="true"
+                (gridReady)="onGridReady($event)"
+                (rowDataUpdated)="onRowDataUpdated($event)"
+            >
+            </ag-grid-angular>
+            <div class="flex flex-row">
+                <button
+                    (click)="selectDevices()"
+                    class="bg-blue-500 text-white py-2 px-4 rounded mx-2 mt-1"
+                    [hidden]="devices.length === 0"
+                >
+                    Select Devices
+                </button>
+                <button
+                    (click)="changeSettings()"
+                    class="bg-gray-400 text-white py-2 px-4 rounded mx-2 mt-1"
+                    [hidden]="devices.length === 0"
+                >
+                    Change Settings
+                </button>
+            </div>
+        </div>
+
+        <input type="radio" name="selection_type_tabs" role="tab" class="tab" aria-label="Dynamic Selection" />
+        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+            <dl-select [devices]="devices"></dl-select>
+        </div>
     </div>
 </div>
 <app-settings></app-settings>
