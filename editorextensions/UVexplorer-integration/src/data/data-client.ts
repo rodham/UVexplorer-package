@@ -14,7 +14,8 @@ import {
     LayoutSettings,
     defaultDrawSettings,
     defaultLayoutSettings,
-    ImageSettings, defaultImageSettings
+    ImageSettings,
+    defaultImageSettings
 } from 'model/uvx/topo-map';
 export const DEVICE_REFERENCE_KEY = 'device_reference_key';
 export const LINK_REFERENCE_KEY = 'link_reference_key';

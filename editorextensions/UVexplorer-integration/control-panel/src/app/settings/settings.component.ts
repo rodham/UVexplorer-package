@@ -9,7 +9,9 @@ import {
     LayoutType,
     RootAlignment,
     defaultDrawSettings,
-    defaultLayoutSettings, ImageSettings, defaultImageSettings
+    defaultLayoutSettings,
+    ImageSettings,
+    defaultImageSettings
 } from 'model/uvx/topo-map';
 
 @Component({
@@ -18,7 +20,6 @@ import {
     imports: [NgIf, FormsModule],
     templateUrl: './settings.component.html'
 })
-
 export class SettingsComponent {
     changingSettings = false;
     drawSettings: DrawSettings = defaultDrawSettings;

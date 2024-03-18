@@ -7,7 +7,13 @@ import { ImageSettings, TopoMap } from 'model/uvx/topo-map';
 import { BlockUtils } from '@blocks/block-utils';
 
 export class DrawTopoMap {
-    static async drawTopoMap(client: EditorClient, viewport: Viewport, page: PageProxy, topoMap: TopoMap, imageSettings: ImageSettings) {
+    static async drawTopoMap(
+        client: EditorClient,
+        viewport: Viewport,
+        page: PageProxy,
+        topoMap: TopoMap,
+        imageSettings: ImageSettings
+    ) {
         const customBlockDef = await client.getCustomShapeDefinition(
             NetworkDeviceBlock.library,
             NetworkDeviceBlock.shape
@@ -33,7 +39,13 @@ export class DrawTopoMap {
         DrawLines.drawLines(page, topoMap.deviceLinks, nodeIdToBlockMap, linksCollectionId, topoMap.drawSettings);
     }
 
-    static refreshPageItems(data: DataClient, pageId: string, topoMap: TopoMap, items: MapProxy<string, BlockProxy>, imageSettings: ImageSettings) {
+    static refreshPageItems(
+        data: DataClient,
+        pageId: string,
+        topoMap: TopoMap,
+        items: MapProxy<string, BlockProxy>,
+        imageSettings: ImageSettings
+    ) {
         const deviceCollectionId = data.getDeviceCollectionForPage(pageId);
         DrawBlocks.updateBlocks(topoMap.deviceNodes, deviceCollectionId, items, imageSettings);
     }

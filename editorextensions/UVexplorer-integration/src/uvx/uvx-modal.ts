@@ -3,9 +3,11 @@ import { UVExplorerClient } from './uvx-client';
 import { NetworkRequest } from 'model/uvx/network';
 import {
     createTopoMapRequest,
-    defaultDrawSettings, defaultImageSettings,
+    defaultDrawSettings,
+    defaultImageSettings,
     defaultLayoutSettings,
-    DrawSettings, ImageSettings,
+    DrawSettings,
+    ImageSettings,
     LayoutSettings,
     LayoutType,
     TopoMap

@@ -54,7 +54,12 @@ export class DrawBlocks {
         return block;
     }
 
-    static updateBlocks(deviceNodes: DeviceNode[], collectionId: string, items: MapProxy<string, BlockProxy>, imageSettings: ImageSettings) {
+    static updateBlocks(
+        deviceNodes: DeviceNode[],
+        collectionId: string,
+        items: MapProxy<string, BlockProxy>,
+        imageSettings: ImageSettings
+    ) {
         console.log('Updating blocks data');
         for (const [, item] of items) {
             const guid = item.shapeData.get('Guid');
@@ -83,10 +88,10 @@ export class DrawBlocks {
     }
 
     static setShapeData(block: BlockProxy, deviceNode: DeviceNode, imageSettings: ImageSettings) {
-        block.shapeData.set('Make', (imageSettings.showVendor ? getVendor(deviceNode) : ''));
+        block.shapeData.set('Make', imageSettings.showVendor ? getVendor(deviceNode) : '');
         block.shapeData.set('DeviceType', getDeviceType(deviceNode));
         block.shapeData.set('Guid', deviceNode.deviceGuid);
-        block.shapeData.set('Status', (imageSettings.showStatus ? deviceNode.status : ''));
+        block.shapeData.set('Status', imageSettings.showStatus ? deviceNode.status : '');
     }
 
     static setReferenceKey(block: BlockProxy, deviceNode: DeviceNode, collectionId: string) {
