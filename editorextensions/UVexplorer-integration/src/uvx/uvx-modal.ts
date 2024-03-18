@@ -7,7 +7,7 @@ import {
     defaultLayoutSettings,
     DrawSettings,
     LayoutSettings,
-    manualLayoutSettings,
+    LayoutType,
     TopoMap
 } from 'model/uvx/topo-map';
 import { DataClient } from '@data/data-client';
@@ -59,7 +59,7 @@ export abstract class UVXModal extends Modal {
     }
 
     // Creates and sends the TopoMapRequest with the desired layout and draw settings
-    async loadTopoMap(deviceGuids: string[], autoLayout: boolean): Promise<TopoMap | undefined> {
+    async loadTopoMap(deviceGuids: string[]): Promise<TopoMap | undefined> {
         const collection = this.dataClient.createOrRetrieveSettingsCollection();
         const page = this.docClient.getPageId();
 
@@ -67,11 +67,7 @@ export abstract class UVXModal extends Modal {
         let drawSettings = defaultDrawSettings;
 
         if (page) {
-            if (autoLayout) {
-                layoutSettings = this.dataClient.getLayoutSettings(collection, page);
-            } else {
-                layoutSettings = manualLayoutSettings;
-            }
+            layoutSettings = this.dataClient.getLayoutSettings(collection, page);
             drawSettings = this.dataClient.getDrawSettings(collection, page);
         }
 
@@ -85,15 +81,22 @@ export abstract class UVXModal extends Modal {
         }
     }
 
-    async drawMap(addDevices: string[], autoLayout: boolean, removeDevices?: string[]): Promise<void> {
+    async drawMap(addDevices: string[], removeDevices?: string[]): Promise<void> {
         let topoMap: TopoMap | undefined = undefined;
+        const collection = this.dataClient.createOrRetrieveSettingsCollection();
+        const page = this.docClient.getPageId();
+        if (!page) return;
 
-        if (autoLayout) {
+        const layoutSettings = this.dataClient.getLayoutSettings(collection, page);
+        const layoutType = layoutSettings.layoutType;
+
+        console.log('selected layout type', layoutType);
+        if (layoutType !== LayoutType.Manual) {
             // Auto layout
             // Remove all devices
             const remainDevices = this.docClient.clearMap(removeDevices);
             // Redraw new devices with auto layout
-            topoMap = await this.loadTopoMap([...addDevices, ...remainDevices], autoLayout);
+            topoMap = await this.loadTopoMap([...addDevices, ...remainDevices]);
         } else {
             // Manual layout
             // Remove only unwanted devices
@@ -101,9 +104,21 @@ export abstract class UVXModal extends Modal {
                 this.docClient.removeFromMap(removeDevices);
             }
 
-            if (addDevices.length > 0) {
+            const blocks = this.docClient.getNetworkDeviceBlockGuids();
+
+            const blocksToAdd: string[] = [];
+            for (const newDevice of addDevices) {
+                console.log('newDevice - drawMap', newDevice);
+                if (!blocks.includes(newDevice)) {
+                    blocksToAdd.push(newDevice);
+                }
+            }
+
+            console.log('new blocks to add', blocksToAdd);
+
+            if (blocksToAdd.length > 0) {
                 // Draw only the new devices with manual layout
-                topoMap = await this.loadTopoMap(addDevices, autoLayout);
+                topoMap = await this.loadTopoMap(blocksToAdd);
             } else {
                 return;
             }
@@ -139,8 +154,12 @@ export abstract class UVXModal extends Modal {
     }
 
     async reloadDevices() {
-        await this.sendMessage({
-            action: 'relistDevices'
-        });
+        try {
+            await this.sendMessage({
+                action: 'relistDevices'
+            });
+        } catch (e) {
+            console.error(e);
+        }
     }
 }

@@ -118,18 +118,10 @@ export function isGetConnectedDevicesMessage(message: unknown): message is GetCo
 export interface ListDevicesMessage extends SerializableDevicesMessage {
     action: 'listDevices';
     visibleConnectedDeviceGuids?: string;
-    forceAutoLayout?: boolean;
 }
 
 export function isListDevicesMessage(message: unknown): message is ListDevicesMessage {
     return isSerializableDevicesMessage(message) && message.action === 'listDevices';
-}
-
-export function getForcedAutoLayoutFromListDevMsg(message: ListDevicesMessage): boolean {
-    if (!message.forceAutoLayout) {
-        return false;
-    }
-    return message.forceAutoLayout;
 }
 
 export interface RelistDevicesMessage {
@@ -161,7 +153,6 @@ export function connDeviceGuidsFromListDevMsg(message: ListDevicesMessage): stri
 export interface SelectedDevicesMessage extends DevicesMessage {
     action: 'selectDevices';
     removeDevices?: string[];
-    autoLayout: boolean;
 }
 
 export function isSelectedDevicesMessage(message: unknown): message is SelectedDevicesMessage {
@@ -170,17 +161,10 @@ export function isSelectedDevicesMessage(message: unknown): message is SelectedD
             Array.isArray(message.removeDevices) &&
             message.removeDevices.every((d): d is string => typeof d === 'string') &&
             isDevicesMessage(message) &&
-            message.action === 'selectDevices' &&
-            'autoLayout' in message &&
-            typeof message.autoLayout === 'boolean'
+            message.action === 'selectDevices'
         );
     }
-    return (
-        isDevicesMessage(message) &&
-        message.action === 'selectDevices' &&
-        'autoLayout' in message &&
-        typeof message.autoLayout === 'boolean'
-    );
+    return isDevicesMessage(message) && message.action === 'selectDevices';
 }
 export interface DeviceDetailsMessage {
     action: 'viewDeviceDetails';
