@@ -37,6 +37,27 @@ export enum DashStyle {
     Custom = 5
 }
 
+export interface ImageSettings {
+    showVendor: boolean;
+    showStatus: boolean;
+}
+
+export function isImageSettings(obj: unknown): obj is ImageSettings {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'showVendor' in obj &&
+        typeof obj.showVendor === 'boolean' &&
+        'showStatus' in obj &&
+        typeof obj.showStatus === 'boolean'
+    );
+}
+
+export const defaultImageSettings = {
+    showVendor: true,
+    showStatus: true
+};
+
 export interface LayoutSettings {
     layoutType: LayoutType;
     useStraightLinks: boolean;

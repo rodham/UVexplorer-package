@@ -6,6 +6,7 @@ import { DrawTopoMap } from 'src/doc/draw/draw-topo-map';
 import { BlockProxy } from 'lucid-extension-sdk';
 import { mockCustomBlockDefinition, mockTopoMap } from '../../helpers';
 import { NetworkDeviceBlock } from '@blocks/network-device-block';
+import { defaultImageSettings } from 'model/uvx/topo-map';
 
 jest.mock('lucid-extension-sdk');
 jest.mock('@data/data-client');
@@ -33,7 +34,7 @@ describe('Map', () => {
                 .spyOn(mockClient, 'getCustomShapeDefinition')
                 .mockResolvedValue(undefined);
             const getInstanceSpy = jest.spyOn(DataClient, 'getInstance');
-            await DrawTopoMap.drawTopoMap(mockClient, mockViewport, mockPage, mockTopoMap);
+            await DrawTopoMap.drawTopoMap(mockClient, mockViewport, mockPage, mockTopoMap, defaultImageSettings);
 
             expect(getCustomShapeDefSpy).toHaveBeenCalledWith(NetworkDeviceBlock.library, NetworkDeviceBlock.shape);
             expect(getInstanceSpy).not.toHaveBeenCalled();
@@ -49,7 +50,7 @@ describe('Map', () => {
             const drawBlocksSpy = jest.spyOn(DrawBlocks, 'drawBlocks').mockReturnValue(mockNodeIdToBlockMap);
             const drawLinesSpy = jest.spyOn(DrawLines, 'drawLines');
 
-            await DrawTopoMap.drawTopoMap(mockClient, mockViewport, mockPage, mockTopoMap);
+            await DrawTopoMap.drawTopoMap(mockClient, mockViewport, mockPage, mockTopoMap, defaultImageSettings);
 
             expect(getCustomShapeDefSpy).toHaveBeenCalledWith(NetworkDeviceBlock.library, NetworkDeviceBlock.shape);
             expect(getInstanceSpy).toHaveBeenCalledWith(mockClient);
@@ -59,7 +60,8 @@ describe('Map', () => {
                 mockTopoMap.deviceNodes,
                 mockTopoMap.hubNodes,
                 mockCustomBlockDefinition,
-                'my_network_device'
+                'my_network_device',
+                defaultImageSettings
             );
             expect(drawLinesSpy).toHaveBeenCalledWith(
                 mockPage,

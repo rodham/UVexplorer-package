@@ -2,7 +2,13 @@ import { EditorClient } from 'lucid-extension-sdk';
 import { DocumentClient } from 'src/doc/document-client';
 import { UVExplorerClient } from '@uvx/uvx-client';
 import { NetworkRequest } from 'model/uvx/network';
-import { createTopoMapRequest, defaultLayoutSettings, defaultDrawSettings, LayoutType } from 'model/uvx/topo-map';
+import {
+    createTopoMapRequest,
+    defaultLayoutSettings,
+    defaultDrawSettings,
+    LayoutType,
+    defaultImageSettings
+} from 'model/uvx/topo-map';
 import { DataClient } from '@data/data-client';
 
 export async function syncDisplayedMap(docEditor: DocumentClient, client: EditorClient): Promise<void> {
@@ -37,9 +43,11 @@ async function refreshMapDevices(docEditor: DocumentClient, client: EditorClient
     const page = docEditor.getPageId();
     let layoutSettings = defaultLayoutSettings;
     let drawSettings = defaultDrawSettings;
-    if (page !== undefined) {
+    let imageSettings = defaultImageSettings;
+    if (page) {
         layoutSettings = data.getLayoutSettings(collection, page);
         drawSettings = data.getDrawSettings(collection, page);
+        imageSettings = data.getImageSettings(collection, page);
     }
 
     const topoMapRequest = createTopoMapRequest(deviceGuids, layoutSettings, drawSettings);
@@ -47,9 +55,9 @@ async function refreshMapDevices(docEditor: DocumentClient, client: EditorClient
     // docEditor.updateItemsInfo(topoMap);
     if (layoutType === LayoutType.Manual) {
         console.log('Refreshing manual layout');
-        docEditor.updateItemsInfo(topoMap);
+        docEditor.updateItemsInfo(topoMap, imageSettings);
     } else {
-        await docEditor.drawMap(topoMap, client);
+        await docEditor.drawMap(topoMap, client, imageSettings);
     }
 }
 

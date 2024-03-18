@@ -4,8 +4,10 @@ import { NetworkRequest } from 'model/uvx/network';
 import {
     createTopoMapRequest,
     defaultDrawSettings,
+    defaultImageSettings,
     defaultLayoutSettings,
     DrawSettings,
+    ImageSettings,
     LayoutSettings,
     LayoutType,
     TopoMap
@@ -90,6 +92,8 @@ export abstract class UVXModal extends Modal {
         const layoutSettings = this.dataClient.getLayoutSettings(collection, page);
         const layoutType = layoutSettings.layoutType;
 
+        const imageSettings = this.dataClient.getImageSettings(collection, page);
+
         console.log('selected layout type', layoutType);
         if (layoutType !== LayoutType.Manual) {
             // Auto layout
@@ -125,7 +129,7 @@ export abstract class UVXModal extends Modal {
         }
 
         if (topoMap) {
-            await this.docClient.drawMap(topoMap, this.client);
+            await this.docClient.drawMap(topoMap, this.client, imageSettings);
         } else {
             console.error('Could not load topo map data.');
         }
@@ -137,16 +141,20 @@ export abstract class UVXModal extends Modal {
 
         let layoutSettings: LayoutSettings = defaultLayoutSettings;
         let drawSettings: DrawSettings = defaultDrawSettings;
+        let imageSettings: ImageSettings = defaultImageSettings;
+
         if (page !== undefined) {
             layoutSettings = this.dataClient.getLayoutSettings(collection, page);
             drawSettings = this.dataClient.getDrawSettings(collection, page);
+            imageSettings = this.dataClient.getImageSettings(collection, page);
         }
 
         try {
             await this.sendMessage({
                 action: 'mapSettings',
                 drawSettings: JSON.stringify(drawSettings),
-                layoutSettings: JSON.stringify(layoutSettings)
+                layoutSettings: JSON.stringify(layoutSettings),
+                imageSettings: JSON.stringify(imageSettings)
             });
         } catch (e) {
             console.error(e);

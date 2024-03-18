@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SettingsComponent } from './settings.component';
 import { SelectedMapSettingsMessage } from 'model/message';
-import { defaultDrawSettings, defaultLayoutSettings } from 'model/uvx/topo-map';
+import { defaultDrawSettings, defaultImageSettings, defaultLayoutSettings } from 'model/uvx/topo-map';
 
 describe('SettingsComponent', () => {
     let component: SettingsComponent;
@@ -30,13 +30,15 @@ describe('SettingsComponent', () => {
 
         component.drawSettings = defaultDrawSettings;
         component.layoutSettings = defaultLayoutSettings;
+        component.imageSettings = defaultImageSettings;
         component.updateSettings();
 
         expect(postMessageSpy).toHaveBeenCalledWith(
             {
                 action: 'saveMapSettings',
                 drawSettings: component.drawSettings,
-                layoutSettings: component.layoutSettings
+                layoutSettings: component.layoutSettings,
+                imageSettings: component.imageSettings
             },
             '*'
         );

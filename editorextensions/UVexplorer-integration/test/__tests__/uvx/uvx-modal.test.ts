@@ -6,7 +6,7 @@ import * as TopoMap from 'model/uvx/topo-map';
 import { mockTopoMap } from '../helpers';
 import { DataClient } from '@data/data-client';
 import { DocumentClient } from '@doc/document-client';
-import { defaultDrawSettings, defaultLayoutSettings } from 'model/uvx/topo-map';
+import { defaultDrawSettings, defaultImageSettings, defaultLayoutSettings } from 'model/uvx/topo-map';
 
 jest.mock('lucid-extension-sdk', (): unknown => ({
     ...jest.requireActual('lucid-extension-sdk'),
@@ -128,7 +128,8 @@ describe('UVXModal', () => {
             expect(sendMessageSpy).toHaveBeenCalledWith({
                 action: 'mapSettings',
                 drawSettings: JSON.stringify(defaultDrawSettings),
-                layoutSettings: JSON.stringify(defaultLayoutSettings)
+                layoutSettings: JSON.stringify(defaultLayoutSettings),
+                imageSettings: JSON.stringify(defaultImageSettings)
             });
         });
 

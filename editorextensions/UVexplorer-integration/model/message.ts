@@ -8,7 +8,14 @@ import {
     isDeviceLinkEdge
 } from 'model/uvx/device';
 import { isString } from 'lucid-extension-sdk';
-import { DrawSettings, isDrawSettings, isLayoutSettings, LayoutSettings } from './uvx/topo-map';
+import {
+    DrawSettings,
+    ImageSettings,
+    isDrawSettings,
+    isImageSettings,
+    isLayoutSettings,
+    LayoutSettings
+} from './uvx/topo-map';
 
 export interface ListNetworksMessage {
     action: 'listNetworks';
@@ -248,6 +255,7 @@ export interface MapSettingsMessage {
     action: 'mapSettings';
     drawSettings: string;
     layoutSettings: string;
+    imageSettings: string;
 }
 
 export function isMapSettingsMessage(message: unknown): message is MapSettingsMessage {
@@ -260,7 +268,9 @@ export function isMapSettingsMessage(message: unknown): message is MapSettingsMe
         'drawSettings' in message &&
         isDrawSettings(JSON.parse(message.drawSettings?.toString() ?? '')) &&
         'layoutSettings' in message &&
-        isLayoutSettings(JSON.parse(message.layoutSettings?.toString() ?? ''))
+        isLayoutSettings(JSON.parse(message.layoutSettings?.toString() ?? '')) &&
+        'imageSettings' in message &&
+        isImageSettings(JSON.parse(message.imageSettings?.toString() ?? ''))
     );
 }
 
@@ -268,6 +278,7 @@ export interface SelectedMapSettingsMessage {
     action: 'saveMapSettings';
     drawSettings: DrawSettings;
     layoutSettings: LayoutSettings;
+    imageSettings: ImageSettings;
 }
 
 export function isSelectedMapSettingsMessage(message: unknown): message is SelectedMapSettingsMessage {
@@ -280,6 +291,8 @@ export function isSelectedMapSettingsMessage(message: unknown): message is Selec
         'drawSettings' in message &&
         isDrawSettings(message.drawSettings) &&
         'layoutSettings' in message &&
-        isLayoutSettings(message.layoutSettings)
+        isLayoutSettings(message.layoutSettings) &&
+        'imageSettings' in message &&
+        isImageSettings(message.imageSettings)
     );
 }
