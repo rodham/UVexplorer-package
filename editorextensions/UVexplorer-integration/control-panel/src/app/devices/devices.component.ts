@@ -19,7 +19,7 @@ import {
     RowDataUpdatedEvent,
     SizeColumnsToFitGridStrategy,
     SizeColumnsToContentStrategy,
-    SizeColumnsToFitProvidedWidthStrategy,
+    SizeColumnsToFitProvidedWidthStrategy
 } from 'ag-grid-community';
 import { SettingsComponent } from '../settings/settings.component';
 
@@ -35,7 +35,7 @@ export class DevicesComponent {
     themeClass = 'ag-theme-quartz';
     rowSelection: 'multiple' | 'single' = 'multiple';
     gridApi?: GridApi;
-    selectDevicesButtonEnabled = false
+    selectDevicesButtonEnabled = false;
 
     constructor() {
         window.addEventListener('message', (e) => {
@@ -90,16 +90,16 @@ export class DevicesComponent {
         | SizeColumnsToFitProvidedWidthStrategy
         | SizeColumnsToContentStrategy
         | SizeColumnsToFitGridStrategy = {
-            type: 'fitGridWidth',
-            defaultMinWidth: 100,
-        }
+        type: 'fitGridWidth',
+        defaultMinWidth: 100
+    };
 
     protected onRowSelected() {
         if (this.gridApi!.getSelectedRows().length > 0) {
-            console.log("Rows greater than 1")
+            console.log('Rows greater than 1');
             this.selectDevicesButtonEnabled = true;
         } else {
-            console.log("Rows less than 1")
+            console.log('Rows less than 1');
             this.selectDevicesButtonEnabled = false;
         }
     }

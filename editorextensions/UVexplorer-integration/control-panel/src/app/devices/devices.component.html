@@ -18,8 +18,7 @@
             (click)="selectDevices()"
             class="text-white py-2 px-4 rounded mx-2 mt-1"
             [hidden]="devices.length === 0"
-            [ngClass]="{'bg-gray-500': !selectDevicesButtonEnabled,
-                        'bg-blue-500': selectDevicesButtonEnabled}"
+            [ngClass]="{ 'bg-gray-500': !selectDevicesButtonEnabled, 'bg-blue-500': selectDevicesButtonEnabled }"
             [disabled]="!selectDevicesButtonEnabled"
         >
             Select Devices
