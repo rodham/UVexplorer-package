@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { NgIf, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
     connDeviceGuidsFromListDevMsg,
@@ -17,14 +17,17 @@ import {
     GetRowIdParams,
     GetRowIdFunc,
     GridApi,
-    RowDataUpdatedEvent
+    RowDataUpdatedEvent,
+    SizeColumnsToFitGridStrategy,
+    SizeColumnsToContentStrategy,
+    SizeColumnsToFitProvidedWidthStrategy,
 } from 'ag-grid-community';
 import { SettingsComponent } from '../settings/settings.component';
 
 @Component({
     selector: 'app-devices',
     standalone: true,
-    imports: [NgIf, AgGridAngular, SettingsComponent, FormsModule],
+    imports: [NgIf, NgClass, AgGridAngular, SettingsComponent, FormsModule],
     templateUrl: './devices.component.html'
 })
 export class DevicesComponent {
@@ -35,6 +38,7 @@ export class DevicesComponent {
     gridApi?: GridApi;
     forcedAutoLayout = false;
     autoLayout = true;
+    selectDevicesButtonEnabled = false;
 
     constructor() {
         window.addEventListener('message', (e) => {
@@ -44,6 +48,9 @@ export class DevicesComponent {
             if (isListDevicesMessage(e.data)) {
                 this.devices = devicesFromSerializableDevicesMessage(e.data);
                 this.preselectedDeviceGuids = connDeviceGuidsFromListDevMsg(e.data);
+                if (this.preselectedDeviceGuids.length > 0) {
+                    this.selectDevicesButtonEnabled = true;
+                }
                 this.forcedAutoLayout = getForcedAutoLayoutFromListDevMsg(e.data);
                 document.getElementById('devicesComponent')!.style.display = 'block';
                 console.log('Received devices in component');
@@ -55,29 +62,24 @@ export class DevicesComponent {
 
     public columnDefs: ColDef<Device>[] = [
         {
+            field: 'custom_name',
+            headerName: 'Name',
+            filter: 'agTextColumnFilter',
+            minWidth: 240
+        },
+        {
             field: 'ip_address',
             headerName: 'IP Address',
             headerCheckboxSelection: true,
             checkboxSelection: true,
             filter: 'agTextColumnFilter',
-            maxWidth: 180
-        },
-        {
-            field: 'mac_address',
-            headerName: 'MAC Address',
-            filter: 'agTextColumnFilter',
-            maxWidth: 150
-        },
-        {
-            field: 'custom_name',
-            headerName: 'Custom Name',
-            filter: 'agTextColumnFilter'
+            minWidth: 250
         },
         {
             field: 'device_categories',
             headerName: 'Categories',
             filter: 'agTextColumnFilter',
-            minWidth: 265,
+            minWidth: 300,
             valueGetter: (params: ValueGetterParams) => {
                 if (!isDevice(params.data) || !params.data.device_categories.entries) {
                     return '';
@@ -87,6 +89,24 @@ export class DevicesComponent {
             }
         }
     ];
+
+    protected autoSizeStrategy:
+        | SizeColumnsToFitProvidedWidthStrategy
+        | SizeColumnsToContentStrategy
+        | SizeColumnsToFitGridStrategy = {
+            type: 'fitGridWidth',
+            defaultMinWidth: 100,
+        }
+
+    protected onRowSelected() {
+        if (this.gridApi!.getSelectedRows().length > 0) {
+            console.log("Rows greater than 1")
+            this.selectDevicesButtonEnabled = true;
+        } else {
+            console.log("Rows less than 1")
+            this.selectDevicesButtonEnabled = false;
+        }
+    }
 
     public checkDevicesLength(): boolean {
         return this.devices.length > 0;
