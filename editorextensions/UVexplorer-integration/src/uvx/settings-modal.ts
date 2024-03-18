@@ -24,7 +24,7 @@ export class SettingsModal extends UVXModal {
         console.log('Received a message from the child.');
         console.log(message);
         if (isSelectedMapSettingsMessage(message)) {
-            this.docClient.saveSettings(message.drawSettings, message.layoutSettings);
+            this.docClient.saveSettings(message.drawSettings, message.layoutSettings, message.imageSettings);
             await this.redrawMap();
             await this.closeSession();
             this.hide();

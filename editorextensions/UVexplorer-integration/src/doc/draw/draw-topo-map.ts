@@ -3,11 +3,11 @@ import { DataClient } from '@data/data-client';
 import { DrawBlocks } from 'src/doc/draw/draw-blocks';
 import { DrawLines } from 'src/doc/draw/draw-lines';
 import { NetworkDeviceBlock } from '@blocks/network-device-block';
-import { TopoMap } from 'model/uvx/topo-map';
+import { ImageSettings, TopoMap } from 'model/uvx/topo-map';
 import { BlockUtils } from '@blocks/block-utils';
 
 export class DrawTopoMap {
-    static async drawTopoMap(client: EditorClient, viewport: Viewport, page: PageProxy, topoMap: TopoMap) {
+    static async drawTopoMap(client: EditorClient, viewport: Viewport, page: PageProxy, topoMap: TopoMap, imageSettings: ImageSettings) {
         const customBlockDef = await client.getCustomShapeDefinition(
             NetworkDeviceBlock.library,
             NetworkDeviceBlock.shape
@@ -26,15 +26,16 @@ export class DrawTopoMap {
             topoMap.deviceNodes,
             topoMap.hubNodes,
             customBlockDef,
-            deviceCollectionId
+            deviceCollectionId,
+            imageSettings
         );
 
         DrawLines.drawLines(page, topoMap.deviceLinks, nodeIdToBlockMap, linksCollectionId, topoMap.drawSettings);
     }
 
-    static refreshPageItems(data: DataClient, pageId: string, topoMap: TopoMap, items: MapProxy<string, BlockProxy>) {
+    static refreshPageItems(data: DataClient, pageId: string, topoMap: TopoMap, items: MapProxy<string, BlockProxy>, imageSettings: ImageSettings) {
         const deviceCollectionId = data.getDeviceCollectionForPage(pageId);
-        DrawBlocks.updateBlocks(topoMap.deviceNodes, deviceCollectionId, items);
+        DrawBlocks.updateBlocks(topoMap.deviceNodes, deviceCollectionId, items, imageSettings);
     }
 
     // Takes in a list of devices to remove

@@ -5,6 +5,7 @@ import { getVendor } from 'model/uvx/vendor';
 import { DEVICE_TYPE_NAME_MAP, getDeviceType } from 'model/uvx/device-type';
 import { BlockUtils } from '@blocks/block-utils';
 import { HubNode, HubNodeUtil } from 'model/uvx/hub-node';
+import { defaultDrawSettings, defaultImageSettings, defaultLayoutSettings, ImageSettings } from 'model/uvx/topo-map';
 
 export class DrawBlocks {
     static drawBlocks(
@@ -13,13 +14,14 @@ export class DrawBlocks {
         deviceNodes: DeviceNode[],
         hubNodes: HubNode[],
         customBlockDef: BlockDefinition,
-        collectionId: string
+        collectionId: string,
+        imageSettings: ImageSettings
     ) {
         const addedBlocks = [];
         const nodeIdToBlockMap = new Map<number, BlockProxy>();
 
         for (const deviceNode of deviceNodes) {
-            const block = this.drawDeviceNode(page, deviceNode, customBlockDef, collectionId);
+            const block = this.drawDeviceNode(page, deviceNode, customBlockDef, collectionId, imageSettings);
             addedBlocks.push(block);
             nodeIdToBlockMap.set(deviceNode.nodeId, block);
         }
@@ -38,32 +40,33 @@ export class DrawBlocks {
         page: PageProxy,
         deviceNode: DeviceNode,
         customBlockDef: BlockDefinition,
-        collectionId: string
+        collectionId: string,
+        imageSettings: ImageSettings
     ): BlockProxy {
         const block = page.addBlock({
             ...customBlockDef,
             boundingBox: { x: deviceNode.x, y: deviceNode.y, w: 50, h: 50 }
         });
 
-        this.setShapeData(block, deviceNode);
+        this.setShapeData(block, deviceNode, imageSettings);
         this.setReferenceKey(block, deviceNode, collectionId);
 
         return block;
     }
 
-    static updateBlocks(deviceNodes: DeviceNode[], collectionId: string, items: MapProxy<string, BlockProxy>) {
+    static updateBlocks(deviceNodes: DeviceNode[], collectionId: string, items: MapProxy<string, BlockProxy>, imageSettings: ImageSettings) {
         console.log('Updating blocks data');
         for (const [, item] of items) {
             const guid = item.shapeData.get('Guid');
             if (!guid) continue;
             const deviceNode = deviceNodes.find((node) => node.deviceGuid === guid);
             if (!deviceNode) continue;
-            this.updateBlock(item, deviceNode, collectionId);
+            this.updateBlock(item, deviceNode, collectionId, imageSettings);
         }
     }
 
-    static updateBlock(item: BlockProxy, deviceNode: DeviceNode, collectionId: string) {
-        this.setShapeData(item, deviceNode);
+    static updateBlock(item: BlockProxy, deviceNode: DeviceNode, collectionId: string, imageSettings: ImageSettings) {
+        this.setShapeData(item, deviceNode, imageSettings);
         this.setReferenceKey(item, deviceNode, collectionId);
     }
 
@@ -79,10 +82,11 @@ export class DrawBlocks {
         return block;
     }
 
-    static setShapeData(block: BlockProxy, deviceNode: DeviceNode) {
-        block.shapeData.set('Make', getVendor(deviceNode));
+    static setShapeData(block: BlockProxy, deviceNode: DeviceNode, imageSettings: ImageSettings) {
+        block.shapeData.set('Make', (imageSettings.showVendor ? getVendor(deviceNode) : ''));
         block.shapeData.set('DeviceType', getDeviceType(deviceNode));
         block.shapeData.set('Guid', deviceNode.deviceGuid);
+        block.shapeData.set('Status', (imageSettings.showStatus ? deviceNode.status : ''));
     }
 
     static setReferenceKey(block: BlockProxy, deviceNode: DeviceNode, collectionId: string) {

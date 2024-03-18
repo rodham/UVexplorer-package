@@ -9,7 +9,13 @@ import {
     SerializedFieldType
 } from 'lucid-extension-sdk';
 import { createDataProxy, deviceToRecord, linkEdgeToRecord, toSnakeCase, addQuotationMarks } from '@data/data-utils';
-import { DrawSettings, LayoutSettings, defaultDrawSettings, defaultLayoutSettings } from 'model/uvx/topo-map';
+import {
+    DrawSettings,
+    LayoutSettings,
+    defaultDrawSettings,
+    defaultLayoutSettings,
+    ImageSettings, defaultImageSettings
+} from 'model/uvx/topo-map';
 export const DEVICE_REFERENCE_KEY = 'device_reference_key';
 export const LINK_REFERENCE_KEY = 'link_reference_key';
 
@@ -41,7 +47,8 @@ export const SETTINGS_SCHEMA: SchemaDefinition = {
     fields: [
         { name: 'page_id', type: ScalarFieldTypeEnum.STRING },
         { name: 'layout_settings', type: ScalarFieldTypeEnum.STRING },
-        { name: 'draw_settings', type: ScalarFieldTypeEnum.STRING }
+        { name: 'draw_settings', type: ScalarFieldTypeEnum.STRING },
+        { name: 'image_settings', type: ScalarFieldTypeEnum.STRING }
     ],
     primaryKey: ['page_id']
 };
@@ -118,14 +125,16 @@ export class DataClient {
         collection: CollectionProxy,
         pageId: string,
         layoutSettings: LayoutSettings,
-        drawSettings: DrawSettings
+        drawSettings: DrawSettings,
+        imageSettings: ImageSettings
     ) {
         collection.patchItems({
             added: [
                 {
                     page_id: pageId,
                     layout_settings: JSON.stringify(layoutSettings),
-                    draw_settings: JSON.stringify(drawSettings)
+                    draw_settings: JSON.stringify(drawSettings),
+                    image_settings: JSON.stringify(imageSettings)
                 }
             ]
         });
@@ -170,6 +179,17 @@ export class DataClient {
             ) as DrawSettings;
         }
         return drawSettings;
+    }
+
+    getImageSettings(collection: CollectionProxy, pageId: string): ImageSettings {
+        const key = addQuotationMarks(pageId);
+        let imageSettings: ImageSettings = defaultImageSettings;
+        if (collection.items.keys().includes(key)) {
+            imageSettings = JSON.parse(
+                collection.items.get(key).fields.get('image_settings')?.toString() ?? ''
+            ) as ImageSettings;
+        }
+        return imageSettings;
     }
 
     createOrRetrievePageMapSource(): DataSourceProxy {

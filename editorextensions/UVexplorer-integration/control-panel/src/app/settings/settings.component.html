@@ -5,6 +5,23 @@
     <br />
 
     <form>
+        <h2 class="font-semibold text-xl">Image Settings</h2>
+
+        <hr />
+
+        <div class="pl-4 flex flex-col">
+            <div>
+                <input type="checkBox" [(ngModel)]="imageSettings.showVendor" name="showVendor" />
+                <label for="showVendor"> Show Vendor</label>
+            </div>
+
+            <div>
+                <input type="checkBox" [(ngModel)]="imageSettings.showStatus" name="showStatus" />
+                <label for="showStatus"> Show Device Status</label>
+            </div>
+
+        </div>
+
         <h2 class="font-semibold text-xl">Layout Settings</h2>
 
         <hr />

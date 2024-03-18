@@ -3,6 +3,7 @@ import { mockCustomBlockDefinition, mockDeviceNode, mockHubNode } from '../../he
 import { DrawBlocks } from 'src/doc/draw/draw-blocks';
 import { DeviceNode } from 'model/uvx/device';
 import { HubNode } from 'model/uvx/hub-node';
+import { defaultImageSettings } from 'model/uvx/topo-map';
 
 jest.mock('lucid-extension-sdk');
 describe('DrawTopoMap Block Tests', () => {
@@ -32,13 +33,14 @@ describe('DrawTopoMap Block Tests', () => {
                 mockPage,
                 mockDeviceNode,
                 mockCustomBlockDefinition,
-                mockCollectionId
+                mockCollectionId,
+                defaultImageSettings
             );
             expect(addBlockSpy).toHaveBeenCalledWith({
                 ...mockCustomBlockDefinition,
                 boundingBox: { x: mockDeviceNode.x, y: mockDeviceNode.y, w: 50, h: 50 }
             });
-            expect(setShapeDataSpy).toHaveBeenCalledWith(mockBlock, mockDeviceNode);
+            expect(setShapeDataSpy).toHaveBeenCalledWith(mockBlock, mockDeviceNode, defaultImageSettings);
             expect(setReferenceKeySpy).toHaveBeenCalledWith(mockBlock, mockDeviceNode, mockCollectionId);
             expect(result).toBe(mockBlock);
         });
@@ -64,7 +66,8 @@ describe('DrawTopoMap Block Tests', () => {
                 mockDeviceNodes,
                 mockHubNodes,
                 mockCustomBlockDefinition,
-                mockCollectionId
+                mockCollectionId,
+                defaultImageSettings
             );
             expect(drawDeviceNodeSpy).toHaveBeenCalledTimes(mockDeviceNodes.length);
             expect(drawHubNodeSpy).toHaveBeenCalledTimes(mockHubNodes.length);
