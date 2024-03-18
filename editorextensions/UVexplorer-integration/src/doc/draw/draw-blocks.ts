@@ -5,7 +5,7 @@ import { getVendor } from 'model/uvx/vendor';
 import { DEVICE_TYPE_NAME_MAP, getDeviceType } from 'model/uvx/device-type';
 import { BlockUtils } from '@blocks/block-utils';
 import { HubNode, HubNodeUtil } from 'model/uvx/hub-node';
-import { defaultDrawSettings, defaultImageSettings, defaultLayoutSettings, ImageSettings } from 'model/uvx/topo-map';
+import { ImageSettings } from 'model/uvx/topo-map';
 
 export class DrawBlocks {
     static drawBlocks(

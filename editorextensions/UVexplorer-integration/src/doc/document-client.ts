@@ -1,5 +1,5 @@
 import { EditorClient, Viewport } from 'lucid-extension-sdk';
-import { defaultImageSettings, DrawSettings, ImageSettings, LayoutSettings, TopoMap } from 'model/uvx/topo-map';
+import { DrawSettings, ImageSettings, LayoutSettings, TopoMap } from 'model/uvx/topo-map';
 import { BlockUtils } from '@blocks/block-utils';
 import { DataClient } from '@data/data-client';
 import { DrawTopoMap } from 'src/doc/draw/draw-topo-map';

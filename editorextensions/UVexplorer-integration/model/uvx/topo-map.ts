@@ -42,11 +42,13 @@ export interface ImageSettings {
     showStatus: boolean
 }
 
-export function isImageSettings(obj: any): obj is ImageSettings {
+export function isImageSettings(obj: unknown): obj is ImageSettings {
     return (
         typeof obj === "object" &&
         obj !== null &&
+        'showVendor' in obj &&
         typeof obj.showVendor === "boolean" &&
+        'showStatus' in obj &&
         typeof obj.showStatus === "boolean"
     );
 }
