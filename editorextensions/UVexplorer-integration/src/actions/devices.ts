@@ -72,9 +72,18 @@ export async function showConnectedDevices(
     }
 
     const modal = new ConnectedDevicesModal(client, docEditor, uvxClient, data, deviceGuids, visConnDeviceGuids);
+    const networkName = await getNetworkName(docEditor, data, uvxClient);
 
     await modal.show();
-    await modal.sendConnectedDevices();
+    await modal.sendConnectedDevices(networkName);
+}
+
+async function getNetworkName(docEditor: DocumentClient, data: DataClient, uvxClient: UVExplorerClient) {
+    const pageId: string = docEditor.getPageId()!;
+    const networkGuid = data.getNetworkForPage(pageId);
+    const networks = await uvxClient.listNetworks();
+    const filteredNetworks = networks.filter((n) => n.name !== '');
+    return filteredNetworks.filter((n) => n.guid === networkGuid)[0].name;
 }
 
 export async function viewDeviceDetails(

@@ -1,4 +1,15 @@
 <div id="devicesComponent" [hidden]="!checkDevicesLength()">
+    <div class="inline-flex flex-row">
+        <button
+            (click)="relistNetworks()"
+            class="bg-blue-500 text-white py-2 px-4 rounded mx-2 mt-1 mb-1"
+        >
+            Back to Networks
+        </button>
+
+        <h2 class="py-2 px-4 mx-2 mt-1 mb-1 font-semibold text-xl">{{networkName}}</h2>
+    </div>
+
     <ag-grid-angular
         style="width: 100%; height: 550px"
         [class]="themeClass"
@@ -13,12 +24,12 @@
         (rowSelected)="onRowSelected()"
     >
     </ag-grid-angular>
-    <div class="flex flex-row">
+    <div class="flex flex-row mb-1">
         <button
             (click)="selectDevices()"
             class="text-white py-2 px-4 rounded mx-2 mt-1"
             [hidden]="devices.length === 0"
-            [ngClass]="{ 'bg-gray-500': !selectDevicesButtonEnabled, 'bg-blue-500': selectDevicesButtonEnabled }"
+            [ngClass]="{ 'bg-gray-400': !selectDevicesButtonEnabled, 'bg-blue-500': selectDevicesButtonEnabled }"
             [disabled]="!selectDevicesButtonEnabled"
         >
             Select Devices

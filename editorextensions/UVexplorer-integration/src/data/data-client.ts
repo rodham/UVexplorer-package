@@ -276,4 +276,17 @@ export class DataClient {
         this.clearCollection(collection); // TODO: Replace once updateLinksInCollection Function is implemented
         this.addLinksToCollection(collection, links);
     }
+
+    checkIfNetworkLoaded(pageId: string): boolean {
+        const collection = this.createOrRetrievePageMapCollection();
+        for (const [, item] of collection.items) {
+            if (item.fields.get('page_id') === pageId) {
+                const networkGuid: SerializedFieldType = item.fields.get('network_guid');
+                if (typeof networkGuid === 'string') {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

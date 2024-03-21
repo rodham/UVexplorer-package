@@ -36,6 +36,7 @@ export class DevicesComponent {
     rowSelection: 'multiple' | 'single' = 'multiple';
     gridApi?: GridApi;
     selectDevicesButtonEnabled = false;
+    networkName = "";
 
     constructor() {
         window.addEventListener('message', (e) => {
@@ -45,6 +46,7 @@ export class DevicesComponent {
             if (isListDevicesMessage(e.data)) {
                 this.devices = devicesFromSerializableDevicesMessage(e.data);
                 this.preselectedDeviceGuids = connDeviceGuidsFromListDevMsg(e.data);
+                this.networkName = e.data.networkName;
                 if (this.preselectedDeviceGuids.length > 0) {
                     this.selectDevicesButtonEnabled = true;
                 }
@@ -60,14 +62,14 @@ export class DevicesComponent {
         {
             field: 'custom_name',
             headerName: 'Name',
+            headerCheckboxSelection: true,
+            checkboxSelection: true,
             filter: 'agTextColumnFilter',
             minWidth: 240
         },
         {
             field: 'ip_address',
             headerName: 'IP Address',
-            headerCheckboxSelection: true,
-            checkboxSelection: true,
             filter: 'agTextColumnFilter',
             minWidth: 250
         },
@@ -197,6 +199,17 @@ export class DevicesComponent {
         parent.postMessage(
             {
                 action: 'loadMapSettings'
+            },
+            '*'
+        );
+
+        document.getElementById('devicesComponent')!.style.display = 'none';
+    }
+
+    public relistNetworks() {
+        parent.postMessage(
+            {
+                action: 'relistNetworks'
             },
             '*'
         );
