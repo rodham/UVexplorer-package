@@ -65,9 +65,9 @@ describe('Map', () => {
             );
             expect(drawLinesSpy).toHaveBeenCalledWith(
                 mockPage,
-                mockTopoMap.deviceLinks,
+                mockTopoMap.displayEdges,
                 mockNodeIdToBlockMap,
-                'my_network_link',
+                'my_network_display_edge',
                 mockTopoMap.drawSettings
             );
         });

@@ -1,4 +1,4 @@
-import { Device, DeviceLink, DeviceLinkEdge } from 'model/uvx/device';
+import { Device } from 'model/uvx/device';
 import {
     CollectionProxy,
     DataProxy,
@@ -8,7 +8,13 @@ import {
     SchemaDefinition,
     SerializedFieldType
 } from 'lucid-extension-sdk';
-import { createDataProxy, deviceToRecord, linkEdgeToRecord, toSnakeCase, addQuotationMarks } from '@data/data-utils';
+import {
+    createDataProxy,
+    deviceToRecord,
+    toSnakeCase,
+    addQuotationMarks,
+    displayEdgeToRecord
+} from '@data/data-utils';
 import {
     DrawSettings,
     LayoutSettings,
@@ -17,8 +23,9 @@ import {
     ImageSettings,
     defaultImageSettings
 } from 'model/uvx/topo-map';
+import { DisplayEdgeSet } from 'model/uvx/display-edge-set';
 export const DEVICE_REFERENCE_KEY = 'device_reference_key';
-export const LINK_REFERENCE_KEY = 'link_reference_key';
+export const DISPLAY_EDGE_REFERENCE_KEY = 'display_edge_reference_key';
 
 export const DEVICE_SCHEMA: SchemaDefinition = {
     fields: [
@@ -34,14 +41,13 @@ export const DEVICE_SCHEMA: SchemaDefinition = {
     primaryKey: ['guid']
 };
 
-export const LINK_SCHEMA: SchemaDefinition = {
+export const DISPLAY_EDGE_SCHEMA: SchemaDefinition = {
     fields: [
-        { name: 'local_device_guid', type: ScalarFieldTypeEnum.STRING },
-        { name: 'remote_device_guid', type: ScalarFieldTypeEnum.STRING },
-        { name: 'local_connection', type: ScalarFieldTypeEnum.STRING },
-        { name: 'remote_connection', type: ScalarFieldTypeEnum.STRING }
+        { name: 'local_node_id', type: ScalarFieldTypeEnum.NUMBER },
+        { name: 'remote_node_id', type: ScalarFieldTypeEnum.NUMBER },
+        { name: 'device_links', type: ScalarFieldTypeEnum.STRING }
     ],
-    primaryKey: ['local_device_guid', 'remote_device_guid']
+    primaryKey: ['local_node_id', 'remote_node_id']
 };
 
 export const SETTINGS_SCHEMA: SchemaDefinition = {
@@ -87,13 +93,13 @@ export class DataClient {
         return source.addCollection(`${toSnakeCase(source.getName())}_device`, DEVICE_SCHEMA);
     }
 
-    createOrRetrieveLinkCollection(source: DataSourceProxy): CollectionProxy {
+    createOrRetrieveDisplayEdgeCollection(source: DataSourceProxy): CollectionProxy {
         for (const [, collection] of source.collections) {
-            if (collection.getName() === `${toSnakeCase(source.getName())}_link`) {
+            if (collection.getName() === `${toSnakeCase(source.getName())}_display_edge`) {
                 return collection;
             }
         }
-        return source.addCollection(`${toSnakeCase(source.getName())}_link`, LINK_SCHEMA);
+        return source.addCollection(`${toSnakeCase(source.getName())}_display_edge`, DISPLAY_EDGE_SCHEMA);
     }
 
     addDevicesToCollection(collection: CollectionProxy, devices: Device[]): void {
@@ -115,10 +121,13 @@ export class DataClient {
         });
     }
 
-    addLinksToCollection(collection: CollectionProxy, links: DeviceLink[]): void {
-        const linkEdges: DeviceLinkEdge[] = links.flatMap((link) => link.linkEdges);
+    addDisplayEdgesToCollection(collection: CollectionProxy, displayEdges: DisplayEdgeSet): void {
+        const displayEdgeRecords: Record<string, SerializedFieldType>[] = []
+        for (const displayEdge of displayEdges.map.values()) {
+            displayEdgeRecords.push(displayEdgeToRecord(displayEdge));
+        }
         collection.patchItems({
-            added: linkEdges.map(linkEdgeToRecord)
+            added: displayEdgeRecords
         });
     }
 
@@ -257,10 +266,10 @@ export class DataClient {
         return collection.id;
     }
 
-    getLinksCollectionForPage(pageId: string): string {
+    getDisplayEdgeCollectionForPage(pageId: string): string {
         const networkGuid = this.getNetworkForPage(pageId);
         const source = this.createOrRetrieveNetworkSource('', networkGuid);
-        const collection = this.createOrRetrieveLinkCollection(source);
+        const collection = this.createOrRetrieveDisplayEdgeCollection(source);
         return collection.id;
     }
 
@@ -270,10 +279,10 @@ export class DataClient {
         this.addDevicesToCollection(collection, devices);
     }
 
-    saveLinks(networkGuid: string, links: DeviceLink[]) {
+    saveDisplayEdges(networkGuid: string, displayEdges: DisplayEdgeSet) {
         const source = this.createOrRetrieveNetworkSource('', networkGuid);
-        const collection = this.createOrRetrieveLinkCollection(source);
-        this.clearCollection(collection); // TODO: Replace once updateLinksInCollection Function is implemented
-        this.addLinksToCollection(collection, links);
+        const collection = this.createOrRetrieveDisplayEdgeCollection(source);
+        this.clearCollection(collection); // TODO: Replace once updateDisplayEdgesInCollection Function is implemented
+        this.addDisplayEdgesToCollection(collection, displayEdges);
     }
 }

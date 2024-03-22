@@ -1,39 +1,30 @@
-<div *ngIf="deviceLink; else loadingView">
-    <h1 class="border-b mb-4 pb-2 font-bold m-8">Link Info</h1>
-
-    <div *ngFor="let conn of deviceLink | keyvalue">
-        <div tabIndex="0" class="collapse collapse-arrow">
-            <input type="checkbox" />
-            <div class="collapse-title text-xl font-medium w-screen">
-                {{ conn.key === 'localConnection' ? 'Local Connection' : 'Remote Connection' }}
-            </div>
-
-            <div class="collapse-content">
-                <div class="overflow-x-auto w-screen">
-                    <table class="table table-auto m-6">
-                        <thead>
-                            <tr>
-                                <th>Property</th>
-                                <th>Value</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr *ngFor="let item of conn.value | keyvalue">
-                                <td>{{ item.key }}</td>
-                                <td>
-                                    <span *ngIf="displayValue(item.value) !== ''; else noInfo">{{
-                                        displayValue(item.value)
-                                    }}</span>
-                                    <ng-template #noInfo><i>No Info</i></ng-template>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+<div *ngIf="displayEdge; else loadingView">
+    <table class="table-fixed w-full">
+        <thead class="bg-gray-50 border-b border-gray-200">
+            <tr>
+                <th class="w-1/6 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Device</th>
+                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">IF Index</th>
+                <th class="w-1/6 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">IF Name</th>
+                <th class="w-1/6 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Conn Device</th>
+                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Conn IF Index</th>
+                <th class="w-1/6 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Conn IF Name</th>
+                <th class="w-1/6 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Link Type</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            <ng-container *ngFor="let link of displayEdge?.deviceLinks">
+                <tr *ngFor="let linkMember of link?.linkMembers">
+                    <td class="px-4 py-2 truncate">{{ linkMember.deviceName }}</td>
+                    <td class="px-4 py-2">{{ linkMember.ifIndex }}</td>
+                    <td class="px-4 py-2 truncate">{{ linkMember.ifName }}</td>
+                    <td class="px-4 py-2 truncate">{{ linkMember.connectedDevice }}</td>
+                    <td class="px-4 py-2">{{ linkMember.connectedIfIndex }}</td>
+                    <td class="px-4 py-2 truncate">{{ linkMember.connectedIfName }}</td>
+                    <td class="px-4 py-2">{{ link.linkType }}</td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
 </div>
 
 <ng-template #loadingView><span class="loading loading-spinner loading-lg"></span></ng-template>

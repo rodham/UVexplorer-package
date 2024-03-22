@@ -2,11 +2,11 @@ import {
     Device,
     DeviceCategories,
     DeviceClass,
-    DeviceConnection,
-    DeviceLinkEdge,
+    DeviceLink,
     ProtocolProfile
 } from 'model/uvx/device';
 import { CollectionProxy, DataItemProxy, DataProxy, EditorClient, SerializedFieldType } from 'lucid-extension-sdk';
+import { DisplayEdge } from 'model/uvx/display-edge';
 
 export function createDataProxy(client: EditorClient): DataProxy {
     return new DataProxy(client);
@@ -25,12 +25,11 @@ export function deviceToRecord(device: Device): Record<string, SerializedFieldTy
     };
 }
 
-export function linkEdgeToRecord(link: DeviceLinkEdge): Record<string, SerializedFieldType> {
+export function displayEdgeToRecord(displayEdge: DisplayEdge): Record<string, SerializedFieldType> {
     return {
-        local_device_guid: link.localConnection.deviceGuid,
-        remote_device_guid: link.remoteConnection.deviceGuid,
-        local_connection: JSON.stringify(link.localConnection),
-        remote_connection: JSON.stringify(link.remoteConnection)
+        local_node_id: displayEdge.nodeId1,
+        remote_node_id: displayEdge.nodeId2,
+        device_links: JSON.stringify(displayEdge.deviceLinks)
     };
 }
 
@@ -47,10 +46,11 @@ export function itemToDevice(item: DataItemProxy): Device {
     );
 }
 
-export function itemToLinkEdge(item: DataItemProxy): DeviceLinkEdge {
-    return new DeviceLinkEdge(
-        JSON.parse(item.fields.get('local_connection')?.toString() ?? '') as DeviceConnection,
-        JSON.parse(item.fields.get('remote_connection')?.toString() ?? '') as DeviceConnection
+export function itemToDisplayEdge(item: DataItemProxy): DisplayEdge {
+    return new DisplayEdge(
+        Number.parseInt(item.fields.get('local_node_id')?.toString() ?? ''),
+        Number.parseInt(item.fields.get('remote_node_id')?.toString() ?? ''),
+        JSON.parse(item.fields.get('device_links')?.toString() ?? '') as DeviceLink[]
     );
 }
 

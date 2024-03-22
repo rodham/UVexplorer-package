@@ -1,31 +1,27 @@
 import { BlockProxy, LineProxy, LineShape, PageProxy, ZOrderOperation } from 'lucid-extension-sdk';
-import { DeviceLink, DeviceLinkEdge } from 'model/uvx/device';
-import { LINK_REFERENCE_KEY } from '@data/data-client';
+import { DISPLAY_EDGE_REFERENCE_KEY } from '@data/data-client';
 import { PenPattern, DrawSettings, DashStyle } from 'model/uvx/topo-map';
+import { DisplayEdge } from 'model/uvx/display-edge';
+import { DisplayEdgeSet } from 'model/uvx/display-edge-set';
 
 export class DrawLines {
     static drawLines(
         page: PageProxy,
-        deviceLinks: DeviceLink[],
+        displayEdgeSet: DisplayEdgeSet,
         idToBlockMap: Map<number, BlockProxy>,
         collectionId: string,
         drawSettings: DrawSettings
     ) {
-        for (const link of deviceLinks) {
-            for (const linkEdge of link.linkEdges) {
-                const deviceBlock = idToBlockMap.get(linkEdge.localConnection.nodeId);
-                const connectedDeviceBlock = idToBlockMap.get(linkEdge.remoteConnection.nodeId);
+        for (const displayEdge of displayEdgeSet.map.values()) {
+            if(displayEdge.deviceLinks[0]) {
+                // Only draw one line, no matter how many links there are between two nodes
+                const deviceBlock = idToBlockMap.get(displayEdge.nodeId1);
+                const connectedDeviceBlock = idToBlockMap.get(displayEdge.nodeId2);
 
                 if (deviceBlock && connectedDeviceBlock) {
-                    const penSettings: PenPattern = this.getPenSettings(drawSettings, link.linkType);
-                    let line: LineProxy;
-                    if (deviceBlock.getBoundingBox().y > connectedDeviceBlock.getBoundingBox().y) {
-                        line = this.drawLine(page, connectedDeviceBlock, deviceBlock, penSettings);
-                    } else {
-                        line = this.drawLine(page, deviceBlock, connectedDeviceBlock, penSettings);
-                    }
-
-                    this.setReferenceKey(line, linkEdge, collectionId);
+                    const penSettings: PenPattern = this.getPenSettings(drawSettings, displayEdge.deviceLinks[0].linkType);
+                    const line = this.drawLine(page, deviceBlock, connectedDeviceBlock, penSettings);
+                    this.setReferenceKey(line, displayEdge, collectionId);
                 }
             }
         }
@@ -95,10 +91,10 @@ export class DrawLines {
         }
     }
 
-    static setReferenceKey(line: LineProxy, linkEdge: DeviceLinkEdge, collectionId: string) {
-        line.setReferenceKey(LINK_REFERENCE_KEY, {
+    static setReferenceKey(line: LineProxy, displayEdge: DisplayEdge, collectionId: string) {
+        line.setReferenceKey(DISPLAY_EDGE_REFERENCE_KEY, {
             collectionId: collectionId,
-            primaryKey: `"${linkEdge.localConnection.deviceGuid}","${linkEdge.remoteConnection.deviceGuid}"`,
+            primaryKey: `${displayEdge.nodeId1},${displayEdge.nodeId2}`,
             readonly: true
         });
     }

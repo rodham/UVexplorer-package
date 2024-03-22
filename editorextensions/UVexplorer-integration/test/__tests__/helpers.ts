@@ -15,6 +15,7 @@ import {
     MonitorState
 } from 'model/uvx/device';
 import { HubNode, MultiNodeType } from 'model/uvx/hub-node';
+import { mockDisplayEdgeSet } from 'mock_data/devices';
 
 export const mockNetworkSummariesXHRResponse: TextXHRResponse = {
     url: 'https://my-uvexplorer-server.com/public/api/v1/network/list',
@@ -459,7 +460,8 @@ export const mockTopoMap: TopoMap = {
     right: 166,
     left: 0,
     centerX: 83,
-    centerY: -94
+    centerY: -94,
+    displayEdges: mockDisplayEdgeSet
 };
 
 export const mockDeviceLink: DeviceLink = {
@@ -481,7 +483,7 @@ export const mockDeviceLink: DeviceLink = {
             },
             remoteConnection: {
                 deviceGuid: '11111111-1111-1111-1111-111111111111',
-                nodeId: 0,
+                nodeId: 1,
                 start: { x: 0, y: 0 },
                 end: { x: 0, y: 0 },
                 mid: { x: 0, y: 0 },
@@ -509,7 +511,7 @@ export const mockDeviceLink: DeviceLink = {
             },
             remoteConnection: {
                 deviceGuid: '22222222-2222-2222-2222-222222222222',
-                nodeId: 0,
+                nodeId: 2,
                 start: { x: 0, y: 0 },
                 end: { x: 0, y: 0 },
                 mid: { x: 0, y: 0 },

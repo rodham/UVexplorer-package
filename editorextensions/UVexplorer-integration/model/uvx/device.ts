@@ -457,6 +457,32 @@ export interface DeviceLink {
     linkMembers: DeviceLinkMember[];
     linkEdges: DeviceLinkEdge[];
     monitorState: MonitorState;
+    //sensorID: number;
+    //sensorState: number;
+}
+
+export function isDeviceLink(obj: unknown): obj is DeviceLink {
+    return (
+        obj !== null &&
+        typeof obj === 'object' &&
+        'linkType' in obj &&
+        typeof obj.linkType === 'string' &&
+        'noWireless' in obj &&
+        typeof obj.noWireless === 'boolean' &&
+        'allWirelessOrVm' in obj &&
+        typeof obj.allWirelessOrVm === 'boolean' &&
+        'noVm' in obj &&
+        typeof obj.noVm === 'boolean' &&
+        'linkMembers' in obj &&
+        Array.isArray(obj.linkMembers) &&
+        obj.linkMembers.every(member => isDeviceLinkMember(member)) &&
+        'linkEdges' in obj &&
+        Array.isArray(obj.linkEdges) &&
+        obj.linkEdges.every(edge => isDeviceLinkEdge(edge)) &&
+        'monitorState' in obj &&
+        typeof obj.monitorState === 'number' &&
+        Object.values(MonitorState).includes(obj.monitorState)
+    );
 }
 
 export interface DeviceLinkMember {
@@ -464,19 +490,60 @@ export interface DeviceLinkMember {
     deviceName: string;
     deviceIpAddress: string;
     deviceMacAddress: string;
-    ifIndex: number;
+    ifIndex: string;
     ifName: string;
     monitorState: MonitorState;
     connectedDeviceGuid: string;
     connectedDevice: string;
-    connectedIfIndex: number;
+    connectedIfIndex: string;
     connectedIfName: string;
     connectedMonitorState: MonitorState;
-    radio: string;
-    ssid: string;
-    virtualPort: string;
-    virtualPortGroup: string;
+    radio: string | null;
+    ssid: string | null;
+    virtualPort: string | null;
+    virtualPortGroup: string | null;
     linkType: string;
+    //sensorID: number | null;
+    //sensorState: number | null;
+}
+
+export function isDeviceLinkMember(obj: unknown): obj is DeviceLinkMember {
+    return (
+        obj !== null &&
+        typeof obj === 'object' &&
+        'deviceGuid' in obj &&
+        typeof obj.deviceGuid === 'string' &&
+        'deviceName' in obj &&
+        typeof obj.deviceName === 'string' &&
+        'deviceIpAddress' in obj &&
+        typeof obj.deviceIpAddress === 'string' &&
+        'deviceMacAddress' in obj &&
+        typeof obj.deviceMacAddress === 'string' &&
+        'ifIndex' in obj &&
+        typeof obj.ifIndex === 'string' &&
+        'ifName' in obj &&
+        typeof obj.ifName === 'string' &&
+        'monitorState' in obj &&
+        typeof obj.monitorState === 'number' &&
+        Object.values(MonitorState).includes(obj.monitorState) &&
+        'connectedDeviceGuid' in obj &&
+        typeof obj.connectedDeviceGuid === 'string' &&
+        'connectedDevice' in obj &&
+        typeof obj.connectedDevice === 'string' &&
+        'connectedIfIndex' in obj &&
+        typeof obj.connectedIfIndex === 'string' &&
+        'connectedIfName' in obj &&
+        typeof obj.connectedIfName === 'string' &&
+        'connectedMonitorState' in obj &&
+        typeof obj.connectedMonitorState === 'number' &&
+        Object.values(MonitorState).includes(obj.connectedMonitorState) &&
+        ('radio' in obj ? typeof obj.radio === 'string' || obj.radio === null : false) &&
+        ('ssid' in obj ? typeof obj.ssid === 'string' || obj.ssid === null : false) &&
+        ('virtualPort' in obj ? typeof obj.virtualPort === 'string' || obj.virtualPort === null : false) &&
+        ('virtualPortGroup' in obj ? typeof obj.virtualPortGroup === 'string' || obj.virtualPortGroup === null : false) &&
+        'linkType' in obj &&
+        typeof obj.linkType === 'string'
+    );
 }
 
 export class DeviceLinkEdge {
@@ -524,6 +591,9 @@ export interface DeviceConnection {
     deviceMacAddress: string;
     deviceIfIndex: number;
     monitorState: MonitorState;
+    //sensorStatus: number;
+    //sensorId: number;
+    //sensorName: string;
 }
 
 export function isDeviceConnection(obj: unknown): obj is DeviceConnection {
