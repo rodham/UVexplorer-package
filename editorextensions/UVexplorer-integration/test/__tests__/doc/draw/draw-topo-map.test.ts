@@ -42,7 +42,7 @@ describe('Map', () => {
         });
 
         it('should draw blocks and lines when custom shape definition is available', async () => {
-            const mockTopoMapWithDisplayEdges = {...mockTopoMap, displayEdges: mockDisplayEdgeSet} as TopoMap;
+            const mockTopoMapWithDisplayEdges = { ...mockTopoMap, displayEdges: mockDisplayEdgeSet } as TopoMap;
             const getCustomShapeDefSpy = jest
                 .spyOn(mockClient, 'getCustomShapeDefinition')
                 .mockResolvedValue(mockCustomBlockDefinition);
@@ -52,7 +52,13 @@ describe('Map', () => {
             const drawBlocksSpy = jest.spyOn(DrawBlocks, 'drawBlocks').mockReturnValue(mockNodeIdToBlockMap);
             const drawLinesSpy = jest.spyOn(DrawLines, 'drawLines');
 
-            await DrawTopoMap.drawTopoMap(mockClient, mockViewport, mockPage, mockTopoMapWithDisplayEdges, defaultImageSettings);
+            await DrawTopoMap.drawTopoMap(
+                mockClient,
+                mockViewport,
+                mockPage,
+                mockTopoMapWithDisplayEdges,
+                defaultImageSettings
+            );
 
             expect(getCustomShapeDefSpy).toHaveBeenCalledWith(NetworkDeviceBlock.library, NetworkDeviceBlock.shape);
             expect(getInstanceSpy).toHaveBeenCalledWith(mockClient);
