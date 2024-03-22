@@ -6,6 +6,8 @@ import { DrawTopoMap } from 'src/doc/draw/draw-topo-map';
 import { BlockProxy } from 'lucid-extension-sdk';
 import { mockCustomBlockDefinition, mockTopoMap } from '../../helpers';
 import { NetworkDeviceBlock } from '@blocks/network-device-block';
+import { defaultImageSettings, TopoMap } from 'model/uvx/topo-map';
+import { mockDisplayEdgeSet } from 'mock_data/devices';
 
 jest.mock('lucid-extension-sdk');
 jest.mock('@data/data-client');
@@ -33,13 +35,14 @@ describe('Map', () => {
                 .spyOn(mockClient, 'getCustomShapeDefinition')
                 .mockResolvedValue(undefined);
             const getInstanceSpy = jest.spyOn(DataClient, 'getInstance');
-            await DrawTopoMap.drawTopoMap(mockClient, mockViewport, mockPage, mockTopoMap);
+            await DrawTopoMap.drawTopoMap(mockClient, mockViewport, mockPage, mockTopoMap, defaultImageSettings);
 
             expect(getCustomShapeDefSpy).toHaveBeenCalledWith(NetworkDeviceBlock.library, NetworkDeviceBlock.shape);
             expect(getInstanceSpy).not.toHaveBeenCalled();
         });
 
         it('should draw blocks and lines when custom shape definition is available', async () => {
+            const mockTopoMapWithDisplayEdges = { ...mockTopoMap, displayEdges: mockDisplayEdgeSet } as TopoMap;
             const getCustomShapeDefSpy = jest
                 .spyOn(mockClient, 'getCustomShapeDefinition')
                 .mockResolvedValue(mockCustomBlockDefinition);
@@ -49,23 +52,30 @@ describe('Map', () => {
             const drawBlocksSpy = jest.spyOn(DrawBlocks, 'drawBlocks').mockReturnValue(mockNodeIdToBlockMap);
             const drawLinesSpy = jest.spyOn(DrawLines, 'drawLines');
 
-            await DrawTopoMap.drawTopoMap(mockClient, mockViewport, mockPage, mockTopoMap);
+            await DrawTopoMap.drawTopoMap(
+                mockClient,
+                mockViewport,
+                mockPage,
+                mockTopoMapWithDisplayEdges,
+                defaultImageSettings
+            );
 
             expect(getCustomShapeDefSpy).toHaveBeenCalledWith(NetworkDeviceBlock.library, NetworkDeviceBlock.shape);
             expect(getInstanceSpy).toHaveBeenCalledWith(mockClient);
             expect(drawBlocksSpy).toHaveBeenCalledWith(
                 mockViewport,
                 mockPage,
-                mockTopoMap.deviceNodes,
-                mockTopoMap.hubNodes,
+                mockTopoMapWithDisplayEdges.deviceNodes,
+                mockTopoMapWithDisplayEdges.hubNodes,
                 mockCustomBlockDefinition,
-                'my_network_device'
+                'my_network_device',
+                defaultImageSettings
             );
             expect(drawLinesSpy).toHaveBeenCalledWith(
                 mockPage,
-                mockTopoMap.deviceLinks,
+                mockTopoMapWithDisplayEdges.displayEdges,
                 mockNodeIdToBlockMap,
-                'my_network_link',
+                'my_network_display_edge',
                 mockTopoMap.drawSettings
             );
         });

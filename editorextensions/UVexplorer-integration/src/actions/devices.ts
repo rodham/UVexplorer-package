@@ -23,7 +23,9 @@ export function singleDeviceSelected(viewport: Viewport): boolean {
 export function deviceLinkSelected(viewport: Viewport): boolean {
     const selection = viewport.getSelectedItems();
     const isCorrectSelection =
-        selection.length === 1 && selection[0] instanceof LineProxy && !!BlockUtils.getLinkInfoFromLine(selection[0]);
+        selection.length === 1 &&
+        selection[0] instanceof LineProxy &&
+        !!BlockUtils.getDisplayEdgeFromLine(selection[0]);
     return isCorrectSelection;
 }
 
@@ -72,9 +74,18 @@ export async function showConnectedDevices(
     }
 
     const modal = new ConnectedDevicesModal(client, docEditor, uvxClient, data, deviceGuids, visConnDeviceGuids);
+    const networkName = await getNetworkName(docEditor, data, uvxClient);
 
     await modal.show();
-    await modal.sendConnectedDevices();
+    await modal.sendConnectedDevices(networkName);
+}
+
+async function getNetworkName(docEditor: DocumentClient, data: DataClient, uvxClient: UVExplorerClient) {
+    const pageId: string = docEditor.getPageId()!;
+    const networkGuid = data.getNetworkForPage(pageId);
+    const networks = await uvxClient.listNetworks();
+    const filteredNetworks = networks.filter((n) => n.name !== '');
+    return filteredNetworks.filter((n) => n.guid === networkGuid)[0].name;
 }
 
 export async function viewDeviceDetails(
@@ -122,14 +133,14 @@ export async function viewLinkDetails(
         console.error('Can only view details of LineProxy instance');
         return;
     }
-    const line = BlockUtils.getLinkInfoFromLine(selectedItem);
+    const displayEdge = BlockUtils.getDisplayEdgeFromLine(selectedItem);
 
-    if (!line) {
+    if (!displayEdge) {
         console.error('Unable to get line from selected block');
         return;
     }
 
-    const modal = new LinkInfoModal(client, docEditor, uvxClient, data, line);
+    const modal = new LinkInfoModal(client, docEditor, uvxClient, data, displayEdge);
 
     await modal.show();
     await modal.sendLineDetails();

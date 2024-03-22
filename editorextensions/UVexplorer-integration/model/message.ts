@@ -1,14 +1,15 @@
 import { isNetworkSummary, NetworkSummary } from './uvx/network';
-import {
-    Device,
-    DeviceDetailsResponse,
-    DeviceLinkEdge,
-    isDevice,
-    isDeviceDetailsResponse,
-    isDeviceLinkEdge
-} from 'model/uvx/device';
+import { Device, DeviceDetailsResponse, isDevice, isDeviceDetailsResponse } from 'model/uvx/device';
 import { isString } from 'lucid-extension-sdk';
-import { DrawSettings, isDrawSettings, isLayoutSettings, LayoutSettings } from './uvx/topo-map';
+import {
+    DrawSettings,
+    ImageSettings,
+    isDrawSettings,
+    isImageSettings,
+    isLayoutSettings,
+    LayoutSettings
+} from './uvx/topo-map';
+import { DisplayEdge, isDisplayEdge } from 'model/uvx/display-edge';
 
 export interface ListNetworksMessage {
     action: 'listNetworks';
@@ -118,10 +119,16 @@ export function isGetConnectedDevicesMessage(message: unknown): message is GetCo
 export interface ListDevicesMessage extends SerializableDevicesMessage {
     action: 'listDevices';
     visibleConnectedDeviceGuids?: string;
+    networkName: string;
 }
 
 export function isListDevicesMessage(message: unknown): message is ListDevicesMessage {
-    return isSerializableDevicesMessage(message) && message.action === 'listDevices';
+    return (
+        isSerializableDevicesMessage(message) &&
+        message.action === 'listDevices' &&
+        'networkName' in message &&
+        typeof message.networkName === 'string'
+    );
 }
 
 export interface RelistDevicesMessage {
@@ -221,12 +228,12 @@ export function isLinkDetailsMessage(message: unknown): message is LinkDetailsMe
     );
 }
 
-export function linkFromSerializableLinkMessage(message: LinkDetailsMessage): DeviceLinkEdge {
+export function linkFromSerializableLinkMessage(message: LinkDetailsMessage): DisplayEdge {
     const linkEdge: unknown = JSON.parse(message.linkDetails);
-    if (isDeviceLinkEdge(linkEdge)) {
+    if (isDisplayEdge(linkEdge)) {
         return linkEdge;
     } else {
-        throw Error('Unable to parse as DeviceLinkEdge object');
+        throw Error('Unable to parse as DisplayEdge object');
     }
 }
 
@@ -248,6 +255,7 @@ export interface MapSettingsMessage {
     action: 'mapSettings';
     drawSettings: string;
     layoutSettings: string;
+    imageSettings: string;
 }
 
 export function isMapSettingsMessage(message: unknown): message is MapSettingsMessage {
@@ -260,7 +268,9 @@ export function isMapSettingsMessage(message: unknown): message is MapSettingsMe
         'drawSettings' in message &&
         isDrawSettings(JSON.parse(message.drawSettings?.toString() ?? '')) &&
         'layoutSettings' in message &&
-        isLayoutSettings(JSON.parse(message.layoutSettings?.toString() ?? ''))
+        isLayoutSettings(JSON.parse(message.layoutSettings?.toString() ?? '')) &&
+        'imageSettings' in message &&
+        isImageSettings(JSON.parse(message.imageSettings?.toString() ?? ''))
     );
 }
 
@@ -268,6 +278,7 @@ export interface SelectedMapSettingsMessage {
     action: 'saveMapSettings';
     drawSettings: DrawSettings;
     layoutSettings: LayoutSettings;
+    imageSettings: ImageSettings;
 }
 
 export function isSelectedMapSettingsMessage(message: unknown): message is SelectedMapSettingsMessage {
@@ -280,6 +291,22 @@ export function isSelectedMapSettingsMessage(message: unknown): message is Selec
         'drawSettings' in message &&
         isDrawSettings(message.drawSettings) &&
         'layoutSettings' in message &&
-        isLayoutSettings(message.layoutSettings)
+        isLayoutSettings(message.layoutSettings) &&
+        'imageSettings' in message &&
+        isImageSettings(message.imageSettings)
+    );
+}
+
+export interface RelistNetworksMessage {
+    action: 'relistNetworks';
+}
+
+export function isRelistNetworksMessage(message: unknown): message is RelistNetworksMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        message.action === 'relistNetworks'
     );
 }

@@ -9,7 +9,10 @@ import {
     LayoutType,
     RootAlignment,
     defaultDrawSettings,
-    defaultLayoutSettings
+    defaultLayoutSettings,
+    ImageSettings,
+    defaultImageSettings,
+    DashStyle
 } from 'model/uvx/topo-map';
 
 @Component({
@@ -22,9 +25,11 @@ export class SettingsComponent {
     changingSettings = false;
     drawSettings: DrawSettings = defaultDrawSettings;
     layoutSettings: LayoutSettings = defaultLayoutSettings;
+    imageSettings: ImageSettings = defaultImageSettings;
     layoutTypes = LayoutType;
     layoutDirection = LayoutDirection;
     rootAlignment = RootAlignment;
+    dashStyle = DashStyle;
     colors = {
         standardPen: '#000000',
         lagPen: '#ffd700',
@@ -41,6 +46,7 @@ export class SettingsComponent {
             if (isMapSettingsMessage(e.data)) {
                 this.drawSettings = JSON.parse(e.data.drawSettings) as DrawSettings;
                 this.layoutSettings = JSON.parse(e.data.layoutSettings) as LayoutSettings;
+                this.imageSettings = JSON.parse(e.data.imageSettings) as ImageSettings;
                 this.updateColors();
 
                 this.changingSettings = true;
@@ -60,7 +66,8 @@ export class SettingsComponent {
             {
                 action: 'saveMapSettings',
                 drawSettings: this.drawSettings,
-                layoutSettings: this.layoutSettings
+                layoutSettings: this.layoutSettings,
+                imageSettings: this.imageSettings
             },
             '*'
         );

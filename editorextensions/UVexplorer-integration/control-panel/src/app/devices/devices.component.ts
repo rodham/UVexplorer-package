@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { NgIf, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
     connDeviceGuidsFromListDevMsg,
@@ -16,7 +16,10 @@ import {
     GetRowIdParams,
     GetRowIdFunc,
     GridApi,
-    RowDataUpdatedEvent
+    RowDataUpdatedEvent,
+    SizeColumnsToFitGridStrategy,
+    SizeColumnsToContentStrategy,
+    SizeColumnsToFitProvidedWidthStrategy
 } from 'ag-grid-community';
 import { SettingsComponent } from '../settings/settings.component';
 import { DynamicLayoutSelect } from '../dynamic-layout-select/dl-select.component';
@@ -24,7 +27,7 @@ import { DynamicLayoutSelect } from '../dynamic-layout-select/dl-select.componen
 @Component({
     selector: 'app-devices',
     standalone: true,
-    imports: [NgIf, AgGridAngular, SettingsComponent, FormsModule, DynamicLayoutSelect],
+    imports: [NgIf, NgClass, AgGridAngular, SettingsComponent, FormsModule, DynamicLayoutSelect],
     templateUrl: './devices.component.html'
 })
 export class DevicesComponent {
@@ -33,6 +36,8 @@ export class DevicesComponent {
     themeClass = 'ag-theme-quartz';
     rowSelection: 'multiple' | 'single' = 'multiple';
     gridApi?: GridApi;
+    selectDevicesButtonEnabled = false;
+    networkName = '';
 
     constructor() {
         window.addEventListener('message', (e) => {
@@ -42,6 +47,10 @@ export class DevicesComponent {
             if (isListDevicesMessage(e.data)) {
                 this.devices = devicesFromSerializableDevicesMessage(e.data);
                 this.preselectedDeviceGuids = connDeviceGuidsFromListDevMsg(e.data);
+                this.networkName = e.data.networkName;
+                if (this.preselectedDeviceGuids.length > 0) {
+                    this.selectDevicesButtonEnabled = true;
+                }
                 document.getElementById('devicesComponent')!.style.display = 'block';
                 console.log('Received devices in component');
             } else if (isRelistDevicesMessage(e.data)) {
@@ -52,29 +61,24 @@ export class DevicesComponent {
 
     public columnDefs: ColDef<Device>[] = [
         {
-            field: 'ip_address',
-            headerName: 'IP Address',
+            field: 'custom_name',
+            headerName: 'Name',
             headerCheckboxSelection: true,
             checkboxSelection: true,
             filter: 'agTextColumnFilter',
-            maxWidth: 180
+            minWidth: 240
         },
         {
-            field: 'mac_address',
-            headerName: 'MAC Address',
+            field: 'ip_address',
+            headerName: 'IP Address',
             filter: 'agTextColumnFilter',
-            maxWidth: 150
-        },
-        {
-            field: 'custom_name',
-            headerName: 'Custom Name',
-            filter: 'agTextColumnFilter'
+            minWidth: 250
         },
         {
             field: 'device_categories',
             headerName: 'Categories',
             filter: 'agTextColumnFilter',
-            minWidth: 265,
+            minWidth: 300,
             valueGetter: (params: ValueGetterParams) => {
                 if (!isDevice(params.data) || !params.data.device_categories.entries) {
                     return '';
@@ -83,6 +87,24 @@ export class DevicesComponent {
             }
         }
     ];
+
+    protected autoSizeStrategy:
+        | SizeColumnsToFitProvidedWidthStrategy
+        | SizeColumnsToContentStrategy
+        | SizeColumnsToFitGridStrategy = {
+        type: 'fitGridWidth',
+        defaultMinWidth: 100
+    };
+
+    protected onRowSelected() {
+        if (this.gridApi!.getSelectedRows().length > 0) {
+            console.log('Rows greater than 1');
+            this.selectDevicesButtonEnabled = true;
+        } else {
+            console.log('Rows less than 1');
+            this.selectDevicesButtonEnabled = false;
+        }
+    }
 
     public checkDevicesLength(): boolean {
         return this.devices.length > 0;
@@ -170,6 +192,17 @@ export class DevicesComponent {
         parent.postMessage(
             {
                 action: 'loadMapSettings'
+            },
+            '*'
+        );
+
+        document.getElementById('devicesComponent')!.style.display = 'none';
+    }
+
+    public relistNetworks() {
+        parent.postMessage(
+            {
+                action: 'relistNetworks'
             },
             '*'
         );

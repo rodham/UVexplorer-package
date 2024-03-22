@@ -76,7 +76,7 @@ client.registerAction('loadNetwork', async () => {
     await configureClientPackageSettings(client);
 
     await modal.show();
-    await modal.sendNetworks();
+    await modal.sendNetworks(false);
 });
 
 client.registerAction('syncDisplayedMap', async () => {

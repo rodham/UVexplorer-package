@@ -5,6 +5,26 @@
     <br />
 
     <form>
+        <h2 class="font-semibold text-xl">Image Settings</h2>
+
+        <hr />
+
+        <div class="pl-4 flex flex-col">
+            <div>
+                <input type="checkBox" [(ngModel)]="imageSettings.showVendor" name="showVendor" />
+                <label for="showVendor"> Show Vendor</label>
+            </div>
+
+            <div>
+                <input type="checkBox" [(ngModel)]="imageSettings.showStatus" name="showStatus" />
+                <label for="showStatus"> Show Device Status</label>
+            </div>
+        </div>
+    </form>
+
+    <br />
+
+    <form>
         <h2 class="font-semibold text-xl">Layout Settings</h2>
 
         <hr />
@@ -122,10 +142,10 @@
                             style="border: 1px solid #dcdcdc"
                             class="w-16"
                         >
-                            <option value="layoutDirection.Left">Left</option>
-                            <option value="layoutDirection.Right">Right</option>
-                            <option value="layoutDirection.Up">Up</option>
-                            <option value="layoutDirection.Down">Down</option>
+                            <option [value]="layoutDirection.Left">Left</option>
+                            <option [value]="layoutDirection.Right">Right</option>
+                            <option [value]="layoutDirection.Up">Up</option>
+                            <option [value]="layoutDirection.Down">Down</option>
                         </select>
                     </div>
                 </div>
@@ -366,7 +386,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.standardPen.dashStyle"
                                         name="stdStyle"
-                                        [value]="0"
+                                        [value]="dashStyle.Solid"
                                     />
                                     <label class="pl-0.5">Solid</label>
                                 </div>
@@ -375,7 +395,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.standardPen.dashStyle"
                                         name="stdStyle"
-                                        [value]="1"
+                                        [value]="dashStyle.Dash"
                                     />
                                     <label class="pl-0.5">Dash</label>
                                 </div>
@@ -384,7 +404,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.standardPen.dashStyle"
                                         name="stdStyle"
-                                        [value]="2"
+                                        [value]="dashStyle.Dot"
                                     />
                                     <label class="pl-0.5">Dot</label>
                                 </div>
@@ -393,7 +413,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.standardPen.dashStyle"
                                         name="stdStyle"
-                                        [value]="3"
+                                        [value]="dashStyle.DashDot"
                                     />
                                     <label class="pl-0.5">DashDot</label>
                                 </div>
@@ -402,7 +422,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.standardPen.dashStyle"
                                         name="stdStyle"
-                                        [value]="4"
+                                        [value]="dashStyle.DashDotDot"
                                     />
                                     <label class="pl-0.5">DashDotDot</label>
                                 </div>
@@ -453,7 +473,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.lagPen.dashStyle"
                                         name="lagStyle"
-                                        [value]="0"
+                                        [value]="dashStyle.Solid"
                                     />
                                     <label class="pl-0.5">Solid</label>
                                 </div>
@@ -462,7 +482,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.lagPen.dashStyle"
                                         name="lagStyle"
-                                        [value]="1"
+                                        [value]="dashStyle.Dash"
                                     />
                                     <label class="pl-0.5">Dash</label>
                                 </div>
@@ -471,7 +491,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.lagPen.dashStyle"
                                         name="lagStyle"
-                                        [value]="2"
+                                        [value]="dashStyle.Dot"
                                     />
                                     <label class="pl-0.5">Dot</label>
                                 </div>
@@ -480,7 +500,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.lagPen.dashStyle"
                                         name="lagStyle"
-                                        [value]="3"
+                                        [value]="dashStyle.DashDot"
                                     />
                                     <label class="pl-0.5">DashDot</label>
                                 </div>
@@ -489,7 +509,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.lagPen.dashStyle"
                                         name="lagStyle"
-                                        [value]="4"
+                                        [value]="dashStyle.DashDotDot"
                                     />
                                     <label class="pl-0.5">DashDotDot</label>
                                 </div>
@@ -540,7 +560,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.manualPen.dashStyle"
                                         name="manualStyle"
-                                        [value]="0"
+                                        [value]="dashStyle.Solid"
                                     />
                                     <label class="pl-0.5">Solid</label>
                                 </div>
@@ -549,7 +569,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.manualPen.dashStyle"
                                         name="manualStyle"
-                                        [value]="1"
+                                        [value]="dashStyle.Dash"
                                     />
                                     <label class="pl-0.5">Dash</label>
                                 </div>
@@ -558,7 +578,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.manualPen.dashStyle"
                                         name="manualStyle"
-                                        [value]="2"
+                                        [value]="dashStyle.Dot"
                                     />
                                     <label class="pl-0.5">Dot</label>
                                 </div>
@@ -567,7 +587,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.manualPen.dashStyle"
                                         name="manualStyle"
-                                        [value]="3"
+                                        [value]="dashStyle.DashDot"
                                     />
                                     <label class="pl-0.5">DashDot</label>
                                 </div>
@@ -576,7 +596,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.manualPen.dashStyle"
                                         name="manualStyle"
-                                        [value]="4"
+                                        [value]="dashStyle.DashDotDot"
                                     />
                                     <label class="pl-0.5">DashDotDot</label>
                                 </div>
@@ -634,7 +654,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.associatedPen.dashStyle"
                                         name="associatedStyle"
-                                        [value]="0"
+                                        [value]="dashStyle.Solid"
                                     />
                                     <label class="pl-0.5">Solid</label>
                                 </div>
@@ -643,7 +663,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.associatedPen.dashStyle"
                                         name="associatedStyle"
-                                        [value]="1"
+                                        [value]="dashStyle.Dash"
                                     />
                                     <label class="pl-0.5">Dash</label>
                                 </div>
@@ -652,7 +672,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.associatedPen.dashStyle"
                                         name="associatedStyle"
-                                        [value]="2"
+                                        [value]="dashStyle.Dot"
                                     />
                                     <label class="pl-0.5">Dot</label>
                                 </div>
@@ -661,7 +681,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.associatedPen.dashStyle"
                                         name="associatedStyle"
-                                        [value]="3"
+                                        [value]="dashStyle.DashDot"
                                     />
                                     <label class="pl-0.5">DashDot</label>
                                 </div>
@@ -670,7 +690,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.associatedPen.dashStyle"
                                         name="associatedStyle"
-                                        [value]="4"
+                                        [value]="dashStyle.DashDotDot"
                                     />
                                     <label class="pl-0.5">DashDotDot</label>
                                 </div>
@@ -725,7 +745,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.multiPen.dashStyle"
                                         name="multiStyle"
-                                        [value]="0"
+                                        [value]="dashStyle.Solid"
                                     />
                                     <label class="pl-0.5">Solid</label>
                                 </div>
@@ -734,7 +754,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.multiPen.dashStyle"
                                         name="multiStyle"
-                                        [value]="1"
+                                        [value]="dashStyle.Dash"
                                     />
                                     <label class="pl-0.5">Dash</label>
                                 </div>
@@ -743,7 +763,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.multiPen.dashStyle"
                                         name="multiStyle"
-                                        [value]="2"
+                                        [value]="dashStyle.Dot"
                                     />
                                     <label class="pl-0.5">Dot</label>
                                 </div>
@@ -752,7 +772,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.multiPen.dashStyle"
                                         name="multiStyle"
-                                        [value]="3"
+                                        [value]="dashStyle.DashDot"
                                     />
                                     <label class="pl-0.5">DashDot</label>
                                 </div>
@@ -761,7 +781,7 @@
                                         type="radio"
                                         [(ngModel)]="drawSettings.multiPen.dashStyle"
                                         name="multiStyle"
-                                        [value]="4"
+                                        [value]="dashStyle.DashDotDot"
                                     />
                                     <label class="pl-0.5">DashDotDot</label>
                                 </div>

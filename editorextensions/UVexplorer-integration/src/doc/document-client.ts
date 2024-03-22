@@ -1,5 +1,5 @@
 import { EditorClient, Viewport } from 'lucid-extension-sdk';
-import { DrawSettings, LayoutSettings, TopoMap } from 'model/uvx/topo-map';
+import { DrawSettings, ImageSettings, LayoutSettings, TopoMap } from 'model/uvx/topo-map';
 import { BlockUtils } from '@blocks/block-utils';
 import { DataClient } from '@data/data-client';
 import { DrawTopoMap } from 'src/doc/draw/draw-topo-map';
@@ -26,14 +26,14 @@ export class DocumentClient {
         return this.dataClient.getNetworkForPage(pageId);
     }
 
-    saveSettings(drawSettings: DrawSettings, layoutSettings: LayoutSettings) {
+    saveSettings(drawSettings: DrawSettings, layoutSettings: LayoutSettings, imageSettings: ImageSettings) {
         const pageId = this.getPageId();
         if (pageId === undefined) {
             throw Error('Unable to save settings, no page id found');
         }
         const collection = this.dataClient.createOrRetrieveSettingsCollection();
         this.dataClient.deleteSettingsFromCollection(collection, pageId);
-        this.dataClient.addSettingsToCollection(collection, pageId, layoutSettings, drawSettings);
+        this.dataClient.addSettingsToCollection(collection, pageId, layoutSettings, drawSettings, imageSettings);
     }
 
     getLayoutSettings() {
@@ -75,7 +75,7 @@ export class DocumentClient {
         return guids;
     }
 
-    updateItemsInfo(topoMap: TopoMap) {
+    updateItemsInfo(topoMap: TopoMap, imageSettings: ImageSettings) {
         const pageItems = this.viewport.getCurrentPage()?.allBlocks;
         const pageId = this.getPageId();
 
@@ -88,18 +88,16 @@ export class DocumentClient {
             return;
         }
 
-        DrawTopoMap.refreshPageItems(this.dataClient, pageId, topoMap, pageItems);
-        this.dataClient.saveLinks(this.dataClient.getNetworkForPage(pageId), topoMap.deviceLinks);
+        DrawTopoMap.refreshPageItems(this.dataClient, pageId, topoMap, pageItems, imageSettings);
     }
 
-    async drawMap(topoMap: TopoMap, client: EditorClient): Promise<void> {
+    async drawMap(topoMap: TopoMap, client: EditorClient, imageSettings: ImageSettings): Promise<void> {
         const page = this.viewport.getCurrentPage();
         if (!page) {
             console.error('Unable to get page');
             return;
         }
-        this.dataClient.saveLinks(this.dataClient.getNetworkForPage(page.id), topoMap.deviceLinks);
-        await DrawTopoMap.drawTopoMap(client, this.viewport, page, topoMap);
+        await DrawTopoMap.drawTopoMap(client, this.viewport, page, topoMap, imageSettings);
     }
 
     clearMap(removeDevices?: string[]): string[] {

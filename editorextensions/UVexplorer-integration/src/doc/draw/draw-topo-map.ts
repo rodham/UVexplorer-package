@@ -3,11 +3,17 @@ import { DataClient } from '@data/data-client';
 import { DrawBlocks } from 'src/doc/draw/draw-blocks';
 import { DrawLines } from 'src/doc/draw/draw-lines';
 import { NetworkDeviceBlock } from '@blocks/network-device-block';
-import { TopoMap } from 'model/uvx/topo-map';
+import { ImageSettings, TopoMap } from 'model/uvx/topo-map';
 import { BlockUtils } from '@blocks/block-utils';
 
 export class DrawTopoMap {
-    static async drawTopoMap(client: EditorClient, viewport: Viewport, page: PageProxy, topoMap: TopoMap) {
+    static async drawTopoMap(
+        client: EditorClient,
+        viewport: Viewport,
+        page: PageProxy,
+        topoMap: TopoMap,
+        imageSettings: ImageSettings
+    ) {
         const customBlockDef = await client.getCustomShapeDefinition(
             NetworkDeviceBlock.library,
             NetworkDeviceBlock.shape
@@ -18,7 +24,7 @@ export class DrawTopoMap {
 
         const data = DataClient.getInstance(client);
         const deviceCollectionId = data.getDeviceCollectionForPage(page.id);
-        const linksCollectionId = data.getLinksCollectionForPage(page.id);
+        const displayEdgeCollectionId = data.getDisplayEdgeCollectionForPage(page.id);
 
         const nodeIdToBlockMap = DrawBlocks.drawBlocks(
             viewport,
@@ -26,15 +32,30 @@ export class DrawTopoMap {
             topoMap.deviceNodes,
             topoMap.hubNodes,
             customBlockDef,
-            deviceCollectionId
+            deviceCollectionId,
+            imageSettings
         );
 
-        DrawLines.drawLines(page, topoMap.deviceLinks, nodeIdToBlockMap, linksCollectionId, topoMap.drawSettings);
+        if (topoMap.displayEdges) {
+            DrawLines.drawLines(
+                page,
+                topoMap.displayEdges,
+                nodeIdToBlockMap,
+                displayEdgeCollectionId,
+                topoMap.drawSettings
+            );
+        }
     }
 
-    static refreshPageItems(data: DataClient, pageId: string, topoMap: TopoMap, items: MapProxy<string, BlockProxy>) {
+    static refreshPageItems(
+        data: DataClient,
+        pageId: string,
+        topoMap: TopoMap,
+        items: MapProxy<string, BlockProxy>,
+        imageSettings: ImageSettings
+    ) {
         const deviceCollectionId = data.getDeviceCollectionForPage(pageId);
-        DrawBlocks.updateBlocks(topoMap.deviceNodes, deviceCollectionId, items);
+        DrawBlocks.updateBlocks(topoMap.deviceNodes, deviceCollectionId, items, imageSettings);
     }
 
     // Takes in a list of devices to remove
@@ -62,6 +83,26 @@ export class DrawTopoMap {
                         }
 
                         block.delete();
+                    }
+                }
+            }
+        }
+
+        this.removeUnconnectedBlocksWithoutGuids(page);
+    }
+
+    private static removeUnconnectedBlocksWithoutGuids(page: PageProxy) {
+        const blocks = page.allBlocks;
+
+        if (blocks) {
+            for (const [, block] of blocks) {
+                if (BlockUtils.isNetworkDeviceBlock(block)) {
+                    const guid = BlockUtils.getGuidFromBlock(block);
+                    if (!guid) {
+                        const lines: LineProxy[] = block.getConnectedLines();
+                        if (lines.length == 0) {
+                            block.delete();
+                        }
                     }
                 }
             }
