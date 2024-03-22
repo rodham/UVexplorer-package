@@ -79,5 +79,25 @@ export class DrawTopoMap {
                 }
             }
         }
+
+        this.removeUnconnectedBlocksWithoutGuids(page);
+    }
+
+    private static removeUnconnectedBlocksWithoutGuids(page: PageProxy) {
+        const blocks = page.allBlocks;
+
+        if (blocks) {
+            for (const [, block] of blocks) {
+                if (BlockUtils.isNetworkDeviceBlock(block)) {
+                    const guid = BlockUtils.getGuidFromBlock(block);
+                    if (!guid) {
+                        const lines: LineProxy[] = block.getConnectedLines();
+                        if (lines.length == 0) {
+                            block.delete();
+                        }
+                    }
+                }
+            }
+        }
     }
 }
