@@ -79,7 +79,6 @@ export class DevicesComponent {
                 if (!isDevice(params.data) || !params.data.device_categories.entries) {
                     return '';
                 }
-                //console.log('Device GUID: ', params.data.guid);
                 return this.appendDeviceCategories(params.data.device_categories.entries);
             }
         }
@@ -101,7 +100,6 @@ export class DevicesComponent {
     }
 
     public getRowId: GetRowIdFunc = (params: GetRowIdParams<Device>) => {
-        //console.log('Setting row id for guid: ', params.data.guid);
         return params.data.guid;
     };
 
@@ -118,18 +116,12 @@ export class DevicesComponent {
         for (const device of this.devices) {
             const guid = device.guid;
             console.log('setPreselectedDevices', guid);
-            //console.log('Checking node with guid: ', guid);
             if (!this.gridApi) {
-                //   console.log('Grid not ready');
                 return;
             }
             if (this.preselectedDeviceGuids.includes(guid)) {
                 const node = this.gridApi.getRowNode(guid);
                 if (!node) continue; //console.log('Node exists');
-                /*else {
-                    //console.log('Node does not exist');
-                    continue;
-                }*/
                 console.log('setting selected', guid);
                 node.setSelected(true);
             } else {
