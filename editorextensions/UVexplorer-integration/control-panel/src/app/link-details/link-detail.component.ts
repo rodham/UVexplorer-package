@@ -22,7 +22,7 @@ export class LinkDetailComponent {
                 this.displayEdge = linkFromSerializableLinkMessage(e.data);
                 this.displayEdge.deviceLinks.forEach((link) => {
                     this.numMembers += link.linkMembers.length;
-                })
+                });
             }
         });
     }
