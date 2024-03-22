@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { isLinkDetailsMessage, linkFromSerializableLinkMessage } from 'model/message';
 import { NgFor, NgIf } from '@angular/common';
 import { DisplayEdge } from 'model/uvx/display-edge';
-import { DeviceLinkMember } from 'model/uvx/device';
 
 @Component({
     selector: 'link-detail',
