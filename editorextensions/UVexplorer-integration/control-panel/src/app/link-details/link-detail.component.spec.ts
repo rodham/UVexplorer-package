@@ -38,4 +38,26 @@ describe('LinkDetailComponent', () => {
 
         component.displayEdge = undefined;
     });
+
+    it('should display no members message if there are no link members', () => {
+        component.displayEdge = mockDisplayEdge1;
+        component.numMembers = 0;
+        fixture.detectChanges();
+
+        const compDebug = fixture.debugElement;
+        const noMembersElem = compDebug.query(By.css('#noDeviceLinkMembers'));
+
+        expect(noMembersElem).toBeTruthy();
+    });
+
+    it('should display table if there are link members', () => {
+        component.displayEdge = mockDisplayEdge1;
+        component.numMembers = 1;
+        fixture.detectChanges();
+
+        const compDebug = fixture.debugElement;
+        const tableElem = compDebug.query(By.css('.table-fixed'));
+
+        expect(tableElem).toBeTruthy();
+    });
 });
