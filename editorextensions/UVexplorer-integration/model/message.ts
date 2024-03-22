@@ -119,10 +119,16 @@ export function isGetConnectedDevicesMessage(message: unknown): message is GetCo
 export interface ListDevicesMessage extends SerializableDevicesMessage {
     action: 'listDevices';
     visibleConnectedDeviceGuids?: string;
+    networkName: string;
 }
 
 export function isListDevicesMessage(message: unknown): message is ListDevicesMessage {
-    return isSerializableDevicesMessage(message) && message.action === 'listDevices';
+    return (
+        isSerializableDevicesMessage(message) &&
+        message.action === 'listDevices' &&
+        'networkName' in message &&
+        typeof message.networkName === 'string'
+    );
 }
 
 export interface RelistDevicesMessage {
@@ -288,5 +294,19 @@ export function isSelectedMapSettingsMessage(message: unknown): message is Selec
         isLayoutSettings(message.layoutSettings) &&
         'imageSettings' in message &&
         isImageSettings(message.imageSettings)
+    );
+}
+
+export interface RelistNetworksMessage {
+    action: 'relistNetworks';
+}
+
+export function isRelistNetworksMessage(message: unknown): message is RelistNetworksMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        message.action === 'relistNetworks'
     );
 }

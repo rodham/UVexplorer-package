@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NetworkSummary } from 'model/uvx/network';
-import { isListNetworksMessage, listNetworksMessageToNetworkSummaries } from 'model/message';
+import { isListDevicesMessage, isListNetworksMessage, listNetworksMessageToNetworkSummaries } from 'model/message';
 import { NgForOf, NgIf } from '@angular/common';
 import { DevicesComponent } from '../devices/devices.component';
 
@@ -31,6 +31,9 @@ export class NetworksComponent {
             try {
                 if (isListNetworksMessage(e.data)) {
                     this.network_summaries = listNetworksMessageToNetworkSummaries(e.data);
+                    this.network_loaded = false;
+                } else if (isListDevicesMessage(e.data)) {
+                    this.network_loaded = true;
                 }
             } catch (e) {
                 console.error(e);

@@ -23,7 +23,7 @@ export class ConnectedDevicesModal extends UVXModal {
         this.visibleConnectedDeviceGuids = visibleConnectedDeviceGuids;
     }
 
-    async sendConnectedDevices() {
+    async sendConnectedDevices(networkName: string) {
         await this.loadPageNetwork();
         const connectedDevicesRequest = new ConnectedDevicesRequest(this.deviceGuids);
         const devices = await this.uvxClient.listConnectedDevices(connectedDevicesRequest);
@@ -34,6 +34,7 @@ export class ConnectedDevicesModal extends UVXModal {
             action: 'listDevices',
             devices: JSON.stringify(devices),
             visibleConnectedDeviceGuids: JSON.stringify(this.visibleConnectedDeviceGuids),
+            networkName: networkName,
             forceAutoLayout: true
         });
         console.log('Done sending message');

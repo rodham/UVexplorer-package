@@ -113,8 +113,8 @@ export class DrawBlocks {
             for (const [, item] of pageItems) {
                 if (BlockUtils.isNetworkDeviceBlock(item)) {
                     const guid = BlockUtils.getGuidFromBlock(item);
-                    if (!guid) continue;
                     item.delete();
+                    if (!guid) continue;
                     if (!(removeDevices && removeDevices.includes(guid))) {
                         // Device should remain
                         remainDevices.push(guid);

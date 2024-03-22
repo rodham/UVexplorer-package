@@ -57,7 +57,7 @@ describe('Connected Devices Modal Tests', () => {
         const sendMessageMock = jest.spyOn(modal, 'sendMessage');
 
         it('Should make uvx request and send message to child', async () => {
-            await modal.sendConnectedDevices();
+            await modal.sendConnectedDevices('My Network');
 
             expect(networkRequestSpy).toHaveBeenCalledWith('My Network');
             expect(connectedDevicesRequestSpy).toHaveBeenCalledWith(mockDeviceGuids);
@@ -65,7 +65,8 @@ describe('Connected Devices Modal Tests', () => {
                 action: 'listDevices',
                 devices: JSON.stringify(mockDeviceList2),
                 forceAutoLayout: true,
-                visibleConnectedDeviceGuids: JSON.stringify(mockDeviceGuids2)
+                visibleConnectedDeviceGuids: JSON.stringify(mockDeviceGuids2),
+                networkName: 'My Network'
             });
         });
     });
