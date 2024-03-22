@@ -61,8 +61,8 @@ export class DataClient {
         return 'my_network_device';
     }
 
-    getLinksCollectionForPage(_pageId: string): string {
-        return 'my_network_link';
+    getDisplayEdgeCollectionForPage(_pageId: string): string {
+        return 'my_network_display_edge';
     }
 
     createOrRetrieveSettingsCollection(): CollectionProxy {

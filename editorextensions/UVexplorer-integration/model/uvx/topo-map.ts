@@ -1,5 +1,6 @@
 import { DeviceFilter, DeviceLink, DeviceNode } from './device';
 import { HubNode } from 'model/uvx/hub-node';
+import { DisplayEdgeSet, isDisplayEdgeSet } from 'model/uvx/display-edge-set';
 
 export enum LayoutType {
     Manual,
@@ -284,7 +285,7 @@ export interface TopoMap {
     centerX: number;
     centerY: number;
 
-    displayEdges?: unknown;
+    displayEdges?: DisplayEdgeSet;
 }
 
 //TODO this type guard can be stricter once we are in a more final state
@@ -321,8 +322,8 @@ export function isTopoMap(obj: unknown): obj is TopoMap {
         'centerX' in obj &&
         typeof obj.centerX === 'number' &&
         'centerY' in obj &&
-        typeof obj.centerY === 'number' // &&
-        // ('displayEdges' in obj ? isDisplayEdgeSet(obj.displayEdges) : true)
+        typeof obj.centerY === 'number' &&
+        ('displayEdges' in obj ? isDisplayEdgeSet(obj.displayEdges) : true)
     );
 }
 

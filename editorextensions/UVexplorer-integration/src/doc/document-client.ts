@@ -89,7 +89,6 @@ export class DocumentClient {
         }
 
         DrawTopoMap.refreshPageItems(this.dataClient, pageId, topoMap, pageItems, imageSettings);
-        this.dataClient.saveLinks(this.dataClient.getNetworkForPage(pageId), topoMap.deviceLinks);
     }
 
     async drawMap(topoMap: TopoMap, client: EditorClient, imageSettings: ImageSettings): Promise<void> {
@@ -98,7 +97,6 @@ export class DocumentClient {
             console.error('Unable to get page');
             return;
         }
-        this.dataClient.saveLinks(this.dataClient.getNetworkForPage(page.id), topoMap.deviceLinks);
         await DrawTopoMap.drawTopoMap(client, this.viewport, page, topoMap, imageSettings);
     }
 

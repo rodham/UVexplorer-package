@@ -1,12 +1,5 @@
 import { isNetworkSummary, NetworkSummary } from './uvx/network';
-import {
-    Device,
-    DeviceDetailsResponse,
-    DeviceLinkEdge,
-    isDevice,
-    isDeviceDetailsResponse,
-    isDeviceLinkEdge
-} from 'model/uvx/device';
+import { Device, DeviceDetailsResponse, isDevice, isDeviceDetailsResponse } from 'model/uvx/device';
 import { isString } from 'lucid-extension-sdk';
 import {
     DrawSettings,
@@ -16,6 +9,7 @@ import {
     isLayoutSettings,
     LayoutSettings
 } from './uvx/topo-map';
+import { DisplayEdge, isDisplayEdge } from 'model/uvx/display-edge';
 
 export interface ListNetworksMessage {
     action: 'listNetworks';
@@ -228,12 +222,12 @@ export function isLinkDetailsMessage(message: unknown): message is LinkDetailsMe
     );
 }
 
-export function linkFromSerializableLinkMessage(message: LinkDetailsMessage): DeviceLinkEdge {
+export function linkFromSerializableLinkMessage(message: LinkDetailsMessage): DisplayEdge {
     const linkEdge: unknown = JSON.parse(message.linkDetails);
-    if (isDeviceLinkEdge(linkEdge)) {
+    if (isDisplayEdge(linkEdge)) {
         return linkEdge;
     } else {
-        throw Error('Unable to parse as DeviceLinkEdge object');
+        throw Error('Unable to parse as DisplayEdge object');
     }
 }
 

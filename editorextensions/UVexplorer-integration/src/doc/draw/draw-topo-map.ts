@@ -24,7 +24,7 @@ export class DrawTopoMap {
 
         const data = DataClient.getInstance(client);
         const deviceCollectionId = data.getDeviceCollectionForPage(page.id);
-        const linksCollectionId = data.getLinksCollectionForPage(page.id);
+        const displayEdgeCollectionId = data.getDisplayEdgeCollectionForPage(page.id);
 
         const nodeIdToBlockMap = DrawBlocks.drawBlocks(
             viewport,
@@ -36,7 +36,15 @@ export class DrawTopoMap {
             imageSettings
         );
 
-        DrawLines.drawLines(page, topoMap.deviceLinks, nodeIdToBlockMap, linksCollectionId, topoMap.drawSettings);
+        if (topoMap.displayEdges) {
+            DrawLines.drawLines(
+                page,
+                topoMap.displayEdges,
+                nodeIdToBlockMap,
+                displayEdgeCollectionId,
+                topoMap.drawSettings
+            );
+        }
     }
 
     static refreshPageItems(

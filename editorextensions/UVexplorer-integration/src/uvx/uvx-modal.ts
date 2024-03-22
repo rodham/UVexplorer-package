@@ -14,6 +14,7 @@ import {
 } from 'model/uvx/topo-map';
 import { DataClient } from '@data/data-client';
 import { DocumentClient } from 'src/doc/document-client';
+import { populateMapDisplayEdges } from 'model/uvx/display-edge-set';
 export abstract class UVXModal extends Modal {
     protected docClient: DocumentClient;
     protected uvxClient: UVExplorerClient;
@@ -129,6 +130,10 @@ export abstract class UVXModal extends Modal {
         }
 
         if (topoMap) {
+            populateMapDisplayEdges(topoMap);
+            if (topoMap.displayEdges) {
+                this.dataClient.saveDisplayEdges(this.dataClient.getNetworkForPage(page), topoMap.displayEdges);
+            }
             await this.docClient.drawMap(topoMap, this.client, imageSettings);
         } else {
             console.error('Could not load topo map data.');
