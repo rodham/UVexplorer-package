@@ -1338,32 +1338,6 @@
       "style": {
         "fill": {
           "type": "image",
-          "ref": "unknown",
-          "mode": "stretch"
-        },
-        "stroke": {
-          "width": 0
-        }
-      },
-      "geometry": [
-        {
-          "type": "rect",
-          "condition": "=@Make = 'unknown'"
-        }
-      ],
-      "bounds": {
-        "x": "=@Width",
-        "y": "=@Height",
-        "anchor": "bottom-right",
-        "absolute": "xywh",
-        "w": "=@Width * 0.45",
-        "h": "=@Height * 0.45"
-      }
-    },
-    {
-      "style": {
-        "fill": {
-          "type": "image",
           "ref": "down",
           "mode": "stretch"
         },
