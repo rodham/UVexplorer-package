@@ -8,13 +8,7 @@ import {
     SchemaDefinition,
     SerializedFieldType
 } from 'lucid-extension-sdk';
-import {
-    createDataProxy,
-    deviceToRecord,
-    toSnakeCase,
-    addQuotationMarks,
-    displayEdgeToRecord
-} from '@data/data-utils';
+import { createDataProxy, deviceToRecord, toSnakeCase, addQuotationMarks, displayEdgeToRecord } from '@data/data-utils';
 import {
     DrawSettings,
     LayoutSettings,
@@ -122,7 +116,7 @@ export class DataClient {
     }
 
     addDisplayEdgesToCollection(collection: CollectionProxy, displayEdges: DisplayEdgeSet): void {
-        const displayEdgeRecords: Record<string, SerializedFieldType>[] = []
+        const displayEdgeRecords: Record<string, SerializedFieldType>[] = [];
         for (const displayEdge of displayEdges.map.values()) {
             displayEdgeRecords.push(displayEdgeToRecord(displayEdge));
         }

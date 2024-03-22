@@ -1,10 +1,5 @@
 import { isNetworkSummary, NetworkSummary } from './uvx/network';
-import {
-    Device,
-    DeviceDetailsResponse,
-    isDevice,
-    isDeviceDetailsResponse
-} from 'model/uvx/device';
+import { Device, DeviceDetailsResponse, isDevice, isDeviceDetailsResponse } from 'model/uvx/device';
 import { isString } from 'lucid-extension-sdk';
 import {
     DrawSettings,

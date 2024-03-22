@@ -29,14 +29,8 @@ export class DisplayEdgeSet {
 }
 
 export function isDisplayEdgeSet(obj: unknown): obj is DisplayEdgeSet {
-    return (
-        typeof obj === 'object' &&
-        obj !== null &&
-        obj instanceof DisplayEdgeSet &&
-        typeof obj.get === 'function'
-    );
+    return typeof obj === 'object' && obj !== null && obj instanceof DisplayEdgeSet && typeof obj.get === 'function';
 }
-
 
 export function populateMapDisplayEdges(map: TopoMap): void {
     const dispEdges = new DisplayEdgeSet();
