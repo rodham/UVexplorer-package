@@ -124,7 +124,7 @@ export interface ListDevicesMessage extends SerializableDevicesMessage {
 
 export function isListDevicesMessage(message: unknown): message is ListDevicesMessage {
     return (
-        isSerializableDevicesMessage(message) && 
+        isSerializableDevicesMessage(message) &&
         message.action === 'listDevices' &&
         'networkName' in message &&
         typeof message.networkName === 'string'

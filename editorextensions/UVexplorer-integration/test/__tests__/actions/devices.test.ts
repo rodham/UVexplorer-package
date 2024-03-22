@@ -41,7 +41,9 @@ describe('Device actions success tests', () => {
         it('should call console.log with selected items', async () => {
             const isNetworkDeviceBlockSpy = jest.spyOn(BlockUtils, 'isNetworkDeviceBlock').mockReturnValue(true);
             const getPageIdSpy = jest.spyOn(mockDocEditor, 'getPageId').mockReturnValue('0_0');
-            const getNetworkForPageSpy = jest.spyOn(mockDataClient, 'getNetworkForPage').mockReturnValue('00000000-0000-0000-0000-000000000000');
+            const getNetworkForPageSpy = jest
+                .spyOn(mockDataClient, 'getNetworkForPage')
+                .mockReturnValue('00000000-0000-0000-0000-000000000000');
             const listNetworksSpy = jest.spyOn(mockUvxClient, 'listNetworks').mockResolvedValue([mockNetworkSummary]);
 
             await showConnectedDevices(mockSelection, mockClient, mockDocEditor, mockUvxClient, mockDataClient);

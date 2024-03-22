@@ -36,7 +36,7 @@ export class DevicesComponent {
     rowSelection: 'multiple' | 'single' = 'multiple';
     gridApi?: GridApi;
     selectDevicesButtonEnabled = false;
-    networkName = "";
+    networkName = '';
 
     constructor() {
         window.addEventListener('message', (e) => {

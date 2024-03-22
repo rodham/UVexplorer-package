@@ -34,8 +34,7 @@ export class DevicesModal extends UVXModal {
                 } else {
                     console.error(`Could not load network: ${networkName}`);
                 }
-            }
-            else {
+            } else {
                 await this.sendMessage({
                     action: 'listNetworks',
                     network_summaries: JSON.stringify(filteredNetworks)

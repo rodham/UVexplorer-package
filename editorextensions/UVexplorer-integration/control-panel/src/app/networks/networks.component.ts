@@ -32,8 +32,7 @@ export class NetworksComponent {
                 if (isListNetworksMessage(e.data)) {
                     this.network_summaries = listNetworksMessageToNetworkSummaries(e.data);
                     this.network_loaded = false;
-                }
-                else if(isListDevicesMessage(e.data)) {
+                } else if (isListDevicesMessage(e.data)) {
                     this.network_loaded = true;
                 }
             } catch (e) {
