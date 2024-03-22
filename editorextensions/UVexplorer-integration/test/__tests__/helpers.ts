@@ -460,8 +460,7 @@ export const mockTopoMap: TopoMap = {
     right: 166,
     left: 0,
     centerX: 83,
-    centerY: -94,
-    displayEdges: mockDisplayEdgeSet
+    centerY: -94
 };
 
 export const mockDeviceLink: DeviceLink = {

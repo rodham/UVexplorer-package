@@ -6,7 +6,8 @@ import { DrawTopoMap } from 'src/doc/draw/draw-topo-map';
 import { BlockProxy } from 'lucid-extension-sdk';
 import { mockCustomBlockDefinition, mockTopoMap } from '../../helpers';
 import { NetworkDeviceBlock } from '@blocks/network-device-block';
-import { defaultImageSettings } from 'model/uvx/topo-map';
+import { defaultImageSettings, TopoMap } from 'model/uvx/topo-map';
+import { mockDisplayEdgeSet } from 'mock_data/devices';
 
 jest.mock('lucid-extension-sdk');
 jest.mock('@data/data-client');
@@ -41,6 +42,7 @@ describe('Map', () => {
         });
 
         it('should draw blocks and lines when custom shape definition is available', async () => {
+            const mockTopoMapWithDisplayEdges = {...mockTopoMap, displayEdges: mockDisplayEdgeSet} as TopoMap;
             const getCustomShapeDefSpy = jest
                 .spyOn(mockClient, 'getCustomShapeDefinition')
                 .mockResolvedValue(mockCustomBlockDefinition);
@@ -50,22 +52,22 @@ describe('Map', () => {
             const drawBlocksSpy = jest.spyOn(DrawBlocks, 'drawBlocks').mockReturnValue(mockNodeIdToBlockMap);
             const drawLinesSpy = jest.spyOn(DrawLines, 'drawLines');
 
-            await DrawTopoMap.drawTopoMap(mockClient, mockViewport, mockPage, mockTopoMap, defaultImageSettings);
+            await DrawTopoMap.drawTopoMap(mockClient, mockViewport, mockPage, mockTopoMapWithDisplayEdges, defaultImageSettings);
 
             expect(getCustomShapeDefSpy).toHaveBeenCalledWith(NetworkDeviceBlock.library, NetworkDeviceBlock.shape);
             expect(getInstanceSpy).toHaveBeenCalledWith(mockClient);
             expect(drawBlocksSpy).toHaveBeenCalledWith(
                 mockViewport,
                 mockPage,
-                mockTopoMap.deviceNodes,
-                mockTopoMap.hubNodes,
+                mockTopoMapWithDisplayEdges.deviceNodes,
+                mockTopoMapWithDisplayEdges.hubNodes,
                 mockCustomBlockDefinition,
                 'my_network_device',
                 defaultImageSettings
             );
             expect(drawLinesSpy).toHaveBeenCalledWith(
                 mockPage,
-                mockTopoMap.displayEdges,
+                mockTopoMapWithDisplayEdges.displayEdges,
                 mockNodeIdToBlockMap,
                 'my_network_display_edge',
                 mockTopoMap.drawSettings
