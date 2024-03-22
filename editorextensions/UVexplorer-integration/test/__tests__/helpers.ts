@@ -15,8 +15,6 @@ import {
     MonitorState
 } from 'model/uvx/device';
 import { HubNode, MultiNodeType } from 'model/uvx/hub-node';
-import { mockDisplayEdgeSet } from 'mock_data/devices';
-
 export const mockNetworkSummariesXHRResponse: TextXHRResponse = {
     url: 'https://my-uvexplorer-server.com/public/api/v1/network/list',
     status: 200,
