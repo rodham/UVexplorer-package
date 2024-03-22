@@ -1,4 +1,4 @@
-<div *ngIf="network_summaries.length > 0; else loadingView">
+<div *ngIf="network_summaries.length > 0 || network_loaded; else loadingView">
     <div class="flex flex-row" *ngIf="!network_loaded; else appDevices">
         <div class="flex h-screen">
             <!-- Network List-->
@@ -21,7 +21,7 @@
         </div>
     </div>
     <ng-template #appDevices>
-        <app-devices></app-devices>
+        <app-devices [devicesMessage]="devicesMessage"></app-devices>
     </ng-template>
 </div>
 

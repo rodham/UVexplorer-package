@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NgIf, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
+    ListDevicesMessage,
     connDeviceGuidsFromListDevMsg,
     devicesFromSerializableDevicesMessage,
-    isListDevicesMessage,
-    isRelistDevicesMessage
+    isListDevicesMessage
 } from 'model/message';
 import { Device, DeviceCategoryEntry, isDevice } from 'model/uvx/device';
 import { AgGridAngular } from 'ag-grid-angular';
@@ -30,7 +30,8 @@ import { DynamicLayoutSelect } from '../dynamic-layout-select/dl-select.componen
     imports: [NgIf, NgClass, AgGridAngular, SettingsComponent, FormsModule, DynamicLayoutSelect],
     templateUrl: './devices.component.html'
 })
-export class DevicesComponent {
+export class DevicesComponent implements OnChanges {
+    @Input() devicesMessage?: ListDevicesMessage;
     devices: Device[] = [];
     preselectedDeviceGuids: string[] = [];
     themeClass = 'ag-theme-quartz';
@@ -41,22 +42,38 @@ export class DevicesComponent {
 
     constructor() {
         window.addEventListener('message', (e) => {
-            console.log('Received a message from the parent.');
+            console.log('Received a message from the parent in devices comp.');
             console.log(e.data);
 
             if (isListDevicesMessage(e.data)) {
-                this.devices = devicesFromSerializableDevicesMessage(e.data);
-                this.preselectedDeviceGuids = connDeviceGuidsFromListDevMsg(e.data);
-                this.networkName = e.data.networkName;
-                if (this.preselectedDeviceGuids.length > 0) {
-                    this.selectDevicesButtonEnabled = true;
-                }
+                this.initFromMessage(e.data);
                 document.getElementById('devicesComponent')!.style.display = 'block';
                 console.log('Received devices in component');
-            } else if (isRelistDevicesMessage(e.data)) {
-                document.getElementById('devicesComponent')!.style.display = 'block';
+            } else {
+                console.log('Message did not match correctly');
             }
         });
+
+        if (this.devicesMessage) {
+            console.log('Init from message from parent');
+            this.initFromMessage(this.devicesMessage);
+        }
+    }
+
+    ngOnChanges(_changes: SimpleChanges) {
+        if (this.devicesMessage) {
+            console.log('Init from message from update');
+            this.initFromMessage(this.devicesMessage);
+        }
+    }
+
+    initFromMessage(message: ListDevicesMessage) {
+        this.devices = devicesFromSerializableDevicesMessage(message);
+        this.preselectedDeviceGuids = connDeviceGuidsFromListDevMsg(message);
+        this.networkName = message.networkName;
+        if (this.preselectedDeviceGuids.length > 0) {
+            this.selectDevicesButtonEnabled = true;
+        }
     }
 
     public columnDefs: ColDef<Device>[] = [
