@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { mockDeviceLinkEdge } from 'mock_data/devices';
+import { mockDisplayEdge1 } from 'mock_data/devices';
 import { LinkDetailComponent } from './link-detail.component';
 import { By } from '@angular/platform-browser';
 
@@ -21,30 +21,6 @@ describe('LinkDetailComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should correctly display a point value', () => {
-        const point = { x: 12, y: 25 };
-        const displayedPoint = component.displayValue(point);
-        const expected = 'x: 12, y: 25';
-
-        expect(displayedPoint).toEqual(expected);
-    });
-
-    it('should correctly display a string array', () => {
-        const arr = ['one', 'two', 'three'];
-        const displayedArr = component.displayValue(arr);
-        const expected = arr.toString();
-
-        expect(displayedArr).toEqual(expected);
-    });
-
-    it('should correctly display a number', () => {
-        const num = 876;
-        const displayedNum = component.displayValue(num);
-        const expected = '876';
-
-        expect(displayedNum).toEqual(expected);
-    });
-
     it('should display loading before link details info is set', () => {
         const compDebug = fixture.debugElement;
         const loadingElem = compDebug.query(By.css('.loading'));
@@ -53,13 +29,35 @@ describe('LinkDetailComponent', () => {
     });
 
     it('should not display loading after link details info is set', () => {
-        component.deviceLink = mockDeviceLinkEdge;
+        component.displayEdge = mockDisplayEdge1;
         fixture.detectChanges();
         const compDebug = fixture.debugElement;
         const loadingElem = compDebug.query(By.css('.loading'));
 
         expect(loadingElem).toBeNull();
 
-        component.deviceLink = undefined;
+        component.displayEdge = undefined;
+    });
+
+    it('should display no members message if there are no link members', () => {
+        component.displayEdge = mockDisplayEdge1;
+        component.numMembers = 0;
+        fixture.detectChanges();
+
+        const compDebug = fixture.debugElement;
+        const noMembersElem = compDebug.query(By.css('#noDeviceLinkMembers'));
+
+        expect(noMembersElem).toBeTruthy();
+    });
+
+    it('should display table if there are link members', () => {
+        component.displayEdge = mockDisplayEdge1;
+        component.numMembers = 1;
+        fixture.detectChanges();
+
+        const compDebug = fixture.debugElement;
+        const tableElem = compDebug.query(By.css('.table-fixed'));
+
+        expect(tableElem).toBeTruthy();
     });
 });

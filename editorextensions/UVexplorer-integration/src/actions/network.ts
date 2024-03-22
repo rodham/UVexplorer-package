@@ -10,6 +10,7 @@ import {
     defaultImageSettings
 } from 'model/uvx/topo-map';
 import { DataClient } from '@data/data-client';
+import { populateMapDisplayEdges } from 'model/uvx/display-edge-set';
 
 export async function syncDisplayedMap(docEditor: DocumentClient, client: EditorClient): Promise<void> {
     const settings = await client.getPackageSettings();
@@ -52,6 +53,15 @@ async function refreshMapDevices(docEditor: DocumentClient, client: EditorClient
 
     const topoMapRequest = createTopoMapRequest(deviceGuids, layoutSettings, drawSettings);
     const topoMap = await uvxClient.getTopoMap(topoMapRequest);
+
+    populateMapDisplayEdges(topoMap);
+    if (topoMap.displayEdges) {
+        const dataClient = DataClient.getInstance(client);
+        if (page) {
+            dataClient.saveDisplayEdges(dataClient.getNetworkForPage(page), topoMap.displayEdges);
+        }
+    }
+
     // docEditor.updateItemsInfo(topoMap);
     if (layoutType === LayoutType.Manual) {
         console.log('Refreshing manual layout');

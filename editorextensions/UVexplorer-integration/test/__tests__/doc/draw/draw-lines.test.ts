@@ -1,9 +1,9 @@
 import * as lucid from 'lucid-extension-sdk';
 import { DrawLines } from 'src/doc/draw/draw-lines';
-import { DeviceLink } from 'model/uvx/device';
 import { BlockProxy, LineProxy } from 'lucid-extension-sdk';
 import { mockDeviceLink, mockTopoMap } from '../../helpers';
 import { PenPattern } from 'model/uvx/topo-map';
+import { mockDisplayEdgeSet } from 'mock_data/devices';
 
 jest.mock('lucid-extension-sdk');
 describe('DrawTopoMap DrawLines tests', () => {
@@ -52,14 +52,8 @@ describe('DrawTopoMap DrawLines tests', () => {
     });
 
     describe('drawLines Tests', () => {
-        it('should draw multiple lines', () => {
-            const mockDeviceLinks: DeviceLink[] = [mockDeviceLink];
+        it('should draw lines', () => {
             const mockBlocks: BlockProxy[] = [{} as lucid.BlockProxy, {} as lucid.BlockProxy, {} as lucid.BlockProxy];
-            for (const mockBlock of mockBlocks) {
-                mockBlock.getBoundingBox = jest.fn(() => {
-                    return { x: 0, y: 0, h: 0, w: 0 };
-                });
-            }
             const mockNodeIdToBlockMap = new Map<number, BlockProxy>([
                 [mockDeviceLink.linkEdges[0].localConnection.nodeId, mockBlocks[0]],
                 [mockDeviceLink.linkEdges[0].remoteConnection.nodeId, mockBlocks[1]],
@@ -70,10 +64,10 @@ describe('DrawTopoMap DrawLines tests', () => {
             const drawLineSpy = jest.spyOn(DrawLines, 'drawLine').mockReturnValue({} as lucid.LineProxy);
             const setReferenceKeySpy = jest.spyOn(DrawLines, 'setReferenceKey').mockImplementation();
 
-            DrawLines.drawLines(mockPage, mockDeviceLinks, mockNodeIdToBlockMap, mockCollectionId, mockDrawSettings);
+            DrawLines.drawLines(mockPage, mockDisplayEdgeSet, mockNodeIdToBlockMap, mockCollectionId, mockDrawSettings);
 
-            expect(drawLineSpy).toHaveBeenCalledTimes(mockDeviceLink.linkEdges.length);
-            expect(setReferenceKeySpy).toHaveBeenCalledTimes(mockDeviceLink.linkEdges.length);
+            expect(drawLineSpy).toHaveBeenCalledTimes(mockDisplayEdgeSet.map.size);
+            expect(setReferenceKeySpy).toHaveBeenCalledTimes(mockDisplayEdgeSet.map.size);
         });
     });
 });
