@@ -63,7 +63,6 @@ export class DevicesModal extends UVXModal {
         try {
             const deviceListRequest = new DeviceListRequest();
             const devices = await this.uvxClient.listDevices(deviceListRequest);
-            console.log('Devices gotten from sendDevices: ', JSON.stringify(devices));
 
             this.dataClient.saveDevices(source, devices);
             const devicesShown = this.docClient.getNetworkDeviceBlockGuids();
