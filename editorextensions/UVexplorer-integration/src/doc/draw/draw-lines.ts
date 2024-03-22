@@ -13,13 +13,16 @@ export class DrawLines {
         drawSettings: DrawSettings
     ) {
         for (const displayEdge of displayEdgeSet.map.values()) {
-            if(displayEdge.deviceLinks[0]) {
+            if (displayEdge.deviceLinks[0]) {
                 // Only draw one line, no matter how many links there are between two nodes
                 const deviceBlock = idToBlockMap.get(displayEdge.nodeId1);
                 const connectedDeviceBlock = idToBlockMap.get(displayEdge.nodeId2);
 
                 if (deviceBlock && connectedDeviceBlock) {
-                    const penSettings: PenPattern = this.getPenSettings(drawSettings, displayEdge.deviceLinks[0].linkType);
+                    const penSettings: PenPattern = this.getPenSettings(
+                        drawSettings,
+                        displayEdge.deviceLinks[0].linkType
+                    );
                     const line = this.drawLine(page, deviceBlock, connectedDeviceBlock, penSettings);
                     this.setReferenceKey(line, displayEdge, collectionId);
                 }

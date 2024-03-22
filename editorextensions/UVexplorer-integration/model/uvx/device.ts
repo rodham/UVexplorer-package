@@ -475,10 +475,10 @@ export function isDeviceLink(obj: unknown): obj is DeviceLink {
         typeof obj.noVm === 'boolean' &&
         'linkMembers' in obj &&
         Array.isArray(obj.linkMembers) &&
-        obj.linkMembers.every(member => isDeviceLinkMember(member)) &&
+        obj.linkMembers.every((member) => isDeviceLinkMember(member)) &&
         'linkEdges' in obj &&
         Array.isArray(obj.linkEdges) &&
-        obj.linkEdges.every(edge => isDeviceLinkEdge(edge)) &&
+        obj.linkEdges.every((edge) => isDeviceLinkEdge(edge)) &&
         'monitorState' in obj &&
         typeof obj.monitorState === 'number' &&
         Object.values(MonitorState).includes(obj.monitorState)
@@ -540,7 +540,9 @@ export function isDeviceLinkMember(obj: unknown): obj is DeviceLinkMember {
         ('radio' in obj ? typeof obj.radio === 'string' || obj.radio === null : false) &&
         ('ssid' in obj ? typeof obj.ssid === 'string' || obj.ssid === null : false) &&
         ('virtualPort' in obj ? typeof obj.virtualPort === 'string' || obj.virtualPort === null : false) &&
-        ('virtualPortGroup' in obj ? typeof obj.virtualPortGroup === 'string' || obj.virtualPortGroup === null : false) &&
+        ('virtualPortGroup' in obj
+            ? typeof obj.virtualPortGroup === 'string' || obj.virtualPortGroup === null
+            : false) &&
         'linkType' in obj &&
         typeof obj.linkType === 'string'
     );

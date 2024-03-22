@@ -163,23 +163,25 @@ export const mockDisplayEdge1 = {
     nodeId2: 1,
     deviceLinks: [{} as DeviceLink],
     get key(): string {
-        return '0-1'
+        return '0-1';
     }
-} as DisplayEdge
+} as DisplayEdge;
 
 export const mockDisplayEdge2 = {
     nodeId1: 0,
     nodeId2: 2,
     deviceLinks: [{} as DeviceLink],
     get key(): string {
-        return '0-2'
+        return '0-2';
     }
-} as DisplayEdge
-
+} as DisplayEdge;
 
 export const mockDisplayEdgeSet = {
-    map: new Map<string, DisplayEdge>([[mockDisplayEdge1.key, mockDisplayEdge1],[mockDisplayEdge2.key, mockDisplayEdge2]])
-} as DisplayEdgeSet
+    map: new Map<string, DisplayEdge>([
+        [mockDisplayEdge1.key, mockDisplayEdge1],
+        [mockDisplayEdge2.key, mockDisplayEdge2]
+    ])
+} as DisplayEdgeSet;
 
 export const mockDeviceLink2: DeviceLink = {
     allWirelessOrVm: false,

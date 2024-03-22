@@ -23,7 +23,9 @@ export function singleDeviceSelected(viewport: Viewport): boolean {
 export function deviceLinkSelected(viewport: Viewport): boolean {
     const selection = viewport.getSelectedItems();
     const isCorrectSelection =
-        selection.length === 1 && selection[0] instanceof LineProxy && !!BlockUtils.getDisplayEdgeFromLine(selection[0]);
+        selection.length === 1 &&
+        selection[0] instanceof LineProxy &&
+        !!BlockUtils.getDisplayEdgeFromLine(selection[0]);
     return isCorrectSelection;
 }
 

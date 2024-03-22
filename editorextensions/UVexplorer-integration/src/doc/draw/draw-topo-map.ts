@@ -37,7 +37,13 @@ export class DrawTopoMap {
         );
 
         if (topoMap.displayEdges) {
-            DrawLines.drawLines(page, topoMap.displayEdges, nodeIdToBlockMap, displayEdgeCollectionId, topoMap.drawSettings);
+            DrawLines.drawLines(
+                page,
+                topoMap.displayEdges,
+                nodeIdToBlockMap,
+                displayEdgeCollectionId,
+                topoMap.drawSettings
+            );
         }
     }
 
