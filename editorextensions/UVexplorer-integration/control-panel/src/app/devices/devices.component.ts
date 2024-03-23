@@ -39,6 +39,7 @@ export class DevicesComponent implements OnChanges {
     gridApi?: GridApi;
     selectDevicesButtonEnabled = false;
     networkName = '';
+    tabSelection = 'man';
 
     constructor() {
         window.addEventListener('message', (e) => {
@@ -225,5 +226,9 @@ export class DevicesComponent implements OnChanges {
         );
 
         document.getElementById('devicesComponent')!.style.display = 'none';
+    }
+
+    onTabChange(tab: string) {
+        this.tabSelection = tab;
     }
 }
