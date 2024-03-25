@@ -14,6 +14,7 @@ import {
 } from 'model/uvx/topo-map';
 import { DataClient } from '@data/data-client';
 import { DocumentClient } from 'src/doc/document-client';
+import { DeviceFilter, DeviceListRequest } from 'model/uvx/device';
 export abstract class UVXModal extends Modal {
     protected docClient: DocumentClient;
     protected uvxClient: UVExplorerClient;
@@ -132,6 +133,28 @@ export abstract class UVXModal extends Modal {
             await this.docClient.drawMap(topoMap, this.client, imageSettings);
         } else {
             console.error('Could not load topo map data.');
+        }
+    }
+
+    async dynamicDrawMap(deviceFilter: DeviceFilter) {
+        const page = this.docClient.getPageId();
+        if (!page) return;
+
+        const deviceListRequest: DeviceListRequest = new DeviceListRequest(deviceFilter);
+        const devices = await this.uvxClient.listDevices(deviceListRequest);
+        const deviceGuids = devices.map(device => device.guid);
+
+        const settingsCollection = this.dataClient.createOrRetrieveSettingsCollection();
+
+        const imageSettings = this.dataClient.getImageSettings(settingsCollection, page);
+
+        const topoMap = await this.loadTopoMap(deviceGuids);
+
+        if (topoMap) {
+            this.docClient.clearMap();
+            await this.docClient.drawMap(topoMap, this.client, imageSettings);
+        } else {
+            console.log("Dynamic Layout - Unable to load topo map");
         }
     }
 

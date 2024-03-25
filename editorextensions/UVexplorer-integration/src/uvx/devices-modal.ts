@@ -54,8 +54,7 @@ export class DevicesModal extends UVXModal {
             await this.sendMessage({
                 action: 'listDevices',
                 devices: JSON.stringify(devices),
-                visibleConnectedDeviceGuids: JSON.stringify(devicesShown),
-                forcedAutoLayout: false
+                visibleConnectedDeviceGuids: JSON.stringify(devicesShown)
             });
             console.log(`Successfully loaded devices: ${source.getName()}`);
         } catch (e) {

@@ -3,6 +3,7 @@ import { DrawSettings, ImageSettings, LayoutSettings, TopoMap } from 'model/uvx/
 import { BlockUtils } from '@blocks/block-utils';
 import { DataClient } from '@data/data-client';
 import { DrawTopoMap } from 'src/doc/draw/draw-topo-map';
+import { DeviceFilter } from 'model/uvx/device';
 
 export class DocumentClient {
     protected viewport: Viewport;

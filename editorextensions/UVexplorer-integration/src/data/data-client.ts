@@ -1,4 +1,4 @@
-import { Device, DeviceLink, DeviceLinkEdge } from 'model/uvx/device';
+import { Device, DeviceFilter, DeviceLink, DeviceLinkEdge } from 'model/uvx/device';
 import {
     CollectionProxy,
     DataProxy,
@@ -54,6 +54,13 @@ export const SETTINGS_SCHEMA: SchemaDefinition = {
     primaryKey: ['page_id']
 };
 
+export const DEVICE_FILTER_SCHEMA: SchemaDefinition = {
+    fields: [
+        { name: 'device_filter', type: ScalarFieldTypeEnum.STRING }
+    ],
+    primaryKey: ['page_id']
+}
+
 export class DataClient {
     private static instance: DataClient;
     private data: DataProxy;
@@ -96,6 +103,15 @@ export class DataClient {
         return source.addCollection(`${toSnakeCase(source.getName())}_link`, LINK_SCHEMA);
     }
 
+    createOrRetrieveDeviceFilterCollection(source: DataSourceProxy): CollectionProxy {
+        for (const [, collection] of source.collections) {
+            if (collection.getName() === `${toSnakeCase(source.getName())}_filter`) {
+                return collection;
+            }
+        }
+        return source.addCollection(`${toSnakeCase(source.getName())}_filter`, DEVICE_FILTER_SCHEMA);
+    }
+
     addDevicesToCollection(collection: CollectionProxy, devices: Device[]): void {
         collection.patchItems({
             added: devices.map(deviceToRecord)
@@ -136,6 +152,16 @@ export class DataClient {
                     layout_settings: JSON.stringify(layoutSettings),
                     draw_settings: JSON.stringify(drawSettings),
                     image_settings: JSON.stringify(imageSettings)
+                }
+            ]
+        });
+    }
+
+    addDeviceFilterToCollection(collection: CollectionProxy, filter: DeviceFilter) {
+        collection.patchItems({
+            added: [
+                {
+                    device_filter: JSON.stringify(filter)
                 }
             ]
         });
@@ -275,5 +301,11 @@ export class DataClient {
         const collection = this.createOrRetrieveLinkCollection(source);
         this.clearCollection(collection); // TODO: Replace once updateLinksInCollection Function is implemented
         this.addLinksToCollection(collection, links);
+    }
+
+    saveDeviceFilter(source: DataSourceProxy, filter: DeviceFilter) {
+        const collection = this.createOrRetrieveDeviceFilterCollection(source);
+        this.clearCollection(collection);
+        this.saveDeviceFilter(source, filter);
     }
 }

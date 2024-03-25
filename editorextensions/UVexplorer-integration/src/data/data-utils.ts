@@ -3,6 +3,7 @@ import {
     DeviceCategories,
     DeviceClass,
     DeviceConnection,
+    DeviceFilter,
     DeviceLinkEdge,
     ProtocolProfile
 } from 'model/uvx/device';
