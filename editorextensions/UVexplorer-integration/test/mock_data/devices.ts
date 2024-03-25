@@ -1,7 +1,17 @@
 import { NetworkSummary } from 'model/uvx/network';
-import { Device, DeviceConnection, DeviceLinkEdge, Point } from 'model/uvx/device';
+import {
+    ConnectionType,
+    Device,
+    DeviceConnection,
+    DeviceLink,
+    DeviceLinkEdge,
+    MonitorState,
+    Point
+} from 'model/uvx/device';
 import { NetworkDeviceBlock } from '@blocks/network-device-block';
 import { ItemProxy } from 'lucid-extension-sdk';
+import { DisplayEdge } from 'model/uvx/display-edge';
+import { DisplayEdgeSet } from 'model/uvx/display-edge-set';
 
 export const mockDeviceList = [
     {
@@ -147,3 +157,95 @@ export const mockDeviceLinkEdge = {
     localConnection: mockConnection1,
     remoteConnection: mockConnection2
 } as DeviceLinkEdge;
+
+export const mockDisplayEdge1 = {
+    nodeId1: 0,
+    nodeId2: 1,
+    deviceLinks: [{} as DeviceLink],
+    get key(): string {
+        return '0-1';
+    }
+} as DisplayEdge;
+
+export const mockDisplayEdge2 = {
+    nodeId1: 0,
+    nodeId2: 2,
+    deviceLinks: [{} as DeviceLink],
+    get key(): string {
+        return '0-2';
+    }
+} as DisplayEdge;
+
+export const mockDisplayEdgeSet = {
+    map: new Map<string, DisplayEdge>([
+        [mockDisplayEdge1.key, mockDisplayEdge1],
+        [mockDisplayEdge2.key, mockDisplayEdge2]
+    ])
+} as DisplayEdgeSet;
+
+export const mockDeviceLink2: DeviceLink = {
+    allWirelessOrVm: false,
+    linkEdges: [
+        {
+            localConnection: {
+                deviceGuid: '00000000-0000-0000-0000-000000000000',
+                nodeId: 0,
+                start: { x: 0, y: 0 },
+                end: { x: 0, y: 0 },
+                mid: { x: 0, y: 0 },
+                connectionType: ConnectionType.Standard,
+                interfaceLabels: [],
+                deviceIpAddress: '',
+                deviceMacAddress: '',
+                deviceIfIndex: 0,
+                monitorState: MonitorState.Up
+            },
+            remoteConnection: {
+                deviceGuid: '11111111-1111-1111-1111-111111111111',
+                nodeId: 1,
+                start: { x: 0, y: 0 },
+                end: { x: 0, y: 0 },
+                mid: { x: 0, y: 0 },
+                connectionType: ConnectionType.Standard,
+                interfaceLabels: [],
+                deviceIpAddress: '',
+                deviceMacAddress: '',
+                deviceIfIndex: 0,
+                monitorState: MonitorState.Up
+            }
+        },
+        {
+            localConnection: {
+                deviceGuid: '00000000-0000-0000-0000-000000000000',
+                nodeId: 0,
+                start: { x: 0, y: 0 },
+                end: { x: 0, y: 0 },
+                mid: { x: 0, y: 0 },
+                connectionType: ConnectionType.Standard,
+                interfaceLabels: [],
+                deviceIpAddress: '',
+                deviceMacAddress: '',
+                deviceIfIndex: 0,
+                monitorState: MonitorState.Up
+            },
+            remoteConnection: {
+                deviceGuid: '22222222-2222-2222-2222-222222222222',
+                nodeId: 2,
+                start: { x: 0, y: 0 },
+                end: { x: 0, y: 0 },
+                mid: { x: 0, y: 0 },
+                connectionType: ConnectionType.Standard,
+                interfaceLabels: [],
+                deviceIpAddress: '',
+                deviceMacAddress: '',
+                deviceIfIndex: 0,
+                monitorState: MonitorState.Up
+            }
+        }
+    ],
+    linkMembers: [],
+    linkType: '',
+    monitorState: MonitorState.Up,
+    noVm: false,
+    noWireless: false
+};

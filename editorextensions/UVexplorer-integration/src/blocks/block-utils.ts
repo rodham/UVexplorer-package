@@ -1,8 +1,9 @@
 import { BlockProxy, CustomBlockProxy, ItemProxy, LineProxy, PageProxy } from 'lucid-extension-sdk';
-import { Device, DeviceLinkEdge } from 'model/uvx/device';
-import { DEVICE_REFERENCE_KEY, LINK_REFERENCE_KEY } from '@data/data-client';
-import { itemToDevice, itemToLinkEdge, removeQuotationMarks } from '@data/data-utils';
+import { Device } from 'model/uvx/device';
+import { DEVICE_REFERENCE_KEY, DISPLAY_EDGE_REFERENCE_KEY } from '@data/data-client';
+import { itemToDevice, itemToDisplayEdge, removeQuotationMarks } from '@data/data-utils';
 import { NetworkDeviceBlock } from './network-device-block';
+import { DisplayEdge } from 'model/uvx/display-edge';
 
 export class BlockUtils {
     static isNetworkDeviceBlock(item: ItemProxy): item is NetworkDeviceBlock {
@@ -42,10 +43,10 @@ export class BlockUtils {
         return undefined;
     }
 
-    static getLinkInfoFromLine(line: LineProxy): DeviceLinkEdge | undefined {
+    static getDisplayEdgeFromLine(line: LineProxy): DisplayEdge | undefined {
         for (const [key, val] of line.referenceKeys) {
-            if (key === LINK_REFERENCE_KEY) {
-                return itemToLinkEdge(val.getItem());
+            if (key === DISPLAY_EDGE_REFERENCE_KEY) {
+                return itemToDisplayEdge(val.getItem());
             }
         }
         return undefined;

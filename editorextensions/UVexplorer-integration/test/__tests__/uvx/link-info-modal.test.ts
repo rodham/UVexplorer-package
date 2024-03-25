@@ -1,6 +1,6 @@
 import { LinkInfoModal } from '@uvx/link-info-modal';
 import * as lucid from 'lucid-extension-sdk';
-import { mockDeviceLinkEdge } from 'mock_data/devices';
+import { mockDisplayEdge1 } from 'mock_data/devices';
 import { DocumentClient } from 'src/doc/document-client';
 import { DataClient } from '@data/data-client';
 import { UVExplorerClient } from '@uvx/uvx-client';
@@ -29,7 +29,7 @@ describe('Link Info Modal tests', () => {
             mockDocEditor,
             mockUvxClient,
             mockDataClient,
-            mockDeviceLinkEdge
+            mockDisplayEdge1
         );
         const sendMessageMock = jest.spyOn(modal, 'sendMessage');
 
@@ -38,7 +38,7 @@ describe('Link Info Modal tests', () => {
 
             expect(sendMessageMock).toHaveBeenCalledWith({
                 action: 'viewLinkDetails',
-                linkDetails: JSON.stringify(mockDeviceLinkEdge)
+                linkDetails: JSON.stringify(mockDisplayEdge1)
             });
         });
     });

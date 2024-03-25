@@ -1,12 +1,5 @@
 import { isNetworkSummary, NetworkSummary } from './uvx/network';
-import {
-    Device,
-    DeviceDetailsResponse,
-    DeviceLinkEdge,
-    isDevice,
-    isDeviceDetailsResponse,
-    isDeviceLinkEdge
-} from 'model/uvx/device';
+import { Device, DeviceDetailsResponse, isDevice, isDeviceDetailsResponse } from 'model/uvx/device';
 import { isString } from 'lucid-extension-sdk';
 import {
     DrawSettings,
@@ -16,6 +9,7 @@ import {
     isLayoutSettings,
     LayoutSettings
 } from './uvx/topo-map';
+import { DisplayEdge, isDisplayEdge } from 'model/uvx/display-edge';
 
 export interface ListNetworksMessage {
     action: 'listNetworks';
@@ -125,23 +119,15 @@ export function isGetConnectedDevicesMessage(message: unknown): message is GetCo
 export interface ListDevicesMessage extends SerializableDevicesMessage {
     action: 'listDevices';
     visibleConnectedDeviceGuids?: string;
+    networkName: string;
 }
 
 export function isListDevicesMessage(message: unknown): message is ListDevicesMessage {
-    return isSerializableDevicesMessage(message) && message.action === 'listDevices';
-}
-
-export interface RelistDevicesMessage {
-    action: 'relistDevices';
-}
-
-export function isRelistDevicesMessage(message: unknown): message is ListDevicesMessage {
     return (
-        typeof message === 'object' &&
-        message !== null &&
-        'action' in message &&
-        typeof message.action === 'string' &&
-        message.action === 'relistDevices'
+        isSerializableDevicesMessage(message) &&
+        message.action === 'listDevices' &&
+        'networkName' in message &&
+        typeof message.networkName === 'string'
     );
 }
 
@@ -228,12 +214,12 @@ export function isLinkDetailsMessage(message: unknown): message is LinkDetailsMe
     );
 }
 
-export function linkFromSerializableLinkMessage(message: LinkDetailsMessage): DeviceLinkEdge {
+export function linkFromSerializableLinkMessage(message: LinkDetailsMessage): DisplayEdge {
     const linkEdge: unknown = JSON.parse(message.linkDetails);
-    if (isDeviceLinkEdge(linkEdge)) {
+    if (isDisplayEdge(linkEdge)) {
         return linkEdge;
     } else {
-        throw Error('Unable to parse as DeviceLinkEdge object');
+        throw Error('Unable to parse as DisplayEdge object');
     }
 }
 
@@ -294,5 +280,19 @@ export function isSelectedMapSettingsMessage(message: unknown): message is Selec
         isLayoutSettings(message.layoutSettings) &&
         'imageSettings' in message &&
         isImageSettings(message.imageSettings)
+    );
+}
+
+export interface RelistNetworksMessage {
+    action: 'relistNetworks';
+}
+
+export function isRelistNetworksMessage(message: unknown): message is RelistNetworksMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        message.action === 'relistNetworks'
     );
 }

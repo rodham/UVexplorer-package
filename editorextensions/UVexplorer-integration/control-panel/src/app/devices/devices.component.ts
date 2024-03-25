@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NgIf, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
+    ListDevicesMessage,
     connDeviceGuidsFromListDevMsg,
     devicesFromSerializableDevicesMessage,
-    isListDevicesMessage,
-    isRelistDevicesMessage
+    isListDevicesMessage
 } from 'model/message';
 import { Device, DeviceCategoryEntry, isDevice } from 'model/uvx/device';
 import { AgGridAngular } from 'ag-grid-angular';
@@ -22,52 +22,72 @@ import {
     SizeColumnsToFitProvidedWidthStrategy
 } from 'ag-grid-community';
 import { SettingsComponent } from '../settings/settings.component';
+import { DynamicLayoutSelect } from '../dynamic-layout-select/dl-select.component';
 
 @Component({
     selector: 'app-devices',
     standalone: true,
-    imports: [NgIf, NgClass, AgGridAngular, SettingsComponent, FormsModule],
+    imports: [NgIf, NgClass, AgGridAngular, SettingsComponent, FormsModule, DynamicLayoutSelect],
     templateUrl: './devices.component.html'
 })
-export class DevicesComponent {
+export class DevicesComponent implements OnChanges {
+    @Input() devicesMessage?: ListDevicesMessage;
     devices: Device[] = [];
     preselectedDeviceGuids: string[] = [];
     themeClass = 'ag-theme-quartz';
     rowSelection: 'multiple' | 'single' = 'multiple';
     gridApi?: GridApi;
     selectDevicesButtonEnabled = false;
+    networkName = '';
 
     constructor() {
         window.addEventListener('message', (e) => {
-            console.log('Received a message from the parent.');
+            console.log('Received a message from the parent in devices comp.');
             console.log(e.data);
 
             if (isListDevicesMessage(e.data)) {
-                this.devices = devicesFromSerializableDevicesMessage(e.data);
-                this.preselectedDeviceGuids = connDeviceGuidsFromListDevMsg(e.data);
-                if (this.preselectedDeviceGuids.length > 0) {
-                    this.selectDevicesButtonEnabled = true;
-                }
+                this.initFromMessage(e.data);
                 document.getElementById('devicesComponent')!.style.display = 'block';
                 console.log('Received devices in component');
-            } else if (isRelistDevicesMessage(e.data)) {
-                document.getElementById('devicesComponent')!.style.display = 'block';
+            } else {
+                console.log('Message did not match correctly');
             }
         });
+
+        if (this.devicesMessage) {
+            console.log('Init from message from parent');
+            this.initFromMessage(this.devicesMessage);
+        }
+    }
+
+    ngOnChanges(_changes: SimpleChanges) {
+        if (this.devicesMessage) {
+            console.log('Init from message from update');
+            this.initFromMessage(this.devicesMessage);
+        }
+    }
+
+    initFromMessage(message: ListDevicesMessage) {
+        this.devices = devicesFromSerializableDevicesMessage(message);
+        this.preselectedDeviceGuids = connDeviceGuidsFromListDevMsg(message);
+        this.networkName = message.networkName;
+        if (this.preselectedDeviceGuids.length > 0) {
+            this.selectDevicesButtonEnabled = true;
+        }
     }
 
     public columnDefs: ColDef<Device>[] = [
         {
             field: 'custom_name',
             headerName: 'Name',
+            headerCheckboxSelection: true,
+            checkboxSelection: true,
             filter: 'agTextColumnFilter',
             minWidth: 240
         },
         {
             field: 'ip_address',
             headerName: 'IP Address',
-            headerCheckboxSelection: true,
-            checkboxSelection: true,
             filter: 'agTextColumnFilter',
             minWidth: 250
         },
@@ -80,7 +100,6 @@ export class DevicesComponent {
                 if (!isDevice(params.data) || !params.data.device_categories.entries) {
                     return '';
                 }
-                //console.log('Device GUID: ', params.data.guid);
                 return this.appendDeviceCategories(params.data.device_categories.entries);
             }
         }
@@ -120,7 +139,6 @@ export class DevicesComponent {
     }
 
     public getRowId: GetRowIdFunc = (params: GetRowIdParams<Device>) => {
-        //console.log('Setting row id for guid: ', params.data.guid);
         return params.data.guid;
     };
 
@@ -137,18 +155,12 @@ export class DevicesComponent {
         for (const device of this.devices) {
             const guid = device.guid;
             console.log('setPreselectedDevices', guid);
-            //console.log('Checking node with guid: ', guid);
             if (!this.gridApi) {
-                //   console.log('Grid not ready');
                 return;
             }
             if (this.preselectedDeviceGuids.includes(guid)) {
                 const node = this.gridApi.getRowNode(guid);
                 if (!node) continue; //console.log('Node exists');
-                /*else {
-                    //console.log('Node does not exist');
-                    continue;
-                }*/
                 console.log('setting selected', guid);
                 node.setSelected(true);
             } else {
@@ -197,6 +209,17 @@ export class DevicesComponent {
         parent.postMessage(
             {
                 action: 'loadMapSettings'
+            },
+            '*'
+        );
+
+        document.getElementById('devicesComponent')!.style.display = 'none';
+    }
+
+    public relistNetworks() {
+        parent.postMessage(
+            {
+                action: 'relistNetworks'
             },
             '*'
         );

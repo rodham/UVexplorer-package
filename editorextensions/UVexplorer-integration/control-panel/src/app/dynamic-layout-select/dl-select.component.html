@@ -1,0 +1,98 @@
+<div *ngIf="devices">
+    <!-- <div class="drawer"> -->
+    <!--     <input id="dyn-settings-drawer" type="checkbox" class="drawer-toggle" /> -->
+    <!--     <div class="drawer-content"> -->
+    <!--         <label for="dyn-settings-drawer" class="btn btn-primary drawer-button">Drawer Button</label> -->
+    <!--     </div> -->
+    <!--     <div class="drawer-side top-8"> -->
+    <!--         <label for="dyn-settings-drawer" aria-label="close sidebar" class="drawer-overlay"></label> -->
+    <!--         <ul class="menu p-4 w-auto min-h-full bg-base-100 text-base-content"> -->
+    <!--             <li> -->
+    <!--                 <input -->
+    <!--                     type="radio" -->
+    <!--                     [(ngModel)]="drawerSelection" -->
+    <!--                     value="devCat" -->
+    <!--                     id="devCatRadio" -->
+    <!--                     class="hidden peer" -->
+    <!--                 /> -->
+    <!--                 <label for="devCatRadio" class="peer-checked:bg-base-300 text-base-content w-full"> -->
+    <!--                     Device Categories -->
+    <!--                 </label> -->
+    <!--             </li> -->
+    <!---->
+    <!--             <li> -->
+    <!--                 <input type="radio" [(ngModel)]="drawerSelection" value="todo1" id="todo1" class="hidden peer" /> -->
+    <!--                 <label for="todo1" class="peer-checked:bg-base-300 text-base-content w-full"> TODO 1 </label> -->
+    <!--             </li> -->
+    <!---->
+    <!--             <li> -->
+    <!--                 <input type="radio" [(ngModel)]="drawerSelection" value="todo2" id="todo2" class="hidden peer" /> -->
+    <!--                 <label for="todo2" class="peer-checked:bg-base-300 text-base-content w-full"> TODO 2 </label> -->
+    <!--             </li> -->
+    <!--         </ul> -->
+    <!--     </div> -->
+    <!-- </div> -->
+
+    <!-- <div> -->
+    <!--     <div *ngIf="compVisible('devCat') && deviceCategories"> -->
+    <!--         <div *ngFor="let cat of deviceCategories.keys()"> -->
+    <!--             <p>{{ cat }}</p> -->
+    <!--         </div> -->
+    <!--     </div> -->
+    <!--     <div *ngIf="compVisible('todo1')">TODO 1</div> -->
+    <!--     <div *ngIf="compVisible('todo2')">TODO 2</div> -->
+    <!-- </div> -->
+
+    <div>
+        <h2 class="font-semibold mb-2 pl-3">Device Categories</h2>
+        <ag-grid-angular
+            class="w-3/5 h-[300px]"
+            [class]="themeClass"
+            [rowData]="categoryRows"
+            [columnDefs]="columnDefs"
+            [getRowId]="getRowId"
+            [rowSelection]="rowSelection"
+            [rowMultiSelectWithClick]="true"
+            (gridReady)="onGridReady($event)"
+        >
+        </ag-grid-angular>
+        <!-- <div *ngIf="deviceCategories && categorySelection" class="w-1/2"> -->
+        <!--     <table class="table border-base-300"> -->
+        <!--         <thead> -->
+        <!--             <tr> -->
+        <!--                 <th> -->
+        <!--                     <label class="label cursor-pointer" (click)="selectAllCats()"> -->
+        <!--                         <input type="checkbox" class="checkbox" [(ngModel)]="allCatsSelected" /> -->
+        <!--                         <span class="label-text font-semibold">Select All</span> -->
+        <!--                     </label> -->
+        <!--                 </th> -->
+        <!--             </tr> -->
+        <!--         </thead> -->
+        <!--         <tbody> -->
+        <!--             <tr *ngFor="let cat of deviceCategories.keys()"> -->
+        <!--                 <td> -->
+        <!--                     <label -->
+        <!--                         class="label cursor-pointer" -->
+        <!--                         (click)="selectCat(cat)" -->
+        <!--                         [ngModel]="categorySelection.get(cat)" -->
+        <!--                     > -->
+        <!--                         <input type="checkbox" class="checkbox" /> -->
+        <!--                         <span class="label-text">{{ cat }}</span> -->
+        <!--                     </label> -->
+        <!--                 </td> -->
+        <!--             </tr> -->
+        <!--         </tbody> -->
+        <!--     </table> -->
+        <!--     <label *ngFor="let cat of deviceCategories.keys()" class="label cursor-pointer w-1/3"> -->
+        <!--         <input type="checkbox" class="checkbox" /> -->
+        <!--         <span class="label-text">{{ cat }}</span> -->
+        <!--     </label> -->
+        <!-- </div> -->
+    </div>
+    <br />
+    <hr />
+    <br />
+    <div id="textDynamicQuery" class="border-base-300 rounded-box">
+        <p>TEXT QUERY TODO</p>
+    </div>
+</div>

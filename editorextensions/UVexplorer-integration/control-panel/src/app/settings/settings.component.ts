@@ -11,7 +11,8 @@ import {
     defaultDrawSettings,
     defaultLayoutSettings,
     ImageSettings,
-    defaultImageSettings
+    defaultImageSettings,
+    DashStyle
 } from 'model/uvx/topo-map';
 
 @Component({
@@ -28,6 +29,7 @@ export class SettingsComponent {
     layoutTypes = LayoutType;
     layoutDirection = LayoutDirection;
     rootAlignment = RootAlignment;
+    dashStyle = DashStyle;
     colors = {
         standardPen: '#000000',
         lagPen: '#ffd700',
