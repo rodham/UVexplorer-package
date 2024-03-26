@@ -1,4 +1,6 @@
-﻿export interface HubNode {
+﻿export const HUB_NODE = 'Hub Node';
+
+export interface HubNode {
     nodeId: number;
     label: string;
     x: number;
