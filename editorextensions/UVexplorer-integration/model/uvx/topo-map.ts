@@ -241,9 +241,9 @@ export const defaultDrawSettings: DrawSettings = {
     },
     multiPen: {
         color: {
-            red: 0,
-            green: 0,
-            blue: 0
+            red: 46,
+            green: 227,
+            blue: 30
         },
         width: 1,
         dashStyle: DashStyle.Solid
