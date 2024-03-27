@@ -26,12 +26,14 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
     vlanSelection!: FormControl;
     hostSelection!: FormControl;
     oidSelection!: FormControl;
-    private ipRegEx = /^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d).?\b){4}$/;
+    private ipRegEx =
+        /^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d).?\b){4}(\/(8|16|24))?(-((25[0-5]|(2[0-4]|1\d|[1-9]|)\d).?\b){4}(\/(8|16|24))?)?$/;
+    private hostRegEx = /^([a-zA-Z*?])*$/;
 
     ngOnInit(): void {
         this.dynamicSelectForm = new FormGroup({
             ipSelection: new FormControl('', {
-                validators: [Validators.minLength(3), dynSelectionValidator(this.ipRegEx)],
+                validators: [Validators.minLength(5), dynSelectionValidator(this.ipRegEx)],
                 updateOn: 'blur'
             }),
             vlanSelection: new FormControl('', {
@@ -39,7 +41,7 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
                 updateOn: 'blur'
             }),
             hostSelection: new FormControl('', {
-                validators: [Validators.minLength(3)],
+                validators: [Validators.minLength(3), dynSelectionValidator(this.hostRegEx)],
                 updateOn: 'blur'
             }),
             oidSelection: new FormControl('', {
@@ -47,22 +49,6 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
                 updateOn: 'blur'
             })
         });
-        // this.ipSelection = new FormControl('', {
-        //     validators: [Validators.minLength(3), dynSelectionValidator(this.ipRegEx)],
-        //     updateOn: 'blur'
-        // });
-        // this.vlanSelection = new FormControl('', {
-        //     validators: [Validators.minLength(3)],
-        //     updateOn: 'blur'
-        // });
-        // this.hostSelection = new FormControl('', {
-        //     validators: [Validators.minLength(3)],
-        //     updateOn: 'blur'
-        // });
-        // this.oidSelection = new FormControl('', {
-        //     validators: [Validators.minLength(4)],
-        //     updateOn: 'blur'
-        // });
     }
 
     private getDeviceCategories(devices: Device[]) {
@@ -83,10 +69,6 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
         }
         return deviceCategories;
     }
-
-    // protected compVisible(compName: string) {
-    //     return this.drawerSelection === compName;
-    // }
 
     setupCategories() {
         console.log('Setting up categories');
