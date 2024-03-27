@@ -29,6 +29,7 @@
                 [rowMultiSelectWithClick]="true"
                 (gridReady)="onGridReady($event)"
                 (rowDataUpdated)="onRowDataUpdated($event)"
+                (rowSelected)="onRowSelected()"
             >
             </ag-grid-angular>
         </div>
