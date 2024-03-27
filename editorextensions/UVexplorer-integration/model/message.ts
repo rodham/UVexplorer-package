@@ -131,20 +131,6 @@ export function isListDevicesMessage(message: unknown): message is ListDevicesMe
     );
 }
 
-export interface RelistDevicesMessage {
-    action: 'relistDevices';
-}
-
-export function isRelistDevicesMessage(message: unknown): message is ListDevicesMessage {
-    return (
-        typeof message === 'object' &&
-        message !== null &&
-        'action' in message &&
-        typeof message.action === 'string' &&
-        message.action === 'relistDevices'
-    );
-}
-
 export function connDeviceGuidsFromListDevMsg(message: ListDevicesMessage): string[] {
     if (!message.visibleConnectedDeviceGuids) {
         return [];

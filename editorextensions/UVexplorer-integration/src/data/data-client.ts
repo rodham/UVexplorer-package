@@ -250,7 +250,8 @@ export class DataClient {
                 }
             }
         }
-        throw new Error('Could not retrieve the network associated with the current page.');
+        console.error('Could not retrieve the network associated with the current page.');
+        return '';
     }
 
     getDeviceCollectionForPage(pageId: string): string {
