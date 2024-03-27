@@ -12,7 +12,7 @@ export function uvDeviceSelected(viewport: Viewport): boolean {
     const isCorrectSelection =
         selection.length > 0 &&
         selection.every((item) => BlockUtils.isNetworkDeviceBlock(item)) &&
-        !selection.find((item) => BlockUtils.isHubNodeBlock(item));
+        selection.some((item) => !BlockUtils.isHubNodeBlock(item));
     return isCorrectSelection;
 }
 
@@ -20,8 +20,8 @@ export function singleDeviceSelected(viewport: Viewport): boolean {
     const selection = viewport.getSelectedItems();
     const isCorrectSelection =
         selection.length === 1 &&
-        selection.every((item) => BlockUtils.isNetworkDeviceBlock(item)) &&
-        !selection.find((item) => BlockUtils.isHubNodeBlock(item));
+        BlockUtils.isNetworkDeviceBlock(selection[0]) &&
+        !BlockUtils.isHubNodeBlock(selection[0]);
     return isCorrectSelection;
 }
 
