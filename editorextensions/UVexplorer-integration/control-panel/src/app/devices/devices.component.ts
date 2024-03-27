@@ -5,7 +5,8 @@ import {
     ListDevicesMessage,
     connDeviceGuidsFromListDevMsg,
     devicesFromSerializableDevicesMessage,
-    isListDevicesMessage
+    isListDevicesMessage,
+    isRelistDevicesMessage
 } from 'model/message';
 import { Device, DeviceCategoryEntry, isDevice } from 'model/uvx/device';
 import { AgGridAngular } from 'ag-grid-angular';
@@ -49,6 +50,8 @@ export class DevicesComponent implements OnChanges {
                 this.initFromMessage(e.data);
                 document.getElementById('devicesComponent')!.style.display = 'block';
                 console.log('Received devices in component');
+            } else if (isRelistDevicesMessage(e.data)) {
+                document.getElementById('devicesComponent')!.style.display = 'block';
             } else {
                 console.log('Message did not match correctly');
             }
