@@ -47,7 +47,8 @@ export async function showConnectedDevices(
     for (const item of selection) {
         if (BlockUtils.isNetworkDeviceBlock(item)) {
             const itemData = item.shapeData.get('Guid');
-            if (itemData && typeof itemData === 'string' && itemData !== '' && itemData !== 'Hub Node') deviceGuids.push(itemData);
+            if (itemData && typeof itemData === 'string' && itemData !== '' && itemData !== 'Hub Node')
+                deviceGuids.push(itemData);
             else {
                 console.log('Problem getting shapeData guid from item');
                 continue;
