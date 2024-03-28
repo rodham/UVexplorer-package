@@ -41,6 +41,7 @@ export enum DashStyle {
 export interface ImageSettings {
     showVendor: boolean;
     showStatus: boolean;
+    showDisplayName: boolean;
 }
 
 export function isImageSettings(obj: unknown): obj is ImageSettings {
@@ -50,13 +51,16 @@ export function isImageSettings(obj: unknown): obj is ImageSettings {
         'showVendor' in obj &&
         typeof obj.showVendor === 'boolean' &&
         'showStatus' in obj &&
-        typeof obj.showStatus === 'boolean'
+        typeof obj.showStatus === 'boolean' &&
+        'showDisplayName' in obj &&
+        typeof obj.showDisplayName === 'boolean'
     );
 }
 
 export const defaultImageSettings = {
     showVendor: true,
-    showStatus: true
+    showStatus: true,
+    showDisplayName: true
 };
 
 export interface LayoutSettings {

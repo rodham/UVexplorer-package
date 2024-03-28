@@ -92,6 +92,7 @@ export class DrawBlocks {
         block.shapeData.set('DeviceType', getDeviceType(deviceNode));
         block.shapeData.set('Guid', deviceNode.deviceGuid);
         block.shapeData.set('Status', imageSettings.showStatus ? deviceNode.status : '');
+        block.shapeData.set('DisplayName', imageSettings.showDisplayName ? deviceNode.displayName : '');
     }
 
     static setReferenceKey(block: BlockProxy, deviceNode: DeviceNode, collectionId: string) {

@@ -229,9 +229,38 @@
       "label": "Status",
       "type": "string",
       "default": ""
+    },
+    {
+      "name": "DisplayName",
+      "label": "DisplayName",
+      "type": "string",
+      "default": ""
     }
   ],
   "shapes": [
+    {
+      "style": {
+        "stroke": {
+          "width": 0
+        }
+      },
+      "textarea": {
+        "name": "displayName",
+        "text": "{{=@DisplayName}}",
+        "editable": false,
+        "style": {
+          "color": "#000000",
+          "size": 15
+        }
+      },
+      "bounds": {
+        "x": "=@Width * -1",
+        "y": "=@Height",
+        "absolute": "xywh",
+        "w": "=@Width * 3",
+        "h": "=@Height * 0.4"
+      }
+    },
     {
       "style": {
         "fill": {
