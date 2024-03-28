@@ -3,6 +3,7 @@ import { DISPLAY_EDGE_REFERENCE_KEY } from '@data/data-client';
 import { PenPattern, DrawSettings, DashStyle } from 'model/uvx/topo-map';
 import { DisplayEdge } from 'model/uvx/display-edge';
 import { DisplayEdgeSet } from 'model/uvx/display-edge-set';
+import { DeviceLink } from 'model/uvx/device';
 
 export class DrawLines {
     static drawLines(
@@ -21,7 +22,7 @@ export class DrawLines {
                 if (deviceBlock && connectedDeviceBlock) {
                     const penSettings: PenPattern = this.getPenSettings(
                         drawSettings,
-                        displayEdge.deviceLinks[0].linkType
+                        displayEdge
                     );
                     const line = this.drawLine(page, deviceBlock, connectedDeviceBlock, penSettings);
                     this.setReferenceKey(line, displayEdge, collectionId);
@@ -102,19 +103,31 @@ export class DrawLines {
         });
     }
 
-    private static getPenSettings(drawSettings: DrawSettings, linkType: string): PenPattern {
+    private static getPenSettings(drawSettings: DrawSettings, displayEdge: DisplayEdge): PenPattern {
+        let linkType = displayEdge.deviceLinks[0].linkType.toLowerCase();
+
+        if (displayEdge.deviceLinks.length > 1) {
+            if (!this.allLagLinks(displayEdge.deviceLinks)) {
+                linkType = 'multi';
+            }
+        }
+
         switch (linkType) {
-            case 'LAG':
+            case 'lag':
                 return drawSettings.lagPen;
-            case 'Manual':
+            case 'manual':
                 return drawSettings.manualPen;
-            case 'Associated':
+            case 'associated':
                 return drawSettings.associatedPen;
-            case 'Multi':
+            case 'multi':
                 return drawSettings.multiPen;
             default:
                 return drawSettings.standardPen;
         }
+    }
+
+    private static allLagLinks(deviceLinks: DeviceLink[]): boolean {
+        return deviceLinks.every((link) => link.linkType.toLowerCase() == 'lag');
     }
 
     static clearLines(page: PageProxy) {
