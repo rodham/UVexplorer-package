@@ -10,7 +10,7 @@ import { DisplayEdge } from 'model/uvx/display-edge';
     templateUrl: './link-detail.component.html'
 })
 export class LinkDetailComponent {
-    COLUMNS = ['Device', 'IF Index', 'IF Name', 'Conn Device', 'Conn IF Index', 'Conn IF Name', 'Link Type']
+    COLUMNS = ['Device', 'IF Index', 'IF Name', 'Conn Device', 'Conn IF Index', 'Conn IF Name', 'Link Type'];
     displayEdge?: DisplayEdge;
     numMembers = 0;
 
