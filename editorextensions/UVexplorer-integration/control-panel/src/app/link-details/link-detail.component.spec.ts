@@ -56,7 +56,7 @@ describe('LinkDetailComponent', () => {
         fixture.detectChanges();
 
         const compDebug = fixture.debugElement;
-        const tableElem = compDebug.query(By.css('.table-fixed'));
+        const tableElem = compDebug.query(By.css('.table-auto'));
 
         expect(tableElem).toBeTruthy();
     });
