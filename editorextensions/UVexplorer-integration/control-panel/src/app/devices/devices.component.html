@@ -1,4 +1,4 @@
-<div id="devicesComponent" [hidden]="!checkDevicesLength()" class="flex flex-col">
+<div id="devicesComponent" *ngIf="!settings" [hidden]="!checkDevicesLength()" class="flex flex-col">
     <div class="inline-flex flex-row items-center basis-1/6">
         <button (click)="relistNetworks()" class="py-2 px-4 btn btn-sm btn-link">
             <i class="fa-solid fa-arrow-left"></i>
@@ -6,6 +6,10 @@
         </button>
 
         <h2 class="py-2 px-4 mx-2 mt-1 mb-1 font-semibold text-xl">{{ networkName }}</h2>
+
+        <button (click)="changeSettings()" class="py-2 px-4 btn btn-sm float-right">
+            <i class="fa-solid fa-gear"></i>
+        </button>
     </div>
     <div role="tablist" class="tabs tabs-lifted tabs-md pt-2 basis-4/6">
         <input
@@ -19,19 +23,7 @@
             checked
         />
         <div role="tabpanel" class="tab-content bg-base-100 border-t-base-300 p-6">
-            <ag-grid-angular
-                style="width: 100%; height: 405px"
-                [class]="themeClass"
-                [rowData]="devices"
-                [columnDefs]="columnDefs"
-                [getRowId]="getRowId"
-                [rowSelection]="rowSelection"
-                [rowMultiSelectWithClick]="true"
-                (gridReady)="onGridReady($event)"
-                (rowDataUpdated)="onRowDataUpdated($event)"
-                (rowSelected)="onRowSelected()"
-            >
-            </ag-grid-angular>
+            <man-select [devices]="devices" [preselectedDeviceGuids]="preselectedDeviceGuids"></man-select>
         </div>
 
         <input
@@ -47,26 +39,5 @@
             <dl-select [devices]="devices" class="overflow-auto w-screen object-contain h-[460px]"></dl-select>
         </div>
     </div>
-
-    <div class="flex flex-row basis-1/6 px-4 pb-4 fixed bottom-0" [hidden]="devices.length === 0">
-        <button
-            *ngIf="tabSelection === 'man'"
-            (click)="selectDevices()"
-            class="text-white py-2 px-4 rounded mx-2 mt-1"
-            [ngClass]="{
-                'bg-gray-400': !selectDevicesButtonEnabled,
-                'bg-blue-500': selectDevicesButtonEnabled
-            }"
-            [disabled]="!selectDevicesButtonEnabled"
-        >
-            Select Devices
-        </button>
-        <button *ngIf="tabSelection === 'dyn'" (click)="selectDevices()" class="text-white py-2 px-4 rounded mx-2 mt-1">
-            Confirm Selection
-        </button>
-        <button (click)="changeSettings()" class="bg-blue-400 text-white py-2 px-4 rounded mx-2 mt-1">
-            Change Settings
-        </button>
-    </div>
 </div>
-<app-settings></app-settings>
+<app-settings *ngIf="settings" [childSettings]="true" (settingsClosedEvent)="settingsClosed($event)"></app-settings>

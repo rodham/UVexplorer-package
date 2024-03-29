@@ -57,8 +57,13 @@
             <p class="mb-2 pl-5 font-light text-sm">SNMP OIDs / Object Identifiers (* and ? are wildcards)</p>
             <textarea class="textarea textarea-bordered w-3/5" placeholder="todo"></textarea>
         </div>
-        <div id="textDynamicQuery" class="border-base-300 rounded-box">
-            <p>TEXT QUERY TODO?</p>
-        </div>
+        <!-- <div id="textDynamicQuery" class="border-base-300 rounded-box"> -->
+        <!--     <p>TEXT QUERY TODO?</p> -->
+        <!-- </div> -->
     </form>
+    <div class="flex flex-row basis-1/6 px-4 pb-4 fixed bottom-0" [hidden]="devices.length === 0">
+        <button (click)="confirmSelection()" class="btn bg-primary text-white py-2 px-4 rounded mx-2 mt-1">
+            Confirm Selection
+        </button>
+    </div>
 </div>

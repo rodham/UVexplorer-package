@@ -1,12 +1,12 @@
 import { isPointLike } from 'lucid-extension-sdk';
 
 // DeviceFilter
-interface Range {
+export interface IpRange {
     min_address: string;
     max_address: string;
 }
 
-interface Subnet {
+export interface Subnet {
     ip_address: string;
     subnet_mask: string;
 }
@@ -22,15 +22,15 @@ interface OctetRange {
     max_d: string;
 }
 
-interface IpScope {
+export interface IpScope {
     addresses?: string[];
-    ranges?: Range[];
+    ranges?: IpRange[];
     subnets?: Subnet[];
     octet_ranges?: OctetRange[];
     hosts?: string[];
 }
 
-interface DeviceCategoryFilter {
+export interface DeviceCategoryFilter {
     category_filter_type: 'All' | 'Any';
     category_names: string[];
 }
