@@ -2,6 +2,7 @@ import {
     Device,
     DeviceCategories,
     DeviceClass,
+    DeviceLink,
     ProtocolProfile
 } from 'model/uvx/device';
 import { CollectionProxy, DataItemProxy, DataProxy, EditorClient, SerializedFieldType } from 'lucid-extension-sdk';

@@ -103,7 +103,8 @@ export class DataClient {
         return source.addCollection(`${toSnakeCase(source.getName())}_display_edge`, DISPLAY_EDGE_SCHEMA);
     }
 
-    createOrRetrieveDeviceFilterCollection(source: DataSourceProxy): CollectionProxy {
+    createOrRetrieveDeviceFilterCollection(): CollectionProxy {
+        const source = this.createOrRetrievePageMapSource();
         for (const [, collection] of source.collections) {
             if (collection.getName() === `${toSnakeCase(source.getName())}_filter`) {
                 return collection;
@@ -198,6 +199,17 @@ export class DataClient {
             ) as LayoutSettings;
         }
         return layoutSettings;
+    }
+
+    getDeviceFilter(collection: CollectionProxy, pageId: string): DeviceFilter | undefined {
+        const key = addQuotationMarks(pageId);
+        let deviceFilter: DeviceFilter | undefined = undefined;
+        if (collection.items.keys().includes(key)) {
+            deviceFilter = JSON.parse(
+                collection.items.get(key).fields.get('device_filter')?.toString() ?? ''
+            ) as DeviceFilter;
+        }
+        return deviceFilter;
     }
 
     getDrawSettings(collection: CollectionProxy, pageId: string): DrawSettings {
@@ -321,7 +333,7 @@ export class DataClient {
     }
 
     saveDeviceFilter(source: DataSourceProxy, filter: DeviceFilter) {
-        const collection = this.createOrRetrieveDeviceFilterCollection(source);
+        const collection = this.createOrRetrieveDeviceFilterCollection();
         this.clearCollection(collection);
         this.saveDeviceFilter(source, filter);
     }

@@ -96,7 +96,6 @@ export abstract class UVXModal extends Modal {
 
         const imageSettings = this.dataClient.getImageSettings(collection, page);
 
-        console.log('selected layout type', layoutType);
         if (layoutType !== LayoutType.Manual) {
             // Auto layout
             // Remove all devices
@@ -147,16 +146,27 @@ export abstract class UVXModal extends Modal {
 
         const deviceListRequest: DeviceListRequest = new DeviceListRequest(deviceFilter);
         const devices = await this.uvxClient.listDevices(deviceListRequest);
-        const deviceGuids = devices.map(device => device.guid);
+        const updatedDeviceGuidsList = devices.map(device => device.guid);
 
         const settingsCollection = this.dataClient.createOrRetrieveSettingsCollection();
-
         const imageSettings = this.dataClient.getImageSettings(settingsCollection, page);
+
+        let deviceGuids = updatedDeviceGuidsList;
+        if (this.docClient.getLayoutSettings().layoutType === LayoutType.Manual) {
+            const previousDeviceGuids = this.docClient.getNetworkDeviceBlockGuids();
+
+            const deviceGuidsNoLongerInNetwork = previousDeviceGuids.filter(oldDevice => !updatedDeviceGuidsList.includes(oldDevice));
+            this.docClient.removeFromMap(deviceGuidsNoLongerInNetwork);
+
+            const newlyAddedDeviceGuids = updatedDeviceGuidsList.filter(device => !previousDeviceGuids.includes(device));
+            deviceGuids = newlyAddedDeviceGuids;
+        } else {
+            this.docClient.clearMap();
+        }
 
         const topoMap = await this.loadTopoMap(deviceGuids);
 
         if (topoMap) {
-            this.docClient.clearMap();
             await this.docClient.drawMap(topoMap, this.client, imageSettings);
         } else {
             console.log("Dynamic Layout - Unable to load topo map");

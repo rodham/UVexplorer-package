@@ -11,6 +11,7 @@ import {
 } from 'model/uvx/topo-map';
 import { DataClient } from '@data/data-client';
 import { populateMapDisplayEdges } from 'model/uvx/display-edge-set';
+import { DeviceListRequest } from 'model/uvx/device';
 
 export async function syncDisplayedMap(docEditor: DocumentClient, client: EditorClient): Promise<void> {
     const settings = await client.getPackageSettings();
@@ -30,12 +31,34 @@ async function refreshMapDevices(docEditor: DocumentClient, client: EditorClient
     const layoutType = docEditor.getLayoutSettings().layoutType;
     const networkRequest = new NetworkRequest(networkGuid);
     await uvxClient.loadNetwork(networkRequest);
+
+    const deviceFilter = docEditor.getDeviceFilter();
+
     // const deviceGuids = docEditor.getNetworkDeviceBlockGuids();
     let deviceGuids;
-    if (layoutType === LayoutType.Manual) {
-        deviceGuids = docEditor.getNetworkDeviceBlockGuids();
+    if (deviceFilter !== undefined) {
+        const deviceListRequest = new DeviceListRequest(deviceFilter);
+        const devices = await uvxClient.listDevices(deviceListRequest);
+        const updatedDeviceGuidList = devices.map(device => device.guid);
+
+        if (layoutType === LayoutType.Manual) {
+            const previousDeviceGuids = docEditor.getNetworkDeviceBlockGuids();
+
+            const deviceGuidsNoLongerInNetwork = previousDeviceGuids.filter(oldDevice => !updatedDeviceGuidList.includes(oldDevice));
+            docEditor.removeFromMap(deviceGuidsNoLongerInNetwork);
+
+            const newlyAddedDeviceGuids = updatedDeviceGuidList.filter(device => !previousDeviceGuids.includes(device));
+            deviceGuids = newlyAddedDeviceGuids;
+        } else {
+            docEditor.clearMap([]);
+            deviceGuids = updatedDeviceGuidList;
+        }
     } else {
-        deviceGuids = docEditor.clearMap([]);
+        if (layoutType === LayoutType.Manual) {
+            deviceGuids = docEditor.getNetworkDeviceBlockGuids();
+        } else {
+            deviceGuids = docEditor.clearMap([]);
+        }
     }
     console.log('Device guids for redraw map: ', deviceGuids);
 

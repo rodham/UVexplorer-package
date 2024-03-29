@@ -46,6 +46,15 @@ export class DocumentClient {
         return this.dataClient.getLayoutSettings(collection, pageId);
     }
 
+    getDeviceFilter() {
+        const pageId = this.getPageId();
+        if (pageId === undefined) {
+            throw Error('Unable to retrieve device filter, no page id found');
+        }
+        const collection = this.dataClient.createOrRetrieveDeviceFilterCollection();
+        return this.dataClient.getDeviceFilter(collection, pageId);
+    }
+
     getNetworkSource(name: string, guid: string) {
         const source = this.dataClient.createOrRetrieveNetworkSource(name, guid);
         const page = this.viewport.getCurrentPage();
