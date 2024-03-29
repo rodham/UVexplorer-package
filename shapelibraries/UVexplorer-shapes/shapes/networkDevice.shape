@@ -249,8 +249,11 @@
         "text": "{{=@DisplayName}}",
         "editable": false,
         "style": {
-          "color": "#000000",
-          "size": 15
+          "color": "#333333",
+          "size": 5,
+          "sizeUnits": "pt",
+          "font": "Liberation Sans",
+          "bold": true
         }
       },
       "bounds": {

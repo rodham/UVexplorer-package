@@ -22,7 +22,7 @@
 
             <div>
                 <input type="checkBox" [(ngModel)]="imageSettings.showDisplayName" name="showDisplayName" />
-                <label for="showDisplayName"> Show Display Name</label>
+                <label for="showDisplayName"> Show Device Display Name</label>
             </div>
         </div>
     </form>
@@ -52,12 +52,12 @@
                     <input type="checkBox" [(ngModel)]="layoutSettings.showIpPhoneLinks" name="showIpPhoneLinks" />
                     <label for="ipPhoneLinks"> IP Phone Links</label>
                 </div>
-
-                <div>
-                    <input type="checkBox" [(ngModel)]="layoutSettings.showLinkLabels" name="showLinkLabels" />
-                    <label> Draw Link Labels</label>
-                </div>
             </div>
+        </div>
+
+        <div class="pl-4">
+            <input type="checkBox" [(ngModel)]="layoutSettings.showLinkLabels" name="showLinkLabels" />
+            <label class="font-semibold"> Draw Link Labels</label>
         </div>
 
         <fieldset class="pl-4 inline-flex flex-row">
@@ -257,18 +257,17 @@
 
         <div class="pl-4">
             <div>
-                <label class="font-semibold">Short Device Names: </label>
                 <input
                     type="checkbox"
                     [(ngModel)]="drawSettings.shortDeviceNames"
                     name="shortDeviceNames"
                     value="false"
                 />
+                <label class="font-semibold"> Short Device Names</label>
             </div>
 
             <div class="pl-4 inline-flex flex-row">
                 <div class="pr-4">
-                    <label class="font-semibold">Left Device Trim: </label>
                     <input
                         type="checkbox"
                         [(ngModel)]="drawSettings.deviceTrimLeft"
@@ -276,10 +275,11 @@
                         value="false"
                         [disabled]="!drawSettings.shortDeviceNames"
                     />
+                    <label> Left Device Trim</label>
                 </div>
 
                 <div class="pr-4">
-                    <label class="font-semibold">Left Device Trim Char: </label>
+                    <label>Left Device Trim Char: </label>
                     <input
                         type="text"
                         [(ngModel)]="drawSettings.deviceTrimLeftChar"
@@ -292,7 +292,7 @@
                 </div>
 
                 <div>
-                    <label class="font-semibold">Left Device Trim Count: </label>
+                    <label>Left Device Trim Count: </label>
                     <input
                         type="number"
                         [(ngModel)]="drawSettings.deviceTrimLeftCount"
@@ -307,7 +307,6 @@
 
             <div class="pl-4 inline-flex flex-row">
                 <div class="pr-4">
-                    <label class="font-semibold">Right Device Trim: </label>
                     <input
                         type="checkbox"
                         [(ngModel)]="drawSettings.deviceTrimRight"
@@ -315,10 +314,11 @@
                         value="false"
                         [disabled]="!drawSettings.shortDeviceNames"
                     />
+                    <label> Right Device Trim</label>
                 </div>
 
                 <div class="pr-4">
-                    <label class="font-semibold">Right Device Trim Char: </label>
+                    <label>Right Device Trim Char: </label>
                     <input
                         type="text"
                         [(ngModel)]="drawSettings.deviceTrimRightChar"
@@ -331,7 +331,7 @@
                 </div>
 
                 <div>
-                    <label class="font-semibold">Right Device Trim Count: </label>
+                    <label>Right Device Trim Count: </label>
                     <input
                         type="number"
                         [(ngModel)]="drawSettings.deviceTrimRightCount"
@@ -345,8 +345,8 @@
             </div>
 
             <div>
-                <label class="font-semibold">Short Interface Names: </label>
                 <input type="checkbox" [(ngModel)]="drawSettings.shortIfNames" name="shortIfNames" value="false" />
+                <label class="font-semibold"> Short Interface Names</label>
             </div>
 
             <br />

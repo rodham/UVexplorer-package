@@ -76,7 +76,8 @@ describe('Map', () => {
                 mockTopoMapWithDisplayEdges.displayEdges,
                 mockNodeIdToBlockMap,
                 'my_network_display_edge',
-                mockTopoMap.drawSettings
+                mockTopoMap.drawSettings,
+                false
             );
         });
     });

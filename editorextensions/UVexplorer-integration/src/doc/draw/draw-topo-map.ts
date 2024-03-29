@@ -42,7 +42,8 @@ export class DrawTopoMap {
                 topoMap.displayEdges,
                 nodeIdToBlockMap,
                 displayEdgeCollectionId,
-                topoMap.drawSettings
+                topoMap.drawSettings,
+                topoMap.layoutSettings.showLinkLabels
             );
         }
     }
