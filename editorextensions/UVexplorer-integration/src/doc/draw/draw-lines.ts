@@ -4,7 +4,6 @@ import { PenPattern, DrawSettings, DashStyle } from 'model/uvx/topo-map';
 import { DisplayEdge } from 'model/uvx/display-edge';
 import { DisplayEdgeSet } from 'model/uvx/display-edge-set';
 import { DeviceLink } from 'model/uvx/device';
-import { link } from 'fs';
 
 export class DrawLines {
     static drawLines(
@@ -54,10 +53,12 @@ export class DrawLines {
         line.changeZOrder(ZOrderOperation.BOTTOM);
 
         line.addTextArea(lineLabel, {location: 0.5, side: 0});
-        for (const key of line.textStyles.keys()) {
-            let styles = line.textStyles.get(key);
-            styles.size = 5;
-            void line.textStyles.set('t0', styles);
+        if (line.textStyles?.keys() !== undefined) {
+            for (const key of line.textStyles.keys()) {
+                const styles = line.textStyles.get(key);
+                styles.size = 5;
+                void line.textStyles.set('t0', styles);
+            }
         }
 
         if (line.properties !== undefined) {
@@ -117,6 +118,10 @@ export class DrawLines {
     }
 
     private static getPenSettings(drawSettings: DrawSettings, displayEdge: DisplayEdge): PenPattern {
+        if (displayEdge.deviceLinks[0].linkType?.toLowerCase() === undefined) {
+            return drawSettings.standardPen;
+        }
+
         let linkType = displayEdge.deviceLinks[0].linkType.toLowerCase();
 
         if (displayEdge.deviceLinks.length > 1) {
@@ -140,7 +145,12 @@ export class DrawLines {
     }
 
     private static allLagLinks(deviceLinks: DeviceLink[]): boolean {
-        return deviceLinks.every((link) => link.linkType.toLowerCase() == 'lag');
+        return deviceLinks.every((link) => {
+            if (link.linkType?.toLowerCase() === undefined) {
+                return false;
+            }
+            return link.linkType.toLowerCase() === 'lag';
+        });
     }
 
     static clearLines(page: PageProxy) {
@@ -153,7 +163,7 @@ export class DrawLines {
         }
     }
 
-    static createLinkLabel(displayEdge: DisplayEdge) {
+    private static createLinkLabel(displayEdge: DisplayEdge) {
         let label = ""
         for (const link of displayEdge.deviceLinks) {
             for (const edge of link.linkEdges) {
