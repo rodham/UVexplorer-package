@@ -1,44 +1,65 @@
-<div *ngIf="deviceDetails">
-    <h1 class="border-b mb-4 pb-2 font-bold m-8">
-        <span>
+<div *ngIf="deviceDetails; else loadingView">
+    <div class="flex flex-col min-w-screen min-h-screen bg-gray-50">
+        <!-- Header -->
+        <h1 class="border-b text-lg font-bold text-gray-500 px-6 py-2">
             {{ deviceDetails.displayName }}
-        </span>
-        <span *ngIf="device"> (IP: {{ device.ip_address }}) </span>
-    </h1>
-
-    <div *ngFor="let infoset of deviceDetails.infoSets">
-        <div tabIndex="0" class="collapse collapse-arrow">
-            <input type="checkbox" />
-            <div class="collapse-title text-xl font-medium w-screen">
-                {{ infoset.title }}
+        </h1>
+        <!-- Body -->
+        <div class="flex flex-row">
+            <!-- Sidebar -->
+            <div class="w-1/4 bg-gray-50 p-4">
+                <ul class="space-y-4">
+                    <li *ngFor="let infoset of deviceDetails.infoSets" class="cursor-pointer">
+                        <div
+                            class="px-2 py-1 border-b border-gray-200 rounded-lg text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            [class.bg-blue-500]="selectedTab === infoset.title"
+                            [class.text-white]="selectedTab === infoset.title"
+                            (click)="selectedTab = infoset.title"
+                        >
+                            {{ infoset.title }}
+                        </div>
+                    </li>
+                </ul>
             </div>
 
-            <div class="collapse-content">
-                <div class="overflow-x-auto w-screen">
-                    <table class="table table-auto m-6">
-                        <thead>
-                            <tr>
-                                <th *ngFor="let col of infoset.columns">{{ col.header }}</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr *ngFor="let entry of infoset.entries">
-                                <td *ngFor="let val of entry.values">
-                                    <span
-                                        *ngIf="
-                                            val.value !== null && val.value !== undefined && val.value !== '';
-                                            else blankValue
-                                        "
-                                        >{{ val.value }}</span
-                                    >
-                                    <ng-template #blankValue><i>No Info</i></ng-template>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <!-- Table content -->
+            <div class="w-3/4 p-4 bg-gray-50">
+                <div *ngFor="let infoset of deviceDetails.infoSets">
+                    <div *ngIf="selectedTab === infoset.title">
+                        <div class="overflow-x-auto bg-white shadow-lg rounded-lg p-6">
+                            <table class="table table-auto">
+                                <thead>
+                                    <tr>
+                                        <th
+                                            class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            *ngFor="let col of infoset.columns"
+                                        >
+                                            {{ col.header }}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let entry of infoset.entries">
+                                        <td *ngFor="let val of entry.values">
+                                            <span
+                                                *ngIf="
+                                                    val.value !== null && val.value !== undefined && val.value !== '';
+                                                    else blankValue
+                                                "
+                                            >
+                                                {{ val.value }}
+                                            </span>
+                                            <ng-template #blankValue><i>No Info</i></ng-template>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<ng-template #loadingView><span class="loading loading-spinner loading-lg"></span></ng-template>
