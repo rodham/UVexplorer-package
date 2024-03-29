@@ -1,45 +1,36 @@
 <div *ngIf="displayEdge; else loadingView">
-    <div *ngIf="numMembers > 0; else noDeviceLinkMembers">
-        <table class="table-fixed w-full">
-            <thead class="bg-gray-50 border-b border-gray-200">
-                <tr>
-                    <th class="w-1/6 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Device
-                    </th>
-                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        IF Index
-                    </th>
-                    <th class="w-1/6 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        IF Name
-                    </th>
-                    <th class="w-1/6 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Conn Device
-                    </th>
-                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Conn IF Index
-                    </th>
-                    <th class="w-1/6 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Conn IF Name
-                    </th>
-                    <th class="w-1/6 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Link Type
-                    </th>
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-                <ng-container *ngFor="let link of displayEdge?.deviceLinks">
-                    <tr *ngFor="let linkMember of link?.linkMembers">
-                        <td class="px-4 py-2 truncate">{{ linkMember.deviceName }}</td>
-                        <td class="px-4 py-2">{{ linkMember.ifIndex }}</td>
-                        <td class="px-4 py-2 truncate">{{ linkMember.ifName }}</td>
-                        <td class="px-4 py-2 truncate">{{ linkMember.connectedDevice }}</td>
-                        <td class="px-4 py-2">{{ linkMember.connectedIfIndex }}</td>
-                        <td class="px-4 py-2 truncate">{{ linkMember.connectedIfName }}</td>
-                        <td class="px-4 py-2">{{ link.linkType }}</td>
-                    </tr>
-                </ng-container>
-            </tbody>
-        </table>
+    <div class="flex flex-col min-w-screen min-h-screen bg-gray-50">
+        <!-- Header -->
+        <h1 class="border-b text-lg font-bold text-gray-500 px-6 py-2">
+            Link Details
+        </h1>
+        <!-- Body -->
+        <div class="p-4" *ngIf="numMembers > 0; else noDeviceLinkMembers">
+            <div class="bg-white overflow-x-auto shadow-lg rounded-lg m-2 p-6">
+                <table class="table table-auto">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" *ngFor="let col of COLUMNS">
+                                {{ col }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let link of displayEdge?.deviceLinks">
+                            <tr *ngFor="let linkMember of link?.linkMembers">
+                                <td class="px-4 py-2">{{ linkMember.deviceName }}</td>
+                                <td class="px-4 py-2">{{ linkMember.ifIndex }}</td>
+                                <td class="px-4 py-2">{{ linkMember.ifName }}</td>
+                                <td class="px-4 py-2">{{ linkMember.connectedDevice }}</td>
+                                <td class="px-4 py-2">{{ linkMember.connectedIfIndex }}</td>
+                                <td class="px-4 py-2">{{ linkMember.connectedIfName }}</td>
+                                <td class="px-4 py-2">{{ linkMember.linkType }}</td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
