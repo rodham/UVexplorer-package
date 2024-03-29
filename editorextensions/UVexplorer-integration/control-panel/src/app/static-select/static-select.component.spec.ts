@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ManualSelect } from './manual-select.component';
+import { StaticSelect } from './static-select.component';
 import { Device } from 'model/uvx/device';
 import { createDevice } from '../shared/specUtil';
 import { SelectedDevicesMessage } from 'model/message';
 
-describe('ManualSelectComponent', () => {
-    let component: ManualSelect;
-    let fixture: ComponentFixture<ManualSelect>;
+describe('StaticSelectComponent', () => {
+    let component: StaticSelect;
+    let fixture: ComponentFixture<StaticSelect>;
     let device: Device;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [ManualSelect]
+            imports: [StaticSelect]
         }).compileComponents();
 
-        fixture = TestBed.createComponent(ManualSelect);
+        fixture = TestBed.createComponent(StaticSelect);
         component = fixture.componentInstance;
 
         device = createDevice('1');

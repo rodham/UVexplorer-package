@@ -16,12 +16,12 @@ import {
 import { NgClass } from '@angular/common';
 
 @Component({
-    selector: 'man-select',
+    selector: 'static-select',
     standalone: true,
     imports: [AgGridAngular, NgClass],
-    templateUrl: './manual-select.component.html'
+    templateUrl: './static-select.component.html'
 })
-export class ManualSelect {
+export class StaticSelect {
     @Input({ required: true }) devices!: Device[];
     @Input() preselectedDeviceGuids: string[] = [];
     themeClass = 'ag-theme-quartz';

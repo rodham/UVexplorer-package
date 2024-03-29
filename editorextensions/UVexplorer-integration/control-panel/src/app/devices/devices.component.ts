@@ -11,12 +11,12 @@ import { Device, DeviceCategoryEntry } from 'model/uvx/device';
 import { AgGridAngular } from 'ag-grid-angular';
 import { SettingsComponent } from '../settings/settings.component';
 import { DynamicLayoutSelect } from '../dynamic-layout-select/dl-select.component';
-import { ManualSelect } from '../manual-select/manual-select.component';
+import { StaticSelect } from '../static-select/static-select.component';
 
 @Component({
     selector: 'app-devices',
     standalone: true,
-    imports: [NgIf, NgClass, AgGridAngular, SettingsComponent, FormsModule, DynamicLayoutSelect, ManualSelect],
+    imports: [NgIf, NgClass, AgGridAngular, SettingsComponent, FormsModule, DynamicLayoutSelect, StaticSelect],
     templateUrl: './devices.component.html'
 })
 export class DevicesComponent implements OnChanges {
