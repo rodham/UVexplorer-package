@@ -28,7 +28,7 @@ describe('DrawTopoMap DrawLines tests', () => {
             const changeZOrderSpy = jest.spyOn(mockLine, 'changeZOrder');
             const addLineSpy = jest.spyOn(mockPage, 'addLine').mockReturnValue(mockLine);
 
-            DrawLines.drawLine(mockPage, mockBlocks[0], mockBlocks[1], mockPenSettings, "");
+            DrawLines.drawLine(mockPage, mockBlocks[0], mockBlocks[1], mockPenSettings, '');
 
             expect(addLineSpy).toHaveBeenCalledWith({
                 endpoint1: {
@@ -64,7 +64,14 @@ describe('DrawTopoMap DrawLines tests', () => {
             const drawLineSpy = jest.spyOn(DrawLines, 'drawLine').mockReturnValue({} as lucid.LineProxy);
             const setReferenceKeySpy = jest.spyOn(DrawLines, 'setReferenceKey').mockImplementation();
 
-            DrawLines.drawLines(mockPage, mockDisplayEdgeSet, mockNodeIdToBlockMap, mockCollectionId, mockDrawSettings, false);
+            DrawLines.drawLines(
+                mockPage,
+                mockDisplayEdgeSet,
+                mockNodeIdToBlockMap,
+                mockCollectionId,
+                mockDrawSettings,
+                false
+            );
 
             expect(drawLineSpy).toHaveBeenCalledTimes(mockDisplayEdgeSet.map.size);
             expect(setReferenceKeySpy).toHaveBeenCalledTimes(mockDisplayEdgeSet.map.size);
