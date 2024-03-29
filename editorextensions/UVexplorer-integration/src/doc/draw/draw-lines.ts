@@ -21,12 +21,9 @@ export class DrawLines {
                 const connectedDeviceBlock = idToBlockMap.get(displayEdge.nodeId2);
 
                 if (deviceBlock && connectedDeviceBlock) {
-                    const penSettings: PenPattern = this.getPenSettings(
-                        drawSettings,
-                        displayEdge
-                    );
-                    
-                    const lineLabel = showLinkLabels ? this.createLinkLabel(displayEdge) : "";
+                    const penSettings: PenPattern = this.getPenSettings(drawSettings, displayEdge);
+
+                    const lineLabel = showLinkLabels ? this.createLinkLabel(displayEdge) : '';
                     const line = this.drawLine(page, deviceBlock, connectedDeviceBlock, penSettings, lineLabel);
                     this.setReferenceKey(line, displayEdge, collectionId);
                 }
@@ -34,7 +31,13 @@ export class DrawLines {
         }
     }
 
-    static drawLine(page: PageProxy, block1: BlockProxy, block2: BlockProxy, penSettings: PenPattern, lineLabel: string): LineProxy {
+    static drawLine(
+        page: PageProxy,
+        block1: BlockProxy,
+        block2: BlockProxy,
+        penSettings: PenPattern,
+        lineLabel: string
+    ): LineProxy {
         const line = page.addLine({
             endpoint1: {
                 connection: block1,
@@ -52,7 +55,7 @@ export class DrawLines {
         line.setShape(LineShape.Diagonal);
         line.changeZOrder(ZOrderOperation.BOTTOM);
 
-        line.addTextArea(lineLabel, {location: 0.5, side: 0});
+        line.addTextArea(lineLabel, { location: 0.5, side: 0 });
         if (line.textStyles?.keys() !== undefined) {
             for (const key of line.textStyles.keys()) {
                 const styles = line.textStyles.get(key);
@@ -164,22 +167,22 @@ export class DrawLines {
     }
 
     private static createLinkLabel(displayEdge: DisplayEdge) {
-        let label = ""
+        let label = '';
         for (const link of displayEdge.deviceLinks) {
             for (const edge of link.linkEdges) {
                 for (const localLabel of edge.localConnection.interfaceLabels) {
-                    if (localLabel !== " ") {
-                        if (label !== "") {
-                            label += ", ";
+                    if (localLabel !== ' ') {
+                        if (label !== '') {
+                            label += ', ';
                         }
                         label += localLabel;
                     }
                 }
 
                 for (const localLabel of edge.remoteConnection.interfaceLabels) {
-                    if (localLabel !== " ") {
-                        if (label !== "") {
-                            label += ", ";
+                    if (localLabel !== ' ') {
+                        if (label !== '') {
+                            label += ', ';
                         }
                         label += localLabel;
                     }
