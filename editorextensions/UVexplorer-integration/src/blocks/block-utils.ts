@@ -100,7 +100,6 @@ export class BlockUtils {
                     visConnDeviceGuids.push(...this.getVisibleConnectedDeviceGuidsFromBlock(endpoint2));
                 } else {
                     visConnDeviceGuids.push(endpointGuid2);
-
                 }
             }
         }

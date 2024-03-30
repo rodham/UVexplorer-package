@@ -1,6 +1,7 @@
 import {
     BlockProxy,
-    CustomBlockProxy, EndpointDefinition,
+    CustomBlockProxy,
+    EndpointDefinition,
     ItemProxy,
     LineProxy,
     PageProxy,
@@ -184,37 +185,43 @@ describe('BlockUtils Tests', () => {
             const endpoint2Guid = 'endpoint2-guid';
 
             const mockLine1: LineProxy = {
-                getEndpoint1: () => ({
-                    connection: {
-                        shapeData: new Map<string, string>([['Guid', blockGuid]])
-                    } as unknown as NetworkDeviceBlock
-                } as unknown as EndpointDefinition & {x:number, y:number}) ,
-                getEndpoint2: () => ({
-                    connection: {
-                        shapeData: new Map<string, string>([['Guid', endpoint1Guid]])
-                    } as unknown as NetworkDeviceBlock
-                } as unknown as EndpointDefinition & {x:number, y:number})
+                getEndpoint1: () =>
+                    ({
+                        connection: {
+                            shapeData: new Map<string, string>([['Guid', blockGuid]])
+                        } as unknown as NetworkDeviceBlock
+                    }) as unknown as EndpointDefinition & { x: number; y: number },
+                getEndpoint2: () =>
+                    ({
+                        connection: {
+                            shapeData: new Map<string, string>([['Guid', endpoint1Guid]])
+                        } as unknown as NetworkDeviceBlock
+                    }) as unknown as EndpointDefinition & { x: number; y: number }
             } as unknown as LineProxy;
             const mockLine2: LineProxy = {
-                getEndpoint1: () => ({
-                    connection: {
-                        shapeData: new Map<string, string>([['Guid', endpoint2Guid]])
-                    }
-                } as unknown as EndpointDefinition & {x:number, y:number}) ,
-                getEndpoint2: () => ({
-                    connection: {
-                        shapeData: new Map<string, string>([['Guid', blockGuid]])
-                    }
-                } as unknown as EndpointDefinition & {x:number, y:number})
+                getEndpoint1: () =>
+                    ({
+                        connection: {
+                            shapeData: new Map<string, string>([['Guid', endpoint2Guid]])
+                        }
+                    }) as unknown as EndpointDefinition & { x: number; y: number },
+                getEndpoint2: () =>
+                    ({
+                        connection: {
+                            shapeData: new Map<string, string>([['Guid', blockGuid]])
+                        }
+                    }) as unknown as EndpointDefinition & { x: number; y: number }
             } as unknown as LineProxy;
-
 
             mockNetworkDeviceBlock = {
                 shapeData: new Map<string, string>([['Guid', blockGuid]]) as unknown as ShapeDataProxy,
-                getConnectedLines: () => [mockLine1, mockLine2],
+                getConnectedLines: () => [mockLine1, mockLine2]
             } as unknown as NetworkDeviceBlock;
 
-            expect(BlockUtils.getVisibleConnectedDeviceGuidsFromBlock(mockNetworkDeviceBlock)).toEqual([endpoint1Guid, endpoint2Guid]);
+            expect(BlockUtils.getVisibleConnectedDeviceGuidsFromBlock(mockNetworkDeviceBlock)).toEqual([
+                endpoint1Guid,
+                endpoint2Guid
+            ]);
         });
 
         test('handles hub nodes correctly', () => {
@@ -223,35 +230,38 @@ describe('BlockUtils Tests', () => {
             const endpoint1Guid = 'endpoint1-guid';
 
             const mockLine1: LineProxy = {
-                getEndpoint1: () => ({
-                    connection: {
-                        shapeData: new Map<string, string>([['Guid', blockGuid]])
-                    } as unknown as NetworkDeviceBlock
-                } as unknown as EndpointDefinition & {x:number, y:number}) ,
-                getEndpoint2: () => ({
-                    connection: {
-                        shapeData: new Map<string, string>([['Guid', HUB_NODE]]),
-                        getConnectedLines: () => [mockLine2],
-                    } as unknown as NetworkDeviceBlock
-                } as unknown as EndpointDefinition & {x:number, y:number})
+                getEndpoint1: () =>
+                    ({
+                        connection: {
+                            shapeData: new Map<string, string>([['Guid', blockGuid]])
+                        } as unknown as NetworkDeviceBlock
+                    }) as unknown as EndpointDefinition & { x: number; y: number },
+                getEndpoint2: () =>
+                    ({
+                        connection: {
+                            shapeData: new Map<string, string>([['Guid', HUB_NODE]]),
+                            getConnectedLines: () => [mockLine2]
+                        } as unknown as NetworkDeviceBlock
+                    }) as unknown as EndpointDefinition & { x: number; y: number }
             } as unknown as LineProxy;
             const mockLine2: LineProxy = {
-                getEndpoint1: () => ({
-                    connection: {
-                        shapeData: new Map<string, string>([['Guid', HUB_NODE]])
-                    }
-                } as unknown as EndpointDefinition & {x:number, y:number}) ,
-                getEndpoint2: () => ({
-                    connection: {
-                        shapeData: new Map<string, string>([['Guid', endpoint1Guid]])
-                    }
-                } as unknown as EndpointDefinition & {x:number, y:number})
+                getEndpoint1: () =>
+                    ({
+                        connection: {
+                            shapeData: new Map<string, string>([['Guid', HUB_NODE]])
+                        }
+                    }) as unknown as EndpointDefinition & { x: number; y: number },
+                getEndpoint2: () =>
+                    ({
+                        connection: {
+                            shapeData: new Map<string, string>([['Guid', endpoint1Guid]])
+                        }
+                    }) as unknown as EndpointDefinition & { x: number; y: number }
             } as unknown as LineProxy;
-
 
             mockNetworkDeviceBlock = {
                 shapeData: new Map<string, string>([['Guid', blockGuid]]) as unknown as ShapeDataProxy,
-                getConnectedLines: () => [mockLine1],
+                getConnectedLines: () => [mockLine1]
             } as unknown as NetworkDeviceBlock;
 
             expect(BlockUtils.getVisibleConnectedDeviceGuidsFromBlock(mockNetworkDeviceBlock)).toEqual([endpoint1Guid]);
