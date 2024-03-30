@@ -7,7 +7,7 @@ import {
     devicesFromSerializableDevicesMessage,
     isListDevicesMessage
 } from 'model/message';
-import { Device, DeviceCategoryEntry, isDevice } from 'model/uvx/device';
+import { Device, DeviceCategoryEntry, getNameFromDevice, isDevice } from 'model/uvx/device';
 import { AgGridAngular } from 'ag-grid-angular';
 import {
     ColDef,
@@ -37,16 +37,18 @@ export class DevicesComponent implements OnChanges {
     themeClass = 'ag-theme-quartz';
     rowSelection: 'multiple' | 'single' = 'multiple';
     gridApi?: GridApi;
-    selectDevicesButtonEnabled = false;
+    selectDevicesButtonEnabled = true;
     networkName = '';
 
     constructor() {
+        // Add/remove connected devices
         window.addEventListener('message', (e) => {
             console.log('Received a message from the parent in devices comp.');
             console.log(e.data);
 
             if (isListDevicesMessage(e.data)) {
                 this.initFromMessage(e.data);
+                // related to hiding/showing components
                 document.getElementById('devicesComponent')!.style.display = 'block';
                 console.log('Received devices in component');
             } else {
@@ -61,6 +63,7 @@ export class DevicesComponent implements OnChanges {
     }
 
     ngOnChanges(_changes: SimpleChanges) {
+        // Network/Devices component
         if (this.devicesMessage) {
             console.log('Init from message from update');
             this.initFromMessage(this.devicesMessage);
@@ -79,6 +82,9 @@ export class DevicesComponent implements OnChanges {
     public columnDefs: ColDef<Device>[] = [
         {
             field: 'custom_name',
+            valueGetter: (params) => {
+                return params.data ? getNameFromDevice(params.data) : '';
+            },
             headerName: 'Name',
             headerCheckboxSelection: true,
             checkboxSelection: true,
@@ -113,16 +119,6 @@ export class DevicesComponent implements OnChanges {
         defaultMinWidth: 100
     };
 
-    protected onRowSelected() {
-        if (this.gridApi!.getSelectedRows().length > 0) {
-            console.log('Rows greater than 1');
-            this.selectDevicesButtonEnabled = true;
-        } else {
-            console.log('Rows less than 1');
-            this.selectDevicesButtonEnabled = false;
-        }
-    }
-
     public checkDevicesLength(): boolean {
         return this.devices.length > 0;
     }
@@ -144,30 +140,29 @@ export class DevicesComponent implements OnChanges {
 
     protected onGridReady(event: GridReadyEvent) {
         this.gridApi = event.api;
+        // Necessary for Network/Devices modal where data comes before modal is ready
+        this.setPreselectedDevices();
     }
 
     protected onRowDataUpdated(_event: RowDataUpdatedEvent) {
+        // Necessary for Add/remove connected devices modal where modal is ready before data comes
         this.setPreselectedDevices();
     }
 
     private setPreselectedDevices() {
-        console.log('setPreselectedDevices - this.devices', this.devices);
         for (const device of this.devices) {
             const guid = device.guid;
-            console.log('setPreselectedDevices', guid);
             if (!this.gridApi) {
                 return;
             }
             if (this.preselectedDeviceGuids.includes(guid)) {
                 const node = this.gridApi.getRowNode(guid);
                 if (!node) continue; //console.log('Node exists');
-                console.log('setting selected', guid);
                 node.setSelected(true);
             } else {
                 console.log('No matching guid', guid);
             }
         }
-        console.log(this.preselectedDeviceGuids);
     }
 
     public selectDevices() {
@@ -203,6 +198,17 @@ export class DevicesComponent implements OnChanges {
             }
         }
         return selectedDevices;
+    }
+
+    public getSelectedDeviceGuids(): string[] {
+        const selectedDeviceGuids: string[] = [];
+        const selectedRows = this.gridApi?.getSelectedRows();
+        if (selectedRows) {
+            for (const row of selectedRows) {
+                if (isDevice(row)) selectedDeviceGuids.push(row.guid);
+            }
+        }
+        return selectedDeviceGuids;
     }
 
     public changeSettings() {
