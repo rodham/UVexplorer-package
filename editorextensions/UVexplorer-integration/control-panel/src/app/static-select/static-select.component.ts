@@ -90,11 +90,13 @@ export class StaticSelect {
 
     protected onGridReady(event: GridReadyEvent) {
         this.gridApi = event.api;
+        // When coming from the Networks component, the data is ready before the grid
         this.setPreselectedDevices()
     }
 
     protected onRowDataUpdated(event: RowDataUpdatedEvent) {
         this.gridApi = event.api;
+        // When coming from the 'Add/Remove Connected Devices' option, the grid is ready before the data
         this.setPreselectedDevices();
     }
 
