@@ -38,13 +38,29 @@
 
                 <div class="pl-4">
                     <div>
+                        <label class="font-semibold" for="deviceLabelType">Device Label Type: </label>
+                        <select
+                            name="deviceLabelType"
+                            id="deviceLabelType"
+                            [(ngModel)]="drawSettings.deviceDisplaySetting"
+                            style="border: 1px solid #dcdcdc"
+                            class="w-50"
+                        >
+                            <option [value]="deviceDisplaySetting.Default">Default</option>
+                            <option [value]="deviceDisplaySetting.Hostname">Host Name</option>
+                            <option [value]="deviceDisplaySetting.IpAddress">IP Address</option>
+                            <option [value]="deviceDisplaySetting.HostnameAndIpAddress">Host Name and IP Address</option>
+                        </select>
+                    </div>
+
+                    <div>
                         <input
                             type="checkbox"
                             [(ngModel)]="drawSettings.shortDeviceNames"
                             name="shortDeviceNames"
                             value="false"
                         />
-                        <label> Short Device Names</label>
+                        <label class="font-semibold"> Short Device Names</label>
                     </div>
         
                     <div class="pl-4 inline-flex flex-row">
@@ -135,7 +151,7 @@
         
                 <div class="pl-4">
                     <input type="checkbox" [(ngModel)]="drawSettings.shortIfNames" name="shortIfNames" value="false" />
-                    <label> Short Interface Names</label>
+                    <label class="font-semibold"> Short Interface Names</label>
                 </div>
             </div>
         </div>
@@ -247,11 +263,11 @@
                         />
                     </div>
 
-                    <div>
-                        <label class="font-semibold" for="rootAlignment">Root Alignment: </label>
+                    <div class="pr-4">
+                        <label class="font-semibold" for="layoutDirection">Layout Direction: </label>
                         <select
-                            name="rootAlignment"
-                            id="rootAlignment"
+                            name="layoutDirection"
+                            id="layoutDirection"
                             [(ngModel)]="layoutSettings.hierarchicalSettings!.layoutDirection"
                             style="border: 1px solid #dcdcdc"
                             class="w-16"
@@ -260,6 +276,21 @@
                             <option [value]="layoutDirection.Right">Right</option>
                             <option [value]="layoutDirection.Up">Up</option>
                             <option [value]="layoutDirection.Down">Down</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="font-semibold" for="rootAlignment">Root Alignment: </label>
+                        <select
+                            name="rootAlignment"
+                            id="rootAlignment"
+                            [(ngModel)]="layoutSettings.hierarchicalSettings!.rootAlignment"
+                            style="border: 1px solid #dcdcdc"
+                            class="w-18"
+                        >
+                            <option [value]="rootAlignment.Left">Left</option>
+                            <option [value]="rootAlignment.Center">Center</option>
+                            <option [value]="rootAlignment.Right">Right</option>
                         </select>
                     </div>
                 </div>

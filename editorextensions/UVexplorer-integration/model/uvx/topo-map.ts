@@ -3,30 +3,30 @@ import { HubNode } from 'model/uvx/hub-node';
 import { DisplayEdgeSet, isDisplayEdgeSet } from 'model/uvx/display-edge-set';
 
 export enum LayoutType {
-    Manual,
-    Radial,
-    Hierarchical,
-    Ring
+    Manual = 0,
+    Radial = 1,
+    Hierarchical = 2,
+    Ring = 3
 }
 
 export enum LayoutDirection {
-    Left,
-    Right,
-    Up,
-    Down
+    Left = 0,
+    Right = 1,
+    Up = 2,
+    Down = 3
 }
 
 export enum RootAlignment {
-    Left,
-    Center,
-    Right
+    Left = 0,
+    Center = 1,
+    Right = 2
 }
 
 export enum DeviceDisplaySetting {
-    Default,
-    Hostname,
-    IpAddress,
-    HostnameAndIpAddress
+    Default = 0,
+    Hostname = 1,
+    IpAddress = 2,
+    HostnameAndIpAddress = 3
 }
 
 export enum DashStyle {
