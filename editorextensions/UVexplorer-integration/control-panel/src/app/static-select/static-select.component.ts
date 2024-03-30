@@ -90,6 +90,7 @@ export class StaticSelect {
 
     protected onGridReady(event: GridReadyEvent) {
         this.gridApi = event.api;
+        this.setPreselectedDevices()
     }
 
     protected onRowDataUpdated(event: RowDataUpdatedEvent) {
