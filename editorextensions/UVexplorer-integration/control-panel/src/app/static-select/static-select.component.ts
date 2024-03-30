@@ -91,7 +91,7 @@ export class StaticSelect {
     protected onGridReady(event: GridReadyEvent) {
         this.gridApi = event.api;
         // When coming from the Networks component, the data is ready before the grid
-        this.setPreselectedDevices()
+        this.setPreselectedDevices();
     }
 
     protected onRowDataUpdated(event: RowDataUpdatedEvent) {
