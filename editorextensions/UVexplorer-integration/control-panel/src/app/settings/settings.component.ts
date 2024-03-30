@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output, booleanAttribute } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { isMapSettingsMessage } from 'model/message';
 import { FormsModule } from '@angular/forms';
@@ -12,7 +12,8 @@ import {
     defaultLayoutSettings,
     ImageSettings,
     defaultImageSettings,
-    DashStyle
+    DashStyle,
+    DeviceDisplaySetting
 } from 'model/uvx/topo-map';
 
 @Component({
@@ -22,13 +23,15 @@ import {
     templateUrl: './settings.component.html'
 })
 export class SettingsComponent {
-    changingSettings = false;
+    @Input({ transform: booleanAttribute }) childSettings = false;
+    @Output() settingsClosedEvent = new EventEmitter<boolean>();
     drawSettings: DrawSettings = defaultDrawSettings;
     layoutSettings: LayoutSettings = defaultLayoutSettings;
     imageSettings: ImageSettings = defaultImageSettings;
     layoutTypes = LayoutType;
     layoutDirection = LayoutDirection;
     rootAlignment = RootAlignment;
+    deviceDisplaySetting = DeviceDisplaySetting;
     dashStyle = DashStyle;
     colors = {
         standardPen: '#000000',
@@ -49,7 +52,6 @@ export class SettingsComponent {
                 this.imageSettings = JSON.parse(e.data.imageSettings) as ImageSettings;
                 this.updateColors();
 
-                this.changingSettings = true;
                 console.log('Loaded Map Settings');
             }
         });
@@ -62,6 +64,12 @@ export class SettingsComponent {
         this.drawSettings.associatedPen.color = this.parseColor(this.colors.associatedPen);
         this.drawSettings.multiPen.color = this.parseColor(this.colors.multiPen);
 
+        this.layoutSettings.hierarchicalSettings!.layoutDirection =
+            +this.layoutSettings.hierarchicalSettings!.layoutDirection;
+        this.layoutSettings.hierarchicalSettings!.rootAlignment =
+            +this.layoutSettings.hierarchicalSettings!.rootAlignment;
+        this.drawSettings.deviceDisplaySetting = +this.drawSettings.deviceDisplaySetting;
+
         parent.postMessage(
             {
                 action: 'saveMapSettings',
@@ -72,9 +80,8 @@ export class SettingsComponent {
             '*'
         );
 
-        this.changingSettings = false;
-
         console.log('Updated settings');
+        this.settingsClosedEvent.emit(true);
     }
 
     private parseColor(colorCode: string) {

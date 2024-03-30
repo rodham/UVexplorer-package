@@ -283,6 +283,20 @@ export function isSelectedMapSettingsMessage(message: unknown): message is Selec
     );
 }
 
+export interface RelistDevicesMessage {
+    action: 'relistNetworks';
+}
+
+export function isRelistDevicesMessage(message: unknown): message is RelistDevicesMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        message.action === 'relistDevices'
+    );
+}
+
 export interface RelistNetworksMessage {
     action: 'relistNetworks';
 }
