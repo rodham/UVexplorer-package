@@ -28,7 +28,7 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
     rowSelection: 'multiple' | 'single' = 'multiple';
     gridApi?: GridApi<CatRow>;
     private ipRegEx =
-      /^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d).?\b){4}(\/(8|16|24))?(-((25[0-5]|(2[0-4]|1\d|[1-9]|)\d).?\b){4}(\/(8|16|24))?)?$/;
+        /^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d).?\b){4}(\/(8|16|24))?(-((25[0-5]|(2[0-4]|1\d|[1-9]|)\d).?\b){4}(\/(8|16|24))?)?$/;
     private hostRegEx = /^([a-zA-Z*?])*$/;
 
     ngOnInit(): void {

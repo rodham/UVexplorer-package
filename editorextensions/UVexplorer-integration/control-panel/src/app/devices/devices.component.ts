@@ -11,8 +11,8 @@ import {
 import { Device, DeviceCategoryEntry } from 'model/uvx/device';
 import { AgGridAngular } from 'ag-grid-angular';
 import { SettingsComponent } from '../settings/settings.component';
-import { StaticSelect } from '../static-select/static-select.component';
 import { DynamicLayoutSelect } from '../dynamic-layout-select/dl-select.component';
+import { StaticSelect } from '../static-select/static-select.component';
 
 @Component({
     selector: 'app-devices',
@@ -29,11 +29,11 @@ export class DevicesComponent implements OnChanges {
     settings = false;
 
     constructor() {
-        // Messages are caught here when the 'Add/Remove Connected Devices' option is selected
         window.addEventListener('message', (e) => {
             console.log('Received a message from the parent in devices comp.');
             console.log(e.data);
 
+            // Messages are caught here when the 'Add/Remove Connected Devices' option is selected
             if (isListDevicesMessage(e.data)) {
                 this.initFromMessage(e.data);
                 // Related to hiding/showing components with forward/back functionality
