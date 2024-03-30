@@ -64,8 +64,10 @@ export class SettingsComponent {
         this.drawSettings.associatedPen.color = this.parseColor(this.colors.associatedPen);
         this.drawSettings.multiPen.color = this.parseColor(this.colors.multiPen);
 
-        this.layoutSettings.hierarchicalSettings!.layoutDirection = +this.layoutSettings.hierarchicalSettings!.layoutDirection;
-        this.layoutSettings.hierarchicalSettings!.rootAlignment = +this.layoutSettings.hierarchicalSettings!.rootAlignment;
+        this.layoutSettings.hierarchicalSettings!.layoutDirection =
+            +this.layoutSettings.hierarchicalSettings!.layoutDirection;
+        this.layoutSettings.hierarchicalSettings!.rootAlignment =
+            +this.layoutSettings.hierarchicalSettings!.rootAlignment;
         this.drawSettings.deviceDisplaySetting = +this.drawSettings.deviceDisplaySetting;
 
         parent.postMessage(
