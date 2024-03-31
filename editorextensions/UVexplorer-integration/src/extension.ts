@@ -87,7 +87,7 @@ client.registerAction('syncDisplayedMap', async () => {
 client.registerAction('loadMapSettings', async () => {
     const modal = new SettingsModal(client, docClient, uvxClient, dataClient);
     await modal.show();
-    await modal.sendMapSettings();
+    await modal.sendMapSettings(false);
 });
 
 client.registerAction('pageHasNetwork', () => {

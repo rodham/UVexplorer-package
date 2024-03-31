@@ -35,7 +35,7 @@ export class ConnectedDevicesModal extends UVXModal {
             devices: JSON.stringify(devices),
             visibleConnectedDeviceGuids: JSON.stringify(this.visibleConnectedDeviceGuids),
             networkName: networkName,
-            forceAutoLayout: true
+            backButton: false
         });
         console.log('Done sending message');
     }
@@ -52,7 +52,7 @@ export class ConnectedDevicesModal extends UVXModal {
             await this.closeSession();
             this.hide();
         } else if (isLoadMapSettingsMessage(message)) {
-            await this.sendMapSettings();
+            await this.sendMapSettings(true);
         } else if (isSelectedMapSettingsMessage(message)) {
             this.docClient.saveSettings(message.drawSettings, message.layoutSettings, message.imageSettings);
             await this.reloadDevices();

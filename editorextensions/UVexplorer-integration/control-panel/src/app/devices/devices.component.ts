@@ -27,6 +27,7 @@ export class DevicesComponent implements OnChanges {
     networkName = '';
     tabSelection = 'man';
     settings = false;
+    backButton = false;
 
     constructor() {
         window.addEventListener('message', (e) => {
@@ -61,10 +62,7 @@ export class DevicesComponent implements OnChanges {
         this.devices = devicesFromSerializableDevicesMessage(message);
         this.preselectedDeviceGuids = connDeviceGuidsFromListDevMsg(message);
         this.networkName = message.networkName;
-        // TODO: add this stuff to the manual component
-        // if (this.preselectedDeviceGuids.length > 0) {
-        //     this.selectDevicesButtonEnabled = true;
-        // }
+        this.backButton = message.backButton;
     }
 
     public checkDevicesLength(): boolean {
