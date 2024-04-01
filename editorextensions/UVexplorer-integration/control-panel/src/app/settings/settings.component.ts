@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, booleanAttribute } from '@angular/core';
-import { NgForOf, NgIf } from '@angular/common';
+import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { isMapSettingsMessage } from 'model/message';
 import { FormsModule } from '@angular/forms';
 import {
@@ -19,7 +19,7 @@ import {
 @Component({
     selector: 'app-settings',
     standalone: true,
-    imports: [NgIf, FormsModule, NgForOf],
+    imports: [NgIf, FormsModule, NgForOf, NgClass],
     templateUrl: './settings.component.html'
 })
 export class SettingsComponent {
