@@ -3,30 +3,30 @@ import { HubNode } from 'model/uvx/hub-node';
 import { DisplayEdgeSet, isDisplayEdgeSet } from 'model/uvx/display-edge-set';
 
 export enum LayoutType {
-    Manual,
-    Radial,
-    Hierarchical,
-    Ring
+    Manual = 0,
+    Radial = 1,
+    Hierarchical = 2,
+    Ring = 3
 }
 
 export enum LayoutDirection {
-    Left,
-    Right,
-    Up,
-    Down
+    Left = 0,
+    Right = 1,
+    Up = 2,
+    Down = 3
 }
 
 export enum RootAlignment {
-    Left,
-    Center,
-    Right
+    Left = 0,
+    Center = 1,
+    Right = 2
 }
 
 export enum DeviceDisplaySetting {
-    Default,
-    Hostname,
-    IpAddress,
-    HostnameAndIpAddress
+    Default = 0,
+    Hostname = 1,
+    IpAddress = 2,
+    HostnameAndIpAddress = 3
 }
 
 export enum DashStyle {
@@ -41,6 +41,7 @@ export enum DashStyle {
 export interface ImageSettings {
     showVendor: boolean;
     showStatus: boolean;
+    showDisplayName: boolean;
 }
 
 export function isImageSettings(obj: unknown): obj is ImageSettings {
@@ -50,13 +51,16 @@ export function isImageSettings(obj: unknown): obj is ImageSettings {
         'showVendor' in obj &&
         typeof obj.showVendor === 'boolean' &&
         'showStatus' in obj &&
-        typeof obj.showStatus === 'boolean'
+        typeof obj.showStatus === 'boolean' &&
+        'showDisplayName' in obj &&
+        typeof obj.showDisplayName === 'boolean'
     );
 }
 
 export const defaultImageSettings = {
     showVendor: true,
-    showStatus: true
+    showStatus: true,
+    showDisplayName: true
 };
 
 export interface LayoutSettings {
@@ -241,9 +245,9 @@ export const defaultDrawSettings: DrawSettings = {
     },
     multiPen: {
         color: {
-            red: 0,
-            green: 0,
-            blue: 0
+            red: 46,
+            green: 227,
+            blue: 30
         },
         width: 1,
         dashStyle: DashStyle.Solid

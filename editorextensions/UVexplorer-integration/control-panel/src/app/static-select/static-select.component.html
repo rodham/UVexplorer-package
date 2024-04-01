@@ -1,0 +1,27 @@
+<div>
+    <ag-grid-angular
+        style="width: 100%; height: 405px"
+        [class]="themeClass"
+        [rowData]="devices"
+        [columnDefs]="columnDefs"
+        [getRowId]="getRowId"
+        [rowSelection]="rowSelection"
+        [rowMultiSelectWithClick]="true"
+        (gridReady)="onGridReady($event)"
+        (rowDataUpdated)="onRowDataUpdated($event)"
+    >
+    </ag-grid-angular>
+    <div class="flex flex-row basis-1/6 px-4 pb-4 fixed bottom-0" [hidden]="devices.length === 0">
+        <button
+            (click)="selectDevices()"
+            class="text-white py-2 px-4 rounded mx-2 mt-1"
+            [ngClass]="{
+                'bg-gray-400': !selectDevicesButtonEnabled,
+                'bg-blue-500': selectDevicesButtonEnabled
+            }"
+            [disabled]="!selectDevicesButtonEnabled"
+        >
+            Select Devices
+        </button>
+    </div>
+</div>

@@ -1,12 +1,12 @@
 import { isPointLike } from 'lucid-extension-sdk';
 
 // DeviceFilter
-interface Range {
+export interface IpRange {
     min_address: string;
     max_address: string;
 }
 
-interface Subnet {
+export interface Subnet {
     ip_address: string;
     subnet_mask: string;
 }
@@ -22,15 +22,15 @@ interface OctetRange {
     max_d: string;
 }
 
-interface IpScope {
+export interface IpScope {
     addresses?: string[];
-    ranges?: Range[];
+    ranges?: IpRange[];
     subnets?: Subnet[];
     octet_ranges?: OctetRange[];
     hosts?: string[];
 }
 
-interface DeviceCategoryFilter {
+export interface DeviceCategoryFilter {
     category_filter_type: 'All' | 'Any';
     category_names: string[];
 }
@@ -397,6 +397,22 @@ export function isDevice(obj: unknown): obj is Device {
         typeof obj.timestamp === 'string' &&
         ('custom_name' in obj ? typeof obj.custom_name === 'string' : true)
     );
+}
+
+export function getNameFromDevice(device: Device) {
+    const infoSets = device.info_sets;
+    if (
+        typeof infoSets === 'object' &&
+        infoSets != null &&
+        'system_info' in infoSets &&
+        typeof infoSets.system_info === 'object' &&
+        infoSets.system_info !== null &&
+        'name' in infoSets.system_info &&
+        typeof infoSets.system_info.name === 'string'
+    ) {
+        return infoSets.system_info.name;
+    }
+    return '';
 }
 
 // DeviceNode

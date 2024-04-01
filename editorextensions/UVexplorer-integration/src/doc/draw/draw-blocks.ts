@@ -4,7 +4,7 @@ import { DEVICE_REFERENCE_KEY } from '@data/data-client';
 import { getVendor } from 'model/uvx/vendor';
 import { DEVICE_TYPE_NAME_MAP, getDeviceType } from 'model/uvx/device-type';
 import { BlockUtils } from '@blocks/block-utils';
-import { HubNode, HubNodeUtil } from 'model/uvx/hub-node';
+import { HUB_NODE, HubNode, HubNodeUtil } from 'model/uvx/hub-node';
 import { ImageSettings } from 'model/uvx/topo-map';
 
 export class DrawBlocks {
@@ -82,7 +82,7 @@ export class DrawBlocks {
         });
 
         const deviceType = DEVICE_TYPE_NAME_MAP.get(HubNodeUtil.getCategoryImageKey(hubNode));
-        block.shapeData.set('Make', 'Hub Node');
+        block.shapeData.set('Guid', HUB_NODE);
         block.shapeData.set('DeviceType', deviceType);
         return block;
     }
@@ -92,6 +92,7 @@ export class DrawBlocks {
         block.shapeData.set('DeviceType', getDeviceType(deviceNode));
         block.shapeData.set('Guid', deviceNode.deviceGuid);
         block.shapeData.set('Status', imageSettings.showStatus ? deviceNode.status : '');
+        block.shapeData.set('DisplayName', imageSettings.showDisplayName ? deviceNode.displayName : '');
     }
 
     static setReferenceKey(block: BlockProxy, deviceNode: DeviceNode, collectionId: string) {
