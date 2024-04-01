@@ -11,7 +11,7 @@
         (rowDataUpdated)="onRowDataUpdated($event)"
     >
     </ag-grid-angular>
-    <div class="flex flex-row basis-1/6 px-4 pb-4 fixed bottom-0" [hidden]="devices.length === 0">
+    <div class="flex flex-row basis-1/6 p-3 pb-2" [hidden]="devices.length === 0">
         <button
             (click)="selectDevices()"
             class="bg-blue-500 text-white py-2 px-4 rounded mx-2 mt-1"

@@ -7,7 +7,7 @@
 
         <h2 class="py-2 px-4 mx-2 mt-1 mb-1 font-semibold text-xl">{{ networkName }}</h2>
 
-        <button (click)="changeSettings()" class="py-2 px-4 btn btn-sm float-right">
+        <button (click)="changeSettings()" class="py-2 px-4 btn btn-sm ml-auto mr-2">
             <i class="fa-solid fa-gear"></i>
         </button>
     </div>
@@ -35,8 +35,8 @@
             value="dyn"
             [(ngModel)]="tabSelection"
         />
-        <div role="tabpanel" class="tab-content border-base-300 p-6 max-h-[430px] min-h-[430px] overflow-auto">
-            <dl-select [devices]="devices" class="overflow-auto w-screen object-contain h-[460px]"></dl-select>
+        <div role="tabpanel" class="tab-content border-t-base-300">
+            <dl-select [devices]="devices"></dl-select>
         </div>
     </div>
 </div>
