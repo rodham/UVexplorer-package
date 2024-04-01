@@ -1,5 +1,6 @@
 import { DevicesModal } from '@uvx/devices-modal';
 import * as devicesModel from 'model/uvx/device';
+import * as networkModel from 'model/uvx/network';
 import * as lucid from 'lucid-extension-sdk';
 import { UVExplorerClient } from '@uvx/uvx-client';
 import { mockDeviceList } from 'mock_data/devices';
@@ -24,9 +25,10 @@ describe('Devices Modal Tests', () => {
 
     const mockDocClient = new DocumentClient(mockViewport, mockDataClient);
     const mockUvxClient = new UVExplorerClient(mockEditorClient);
-    // const mockNetworkRequest = {
-    //     network_guid: 'myNetwork'
-    // };
+    const mockNetworkRequest = {
+        network_guid: 'myNetwork'
+    };
+
     beforeEach(() => {
         jest.restoreAllMocks();
     });
@@ -35,45 +37,85 @@ describe('Devices Modal Tests', () => {
         const testClient = new UVExplorerClient(mockEditorClient);
         await expect(testClient.listDevices({} as devicesModel.DeviceListRequest)).resolves.toEqual(mockDeviceList);
     });
+    
+    const modal = new DevicesModal(
+        mockEditorClient,
+        mockDocClient,
+        mockUvxClient,
+        mockDataClient
+    );
 
     describe('SendNetworks tests', () => {
-        const modal = new DevicesModal(
-            mockEditorClient,
-            mockDocClient,
-            mockUvxClient,
-            mockDataClient
-        );
-        jest.spyOn(modal, 'loadPageNetwork').mockResolvedValue();
-        const listNetworksSpy = jest.spyOn(mockUvxClient, 'listNetworks').mockResolvedValue(mockNetworkSummariesResponse.network_summaries);
-        const getPageIdSpy = jest.spyOn(mockDocClient, 'getPageId').mockReturnValue('0_0');
-        const sendMessageMock = jest.spyOn(modal, 'sendMessage');
-
-        const networkLoadedSpy = jest.spyOn(mockDataClient, 'checkIfNetworkLoaded').mockReturnValue(true);
-        const getNetworkSpy = jest.spyOn(mockDataClient, 'getNetworkForPage').mockReturnValue('00000000-0000-0000-0000-000000000000');
-        const mockSource = new lucid.DataSourceProxy('source', mockEditorClient);
-        const loadNetworkSpy = jest.spyOn(modal, 'loadNetwork').mockResolvedValue(mockSource);
-        const sendDevicesSpy = jest.spyOn(modal, 'sendDevices').mockResolvedValue();
-
         it('Should make listNetworks request and send message to child', async () => {
+            jest.spyOn(modal, 'loadPageNetwork').mockResolvedValue();
+            const listNetworksSpy = jest.spyOn(mockUvxClient, 'listNetworks').mockResolvedValue(mockNetworkSummariesResponse.network_summaries);
+            const getPageIdSpy = jest.spyOn(mockDocClient, 'getPageId').mockReturnValue('0_0');
+            const sendMessageMock = jest.spyOn(modal, 'sendMessage');
+
             await modal.sendNetworks(true);
 
             expect(listNetworksSpy).toHaveBeenCalledTimes(1);
             expect(getPageIdSpy).toHaveBeenCalledTimes(1);
             expect(sendMessageMock).toHaveBeenCalledWith({
                 action: 'listNetworks',
-                network_summaries: mockNetworkSummariesResponse.network_summaries
+                network_summaries: JSON.stringify(mockNetworkSummariesResponse.network_summaries)
             });
         });
 
         it('Should make listNetworks request and call sendDevices', async () => {
+            jest.spyOn(modal, 'loadPageNetwork').mockResolvedValue();
+            const listNetworksSpy = jest.spyOn(mockUvxClient, 'listNetworks').mockResolvedValue(mockNetworkSummariesResponse.network_summaries);
+            const getPageIdSpy = jest.spyOn(mockDocClient, 'getPageId').mockReturnValue('0_0');
+
+            const getNetworkSpy = jest.spyOn(mockDataClient, 'getNetworkForPage').mockReturnValue('00000000-0000-0000-0000-000000000000');
+            const mockSource = new lucid.DataSourceProxy('source', mockEditorClient);
+            const loadNetworkSpy = jest.spyOn(modal, 'loadNetwork').mockResolvedValue(mockSource);
+            const sendDevicesSpy = jest.spyOn(modal, 'sendDevices').mockResolvedValue(undefined);
+
             await modal.sendNetworks(false);
 
             expect(listNetworksSpy).toHaveBeenCalledTimes(1);
             expect(getPageIdSpy).toHaveBeenCalledTimes(1);
-            expect(networkLoadedSpy).toHaveBeenCalledWith('0_0');
             expect(getNetworkSpy).toHaveBeenCalledWith('0_0');
             expect(loadNetworkSpy).toHaveBeenCalledWith('My Network', '00000000-0000-0000-0000-000000000000');
             expect(sendDevicesSpy).toHaveBeenCalledWith(mockSource, 'My Network');
+        });
+
+        it('Should print error to console when source is undefined', async () => {
+            jest.spyOn(modal, 'loadPageNetwork').mockResolvedValue();
+            const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+            jest.spyOn(modal, 'loadNetwork').mockResolvedValue(undefined);
+
+            await modal.sendNetworks(false);
+
+            expect(consoleSpy).toHaveBeenCalled();
+        });
+    });
+
+    describe('loadNetwork tests', () => {
+        it('Should make get and return network source', async () => {
+            const networkRequestSpy = jest.spyOn(networkModel, 'NetworkRequest').mockReturnValue(mockNetworkRequest);
+            const uvxLoadNetworkSpy = jest.spyOn(mockUvxClient, 'loadNetwork').mockResolvedValue();
+            const mockSource = new lucid.DataSourceProxy('source', mockEditorClient);
+            const getNetworkSourceSpy = jest.spyOn(mockDocClient, 'getNetworkSource').mockReturnValue(mockSource);
+
+            const actualSource = await modal.loadNetwork('myNetwork', 'myNetwork');
+
+            expect(networkRequestSpy).toHaveBeenCalledWith('myNetwork');
+            expect(uvxLoadNetworkSpy).toHaveBeenCalledWith(mockNetworkRequest);
+            expect(getNetworkSourceSpy).toHaveBeenCalledWith('myNetwork', 'myNetwork');
+            expect(actualSource).toBe(mockSource);
+        });
+
+        it('Should throw error when unable to retrieve network source', async () => {
+            const getNetworkSourceSpy = jest.spyOn(mockDocClient, 'getNetworkSource').mockImplementation(() => {
+                throw new Error();
+            });
+
+            const actualSource = await modal.loadNetwork('myNetwork', 'myNetwork');
+
+            expect(getNetworkSourceSpy).toThrow(Error);
+            expect(actualSource).toBe(undefined);
         });
     });
 });
