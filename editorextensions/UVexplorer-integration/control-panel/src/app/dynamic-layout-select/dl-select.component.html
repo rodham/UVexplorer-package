@@ -1,5 +1,9 @@
-<div *ngIf="devices">
-    <form [formGroup]="dynamicSelectForm" #formDir="ngForm">
+<div *ngIf="devices" class="divide-y divide-base-300">
+    <form
+        [formGroup]="dynamicSelectForm"
+        #formDir="ngForm"
+        class="overflow-auto w-[100%] max-h-[430px] min-h-[430px] p-6"
+    >
         <div>
             <h2 class="font-semibold mb-2 pl-3">Device Categories</h2>
             <ag-grid-angular
@@ -86,8 +90,8 @@
         <!--     <p>TEXT QUERY TODO?</p> -->
         <!-- </div> -->
     </form>
-    <div class="flex flex-row basis-1/6 px-4 pb-4 fixed bottom-0" [hidden]="devices.length === 0">
-        <button (click)="confirmSelection()" class="btn bg-primary text-white py-2 px-4 rounded mx-2 mt-1">
+    <div class="flex flex-row basis-1/6 p-3 px-9" [hidden]="devices.length === 0">
+        <button (click)="confirmSelection()" class="bg-blue-500 text-white py-2 px-4 rounded mx-2 mt-1">
             Confirm Selection
         </button>
     </div>
