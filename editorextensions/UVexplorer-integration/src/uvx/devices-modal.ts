@@ -107,7 +107,7 @@ export class DevicesModal extends UVXModal {
 
             await this.dynamicDrawMap(filter);
         } else if (isLoadMapSettingsMessage(message)) {
-            await this.sendMapSettings();
+            await this.sendMapSettings(true);
         } else if (isSelectedMapSettingsMessage(message)) {
             this.docClient.saveSettings(message.drawSettings, message.layoutSettings, message.imageSettings);
             await this.reloadDevices();

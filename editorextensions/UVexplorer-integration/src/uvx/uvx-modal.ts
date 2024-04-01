@@ -66,13 +66,13 @@ export abstract class UVXModal extends Modal {
     async loadTopoMap(deviceGuids: string[]): Promise<TopoMap | undefined> {
         const collection = this.dataClient.createOrRetrieveSettingsCollection();
         const page = this.docClient.getPageId();
+        const data = DataClient.getInstance(this.client);
 
         let layoutSettings = defaultLayoutSettings;
         let drawSettings = defaultDrawSettings;
-
         if (page) {
-            layoutSettings = this.dataClient.getLayoutSettings(collection, page);
-            drawSettings = this.dataClient.getDrawSettings(collection, page);
+            layoutSettings = data.getLayoutSettings(collection, page);
+            drawSettings = data.getDrawSettings(collection, page);
         }
 
         try {
@@ -172,8 +172,17 @@ export abstract class UVXModal extends Modal {
         console.log("Dynamic loading topo map");
         const topoMap = await this.loadTopoMap(deviceGuids);
         console.log("Retrieved topo map, retrieving image settings")
-        const settingsCollection = this.dataClient.createOrRetrieveSettingsCollection();
-        const imageSettings = this.dataClient.getImageSettings(settingsCollection, page);
+
+        const data = DataClient.getInstance(this.client);
+        const collection = data.createOrRetrieveSettingsCollection();
+
+        let imageSettings = defaultImageSettings;
+        if (page) {
+            imageSettings = data.getImageSettings(collection, page);
+        }
+
+        //const settingsCollection = this.dataClient.createOrRetrieveSettingsCollection();
+        //const imageSettings = this.dataClient.getImageSettings(settingsCollection, page);
         console.log("retrieved image settings")
 
         if (topoMap) {
