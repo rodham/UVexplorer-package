@@ -101,17 +101,14 @@ export class StaticSelect {
     }
 
     private setPreselectedDevices() {
-        console.log('setPreselectedDevices - this.devices', this.devices);
         for (const device of this.devices) {
             const guid = device.guid;
-            console.log('setPreselectedDevices', guid);
             if (!this.gridApi) {
                 return;
             }
             if (this.preselectedDeviceGuids.includes(guid)) {
                 const node = this.gridApi.getRowNode(guid);
                 if (!node) continue; //console.log('Node exists');
-                console.log('setting selected', guid);
                 node.setSelected(true);
             } else {
                 console.log('No matching guid', guid);
