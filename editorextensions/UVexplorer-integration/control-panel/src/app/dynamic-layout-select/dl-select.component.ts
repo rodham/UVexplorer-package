@@ -29,7 +29,8 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
     gridApi?: GridApi<CatRow>;
     private ipRegEx =
         /^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d).?\b){4}(\/(8|16|24))?(-((25[0-5]|(2[0-4]|1\d|[1-9]|)\d).?\b){4}(\/(8|16|24))?)?$/;
-    private hostRegEx = /^([a-zA-Z*?])*$/;
+    private hostRegEx = /^([a-zA-Z0-9*?\-_])*$/;
+    private oidRegEx = /^([0-2])((\.0)|(\.[1-9][0-9]*))*$/;
 
     ngOnInit(): void {
         this.dynamicSelectForm = new FormGroup({
@@ -38,7 +39,7 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
                 updateOn: 'blur'
             }),
             vlanSelection: new FormControl('', {
-                validators: [Validators.minLength(3)],
+                validators: [Validators.minLength(3), dynSelectionValidator(this.hostRegEx)],
                 updateOn: 'blur'
             }),
             hostSelection: new FormControl('', {
@@ -46,7 +47,7 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
                 updateOn: 'blur'
             }),
             oidSelection: new FormControl('', {
-                validators: [Validators.minLength(4)],
+                validators: [Validators.minLength(3), dynSelectionValidator(this.oidRegEx)],
                 updateOn: 'blur'
             })
         });
