@@ -84,7 +84,7 @@ describe('Devices Modal Tests', () => {
 
         it('Should print error to console when source is undefined', async () => {
             jest.spyOn(modal, 'loadPageNetwork').mockResolvedValue();
-            const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+            const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
             jest.spyOn(modal, 'loadNetwork').mockResolvedValue(undefined);
 
             await modal.sendNetworks(false);
@@ -116,7 +116,7 @@ describe('Devices Modal Tests', () => {
             const actualSource = await modal.loadNetwork('myNetwork', 'myNetwork');
 
             expect(getNetworkSourceSpy).toThrow(Error);
-            expect(actualSource).toBe(undefined);
+            expect(actualSource).toBeUndefined();
         });
     });
 
