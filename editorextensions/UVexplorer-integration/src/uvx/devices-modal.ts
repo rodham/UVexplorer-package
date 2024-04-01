@@ -71,7 +71,8 @@ export class DevicesModal extends UVXModal {
                 action: 'listDevices',
                 devices: JSON.stringify(devices),
                 visibleConnectedDeviceGuids: JSON.stringify(devicesShown),
-                networkName: networkName
+                networkName: networkName,
+                backButton: true
             });
             console.log(`Successfully loaded devices: ${source.getName()}`);
         } catch (e) {
