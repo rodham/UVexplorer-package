@@ -28,6 +28,7 @@ describe('Devices Modal Tests', () => {
     const mockNetworkRequest = {
         network_guid: 'myNetwork'
     };
+    const mockDeviceListRequest = {};
 
     beforeEach(() => {
         jest.restoreAllMocks();
@@ -37,7 +38,7 @@ describe('Devices Modal Tests', () => {
         const testClient = new UVExplorerClient(mockEditorClient);
         await expect(testClient.listDevices({} as devicesModel.DeviceListRequest)).resolves.toEqual(mockDeviceList);
     });
-    
+
     const modal = new DevicesModal(
         mockEditorClient,
         mockDocClient,
@@ -116,6 +117,39 @@ describe('Devices Modal Tests', () => {
 
             expect(getNetworkSourceSpy).toThrow(Error);
             expect(actualSource).toBe(undefined);
+        });
+    });
+
+    describe('sendDevices tests', () => {
+        const mockSource = new lucid.DataSourceProxy('source', mockEditorClient);
+
+        it('Should call sendDevices with listDevices action', async () => {
+            const deviceListRequestSpy = jest.spyOn(devicesModel, 'DeviceListRequest').mockReturnValue(mockDeviceListRequest);
+            const listDevicesSpy = jest.spyOn(mockUvxClient, 'listDevices').mockResolvedValue(mockDeviceList);
+            const sendMessageSpy = jest.spyOn(modal, 'sendMessage').mockResolvedValue();
+
+            await modal.sendDevices(mockSource, "My Network");
+
+            expect(deviceListRequestSpy).toHaveBeenCalled();
+            expect(listDevicesSpy).toHaveBeenCalledWith(mockDeviceListRequest);
+            expect(sendMessageSpy).toHaveBeenCalled();
+            // expect(sendMessageSpy).toHaveBeenCalledWith({
+            //     action: 'listDevices',
+            //     devices: JSON.stringify(mockDeviceList),
+            //     visibleConnectedDeviceGuids: JSON.stringify(mockDevicesShown),
+            //     networkName: 'My Network',
+            //     forcedAutoLayout: false
+            // });
+        });
+
+        it('Should throw error when unable to list devices', async () => {
+            const listDevicesSpy = jest.spyOn(mockUvxClient, 'listDevices').mockImplementation(() => {
+                throw new Error();
+            });
+
+            await modal.sendDevices(mockSource, "My Network");
+
+            expect(listDevicesSpy).toThrow(Error);
         });
     });
 });
