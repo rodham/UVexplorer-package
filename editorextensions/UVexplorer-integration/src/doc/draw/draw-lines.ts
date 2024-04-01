@@ -3,6 +3,7 @@ import { DISPLAY_EDGE_REFERENCE_KEY } from '@data/data-client';
 import { PenPattern, DrawSettings, DashStyle } from 'model/uvx/topo-map';
 import { DisplayEdge } from 'model/uvx/display-edge';
 import { DisplayEdgeSet } from 'model/uvx/display-edge-set';
+import { DeviceLink } from 'model/uvx/device';
 
 export class DrawLines {
     static drawLines(
@@ -10,7 +11,8 @@ export class DrawLines {
         displayEdgeSet: DisplayEdgeSet,
         idToBlockMap: Map<number, BlockProxy>,
         collectionId: string,
-        drawSettings: DrawSettings
+        drawSettings: DrawSettings,
+        showLinkLabels: boolean
     ) {
         for (const displayEdge of displayEdgeSet.map.values()) {
             if (displayEdge.deviceLinks[0]) {
@@ -19,18 +21,23 @@ export class DrawLines {
                 const connectedDeviceBlock = idToBlockMap.get(displayEdge.nodeId2);
 
                 if (deviceBlock && connectedDeviceBlock) {
-                    const penSettings: PenPattern = this.getPenSettings(
-                        drawSettings,
-                        displayEdge.deviceLinks[0].linkType
-                    );
-                    const line = this.drawLine(page, deviceBlock, connectedDeviceBlock, penSettings);
+                    const penSettings: PenPattern = this.getPenSettings(drawSettings, displayEdge);
+
+                    const lineLabel = showLinkLabels ? this.createLinkLabel(displayEdge) : '';
+                    const line = this.drawLine(page, deviceBlock, connectedDeviceBlock, penSettings, lineLabel);
                     this.setReferenceKey(line, displayEdge, collectionId);
                 }
             }
         }
     }
 
-    static drawLine(page: PageProxy, block1: BlockProxy, block2: BlockProxy, penSettings: PenPattern): LineProxy {
+    static drawLine(
+        page: PageProxy,
+        block1: BlockProxy,
+        block2: BlockProxy,
+        penSettings: PenPattern,
+        lineLabel: string
+    ): LineProxy {
         const line = page.addLine({
             endpoint1: {
                 connection: block1,
@@ -47,6 +54,16 @@ export class DrawLines {
         });
         line.setShape(LineShape.Diagonal);
         line.changeZOrder(ZOrderOperation.BOTTOM);
+
+        line.addTextArea(lineLabel, { location: 0.5, side: 0 });
+        if (line.textStyles?.keys() !== undefined) {
+            for (const key of line.textStyles.keys()) {
+                const styles = line.textStyles.get(key);
+                styles.size = 5;
+                void line.textStyles.set('t0', styles);
+            }
+        }
+
         if (line.properties !== undefined) {
             line.properties.set(
                 'LineColor',
@@ -55,6 +72,7 @@ export class DrawLines {
             line.properties.set('LineWidth', penSettings.width);
             line.properties.set('StrokeStyle', this.toStrokeStyle(penSettings.dashStyle));
         }
+
         return line;
     }
 
@@ -102,19 +120,40 @@ export class DrawLines {
         });
     }
 
-    private static getPenSettings(drawSettings: DrawSettings, linkType: string): PenPattern {
+    private static getPenSettings(drawSettings: DrawSettings, displayEdge: DisplayEdge): PenPattern {
+        if (displayEdge.deviceLinks[0].linkType?.toLowerCase() === undefined) {
+            return drawSettings.standardPen;
+        }
+
+        let linkType = displayEdge.deviceLinks[0].linkType.toLowerCase();
+
+        if (displayEdge.deviceLinks.length > 1) {
+            if (!this.allLagLinks(displayEdge.deviceLinks)) {
+                linkType = 'multi';
+            }
+        }
+
         switch (linkType) {
-            case 'LAG':
+            case 'lag':
                 return drawSettings.lagPen;
-            case 'Manual':
+            case 'manual':
                 return drawSettings.manualPen;
-            case 'Associated':
+            case 'associated':
                 return drawSettings.associatedPen;
-            case 'Multi':
+            case 'multi':
                 return drawSettings.multiPen;
             default:
                 return drawSettings.standardPen;
         }
+    }
+
+    private static allLagLinks(deviceLinks: DeviceLink[]): boolean {
+        return deviceLinks.every((link) => {
+            if (link.linkType?.toLowerCase() === undefined) {
+                return false;
+            }
+            return link.linkType.toLowerCase() === 'lag';
+        });
     }
 
     static clearLines(page: PageProxy) {
@@ -125,5 +164,31 @@ export class DrawLines {
                 line.delete();
             }
         }
+    }
+
+    private static createLinkLabel(displayEdge: DisplayEdge) {
+        let label = '';
+        for (const link of displayEdge.deviceLinks) {
+            for (const edge of link.linkEdges) {
+                for (const localLabel of edge.localConnection.interfaceLabels) {
+                    if (localLabel !== ' ') {
+                        if (label !== '') {
+                            label += ', ';
+                        }
+                        label += localLabel;
+                    }
+                }
+
+                for (const localLabel of edge.remoteConnection.interfaceLabels) {
+                    if (localLabel !== ' ') {
+                        if (label !== '') {
+                            label += ', ';
+                        }
+                        label += localLabel;
+                    }
+                }
+            }
+        }
+        return label;
     }
 }

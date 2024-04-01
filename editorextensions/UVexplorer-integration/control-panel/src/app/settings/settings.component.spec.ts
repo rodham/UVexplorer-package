@@ -31,7 +31,7 @@ describe('SettingsComponent', () => {
         component.drawSettings = defaultDrawSettings;
         component.layoutSettings = defaultLayoutSettings;
         component.imageSettings = defaultImageSettings;
-        component.updateSettings();
+        component.saveSettings();
 
         expect(postMessageSpy).toHaveBeenCalledWith(
             {

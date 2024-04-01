@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { Component, EventEmitter, Input, Output, booleanAttribute } from '@angular/core';
+import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { isMapSettingsMessage } from 'model/message';
 import { FormsModule } from '@angular/forms';
 import {
@@ -12,23 +12,26 @@ import {
     defaultLayoutSettings,
     ImageSettings,
     defaultImageSettings,
-    DashStyle
+    DashStyle,
+    DeviceDisplaySetting
 } from 'model/uvx/topo-map';
 
 @Component({
     selector: 'app-settings',
     standalone: true,
-    imports: [NgIf, FormsModule],
+    imports: [NgIf, FormsModule, NgForOf, NgClass],
     templateUrl: './settings.component.html'
 })
 export class SettingsComponent {
-    changingSettings = false;
+    @Input({ transform: booleanAttribute }) childSettings = false;
+    @Output() settingsClosedEvent = new EventEmitter<boolean>();
     drawSettings: DrawSettings = defaultDrawSettings;
     layoutSettings: LayoutSettings = defaultLayoutSettings;
     imageSettings: ImageSettings = defaultImageSettings;
     layoutTypes = LayoutType;
     layoutDirection = LayoutDirection;
     rootAlignment = RootAlignment;
+    deviceDisplaySetting = DeviceDisplaySetting;
     dashStyle = DashStyle;
     colors = {
         standardPen: '#000000',
@@ -37,6 +40,10 @@ export class SettingsComponent {
         associatedPen: '#ffa500',
         multiPen: '#000000'
     };
+
+    TABS = ['Layout Settings', 'Link Settings', 'Draw Settings', 'Image Settings', 'Label Settings'];
+    selectedTab = 'Layout Settings';
+    backButton = false;
 
     constructor() {
         window.addEventListener('message', (e) => {
@@ -47,20 +54,26 @@ export class SettingsComponent {
                 this.drawSettings = JSON.parse(e.data.drawSettings) as DrawSettings;
                 this.layoutSettings = JSON.parse(e.data.layoutSettings) as LayoutSettings;
                 this.imageSettings = JSON.parse(e.data.imageSettings) as ImageSettings;
+                this.backButton = e.data.backButton as boolean;
                 this.updateColors();
 
-                this.changingSettings = true;
                 console.log('Loaded Map Settings');
             }
         });
     }
 
-    public updateSettings() {
+    public saveSettings() {
         this.drawSettings.standardPen.color = this.parseColor(this.colors.standardPen);
         this.drawSettings.lagPen.color = this.parseColor(this.colors.lagPen);
         this.drawSettings.manualPen.color = this.parseColor(this.colors.manualPen);
         this.drawSettings.associatedPen.color = this.parseColor(this.colors.associatedPen);
         this.drawSettings.multiPen.color = this.parseColor(this.colors.multiPen);
+
+        this.layoutSettings.hierarchicalSettings!.layoutDirection =
+            +this.layoutSettings.hierarchicalSettings!.layoutDirection;
+        this.layoutSettings.hierarchicalSettings!.rootAlignment =
+            +this.layoutSettings.hierarchicalSettings!.rootAlignment;
+        this.drawSettings.deviceDisplaySetting = +this.drawSettings.deviceDisplaySetting;
 
         parent.postMessage(
             {
@@ -72,9 +85,8 @@ export class SettingsComponent {
             '*'
         );
 
-        this.changingSettings = false;
-
         console.log('Updated settings');
+        this.settingsClosedEvent.emit(true);
     }
 
     private parseColor(colorCode: string) {

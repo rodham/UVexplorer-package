@@ -64,7 +64,7 @@ describe('Connected Devices Modal Tests', () => {
             expect(sendMessageMock).toHaveBeenCalledWith({
                 action: 'listDevices',
                 devices: JSON.stringify(mockDeviceList2),
-                forceAutoLayout: true,
+                backButton: false,
                 visibleConnectedDeviceGuids: JSON.stringify(mockDeviceGuids2),
                 networkName: 'My Network'
             });

@@ -12,6 +12,7 @@ import { deviceDetailsFromMessage, deviceFromSerializableDeviceMessage, isDevice
 export class DeviceDetailComponent {
     device?: Device;
     deviceDetails?: DeviceDetailsResponse;
+    selectedTab = 'System';
 
     constructor() {
         window.addEventListener('message', (e) => {

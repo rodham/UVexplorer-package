@@ -122,14 +122,15 @@ describe('UVXModal', () => {
                 .mockReturnValue(mockCollection);
             const sendMessageSpy = jest.spyOn(mockModal, 'sendMessage').mockResolvedValue();
 
-            await mockModal.sendMapSettings();
+            await mockModal.sendMapSettings(false);
 
             expect(settingsCollectionSpy).toHaveBeenCalledTimes(1);
             expect(sendMessageSpy).toHaveBeenCalledWith({
                 action: 'mapSettings',
                 drawSettings: JSON.stringify(defaultDrawSettings),
                 layoutSettings: JSON.stringify(defaultLayoutSettings),
-                imageSettings: JSON.stringify(defaultImageSettings)
+                imageSettings: JSON.stringify(defaultImageSettings),
+                backButton: false
             });
         });
 
@@ -138,7 +139,7 @@ describe('UVXModal', () => {
             const sendMessageSpy = jest.spyOn(mockModal, 'sendMessage').mockRejectedValue(mockError);
             const errorSpy = jest.spyOn(console, 'error');
 
-            await mockModal.sendMapSettings();
+            await mockModal.sendMapSettings(false);
             expect(sendMessageSpy).toHaveBeenCalled();
             expect(errorSpy).toHaveBeenCalledWith(mockError);
         });
