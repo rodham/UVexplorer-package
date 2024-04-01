@@ -54,7 +54,7 @@ export class SettingsComponent {
                 this.drawSettings = JSON.parse(e.data.drawSettings) as DrawSettings;
                 this.layoutSettings = JSON.parse(e.data.layoutSettings) as LayoutSettings;
                 this.imageSettings = JSON.parse(e.data.imageSettings) as ImageSettings;
-                this.backButton = e.data.backButton as boolean
+                this.backButton = e.data.backButton as boolean;
                 this.updateColors();
 
                 console.log('Loaded Map Settings');

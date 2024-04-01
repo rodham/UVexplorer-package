@@ -6,9 +6,7 @@
             Back to Devices
         </button>
 
-        <h1 class="text-lg font-bold text-gray-500 px-6 py-2">
-            Settings
-        </h1>
+        <h1 class="text-lg font-bold text-gray-500 px-6 py-2">Settings</h1>
     </div>
 
     <!-- Body -->
@@ -30,11 +28,11 @@
         </div>
 
         <!-- Main  -->
-        <div class="w-3/4 p-4 bg-gray-50 overflow-y-auto" [ngClass]="{'pb-12': !backButton}">
+        <div class="w-3/4 p-4 bg-gray-50 overflow-y-auto" [ngClass]="{ 'pb-12': !backButton }">
             <!-- Layout Settings -->
             <div *ngIf="selectedTab === 'Layout Settings'">
                 <form>
-                    <fieldset class="flex flex-col pl-4 pb-4 ">
+                    <fieldset class="flex flex-col pl-4 pb-4">
                         <div class="border-b pl-4 pb-2">
                             <legend class="font-semibold">Layout Type</legend>
                         </div>
@@ -84,7 +82,7 @@
                             </div>
 
                             <!-- Divider -->
-                            <div class="border-r"> </div>
+                            <div class="border-r"></div>
 
                             <!-- Body -->
                             <div class="w-3/4 pl-4 pt-2">
@@ -122,7 +120,9 @@
                                         </div>
 
                                         <div class="pr-4">
-                                            <label class="font-semibold" for="layoutDirection">Layout Direction: </label>
+                                            <label class="font-semibold" for="layoutDirection"
+                                                >Layout Direction:
+                                            </label>
                                             <select
                                                 name="layoutDirection"
                                                 id="layoutDirection"
@@ -252,7 +252,7 @@
             <!-- Link Settings -->
             <div *ngIf="selectedTab === 'Link Settings'">
                 <form>
-                    <div class="flex flex-col pl-4 pb-4 ">
+                    <div class="flex flex-col pl-4 pb-4">
                         <div class="border-b pl-4 pb-2">
                             <h3 class="font-semibold">Show Associated Links:</h3>
                         </div>
@@ -295,7 +295,7 @@
             <!-- Draw Settings -->
             <div *ngIf="selectedTab === 'Draw Settings'">
                 <form>
-                    <div class="flex flex-col pl-4 pb-4 ">
+                    <div class="flex flex-col pl-4 pb-4">
                         <div class="border-b pl-4 pb-2">
                             <h3 class="font-semibold">Pen Settings</h3>
                         </div>
@@ -308,7 +308,12 @@
                                     <div class="inline-flex flex-row">
                                         <div class="pr-4">
                                             <label class="font-medium">Color: </label>
-                                            <input type="color" [(ngModel)]="colors.standardPen" name="stdColor" value="#000000" />
+                                            <input
+                                                type="color"
+                                                [(ngModel)]="colors.standardPen"
+                                                name="stdColor"
+                                                value="#000000"
+                                            />
                                         </div>
                                         <div class="pr-4">
                                             <label class="font-medium">Width: </label>
@@ -385,7 +390,12 @@
                                     <div class="inline-flex flex-row">
                                         <div class="pr-4">
                                             <label class="font-medium">Color: </label>
-                                            <input type="color" [(ngModel)]="colors.lagPen" name="lagColor" value="#000000" />
+                                            <input
+                                                type="color"
+                                                [(ngModel)]="colors.lagPen"
+                                                name="lagColor"
+                                                value="#000000"
+                                            />
                                         </div>
                                         <div class="pr-4">
                                             <label class="font-medium">Width: </label>
@@ -462,7 +472,12 @@
                                     <div class="inline-flex flex-row">
                                         <div class="pr-4">
                                             <label class="font-medium">Color: </label>
-                                            <input type="color" [(ngModel)]="colors.manualPen" name="manualColor" value="#000000" />
+                                            <input
+                                                type="color"
+                                                [(ngModel)]="colors.manualPen"
+                                                name="manualColor"
+                                                value="#000000"
+                                            />
                                         </div>
                                         <div class="pr-4">
                                             <label class="font-medium">Width: </label>
@@ -621,7 +636,12 @@
                                     <div class="inline-flex flex-row">
                                         <div class="pr-4">
                                             <label class="font-medium">Color: </label>
-                                            <input type="color" [(ngModel)]="colors.multiPen" name="multiColor" value="#000000" />
+                                            <input
+                                                type="color"
+                                                [(ngModel)]="colors.multiPen"
+                                                name="multiColor"
+                                                value="#000000"
+                                            />
                                         </div>
                                         <div class="pr-4">
                                             <label class="font-medium">Width: </label>
@@ -726,9 +746,14 @@
             <!-- Label Settings -->
             <div *ngIf="selectedTab === 'Label Settings'">
                 <form>
-                    <div class="flex flex-col pl-4 pb-4 ">
+                    <div class="flex flex-col pl-4 pb-4">
                         <div class="border-b pl-4 pb-2">
-                            <input type="checkBox" [(ngModel)]="imageSettings.showDisplayName" name="showDisplayName" id="showDisplayName" />
+                            <input
+                                type="checkBox"
+                                [(ngModel)]="imageSettings.showDisplayName"
+                                name="showDisplayName"
+                                id="showDisplayName"
+                            />
                             <label class="font-semibold" for="showDisplayName"> Show Device Labels</label>
                         </div>
 
@@ -870,11 +895,10 @@
     </div>
 
     <!-- Fixed Footer -->
-    <div *ngIf="!backButton" class="fixed bottom-0 right-0 w-full bg-gray-50 border-t border-gray-200 p-4 flex justify-end">
-        <button (click)="saveSettings()" class="bg-blue-500 text-white py-2 px-4 rounded">
-            Save
-        </button>
+    <div
+        *ngIf="!backButton"
+        class="fixed bottom-0 right-0 w-full bg-gray-50 border-t border-gray-200 p-4 flex justify-end"
+    >
+        <button (click)="saveSettings()" class="bg-blue-500 text-white py-2 px-4 rounded">Save</button>
     </div>
 </div>
-
-
