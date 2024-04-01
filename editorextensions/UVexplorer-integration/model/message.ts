@@ -117,16 +117,17 @@ export function isGetConnectedDevicesMessage(message: unknown): message is GetCo
 
 export interface ListDevicesMessage extends SerializableDevicesMessage {
     action: 'listDevices';
-    visibleConnectedDeviceGuids?: string;
+    visibleConnectedDeviceGuids?: string; // Why string and not string[]?
     networkName: string;
     backButton: boolean;
 }
 
-//TODO FIX THIS ONE
 export function isListDevicesMessage(message: unknown): message is ListDevicesMessage {
     return (
         isSerializableDevicesMessage(message) &&
         message.action === 'listDevices' &&
+        'visibleConnectedDeviceGuids' in message &&
+        typeof message.visibleConnectedDeviceGuids === 'string' &&
         'networkName' in message &&
         typeof message.networkName === 'string' &&
         'backButton' in message &&
