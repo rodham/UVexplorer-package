@@ -34,8 +34,10 @@ export class DevicesComponent implements OnChanges {
             console.log('Received a message from the parent in devices comp.');
             console.log(e.data);
 
+            // 'ListDevices' message is caught here when the 'Add/Remove Connected Devices' option is selected
             if (isListDevicesMessage(e.data)) {
                 this.initFromMessage(e.data);
+                // Related to hiding/showing components with forward/back functionality
                 document.getElementById('devicesComponent')!.style.display = 'block';
                 console.log('Received devices in component');
             } else if (isRelistDevicesMessage(e.data)) {
@@ -52,6 +54,7 @@ export class DevicesComponent implements OnChanges {
     }
 
     ngOnChanges(_changes: SimpleChanges) {
+        // 'ListDevices' message was caught in the Network Component
         if (this.devicesMessage) {
             console.log('Init from message from update');
             this.initFromMessage(this.devicesMessage);

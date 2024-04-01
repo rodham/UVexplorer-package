@@ -101,7 +101,9 @@ export abstract class UVXModal extends Modal {
             // Remove all devices
             const remainDevices = this.docClient.clearMap(removeDevices);
             // Redraw new devices with auto layout
-            topoMap = await this.loadTopoMap([...addDevices, ...remainDevices]);
+            if (remainDevices.length + addDevices.length > 0) {
+                topoMap = await this.loadTopoMap([...addDevices, ...remainDevices]);
+            }
         } else {
             // Manual layout
             // Remove only unwanted devices
