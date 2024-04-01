@@ -136,7 +136,7 @@ describe('Devices Modal Tests', () => {
             // expect(sendMessageSpy).toHaveBeenCalledWith({
             //     action: 'listDevices',
             //     devices: JSON.stringify(mockDeviceList),
-            //     visibleConnectedDeviceGuids: JSON.stringify(mockDevicesShown),
+            //     visibleConnectedDeviceGuids: JSON.stringify([]),
             //     networkName: 'My Network',
             //     forcedAutoLayout: false
             // });
