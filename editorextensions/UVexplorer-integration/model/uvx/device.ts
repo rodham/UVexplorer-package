@@ -399,6 +399,22 @@ export function isDevice(obj: unknown): obj is Device {
     );
 }
 
+export function getNameFromDevice(device: Device) {
+    const infoSets = device.info_sets;
+    if (
+        typeof infoSets === 'object' &&
+        infoSets != null &&
+        'system_info' in infoSets &&
+        typeof infoSets.system_info === 'object' &&
+        infoSets.system_info !== null &&
+        'name' in infoSets.system_info &&
+        typeof infoSets.system_info.name === 'string'
+    ) {
+        return infoSets.system_info.name;
+    }
+    return '';
+}
+
 // DeviceNode
 export interface DeviceNode {
     id: number;

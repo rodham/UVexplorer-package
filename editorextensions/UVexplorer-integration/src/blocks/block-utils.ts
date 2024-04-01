@@ -78,10 +78,8 @@ export class BlockUtils {
             const endpoint2 = line.getEndpoint2().connection;
             if (
                 !endpoint1 ||
-                !(endpoint1 instanceof ItemProxy) ||
                 !BlockUtils.isNetworkDeviceBlock(endpoint1) ||
                 !endpoint2 ||
-                !(endpoint2 instanceof ItemProxy) ||
                 !BlockUtils.isNetworkDeviceBlock(endpoint2)
             ) {
                 continue;
@@ -91,17 +89,17 @@ export class BlockUtils {
             const endpointGuid2 = endpoint2.shapeData.get('Guid');
 
             if (endpointGuid1 && typeof endpointGuid1 === 'string' && endpointGuid1 !== blockGuid) {
-                visConnDeviceGuids.push(endpointGuid1);
-            } else {
                 if (endpointGuid1 === HUB_NODE) {
                     visConnDeviceGuids.push(...this.getVisibleConnectedDeviceGuidsFromBlock(endpoint1));
+                } else {
+                    visConnDeviceGuids.push(endpointGuid1);
                 }
             }
             if (endpointGuid2 && typeof endpointGuid2 === 'string' && endpointGuid2 !== blockGuid) {
-                visConnDeviceGuids.push(endpointGuid2);
-            } else {
                 if (endpointGuid2 === HUB_NODE) {
                     visConnDeviceGuids.push(...this.getVisibleConnectedDeviceGuidsFromBlock(endpoint2));
+                } else {
+                    visConnDeviceGuids.push(endpointGuid2);
                 }
             }
         }
