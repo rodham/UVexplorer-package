@@ -7,7 +7,7 @@ import {
     isSelectedMapSettingsMessage
 } from 'model/message';
 import { NetworkRequest } from 'model/uvx/network';
-import { DeviceListRequest } from 'model/uvx/device';
+import { DeviceFilter, DeviceListRequest } from 'model/uvx/device';
 import { UVXModal } from './uvx-modal';
 import { DocumentClient } from 'src/doc/document-client';
 import { UVExplorerClient } from '@uvx/uvx-client';
@@ -91,9 +91,20 @@ export class DevicesModal extends UVXModal {
             }
         } else if (isSelectedDevicesMessage(message)) {
             console.log('Received isSelectedDevicesMessage');
-            await this.drawMap(message.devices, message.removeDevices);
-            await this.closeSession();
-            this.hide();
+            // await this.drawMap(message.devices, message.removeDevices);
+            // await this.closeSession();
+            //this.hide();
+            const filter = new DeviceFilter({
+                include_scope: "AllDevices",
+                device_categories: {
+                    category_filter_type: "All",
+                    category_names: [
+                        "snmp"
+                    ],
+                },
+            });
+
+            await this.dynamicDrawMap(filter);
         } else if (isLoadMapSettingsMessage(message)) {
             await this.sendMapSettings();
         } else if (isSelectedMapSettingsMessage(message)) {

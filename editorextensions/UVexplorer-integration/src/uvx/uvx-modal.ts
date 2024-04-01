@@ -146,15 +146,17 @@ export abstract class UVXModal extends Modal {
         const page = this.docClient.getPageId();
         if (!page) return;
 
+        console.log("creating device list request");
         const deviceListRequest: DeviceListRequest = new DeviceListRequest(deviceFilter);
         const devices = await this.uvxClient.listDevices(deviceListRequest);
+        console.log("retrieved list of " + devices.length + " printers");
         const updatedDeviceGuidsList = devices.map(device => device.guid);
 
-        const settingsCollection = this.dataClient.createOrRetrieveSettingsCollection();
-        const imageSettings = this.dataClient.getImageSettings(settingsCollection, page);
+        console.log("Updated Device Guids List", updatedDeviceGuidsList)
 
         let deviceGuids = updatedDeviceGuidsList;
         if (this.docClient.getLayoutSettings().layoutType === LayoutType.Manual) {
+            console.log("Dynamic Manual layout")
             const previousDeviceGuids = this.docClient.getNetworkDeviceBlockGuids();
 
             const deviceGuidsNoLongerInNetwork = previousDeviceGuids.filter(oldDevice => !updatedDeviceGuidsList.includes(oldDevice));
@@ -163,12 +165,19 @@ export abstract class UVXModal extends Modal {
             const newlyAddedDeviceGuids = updatedDeviceGuidsList.filter(device => !previousDeviceGuids.includes(device));
             deviceGuids = newlyAddedDeviceGuids;
         } else {
+            console.log("Dynamic Auto layout")
             this.docClient.clearMap();
         }
 
+        console.log("Dynamic loading topo map");
         const topoMap = await this.loadTopoMap(deviceGuids);
+        console.log("Retrieved topo map, retrieving image settings")
+        const settingsCollection = this.dataClient.createOrRetrieveSettingsCollection();
+        const imageSettings = this.dataClient.getImageSettings(settingsCollection, page);
+        console.log("retrieved image settings")
 
         if (topoMap) {
+            console.log("Dynamically drawing map");
             await this.docClient.drawMap(topoMap, this.client, imageSettings);
         } else {
             console.log("Dynamic Layout - Unable to load topo map");
