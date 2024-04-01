@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
-import { Device, DeviceCategoryEntry, isDevice } from 'model/uvx/device';
+import { Device, DeviceCategoryEntry, getNameFromDevice, isDevice } from 'model/uvx/device';
 import {
     ColDef,
     ValueGetterParams,
@@ -27,12 +27,14 @@ export class StaticSelect {
     themeClass = 'ag-theme-quartz';
     rowSelection: 'multiple' | 'single' = 'multiple';
     gridApi?: GridApi;
-    // TODO: enable the button if selection different from preselected items?
-    selectDevicesButtonEnabled = false;
+    selectDevicesButtonEnabled = true;
 
     public columnDefs: ColDef<Device>[] = [
         {
             field: 'custom_name',
+            valueGetter: (params) => {
+                return params.data ? getNameFromDevice(params.data) : '';
+            },
             headerName: 'Name',
             headerCheckboxSelection: true,
             checkboxSelection: true,
@@ -67,16 +69,6 @@ export class StaticSelect {
         defaultMinWidth: 100
     };
 
-    protected onRowSelected() {
-        if (this.gridApi!.getSelectedRows().length > 0) {
-            console.log('Rows greater than 1');
-            this.selectDevicesButtonEnabled = true;
-        } else {
-            console.log('Rows less than 1');
-            this.selectDevicesButtonEnabled = false;
-        }
-    }
-
     public checkDevicesLength(): boolean {
         return this.devices.length > 0;
     }
@@ -98,25 +90,25 @@ export class StaticSelect {
 
     protected onGridReady(event: GridReadyEvent) {
         this.gridApi = event.api;
+        // When coming from the Networks component, the data is ready before the grid
+        this.setPreselectedDevices();
     }
 
     protected onRowDataUpdated(event: RowDataUpdatedEvent) {
         this.gridApi = event.api;
+        // When coming from the 'Add/Remove Connected Devices' option, the grid is ready before the data
         this.setPreselectedDevices();
     }
 
     private setPreselectedDevices() {
-        console.log('setPreselectedDevices - this.devices', this.devices);
         for (const device of this.devices) {
             const guid = device.guid;
-            console.log('setPreselectedDevices', guid);
             if (!this.gridApi) {
                 return;
             }
             if (this.preselectedDeviceGuids.includes(guid)) {
                 const node = this.gridApi.getRowNode(guid);
                 if (!node) continue; //console.log('Node exists');
-                console.log('setting selected', guid);
                 node.setSelected(true);
             } else {
                 console.log('No matching guid', guid);

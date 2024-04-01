@@ -93,7 +93,6 @@ export function isDevicesMessage(message: unknown): message is DevicesMessage {
         typeof message.action === 'string' &&
         'devices' in message &&
         Array.isArray(message.devices) &&
-        //message.devices.every(isDevice)
         message.devices.every(isString)
     );
 }
@@ -118,16 +117,21 @@ export function isGetConnectedDevicesMessage(message: unknown): message is GetCo
 
 export interface ListDevicesMessage extends SerializableDevicesMessage {
     action: 'listDevices';
-    visibleConnectedDeviceGuids?: string;
+    visibleConnectedDeviceGuids?: string; // Why string and not string[]?
     networkName: string;
+    backButton: boolean;
 }
 
 export function isListDevicesMessage(message: unknown): message is ListDevicesMessage {
     return (
         isSerializableDevicesMessage(message) &&
         message.action === 'listDevices' &&
+        'visibleConnectedDeviceGuids' in message &&
+        typeof message.visibleConnectedDeviceGuids === 'string' &&
         'networkName' in message &&
-        typeof message.networkName === 'string'
+        typeof message.networkName === 'string' &&
+        'backButton' in message &&
+        typeof message.backButton === 'boolean'
     );
 }
 
@@ -242,6 +246,7 @@ export interface MapSettingsMessage {
     drawSettings: string;
     layoutSettings: string;
     imageSettings: string;
+    backButton: boolean;
 }
 
 export function isMapSettingsMessage(message: unknown): message is MapSettingsMessage {
@@ -256,7 +261,9 @@ export function isMapSettingsMessage(message: unknown): message is MapSettingsMe
         'layoutSettings' in message &&
         isLayoutSettings(JSON.parse(message.layoutSettings?.toString() ?? '')) &&
         'imageSettings' in message &&
-        isImageSettings(JSON.parse(message.imageSettings?.toString() ?? ''))
+        isImageSettings(JSON.parse(message.imageSettings?.toString() ?? '')) &&
+        'backButton' in message &&
+        typeof message.backButton === 'boolean'
     );
 }
 
@@ -280,6 +287,20 @@ export function isSelectedMapSettingsMessage(message: unknown): message is Selec
         isLayoutSettings(message.layoutSettings) &&
         'imageSettings' in message &&
         isImageSettings(message.imageSettings)
+    );
+}
+
+export interface RelistDevicesMessage {
+    action: 'relistNetworks';
+}
+
+export function isRelistDevicesMessage(message: unknown): message is RelistDevicesMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        message.action === 'relistDevices'
     );
 }
 

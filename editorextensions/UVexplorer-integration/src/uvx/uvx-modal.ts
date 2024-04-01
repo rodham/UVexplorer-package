@@ -101,7 +101,9 @@ export abstract class UVXModal extends Modal {
             // Remove all devices
             const remainDevices = this.docClient.clearMap(removeDevices);
             // Redraw new devices with auto layout
-            topoMap = await this.loadTopoMap([...addDevices, ...remainDevices]);
+            if (remainDevices.length + addDevices.length > 0) {
+                topoMap = await this.loadTopoMap([...addDevices, ...remainDevices]);
+            }
         } else {
             // Manual layout
             // Remove only unwanted devices
@@ -140,7 +142,7 @@ export abstract class UVXModal extends Modal {
         }
     }
 
-    async sendMapSettings() {
+    async sendMapSettings(backButton: boolean) {
         const collection = this.dataClient.createOrRetrieveSettingsCollection();
         const page = this.docClient.getPageId();
 
@@ -159,7 +161,8 @@ export abstract class UVXModal extends Modal {
                 action: 'mapSettings',
                 drawSettings: JSON.stringify(drawSettings),
                 layoutSettings: JSON.stringify(layoutSettings),
-                imageSettings: JSON.stringify(imageSettings)
+                imageSettings: JSON.stringify(imageSettings),
+                backButton: backButton
             });
         } catch (e) {
             console.error(e);

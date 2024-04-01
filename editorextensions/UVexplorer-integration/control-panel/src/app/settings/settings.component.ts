@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, booleanAttribute } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { isMapSettingsMessage } from 'model/message';
 import { FormsModule } from '@angular/forms';
 import {
@@ -12,13 +12,14 @@ import {
     defaultLayoutSettings,
     ImageSettings,
     defaultImageSettings,
-    DashStyle
+    DashStyle,
+    DeviceDisplaySetting
 } from 'model/uvx/topo-map';
 
 @Component({
     selector: 'app-settings',
     standalone: true,
-    imports: [NgIf, FormsModule],
+    imports: [NgIf, FormsModule, NgForOf, NgClass],
     templateUrl: './settings.component.html'
 })
 export class SettingsComponent {
@@ -30,6 +31,7 @@ export class SettingsComponent {
     layoutTypes = LayoutType;
     layoutDirection = LayoutDirection;
     rootAlignment = RootAlignment;
+    deviceDisplaySetting = DeviceDisplaySetting;
     dashStyle = DashStyle;
     colors = {
         standardPen: '#000000',
@@ -38,6 +40,10 @@ export class SettingsComponent {
         associatedPen: '#ffa500',
         multiPen: '#000000'
     };
+
+    TABS = ['Layout Settings', 'Link Settings', 'Draw Settings', 'Image Settings', 'Label Settings'];
+    selectedTab = 'Layout Settings';
+    backButton = false;
 
     constructor() {
         window.addEventListener('message', (e) => {
@@ -48,6 +54,7 @@ export class SettingsComponent {
                 this.drawSettings = JSON.parse(e.data.drawSettings) as DrawSettings;
                 this.layoutSettings = JSON.parse(e.data.layoutSettings) as LayoutSettings;
                 this.imageSettings = JSON.parse(e.data.imageSettings) as ImageSettings;
+                this.backButton = e.data.backButton as boolean;
                 this.updateColors();
 
                 console.log('Loaded Map Settings');
@@ -55,12 +62,18 @@ export class SettingsComponent {
         });
     }
 
-    public updateSettings() {
+    public saveSettings() {
         this.drawSettings.standardPen.color = this.parseColor(this.colors.standardPen);
         this.drawSettings.lagPen.color = this.parseColor(this.colors.lagPen);
         this.drawSettings.manualPen.color = this.parseColor(this.colors.manualPen);
         this.drawSettings.associatedPen.color = this.parseColor(this.colors.associatedPen);
         this.drawSettings.multiPen.color = this.parseColor(this.colors.multiPen);
+
+        this.layoutSettings.hierarchicalSettings!.layoutDirection =
+            +this.layoutSettings.hierarchicalSettings!.layoutDirection;
+        this.layoutSettings.hierarchicalSettings!.rootAlignment =
+            +this.layoutSettings.hierarchicalSettings!.rootAlignment;
+        this.drawSettings.deviceDisplaySetting = +this.drawSettings.deviceDisplaySetting;
 
         parent.postMessage(
             {

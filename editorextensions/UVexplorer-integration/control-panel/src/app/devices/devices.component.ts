@@ -5,7 +5,8 @@ import {
     ListDevicesMessage,
     connDeviceGuidsFromListDevMsg,
     devicesFromSerializableDevicesMessage,
-    isListDevicesMessage
+    isListDevicesMessage,
+    isRelistDevicesMessage
 } from 'model/message';
 import { Device, DeviceCategoryEntry } from 'model/uvx/device';
 import { AgGridAngular } from 'ag-grid-angular';
@@ -26,16 +27,21 @@ export class DevicesComponent implements OnChanges {
     networkName = '';
     tabSelection = 'man';
     settings = false;
+    backButton = false;
 
     constructor() {
         window.addEventListener('message', (e) => {
             console.log('Received a message from the parent in devices comp.');
             console.log(e.data);
 
+            // 'ListDevices' message is caught here when the 'Add/Remove Connected Devices' option is selected
             if (isListDevicesMessage(e.data)) {
                 this.initFromMessage(e.data);
+                // Related to hiding/showing components with forward/back functionality
                 document.getElementById('devicesComponent')!.style.display = 'block';
                 console.log('Received devices in component');
+            } else if (isRelistDevicesMessage(e.data)) {
+                document.getElementById('devicesComponent')!.style.display = 'block';
             } else {
                 console.log('Message did not match correctly');
             }
@@ -48,6 +54,7 @@ export class DevicesComponent implements OnChanges {
     }
 
     ngOnChanges(_changes: SimpleChanges) {
+        // 'ListDevices' message was caught in the Network Component
         if (this.devicesMessage) {
             console.log('Init from message from update');
             this.initFromMessage(this.devicesMessage);
@@ -58,10 +65,7 @@ export class DevicesComponent implements OnChanges {
         this.devices = devicesFromSerializableDevicesMessage(message);
         this.preselectedDeviceGuids = connDeviceGuidsFromListDevMsg(message);
         this.networkName = message.networkName;
-        // TODO: add this stuff to the manual component
-        // if (this.preselectedDeviceGuids.length > 0) {
-        //     this.selectDevicesButtonEnabled = true;
-        // }
+        this.backButton = message.backButton;
     }
 
     public checkDevicesLength(): boolean {
