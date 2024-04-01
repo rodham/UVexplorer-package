@@ -96,13 +96,11 @@ export class DevicesModal extends UVXModal {
             // await this.closeSession();
             //this.hide();
             const filter = new DeviceFilter({
-                include_scope: "AllDevices",
+                include_scope: 'AllDevices',
                 device_categories: {
-                    category_filter_type: "All",
-                    category_names: [
-                        "snmp"
-                    ],
-                },
+                    category_filter_type: 'All',
+                    category_names: ['snmp']
+                }
             });
 
             await this.dynamicDrawMap(filter);
