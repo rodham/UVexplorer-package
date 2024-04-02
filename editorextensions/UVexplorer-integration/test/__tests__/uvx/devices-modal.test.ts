@@ -39,17 +39,14 @@ describe('Devices Modal Tests', () => {
         await expect(testClient.listDevices({} as devicesModel.DeviceListRequest)).resolves.toEqual(mockDeviceList);
     });
 
-    const modal = new DevicesModal(
-        mockEditorClient,
-        mockDocClient,
-        mockUvxClient,
-        mockDataClient
-    );
+    const modal = new DevicesModal(mockEditorClient, mockDocClient, mockUvxClient, mockDataClient);
 
     describe('SendNetworks tests', () => {
         it('Should make listNetworks request and send message to child', async () => {
             jest.spyOn(modal, 'loadPageNetwork').mockResolvedValue();
-            const listNetworksSpy = jest.spyOn(mockUvxClient, 'listNetworks').mockResolvedValue(mockNetworkSummariesResponse.network_summaries);
+            const listNetworksSpy = jest
+                .spyOn(mockUvxClient, 'listNetworks')
+                .mockResolvedValue(mockNetworkSummariesResponse.network_summaries);
             const getPageIdSpy = jest.spyOn(mockDocClient, 'getPageId').mockReturnValue('0_0');
             const sendMessageMock = jest.spyOn(modal, 'sendMessage');
 
@@ -65,10 +62,14 @@ describe('Devices Modal Tests', () => {
 
         it('Should make listNetworks request and call sendDevices', async () => {
             jest.spyOn(modal, 'loadPageNetwork').mockResolvedValue();
-            const listNetworksSpy = jest.spyOn(mockUvxClient, 'listNetworks').mockResolvedValue(mockNetworkSummariesResponse.network_summaries);
+            const listNetworksSpy = jest
+                .spyOn(mockUvxClient, 'listNetworks')
+                .mockResolvedValue(mockNetworkSummariesResponse.network_summaries);
             const getPageIdSpy = jest.spyOn(mockDocClient, 'getPageId').mockReturnValue('0_0');
 
-            const getNetworkSpy = jest.spyOn(mockDataClient, 'getNetworkForPage').mockReturnValue('00000000-0000-0000-0000-000000000000');
+            const getNetworkSpy = jest
+                .spyOn(mockDataClient, 'getNetworkForPage')
+                .mockReturnValue('00000000-0000-0000-0000-000000000000');
             const mockSource = new lucid.DataSourceProxy('source', mockEditorClient);
             const loadNetworkSpy = jest.spyOn(modal, 'loadNetwork').mockResolvedValue(mockSource);
             const sendDevicesSpy = jest.spyOn(modal, 'sendDevices').mockResolvedValue(undefined);
@@ -125,14 +126,16 @@ describe('Devices Modal Tests', () => {
 
         // TODO: This test needs to be fixed or removed!
         it('Should call sendDevices with listDevices action', async () => {
-            const deviceListRequestSpy = jest.spyOn(devicesModel, 'DeviceListRequest').mockReturnValue(mockDeviceListRequest);
+            const deviceListRequestSpy = jest
+                .spyOn(devicesModel, 'DeviceListRequest')
+                .mockReturnValue(mockDeviceListRequest);
             const listDevicesSpy = jest.spyOn(mockUvxClient, 'listDevices').mockResolvedValue(mockDeviceList);
             // const saveDevicesSpy = jest.spyOn(mockDataClient, 'saveDevices');
             // const getDeviceGuidsSpy = jest.spyOn(mockDocClient, 'getNetworkDeviceBlockGuids');
             const sendMessageSpy = jest.spyOn(modal, 'sendMessage').mockResolvedValue();
             // const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
-            await modal.sendDevices(mockSource, "My Network");
+            await modal.sendDevices(mockSource, 'My Network');
 
             expect(deviceListRequestSpy).toHaveBeenCalled();
             expect(listDevicesSpy).toHaveBeenCalledWith(mockDeviceListRequest);
@@ -155,7 +158,7 @@ describe('Devices Modal Tests', () => {
             });
             const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
-            await modal.sendDevices(mockSource, "My Network");
+            await modal.sendDevices(mockSource, 'My Network');
 
             expect(listDevicesSpy).toThrow(Error);
             expect(consoleSpy).toHaveBeenCalled();
