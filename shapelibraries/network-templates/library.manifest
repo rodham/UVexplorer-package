@@ -1,0 +1,61 @@
+{
+    "name": "Device Templates",
+    "shapes": [
+        {
+            "shape": "networkTemplate",
+            "name": "Network Template",
+            "defaults": {
+                "width": 50,
+                "height": 50
+            }
+        },
+        {
+            "shape": "printerTemplate",
+            "name": "Printer Template",
+            "defaults": {
+                "width": 50,
+                "height": 50
+            }
+        },
+        {
+            "shape": "workstationTemplate",
+            "name": "Workstation Template",
+            "defaults": {
+                "width": 50,
+                "height": 50
+            }
+        },
+        {
+            "shape": "serverTemplate",
+            "name": "Server Template",
+            "defaults": {
+                "width": 50,
+                "height": 50
+            }
+        },
+        {
+            "shape": "switchTemplate",
+            "name": "Switch Template",
+            "defaults": {
+                "width": 50,
+                "height": 50
+            }
+        },
+        {
+            "shape": "routerTemplate",
+            "name": "Router Template",
+            "defaults": {
+                "width": 50,
+                "height": 50
+            }
+        },
+        {
+            "shape": "phoneTemplate",
+            "name": "Phone Template",
+            "defaults": {
+                "width": 50,
+                "height": 50
+            }
+        }
+    ]
+}
