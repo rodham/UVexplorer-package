@@ -101,7 +101,7 @@ export class DevicesComponent implements OnChanges {
     }
 
     public onWarningConfirm() {
-        this.relistNetworks()
+        this.relistNetworks();
     }
 
     public relistNetworks() {

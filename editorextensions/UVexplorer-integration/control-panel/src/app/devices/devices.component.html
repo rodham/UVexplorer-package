@@ -43,17 +43,18 @@
     <dialog id="warning_modal" class="modal">
         <div class="modal-box">
             <h3 class="font-bold text-lg">Warning</h3>
-            <p class="py-4"> Loading a new network will erase the current diagram on this page.</p>
+            <p class="py-4">Loading a new network will erase the current diagram on this page.</p>
             <!-- Fixed Footer -->
             <div class="modal-action">
                 <form method="dialog">
                     <button class="border rounded border-gray-400 text-gray-500 py-2 px-4 mx-1">Cancel</button>
-                    <button (click)="onWarningConfirm()" class="bg-blue-500 text-white py-2 px-4 mx-1 rounded">Okay</button>
+                    <button (click)="onWarningConfirm()" class="bg-blue-500 text-white py-2 px-4 mx-1 rounded">
+                        Okay
+                    </button>
                 </form>
             </div>
         </div>
     </dialog>
-
 </div>
 
 <app-settings *ngIf="settings" [childSettings]="true" (settingsClosedEvent)="settingsClosed($event)"></app-settings>
