@@ -1,5 +1,5 @@
 {
-    "name": "UVexplorer Shape Library",
+    "name": "UVexplorer Network Devices",
     "shapes": [
         {
             "shape": "networkDevice",

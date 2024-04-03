@@ -14,6 +14,7 @@ import {
 } from 'model/uvx/topo-map';
 import { DataClient } from '@data/data-client';
 import { DocumentClient } from 'src/doc/document-client';
+import { DeviceFilter, DeviceListRequest } from 'model/uvx/device';
 import { populateMapDisplayEdges } from 'model/uvx/display-edge-set';
 export abstract class UVXModal extends Modal {
     protected docClient: DocumentClient;
@@ -68,7 +69,6 @@ export abstract class UVXModal extends Modal {
 
         let layoutSettings = defaultLayoutSettings;
         let drawSettings = defaultDrawSettings;
-
         if (page) {
             layoutSettings = this.dataClient.getLayoutSettings(collection, page);
             drawSettings = this.dataClient.getDrawSettings(collection, page);
@@ -95,7 +95,6 @@ export abstract class UVXModal extends Modal {
 
         const imageSettings = this.dataClient.getImageSettings(collection, page);
 
-        console.log('selected layout type', layoutType);
         if (layoutType !== LayoutType.Manual) {
             // Auto layout
             // Remove all devices
@@ -139,6 +138,46 @@ export abstract class UVXModal extends Modal {
             await this.docClient.drawMap(topoMap, this.client, imageSettings);
         } else {
             console.error('Could not load topo map data.');
+        }
+    }
+
+    async dynamicDrawMap(deviceFilter: DeviceFilter) {
+        const page = this.docClient.getPageId();
+        if (!page) return;
+
+        const deviceListRequest: DeviceListRequest = new DeviceListRequest(deviceFilter);
+        const devices = await this.uvxClient.listDevices(deviceListRequest);
+        const updatedDeviceGuidsList = devices.map((device) => device.guid);
+
+        let deviceGuids = updatedDeviceGuidsList;
+        if (this.docClient.getLayoutSettings().layoutType === LayoutType.Manual) {
+            const previousDeviceGuids = this.docClient.getNetworkDeviceBlockGuids();
+
+            const deviceGuidsNoLongerInNetwork = previousDeviceGuids.filter(
+                (oldDevice) => !updatedDeviceGuidsList.includes(oldDevice)
+            );
+            this.docClient.removeFromMap(deviceGuidsNoLongerInNetwork);
+
+            const newlyAddedDeviceGuids = updatedDeviceGuidsList.filter(
+                (device) => !previousDeviceGuids.includes(device)
+            );
+            deviceGuids = newlyAddedDeviceGuids;
+        } else {
+            this.docClient.clearMap();
+        }
+
+        const topoMap = await this.loadTopoMap(deviceGuids);
+        const collection = this.dataClient.createOrRetrieveSettingsCollection();
+        const imageSettings = this.dataClient.getImageSettings(collection, page);
+
+        if (topoMap) {
+            populateMapDisplayEdges(topoMap);
+            if (topoMap.displayEdges) {
+                this.dataClient.saveDisplayEdges(this.dataClient.getNetworkForPage(page), topoMap.displayEdges);
+            }
+            await this.docClient.drawMap(topoMap, this.client, imageSettings);
+        } else {
+            console.log('Dynamic Membership - Unable to load topo map');
         }
     }
 
