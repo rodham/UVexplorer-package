@@ -148,36 +148,29 @@ export abstract class UVXModal extends Modal {
         const page = this.docClient.getPageId();
         if (!page) return;
 
-        console.log("creating device list request");
         const deviceListRequest: DeviceListRequest = new DeviceListRequest(deviceFilter);
         const devices = await this.uvxClient.listDevices(deviceListRequest);
-        console.log("retrieved list of " + devices.length + " printers");
-        const updatedDeviceGuidsList = devices.map(device => device.guid);
-
-        console.log("Updated Device Guids List", updatedDeviceGuidsList)
+        const updatedDeviceGuidsList = devices.map((device) => device.guid);
 
         let deviceGuids = updatedDeviceGuidsList;
         if (this.docClient.getLayoutSettings().layoutType === LayoutType.Manual) {
-            console.log("Dynamic Manual layout")
             const previousDeviceGuids = this.docClient.getNetworkDeviceBlockGuids();
 
-            const deviceGuidsNoLongerInNetwork = previousDeviceGuids.filter(oldDevice => !updatedDeviceGuidsList.includes(oldDevice));
+            const deviceGuidsNoLongerInNetwork = previousDeviceGuids.filter(
+                (oldDevice) => !updatedDeviceGuidsList.includes(oldDevice)
+            );
             this.docClient.removeFromMap(deviceGuidsNoLongerInNetwork);
 
-            const newlyAddedDeviceGuids = updatedDeviceGuidsList.filter(device => !previousDeviceGuids.includes(device));
+            const newlyAddedDeviceGuids = updatedDeviceGuidsList.filter(
+                (device) => !previousDeviceGuids.includes(device)
+            );
             deviceGuids = newlyAddedDeviceGuids;
         } else {
-            console.log("Dynamic Auto layout")
             this.docClient.clearMap();
         }
 
-        console.log("Dynamic loading topo map");
         const topoMap = await this.loadTopoMap(deviceGuids);
-        console.log("Topo Map - ", topoMap)
-
-
         const collection = this.dataClient.createOrRetrieveSettingsCollection();
-        console.log("Setting imageSettings to defaultImageSettings")
         const imageSettings = this.dataClient.getImageSettings(collection, page);
 
         if (topoMap) {
@@ -187,7 +180,7 @@ export abstract class UVXModal extends Modal {
             }
             await this.docClient.drawMap(topoMap, this.client, imageSettings);
         } else {
-            console.log("Dynamic Layout - Unable to load topo map");
+            console.log('Dynamic Membership - Unable to load topo map');
         }
     }
 

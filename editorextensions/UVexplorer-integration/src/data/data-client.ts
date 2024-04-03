@@ -55,11 +55,9 @@ export const SETTINGS_SCHEMA: SchemaDefinition = {
 };
 
 export const DEVICE_FILTER_SCHEMA: SchemaDefinition = {
-    fields: [
-        { name: 'device_filter', type: ScalarFieldTypeEnum.STRING }
-    ],
+    fields: [{ name: 'device_filter', type: ScalarFieldTypeEnum.STRING }],
     primaryKey: ['page_id']
-}
+};
 
 export class DataClient {
     private static instance: DataClient;

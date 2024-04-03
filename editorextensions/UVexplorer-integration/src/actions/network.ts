@@ -39,15 +39,19 @@ async function refreshMapDevices(docEditor: DocumentClient, client: EditorClient
     if (deviceFilter !== undefined) {
         const deviceListRequest = new DeviceListRequest(deviceFilter);
         const devices = await uvxClient.listDevices(deviceListRequest);
-        const updatedDeviceGuidList = devices.map(device => device.guid);
+        const updatedDeviceGuidList = devices.map((device) => device.guid);
 
         if (layoutType === LayoutType.Manual) {
             const previousDeviceGuids = docEditor.getNetworkDeviceBlockGuids();
 
-            const deviceGuidsNoLongerInNetwork = previousDeviceGuids.filter(oldDevice => !updatedDeviceGuidList.includes(oldDevice));
+            const deviceGuidsNoLongerInNetwork = previousDeviceGuids.filter(
+                (oldDevice) => !updatedDeviceGuidList.includes(oldDevice)
+            );
             docEditor.removeFromMap(deviceGuidsNoLongerInNetwork);
 
-            const newlyAddedDeviceGuids = updatedDeviceGuidList.filter(device => !previousDeviceGuids.includes(device));
+            const newlyAddedDeviceGuids = updatedDeviceGuidList.filter(
+                (device) => !previousDeviceGuids.includes(device)
+            );
             deviceGuids = newlyAddedDeviceGuids;
         } else {
             docEditor.clearMap([]);
