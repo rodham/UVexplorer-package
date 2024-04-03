@@ -263,7 +263,7 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
 
     private parseCatSelection(selectedRows: CatRow[]) {
         console.log(selectedRows);
-        const catOut: DeviceCategoryFilter = { category_filter_type: 'All', category_names: [] };
+        const catOut: DeviceCategoryFilter = { category_filter_type: 'Any', category_names: [] };
 
         for (const row of selectedRows) {
             catOut.category_names.push(row.cat);
