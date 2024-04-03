@@ -75,6 +75,8 @@ export abstract class UVXModal extends Modal {
             drawSettings = data.getDrawSettings(collection, page);
         }
 
+        console.log("Draw Settings - ", drawSettings)
+
         try {
             const topoMapRequest = createTopoMapRequest(deviceGuids, layoutSettings, drawSettings);
 
@@ -171,22 +173,18 @@ export abstract class UVXModal extends Modal {
 
         console.log("Dynamic loading topo map");
         const topoMap = await this.loadTopoMap(deviceGuids);
-        console.log("Retrieved topo map, retrieving image settings")
+        console.log("Topo Map - ", topoMap)
 
-        const data = DataClient.getInstance(this.client);
-        const collection = data.createOrRetrieveSettingsCollection();
 
-        let imageSettings = defaultImageSettings;
-        if (page) {
-            imageSettings = data.getImageSettings(collection, page);
-        }
-
-        //const settingsCollection = this.dataClient.createOrRetrieveSettingsCollection();
-        //const imageSettings = this.dataClient.getImageSettings(settingsCollection, page);
-        console.log("retrieved image settings")
+        const collection = this.dataClient.createOrRetrieveSettingsCollection();
+        console.log("Setting imageSettings to defaultImageSettings")
+        const imageSettings = this.dataClient.getImageSettings(collection, page);
 
         if (topoMap) {
-            console.log("Dynamically drawing map");
+            populateMapDisplayEdges(topoMap);
+            if (topoMap.displayEdges) {
+                this.dataClient.saveDisplayEdges(this.dataClient.getNetworkForPage(page), topoMap.displayEdges);
+            }
             await this.docClient.drawMap(topoMap, this.client, imageSettings);
         } else {
             console.log("Dynamic Layout - Unable to load topo map");

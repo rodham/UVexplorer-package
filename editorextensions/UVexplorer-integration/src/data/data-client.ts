@@ -228,7 +228,7 @@ export class DataClient {
         let imageSettings: ImageSettings = defaultImageSettings;
         if (collection.items.keys().includes(key)) {
             imageSettings = JSON.parse(
-                collection.items.get(key).fields.get('image_settings')?.toString() ?? ''
+                collection.items.get(key).fields.get('image_settings')?.toString() ?? '{}'
             ) as ImageSettings;
         }
         return imageSettings;
