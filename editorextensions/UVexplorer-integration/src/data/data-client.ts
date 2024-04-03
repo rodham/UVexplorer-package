@@ -209,7 +209,7 @@ export class DataClient {
         if (collection.items.keys().includes(key)) {
             usingDynamicMembership = JSON.parse(
                 collection.items.get(key).fields.get('dynamic_membership')?.toString() ?? ''
-            )
+            ) as boolean;
         }
         return usingDynamicMembership;
     }
