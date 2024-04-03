@@ -75,7 +75,7 @@ export abstract class UVXModal extends Modal {
             drawSettings = data.getDrawSettings(collection, page);
         }
 
-        console.log("Draw Settings - ", drawSettings)
+        console.log('Draw Settings - ', drawSettings);
 
         try {
             const topoMapRequest = createTopoMapRequest(deviceGuids, layoutSettings, drawSettings);
