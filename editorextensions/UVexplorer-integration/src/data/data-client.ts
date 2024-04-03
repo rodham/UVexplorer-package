@@ -55,7 +55,10 @@ export const SETTINGS_SCHEMA: SchemaDefinition = {
 };
 
 export const DEVICE_FILTER_SCHEMA: SchemaDefinition = {
-    fields: [{ name: 'device_filter', type: ScalarFieldTypeEnum.STRING }],
+    fields: [
+        { name: 'dynamic_membership', type: ScalarFieldTypeEnum.BOOLEAN },
+        { name: 'device_filter', type: ScalarFieldTypeEnum.STRING }
+    ],
     primaryKey: ['page_id']
 };
 
@@ -159,10 +162,11 @@ export class DataClient {
         });
     }
 
-    addDeviceFilterToCollection(collection: CollectionProxy, filter: DeviceFilter) {
+    addDeviceFilterToCollection(collection: CollectionProxy, dynamic: boolean, filter?: DeviceFilter) {
         collection.patchItems({
             added: [
                 {
+                    dynamic_membership: dynamic,
                     device_filter: JSON.stringify(filter)
                 }
             ]
@@ -197,6 +201,17 @@ export class DataClient {
             ) as LayoutSettings;
         }
         return layoutSettings;
+    }
+
+    isUsingDynamicMembership(collection: CollectionProxy, pageId): boolean | undefined {
+        const key = addQuotationMarks(pageId);
+        let usingDynamicMembership: boolean | undefined = undefined;
+        if (collection.items.keys().includes(key)) {
+            usingDynamicMembership = JSON.parse(
+                collection.items.get(key).fields.get('dynamic_membership') ? ?? ''
+            )
+        }
+        return usingDynamicMembership;
     }
 
     getDeviceFilter(collection: CollectionProxy, pageId: string): DeviceFilter | undefined {

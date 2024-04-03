@@ -66,16 +66,13 @@ export abstract class UVXModal extends Modal {
     async loadTopoMap(deviceGuids: string[]): Promise<TopoMap | undefined> {
         const collection = this.dataClient.createOrRetrieveSettingsCollection();
         const page = this.docClient.getPageId();
-        const data = DataClient.getInstance(this.client);
 
         let layoutSettings = defaultLayoutSettings;
         let drawSettings = defaultDrawSettings;
         if (page) {
-            layoutSettings = data.getLayoutSettings(collection, page);
-            drawSettings = data.getDrawSettings(collection, page);
+            layoutSettings = this.dataClient.getLayoutSettings(collection, page);
+            drawSettings = this.dataClient.getDrawSettings(collection, page);
         }
-
-        console.log('Draw Settings - ', drawSettings);
 
         try {
             const topoMapRequest = createTopoMapRequest(deviceGuids, layoutSettings, drawSettings);
