@@ -1,4 +1,4 @@
-import { Device } from 'model/uvx/device';
+import { Device, DeviceFilter } from 'model/uvx/device';
 import {
     CollectionProxy,
     DataProxy,
@@ -54,6 +54,14 @@ export const SETTINGS_SCHEMA: SchemaDefinition = {
     primaryKey: ['page_id']
 };
 
+export const DEVICE_FILTER_SCHEMA: SchemaDefinition = {
+    fields: [
+        { name: 'dynamic_membership', type: ScalarFieldTypeEnum.BOOLEAN },
+        { name: 'device_filter', type: ScalarFieldTypeEnum.STRING }
+    ],
+    primaryKey: ['page_id']
+};
+
 export class DataClient {
     private static instance: DataClient;
     private data: DataProxy;
@@ -94,6 +102,16 @@ export class DataClient {
             }
         }
         return source.addCollection(`${toSnakeCase(source.getName())}_display_edge`, DISPLAY_EDGE_SCHEMA);
+    }
+
+    createOrRetrieveDeviceFilterCollection(): CollectionProxy {
+        const source = this.createOrRetrievePageMapSource();
+        for (const [, collection] of source.collections) {
+            if (collection.getName() === `${toSnakeCase(source.getName())}_filter`) {
+                return collection;
+            }
+        }
+        return source.addCollection(`${toSnakeCase(source.getName())}_filter`, DEVICE_FILTER_SCHEMA);
     }
 
     addDevicesToCollection(collection: CollectionProxy, devices: Device[]): void {
@@ -144,6 +162,17 @@ export class DataClient {
         });
     }
 
+    addDeviceFilterToCollection(collection: CollectionProxy, dynamic: boolean, filter?: DeviceFilter) {
+        collection.patchItems({
+            added: [
+                {
+                    dynamic_membership: dynamic,
+                    device_filter: JSON.stringify(filter)
+                }
+            ]
+        });
+    }
+
     deleteSettingsFromCollection(collection: CollectionProxy, pageId: string): void {
         const key = addQuotationMarks(pageId);
         if (collection.items.keys().includes(key)) {
@@ -174,6 +203,28 @@ export class DataClient {
         return layoutSettings;
     }
 
+    isUsingDynamicMembership(collection: CollectionProxy, pageId: string): boolean | undefined {
+        const key = addQuotationMarks(pageId);
+        let usingDynamicMembership: boolean | undefined = undefined;
+        if (collection.items.keys().includes(key)) {
+            usingDynamicMembership = JSON.parse(
+                collection.items.get(key).fields.get('dynamic_membership')?.toString() ?? ''
+            ) as boolean;
+        }
+        return usingDynamicMembership;
+    }
+
+    getDeviceFilter(collection: CollectionProxy, pageId: string): DeviceFilter | undefined {
+        const key = addQuotationMarks(pageId);
+        let deviceFilter: DeviceFilter | undefined = undefined;
+        if (collection.items.keys().includes(key)) {
+            deviceFilter = JSON.parse(
+                collection.items.get(key).fields.get('device_filter')?.toString() ?? ''
+            ) as DeviceFilter;
+        }
+        return deviceFilter;
+    }
+
     getDrawSettings(collection: CollectionProxy, pageId: string): DrawSettings {
         const key = addQuotationMarks(pageId);
         let drawSettings: DrawSettings = defaultDrawSettings;
@@ -190,7 +241,7 @@ export class DataClient {
         let imageSettings: ImageSettings = defaultImageSettings;
         if (collection.items.keys().includes(key)) {
             imageSettings = JSON.parse(
-                collection.items.get(key).fields.get('image_settings')?.toString() ?? ''
+                collection.items.get(key).fields.get('image_settings')?.toString() ?? '{}'
             ) as ImageSettings;
         }
         return imageSettings;
@@ -292,5 +343,11 @@ export class DataClient {
             }
         }
         return false;
+    }
+
+    saveDeviceFilter(source: DataSourceProxy, filter: DeviceFilter) {
+        const collection = this.createOrRetrieveDeviceFilterCollection();
+        this.clearCollection(collection);
+        this.saveDeviceFilter(source, filter);
     }
 }
