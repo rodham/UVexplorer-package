@@ -171,20 +171,20 @@ export class DrawLines {
         for (const link of displayEdge.deviceLinks) {
             for (const edge of link.linkEdges) {
                 for (const localLabel of edge.localConnection.interfaceLabels) {
-                    if (localLabel !== ' ') {
-                        if (label !== '') {
+                    if (localLabel && localLabel.trim() !== '') {
+                        if (label != '') {
                             label += ', ';
                         }
                         label += localLabel;
                     }
                 }
 
-                for (const localLabel of edge.remoteConnection.interfaceLabels) {
-                    if (localLabel !== ' ') {
+                for (const remoteLabel of edge.remoteConnection.interfaceLabels) {
+                    if (remoteLabel && remoteLabel.trim() !== '') {
                         if (label !== '') {
                             label += ', ';
                         }
-                        label += localLabel;
+                        label += remoteLabel;
                     }
                 }
             }

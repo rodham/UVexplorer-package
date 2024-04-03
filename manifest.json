@@ -26,6 +26,11 @@
       "name": "UVexplorer-shapes",
       "product": "chart",
       "lcszPath": "shapelibraries/UVexplorer-shapes.lcsz"
+    },
+    {
+      "name": "network-templates",
+      "product": "chart",
+      "lcszPath": "shapelibraries\\network-templates.lcsz"
     }
   ],
   "oauthProviders": [],

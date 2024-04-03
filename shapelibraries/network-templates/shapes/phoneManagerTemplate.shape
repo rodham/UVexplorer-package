@@ -1,0 +1,34 @@
+{
+  "images": {
+    "phoneManager": {
+      "type": "file",
+      "path": "devices/phone-manager.png"
+    }
+  },
+  "shapes": [
+    {
+      "style": {
+        "fill": {
+          "type": "image",
+          "ref": "phoneManager",
+          "mode": "stretch"
+        },
+        "stroke": {
+          "width": 0
+        }
+      },
+      "geometry": [
+        {
+          "type": "rect"
+        }
+      ],
+      "bounds": {
+        "x": "=@Width * 0.05",
+        "y": 0,
+        "absolute": "xywh",
+        "w": "=@Width * 0.9",
+        "h": "=@Height * 0.9"
+      }
+    }
+  ]
+}
