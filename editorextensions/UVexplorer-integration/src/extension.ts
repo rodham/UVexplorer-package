@@ -95,7 +95,7 @@ client.registerAction('pageHasNetwork', () => {
 });
 
 menu.addDropdownMenuItem({
-    label: 'Load a Network',
+    label: 'Device Selection',
     action: 'loadNetwork'
 });
 

@@ -1,5 +1,5 @@
 import { isNetworkSummary, NetworkSummary } from './uvx/network';
-import { Device, DeviceDetailsResponse, isDevice, isDeviceDetailsResponse } from 'model/uvx/device';
+import { Device, DeviceDetailsResponse, DeviceFilter, isDevice, isDeviceDetailsResponse } from 'model/uvx/device';
 import { isString } from 'lucid-extension-sdk';
 import {
     DrawSettings,
@@ -315,5 +315,22 @@ export function isRelistNetworksMessage(message: unknown): message is RelistNetw
         'action' in message &&
         typeof message.action === 'string' &&
         message.action === 'relistNetworks'
+    );
+}
+
+export interface DeviceFilterMessage {
+    action: 'dynSelectFilter';
+    filter: DeviceFilter;
+}
+
+export function isDeviceFilterMessage(message: unknown): message is DeviceFilterMessage {
+    return (
+        typeof message === 'object' &&
+        message !== null &&
+        'action' in message &&
+        typeof message.action === 'string' &&
+        message.action === 'dynSelectFilter' &&
+        'filter' in message &&
+        message.filter instanceof DeviceFilter
     );
 }

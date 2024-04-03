@@ -75,6 +75,7 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
     setupCategories() {
         console.log('Setting up categories');
         this.deviceCategories = this.getDeviceCategories(this.devices);
+        this.categoryRows = [];
         // TODO: get any existing settings from the filter data collection
         for (const [key, val] of this.deviceCategories) {
             console.log('Adding category row: ', key, val.length);

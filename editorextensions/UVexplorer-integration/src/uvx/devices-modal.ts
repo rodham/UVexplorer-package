@@ -1,5 +1,6 @@
 import { DataSourceProxy, EditorClient, JsonSerializable } from 'lucid-extension-sdk';
 import {
+    isDeviceFilterMessage,
     isLoadMapSettingsMessage,
     isLoadNetworkMessage,
     isRelistNetworksMessage,
@@ -102,6 +103,8 @@ export class DevicesModal extends UVXModal {
             await this.reloadDevices();
         } else if (isRelistNetworksMessage(message)) {
             await this.sendNetworks(true);
+        } else if (isDeviceFilterMessage(message)) {
+            // TODO: send device filter
         }
     }
 }
