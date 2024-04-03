@@ -1,5 +1,5 @@
 <div id="devicesComponent" *ngIf="!settings" [hidden]="!checkDevicesLength()" class="flex flex-col">
-    <div class="inline-flex flex-row items-center basis-1/6">
+    <div class="inline-flex flex-row items-center basis-1/6 w-full">
         <button *ngIf="backButton" (click)="relistNetworks()" class="py-2 px-4 btn btn-sm btn-link">
             <i class="fa-solid fa-arrow-left"></i>
             Back to Networks
