@@ -7,7 +7,7 @@ import {
     isSelectedMapSettingsMessage
 } from 'model/message';
 import { NetworkRequest } from 'model/uvx/network';
-import { DeviceFilter, DeviceListRequest } from 'model/uvx/device';
+import { DeviceListRequest } from 'model/uvx/device';
 import { UVXModal } from './uvx-modal';
 import { DocumentClient } from 'src/doc/document-client';
 import { UVExplorerClient } from '@uvx/uvx-client';
