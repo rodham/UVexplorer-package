@@ -2,8 +2,56 @@
     "name": "Device Templates",
     "shapes": [
         {
+            "shape": "cctvTemplate",
+            "name": "cctv Template",
+            "defaults": {
+                "width": 50,
+                "height": 50
+            }
+        },
+        {
+            "shape": "firewallTemplate",
+            "name": "Firewall Template",
+            "defaults": {
+                "width": 50,
+                "height": 50
+            }
+        },
+        {
+            "shape": "hubTemplate",
+            "name": "Hub Template",
+            "defaults": {
+                "width": 50,
+                "height": 50
+            }
+        },
+        {
+            "shape": "ipCameraCctvTemplate",
+            "name": "IP Camera cctv Template",
+            "defaults": {
+                "width": 50,
+                "height": 50
+            }
+        },
+        {
             "shape": "networkTemplate",
             "name": "Network Template",
+            "defaults": {
+                "width": 50,
+                "height": 50
+            }
+        },
+        {
+            "shape": "phoneManagerTemplate",
+            "name": "Phone Manager Template",
+            "defaults": {
+                "width": 50,
+                "height": 50
+            }
+        },
+        {
+            "shape": "phoneTemplate",
+            "name": "Phone Template",
             "defaults": {
                 "width": 50,
                 "height": 50
@@ -18,8 +66,8 @@
             }
         },
         {
-            "shape": "workstationTemplate",
-            "name": "Workstation Template",
+            "shape": "routerTemplate",
+            "name": "Router Template",
             "defaults": {
                 "width": 50,
                 "height": 50
@@ -42,16 +90,56 @@
             }
         },
         {
-            "shape": "routerTemplate",
-            "name": "Router Template",
+            "shape": "virtualPortGroupTemplate",
+            "name": "Virtual Port Group Template",
             "defaults": {
                 "width": 50,
                 "height": 50
             }
         },
         {
-            "shape": "phoneTemplate",
-            "name": "Phone Template",
+            "shape": "virtualServerTemplate",
+            "name": "Virtual Server Template",
+            "defaults": {
+                "width": 50,
+                "height": 50
+            }
+        },
+        {
+            "shape": "vmHostTemplate",
+            "name": "VM Host Template",
+            "defaults": {
+                "width": 50,
+                "height": 50
+            }
+        },
+        {
+            "shape": "wirelessAPTemplate",
+            "name": "Wireless AP Template",
+            "defaults": {
+                "width": 50,
+                "height": 50
+            }
+        },
+        {
+            "shape": "wirelessClientTemplate",
+            "name": "Wireless Client Template",
+            "defaults": {
+                "width": 50,
+                "height": 50
+            }
+        },
+        {
+            "shape": "wirelessControllerTemplate",
+            "name": "Wireless Controller Template",
+            "defaults": {
+                "width": 50,
+                "height": 50
+            }
+        },
+        {
+            "shape": "workstationTemplate",
+            "name": "Workstation Template",
             "defaults": {
                 "width": 50,
                 "height": 50
