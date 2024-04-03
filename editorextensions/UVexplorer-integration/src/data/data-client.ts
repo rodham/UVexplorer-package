@@ -56,7 +56,7 @@ export const SETTINGS_SCHEMA: SchemaDefinition = {
 
 export const DEVICE_FILTER_SCHEMA: SchemaDefinition = {
     fields: [
-        { name: 'dynamic_membership', type: ScalarFieldTypeEnum.BOOLEAN },
+        { name: 'dynamic_membership', type: ScalarFieldTypeEnum.STRING },
         { name: 'device_filter', type: ScalarFieldTypeEnum.STRING }
     ],
     primaryKey: ['page_id']
@@ -203,13 +203,13 @@ export class DataClient {
         return layoutSettings;
     }
 
-    isUsingDynamicMembership(collection: CollectionProxy, pageId): boolean | undefined {
+    isUsingDynamicMembership(collection: CollectionProxy, pageId: string): boolean | undefined {
         const key = addQuotationMarks(pageId);
         let usingDynamicMembership: boolean | undefined = undefined;
         if (collection.items.keys().includes(key)) {
             usingDynamicMembership = JSON.parse(
-                collection.items.get(key).fields.get('dynamic_membership') ? ?? ''
-            )
+                collection.items.get(key).fields.get('dynamic_membership')?.toString() ?? ''
+            ) as boolean
         }
         return usingDynamicMembership;
     }
