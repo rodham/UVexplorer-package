@@ -63,7 +63,7 @@ export class BlockUtils {
     }
 
     // Will retrieve all device guids connected to a block (skipping over a single hub node, if present)
-    static getVisibleConnectedDeviceGuidsFromBlock(block: NetworkDeviceBlock): string[] {
+    static getVisibleConnectedDeviceGuidsFromBlock(block: NetworkDeviceBlock, prevGuid?: string): string[] {
         const visConnDeviceGuids: string[] = [];
         const blockGuid = block.shapeData.get('Guid');
         if (!blockGuid || typeof blockGuid !== 'string') {
@@ -88,16 +88,16 @@ export class BlockUtils {
             const endpointGuid1 = endpoint1.shapeData.get('Guid');
             const endpointGuid2 = endpoint2.shapeData.get('Guid');
 
-            if (endpointGuid1 && typeof endpointGuid1 === 'string' && endpointGuid1 !== blockGuid) {
+            if (endpointGuid1 && typeof endpointGuid1 === 'string' && endpointGuid1 !== blockGuid && endpointGuid1 !== prevGuid) {
                 if (endpointGuid1 === HUB_NODE) {
-                    visConnDeviceGuids.push(...this.getVisibleConnectedDeviceGuidsFromBlock(endpoint1));
+                    visConnDeviceGuids.push(...this.getVisibleConnectedDeviceGuidsFromBlock(endpoint1, blockGuid));
                 } else {
                     visConnDeviceGuids.push(endpointGuid1);
                 }
             }
-            if (endpointGuid2 && typeof endpointGuid2 === 'string' && endpointGuid2 !== blockGuid) {
+            if (endpointGuid2 && typeof endpointGuid2 === 'string' && endpointGuid2 !== blockGuid && endpointGuid2 !== prevGuid) {
                 if (endpointGuid2 === HUB_NODE) {
-                    visConnDeviceGuids.push(...this.getVisibleConnectedDeviceGuidsFromBlock(endpoint2));
+                    visConnDeviceGuids.push(...this.getVisibleConnectedDeviceGuidsFromBlock(endpoint2, blockGuid));
                 } else {
                     visConnDeviceGuids.push(endpointGuid2);
                 }
