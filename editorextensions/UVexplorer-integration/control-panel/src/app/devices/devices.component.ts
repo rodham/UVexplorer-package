@@ -100,6 +100,10 @@ export class DevicesComponent implements OnChanges {
         this.settings = true;
     }
 
+    public onWarningConfirm() {
+        this.relistNetworks();
+    }
+
     public relistNetworks() {
         parent.postMessage(
             {
