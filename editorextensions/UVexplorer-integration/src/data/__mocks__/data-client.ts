@@ -69,7 +69,7 @@ export class DataClient {
         return new CollectionProxy('', new EditorClient());
     }
 
-    saveDevices(source: DataSourceProxy, devices: Device[]) {
+    saveDevices() {
         return;
     }
 }
