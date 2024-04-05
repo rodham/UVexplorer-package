@@ -35,6 +35,17 @@ export interface DeviceCategoryFilter {
     category_names: string[];
 }
 
+export function isDeviceCategoryFilter(object: unknown): object is DeviceCategoryFilter {
+    return (
+        typeof object === 'object' &&
+        object !== null &&
+        'category_filter_type' in object &&
+        (object.category_filter_type === 'All' || object.category_filter_type === 'Any') &&
+        'category_names' in object &&
+        Array.isArray(object.category_names)
+    );
+}
+
 export class DeviceFilter {
     include_scope: 'NoDevices' | 'AllDevices' | 'AllNetworkDevices' | 'AllSnmpDevices';
     device_names?: string[];
@@ -58,6 +69,24 @@ export class DeviceFilter {
         this.vlans = data.vlans;
         this.system_oids = data.system_oids;
     }
+}
+
+export function isDeviceFilter(object: unknown): object is DeviceFilter {
+    return (
+        typeof object === 'object' &&
+        object !== null &&
+        'include_scope' in object &&
+        (object.include_scope === 'NoDevices' ||
+            object.include_scope === 'AllDevices' ||
+            object.include_scope === 'AllNetworkDevices' ||
+            object.include_scope === 'AllSnmpDevices') &&
+        (('device_names' in object && (Array.isArray(object.device_names) || object.device_names == null)) ||
+            ('ip_scopes' in object && (Array.isArray(object.ip_scopes) || object.ip_scopes == null)) ||
+            ('device_categories' in object &&
+                (isDeviceCategoryFilter(object.device_categories) || object.device_categories == null)) ||
+            ('vlans' in object && (Array.isArray(object.vlans) || object.vlans == null)) ||
+            ('system_oids' in object && (Array.isArray(object.system_oids) || object.system_oids == null)))
+    );
 }
 
 // ConnectedDevicesRequest

@@ -1,5 +1,12 @@
 import { isNetworkSummary, NetworkSummary } from './uvx/network';
-import { Device, DeviceDetailsResponse, DeviceFilter, isDevice, isDeviceDetailsResponse } from 'model/uvx/device';
+import {
+    Device,
+    DeviceDetailsResponse,
+    DeviceFilter,
+    isDevice,
+    isDeviceDetailsResponse,
+    isDeviceFilter
+} from 'model/uvx/device';
 import { isString } from 'lucid-extension-sdk';
 import {
     DrawSettings,
@@ -331,6 +338,6 @@ export function isDeviceFilterMessage(message: unknown): message is DeviceFilter
         typeof message.action === 'string' &&
         message.action === 'dynSelectFilter' &&
         'filter' in message &&
-        message.filter instanceof DeviceFilter
+        isDeviceFilter(message.filter)
     );
 }

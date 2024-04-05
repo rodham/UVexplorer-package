@@ -178,7 +178,13 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
         });
 
         console.log('Dyn filter: ', JSON.stringify(filter));
-        // TODO: send data out to parent component? or just send back to extension code to be saved?
+        parent.postMessage(
+            {
+                action: 'dynSelectFilter',
+                filter
+            },
+            '*'
+        );
     }
 
     private parseIpSelection(ipInput: string) {
