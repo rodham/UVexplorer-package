@@ -30,7 +30,7 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
     private ipRegEx =
         /^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d).?\b){4}(\/(8|16|24))?(-((25[0-5]|(2[0-4]|1\d|[1-9]|)\d).?\b){4}(\/(8|16|24))?)?$/;
     private hostRegEx = /^([a-zA-Z0-9*?\-_])*$/;
-    private oidRegEx = /^([0-2])((\.0)|(\.[1-9][0-9]*))*$/;
+    private oidRegEx = /^([0-2*?])((\.0)|(\.[1-9*?][0-9*?]*))*$/;
 
     ngOnInit(): void {
         this.dynamicSelectForm = new FormGroup({

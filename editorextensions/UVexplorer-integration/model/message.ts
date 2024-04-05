@@ -124,7 +124,8 @@ export function isGetConnectedDevicesMessage(message: unknown): message is GetCo
 
 export interface ListDevicesMessage extends SerializableDevicesMessage {
     action: 'listDevices';
-    visibleConnectedDeviceGuids?: string; // Why string and not string[]?
+    visibleConnectedDeviceGuids: string; // Why string and not string[]?
+    dynSelectFilter?: string;
     networkName: string;
     backButton: boolean;
 }
@@ -138,7 +139,8 @@ export function isListDevicesMessage(message: unknown): message is ListDevicesMe
         'networkName' in message &&
         typeof message.networkName === 'string' &&
         'backButton' in message &&
-        typeof message.backButton === 'boolean'
+        typeof message.backButton === 'boolean' &&
+        ('dynSelectFilter' in message ? typeof message.dynSelectFilter === 'string' : true)
     );
 }
 
