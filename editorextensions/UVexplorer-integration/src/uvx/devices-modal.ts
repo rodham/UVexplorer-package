@@ -1,5 +1,6 @@
 import { DataSourceProxy, EditorClient, JsonSerializable } from 'lucid-extension-sdk';
 import {
+    isDeviceFilterMessage,
     isLoadMapSettingsMessage,
     isLoadNetworkMessage,
     isRelistNetworksMessage,
@@ -95,26 +96,6 @@ export class DevicesModal extends UVXModal {
             await this.drawMap(message.devices, message.removeDevices);
             await this.closeSession();
             this.hide();
-            // const filter = new DeviceFilter({
-            //     include_scope: "AllDevices",
-            //     device_categories: {
-            //         category_filter_type: "Any",
-            //         category_names: [
-            //             "snmp",
-            //             "net-device",
-            //             "core-device",
-            //             "router",
-            //             "switch",
-            //             "workstation",
-            //             "windows",
-            //             "printer",
-            //             "server",
-            //             "windows-server"
-            //         ],
-            //     },
-            // });
-            //
-            // await this.dynamicDrawMap(filter);
         } else if (isLoadMapSettingsMessage(message)) {
             await this.sendMapSettings(true);
         } else if (isSelectedMapSettingsMessage(message)) {
@@ -122,6 +103,13 @@ export class DevicesModal extends UVXModal {
             await this.reloadDevices();
         } else if (isRelistNetworksMessage(message)) {
             await this.sendNetworks(true);
+        } else if (isDeviceFilterMessage(message)) {
+            console.log('Device Filter message recieved');
+            await this.dynamicDrawMap(message.filter);
+            await this.closeSession();
+            this.hide();
+        } else {
+            console.log('Message not recognized');
         }
     }
 }

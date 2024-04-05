@@ -111,9 +111,6 @@ export class DevicesComponent implements OnChanges {
             },
             '*'
         );
-
-        // TODO: do this in a better way
-        document.getElementById('devicesComponent')!.style.display = 'none';
     }
 
     onTabChange(tab: string) {
