@@ -68,4 +68,8 @@ export class DataClient {
     createOrRetrieveSettingsCollection(): CollectionProxy {
         return new CollectionProxy('', new EditorClient());
     }
+
+    saveDevices(source: DataSourceProxy, devices: Device[]) {
+        return;
+    }
 }

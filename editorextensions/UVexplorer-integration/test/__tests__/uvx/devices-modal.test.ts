@@ -123,33 +123,30 @@ describe('Devices Modal Tests', () => {
 
     describe('sendDevices tests', () => {
         const mockSource = new lucid.DataSourceProxy('source', mockEditorClient);
-
-        // TODO: This test needs to be fixed or removed!
         it('Should call sendDevices with listDevices action', async () => {
             const deviceListRequestSpy = jest
                 .spyOn(devicesModel, 'DeviceListRequest')
                 .mockReturnValue(mockDeviceListRequest);
             const listDevicesSpy = jest.spyOn(mockUvxClient, 'listDevices').mockResolvedValue(mockDeviceList);
-            // const saveDevicesSpy = jest.spyOn(mockDataClient, 'saveDevices');
-            // const getDeviceGuidsSpy = jest.spyOn(mockDocClient, 'getNetworkDeviceBlockGuids');
+            const saveDevicesSpy = jest.spyOn(mockDataClient, 'saveDevices');
+            const getDeviceGuidsSpy = jest.spyOn(mockDocClient, 'getNetworkDeviceBlockGuids');
             const sendMessageSpy = jest.spyOn(modal, 'sendMessage').mockResolvedValue();
-            // const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+            const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
             await modal.sendDevices(mockSource, 'My Network');
 
             expect(deviceListRequestSpy).toHaveBeenCalled();
             expect(listDevicesSpy).toHaveBeenCalledWith(mockDeviceListRequest);
-            // expect(saveDevicesSpy).toHaveBeenCalledWith(mockSource, mockDeviceList);
-            // expect(getDeviceGuidsSpy).toHaveBeenCalled();
-            // expect(consoleSpy).not.toHaveBeenCalled();
-            expect(sendMessageSpy).toHaveBeenCalled();
-            // expect(sendMessageSpy).toHaveBeenNthCalledWith(2, {
-            //     action: 'listDevices',
-            //     devices: JSON.stringify(mockDeviceList),
-            //     visibleConnectedDeviceGuids: JSON.stringify([]),
-            //     networkName: 'My Network',
-            //     backButton: true
-            // });
+            expect(saveDevicesSpy).toHaveBeenCalledWith(mockSource, mockDeviceList);
+            expect(getDeviceGuidsSpy).toHaveBeenCalled();
+            expect(consoleSpy).not.toHaveBeenCalled();
+            expect(sendMessageSpy).toHaveBeenCalledWith({
+                action: 'listDevices',
+                devices: JSON.stringify(mockDeviceList),
+                visibleConnectedDeviceGuids: JSON.stringify([]),
+                networkName: 'My Network',
+                backButton: true
+            });
         });
 
         it('Should throw error when unable to list devices', async () => {
