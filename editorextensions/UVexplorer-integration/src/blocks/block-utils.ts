@@ -88,14 +88,24 @@ export class BlockUtils {
             const endpointGuid1 = endpoint1.shapeData.get('Guid');
             const endpointGuid2 = endpoint2.shapeData.get('Guid');
 
-            if (endpointGuid1 && typeof endpointGuid1 === 'string' && endpointGuid1 !== blockGuid && endpointGuid1 !== prevGuid) {
+            if (
+                endpointGuid1 &&
+                typeof endpointGuid1 === 'string' &&
+                endpointGuid1 !== blockGuid &&
+                endpointGuid1 !== prevGuid
+            ) {
                 if (endpointGuid1 === HUB_NODE) {
                     visConnDeviceGuids.push(...this.getVisibleConnectedDeviceGuidsFromBlock(endpoint1, blockGuid));
                 } else {
                     visConnDeviceGuids.push(endpointGuid1);
                 }
             }
-            if (endpointGuid2 && typeof endpointGuid2 === 'string' && endpointGuid2 !== blockGuid && endpointGuid2 !== prevGuid) {
+            if (
+                endpointGuid2 &&
+                typeof endpointGuid2 === 'string' &&
+                endpointGuid2 !== blockGuid &&
+                endpointGuid2 !== prevGuid
+            ) {
                 if (endpointGuid2 === HUB_NODE) {
                     visConnDeviceGuids.push(...this.getVisibleConnectedDeviceGuidsFromBlock(endpoint2, blockGuid));
                 } else {
