@@ -52,6 +52,10 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
                 updateOn: 'blur'
             })
         });
+        if (this.prevFilter) {
+            console.log('Running prefill filters with filter: ', this.prevFilter);
+            this.prefillFilters();
+        }
     }
 
     private getDeviceCategories(devices: Device[]) {
@@ -129,13 +133,19 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
 
     parsePrevFilterIp(ipScopes: IpScope[]): string {
         let str = '';
+        let firstEntry = true;
 
         for (const ipScope of ipScopes) {
             let key: keyof IpScope;
 
             for (key in ipScope) {
                 if (!ipScope[key]) continue;
-                str += '\n';
+
+                if (firstEntry) {
+                    firstEntry = false;
+                } else {
+                    str += '\n';
+                }
 
                 switch (key) {
                     case 'addresses':
@@ -192,10 +202,13 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
         this.setupCategories();
         if (this.gridApi) {
             this.gridApi.setGridOption('rowData', this.categoryRows);
-        }
-        if (this.prevFilter) {
-            console.log('Running prefill filters with filter: ', this.prevFilter);
-            this.prefillFilters();
+            console.log('**** grid api ng on changes');
+            console.log('prevFilter: ', this.prevFilter);
+
+            if (this.prevFilter?.device_categories) {
+                console.log('******* preselecting categories');
+                this.preselectDevCats(this.prevFilter.device_categories.category_names);
+            }
         }
     }
 
@@ -220,6 +233,10 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
 
     protected onGridReady(event: GridReadyEvent) {
         this.gridApi = event.api;
+        if (this.prevFilter?.device_categories) {
+            console.log('******* preselecting categories');
+            this.preselectDevCats(this.prevFilter.device_categories.category_names);
+        }
     }
 
     get ipSelection() {
