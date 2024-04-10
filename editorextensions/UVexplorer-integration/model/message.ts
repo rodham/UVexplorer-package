@@ -156,6 +156,18 @@ export function connDeviceGuidsFromListDevMsg(message: ListDevicesMessage): stri
     return [];
 }
 
+export function devFilterFromListDevMsg(message: ListDevicesMessage): DeviceFilter | null {
+    if (!message.dynSelectFilter) {
+        return null;
+    }
+    const filter: unknown = JSON.parse(message.dynSelectFilter);
+    if (isDeviceFilter(filter)) {
+        return filter;
+    }
+    console.error('Error parsing device filter from message', message);
+    return null;
+}
+
 export interface SelectedDevicesMessage extends DevicesMessage {
     action: 'selectDevices';
     removeDevices?: string[];

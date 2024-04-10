@@ -68,12 +68,15 @@ export class DevicesModal extends UVXModal {
             this.dataClient.saveDevices(source, devices);
             const devicesShown = this.docClient.getNetworkDeviceBlockGuids();
 
+            const filter = this.docClient.getDeviceFilter();
+
             await this.sendMessage({
                 action: 'listDevices',
                 devices: JSON.stringify(devices),
                 visibleConnectedDeviceGuids: JSON.stringify(devicesShown),
                 networkName: networkName,
-                backButton: true
+                backButton: true,
+                dynSelectFilter: filter ? JSON.stringify(filter) : undefined
             });
             console.log(`Successfully loaded devices: ${source.getName()}`);
         } catch (e) {
