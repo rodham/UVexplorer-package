@@ -86,9 +86,6 @@
             ></textarea>
             <div *ngIf="oidSelection.invalid" role="alert" class="alert alert-error w-3/5">Invalid OID selection.</div>
         </div>
-        <!-- <div id="textDynamicQuery" class="border-base-300 rounded-box"> -->
-        <!--     <p>TEXT QUERY TODO?</p> -->
-        <!-- </div> -->
     </form>
     <div class="flex flex-row basis-1/6 p-3 px-9" [hidden]="devices.length === 0">
         <button (click)="confirmSelection()" class="bg-blue-500 text-white py-2 px-4 rounded mx-2 mt-1">

@@ -111,7 +111,7 @@ export class StaticSelect {
                 if (!node) continue; //console.log('Node exists');
                 node.setSelected(true);
             } else {
-                console.log('No matching guid', guid);
+                // console.log('No matching guid', guid);
             }
         }
         console.log(this.preselectedDeviceGuids);

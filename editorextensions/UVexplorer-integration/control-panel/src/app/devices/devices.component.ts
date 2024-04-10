@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import {
     ListDevicesMessage,
     connDeviceGuidsFromListDevMsg,
+    devFilterFromListDevMsg,
     devicesFromSerializableDevicesMessage,
     isListDevicesMessage,
     isRelistDevicesMessage
 } from 'model/message';
-import { Device, DeviceCategoryEntry } from 'model/uvx/device';
+import { Device, DeviceCategoryEntry, DeviceFilter } from 'model/uvx/device';
 import { AgGridAngular } from 'ag-grid-angular';
 import { SettingsComponent } from '../settings/settings.component';
 import { DynamicLayoutSelect } from '../dynamic-layout-select/dl-select.component';
@@ -23,6 +24,7 @@ import { StaticSelect } from '../static-select/static-select.component';
 export class DevicesComponent implements OnChanges {
     @Input() devicesMessage?: ListDevicesMessage;
     devices: Device[] = [];
+    prevFilter?: DeviceFilter;
     preselectedDeviceGuids: string[] = [];
     networkName = '';
     tabSelection = 'man';
@@ -66,6 +68,9 @@ export class DevicesComponent implements OnChanges {
         this.preselectedDeviceGuids = connDeviceGuidsFromListDevMsg(message);
         this.networkName = message.networkName;
         this.backButton = message.backButton;
+        if (message.dynSelectFilter) {
+            this.prevFilter = devFilterFromListDevMsg(message) ?? undefined;
+        }
     }
 
     public checkDevicesLength(): boolean {

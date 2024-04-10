@@ -19,6 +19,7 @@ interface CatRow {
 })
 export class DynamicLayoutSelect implements OnChanges, OnInit {
     @Input({ required: true }) devices!: Device[];
+    @Input() prevFilter?: DeviceFilter;
     deviceCategories?: Map<string, string[]>;
     dynamicSelectForm!: FormGroup;
     categoryRows: CatRow[] = [];
@@ -30,7 +31,7 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
     private ipRegEx =
         /^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d).?\b){4}(\/(8|16|24))?(-((25[0-5]|(2[0-4]|1\d|[1-9]|)\d).?\b){4}(\/(8|16|24))?)?$/;
     private hostRegEx = /^([a-zA-Z0-9*?\-_])*$/;
-    private oidRegEx = /^([0-2])((\.0)|(\.[1-9][0-9]*))*$/;
+    private oidRegEx = /^([0-2*?])((\.0)|(\.[1-9*?][0-9*?]*))*$/;
 
     ngOnInit(): void {
         this.dynamicSelectForm = new FormGroup({
@@ -51,6 +52,10 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
                 updateOn: 'blur'
             })
         });
+        if (this.prevFilter) {
+            console.log('Running prefill filters with filter: ', this.prevFilter);
+            this.prefillFilters();
+        }
     }
 
     private getDeviceCategories(devices: Device[]) {
@@ -83,11 +88,127 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
         }
     }
 
+    prefillFilters() {
+        if (!this.prevFilter) return;
+        let key: keyof DeviceFilter;
+        for (key in this.prevFilter) {
+            if (!this.prevFilter[key]) continue;
+
+            switch (key) {
+                case 'device_names':
+                    this.dynamicSelectForm
+                        .get('hostSelection')
+                        ?.setValue(this.parsePrevFilterDevNames(this.prevFilter[key]!));
+                    break;
+
+                case 'ip_scopes':
+                    this.dynamicSelectForm.get('ipSelection')?.setValue(this.parsePrevFilterIp(this.prevFilter[key]!));
+                    break;
+
+                case 'device_categories':
+                    this.preselectDevCats(this.prevFilter[key]!.category_names);
+                    break;
+
+                case 'vlans':
+                    this.dynamicSelectForm
+                        .get('vlanSelection')
+                        ?.setValue(this.parsePrevFilterVlans(this.prevFilter[key]!));
+                    break;
+
+                case 'system_oids':
+                    this.dynamicSelectForm
+                        .get('oidSelection')
+                        ?.setValue(this.parsePrevFilterOids(this.prevFilter[key]!));
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+    parsePrevFilterDevNames(names: string[]): string {
+        return names.join(', ');
+    }
+
+    parsePrevFilterIp(ipScopes: IpScope[]): string {
+        let str = '';
+        let firstEntry = true;
+
+        for (const ipScope of ipScopes) {
+            let key: keyof IpScope;
+
+            for (key in ipScope) {
+                if (!ipScope[key]) continue;
+
+                if (firstEntry) {
+                    firstEntry = false;
+                } else {
+                    str += '\n';
+                }
+
+                switch (key) {
+                    case 'addresses':
+                        str += ipScope[key]!.join(', ');
+                        break;
+
+                    case 'ranges':
+                        str += ipScope[key]!.map((range) => `${range.min_address}-${range.max_address}`).join(', ');
+                        break;
+
+                    case 'subnets':
+                        str += ipScope[key]!.map((subnet) => `${subnet.ip_address}/${subnet.subnet_mask}`).join(', ');
+                        break;
+
+                    case 'hosts':
+                        str += ipScope[key]!.join(', ');
+                        break;
+
+                    // TODO: octet_ranges not currently implemented
+                    // case 'octet_ranges':
+                    //     break;
+
+                    default:
+                        break;
+                }
+            }
+        }
+
+        return str;
+    }
+
+    preselectDevCats(catNames: string[]) {
+        if (!this.gridApi) {
+            console.error('Grid api not defined before preselecting rows');
+            return;
+        }
+        for (const cat of catNames) {
+            const node = this.gridApi.getRowNode(cat);
+            if (!node) continue;
+            node.setSelected(true);
+        }
+    }
+
+    parsePrevFilterVlans(vlans: string[]): string {
+        return vlans.join(', ');
+    }
+
+    parsePrevFilterOids(oids: string[]): string {
+        return oids.join(', ');
+    }
+
     ngOnChanges(_changes: SimpleChanges) {
         console.log('ng changes');
         this.setupCategories();
         if (this.gridApi) {
             this.gridApi.setGridOption('rowData', this.categoryRows);
+            console.log('**** grid api ng on changes');
+            console.log('prevFilter: ', this.prevFilter);
+
+            if (this.prevFilter?.device_categories) {
+                console.log('******* preselecting categories');
+                this.preselectDevCats(this.prevFilter.device_categories.category_names);
+            }
         }
     }
 
@@ -112,6 +233,10 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
 
     protected onGridReady(event: GridReadyEvent) {
         this.gridApi = event.api;
+        if (this.prevFilter?.device_categories) {
+            console.log('******* preselecting categories');
+            this.preselectDevCats(this.prevFilter.device_categories.category_names);
+        }
     }
 
     get ipSelection() {
