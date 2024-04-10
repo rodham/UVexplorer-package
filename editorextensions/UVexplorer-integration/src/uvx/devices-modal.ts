@@ -113,7 +113,7 @@ export class DevicesModal extends UVXModal {
             const pageId = this.docClient.getPageId();
             if (pageId) {
                 this.dataClient.deleteSettingsFromCollection(collection, pageId);
-                this.dataClient.addDeviceFilterToCollection(collection, pageId,true, message.filter);
+                this.dataClient.addDeviceFilterToCollection(collection, pageId, true, message.filter);
             }
             await this.dynamicDrawMap(message.filter);
             await this.closeSession();

@@ -1,4 +1,4 @@
-import {Device, DeviceFilter} from 'model/uvx/device';
+import { Device, DeviceFilter } from 'model/uvx/device';
 import {
     CollectionProxy,
     DataProxy,
@@ -8,7 +8,7 @@ import {
     SchemaDefinition,
     SerializedFieldType
 } from 'lucid-extension-sdk';
-import {addQuotationMarks, createDataProxy, deviceToRecord, displayEdgeToRecord, toSnakeCase} from '@data/data-utils';
+import { addQuotationMarks, createDataProxy, deviceToRecord, displayEdgeToRecord, toSnakeCase } from '@data/data-utils';
 import {
     defaultDrawSettings,
     defaultImageSettings,
@@ -17,7 +17,7 @@ import {
     ImageSettings,
     LayoutSettings
 } from 'model/uvx/topo-map';
-import {DisplayEdgeSet} from 'model/uvx/display-edge-set';
+import { DisplayEdgeSet } from 'model/uvx/display-edge-set';
 
 export const DEVICE_REFERENCE_KEY = 'device_reference_key';
 export const DISPLAY_EDGE_REFERENCE_KEY = 'display_edge_reference_key';
@@ -158,10 +158,12 @@ export class DataClient {
         });
     }
 
-    addDeviceFilterToCollection(collection: CollectionProxy,
-                                pageId: string,
-                                isDynamic: boolean,
-                                filter?: DeviceFilter) {
+    addDeviceFilterToCollection(
+        collection: CollectionProxy,
+        pageId: string,
+        isDynamic: boolean,
+        filter?: DeviceFilter
+    ) {
         collection.patchItems({
             added: [
                 {
