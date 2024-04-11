@@ -1,4 +1,4 @@
-import { Device, DeviceLink } from 'model/uvx/device';
+import { Device, DeviceFilter, DeviceLink } from 'model/uvx/device';
 import { CollectionProxy, DataProxy, DataSourceProxy, EditorClient } from 'lucid-extension-sdk';
 import { createDataProxy } from '@data/data-utils';
 
@@ -26,6 +26,14 @@ export class DataClient {
 
     createOrRetrieveDeviceCollection(_source: DataSourceProxy): CollectionProxy {
         return new CollectionProxy('', new EditorClient());
+    }
+
+    createOrRetrieveDeviceFilterCollection(_source: DataSourceProxy): CollectionProxy {
+        return new CollectionProxy('', new EditorClient());
+    }
+
+    getDeviceFilter(_collection: CollectionProxy, _pageId: number): DeviceFilter | undefined {
+        return undefined;
     }
 
     createOrRetrieveLinkCollection(_source: DataSourceProxy): CollectionProxy {

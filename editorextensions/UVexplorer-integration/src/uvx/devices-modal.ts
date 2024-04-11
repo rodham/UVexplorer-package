@@ -1,4 +1,4 @@
-import { DataSourceProxy, EditorClient, JsonSerializable } from 'lucid-extension-sdk';
+import { CollectionProxy, DataSourceProxy, EditorClient, JsonSerializable } from 'lucid-extension-sdk';
 import {
     isDeviceFilterMessage,
     isLoadMapSettingsMessage,
@@ -68,12 +68,16 @@ export class DevicesModal extends UVXModal {
             this.dataClient.saveDevices(source, devices);
             const devicesShown = this.docClient.getNetworkDeviceBlockGuids();
 
+            const filter = this.docClient.getDeviceFilter();
+            console.log('Curr device filter to send: ', filter);
+
             await this.sendMessage({
                 action: 'listDevices',
                 devices: JSON.stringify(devices),
                 visibleConnectedDeviceGuids: JSON.stringify(devicesShown),
                 networkName: networkName,
-                backButton: true
+                backButton: true,
+                dynSelectFilter: filter ? JSON.stringify(filter) : undefined
             });
             console.log(`Successfully loaded devices: ${source.getName()}`);
         } catch (e) {
@@ -105,6 +109,12 @@ export class DevicesModal extends UVXModal {
             await this.sendNetworks(true);
         } else if (isDeviceFilterMessage(message)) {
             console.log('Device Filter message recieved');
+            const collection: CollectionProxy = this.dataClient.createOrRetrieveDeviceFilterCollection();
+            const pageId = this.docClient.getPageId();
+            if (pageId) {
+                this.dataClient.deleteSettingsFromCollection(collection, pageId);
+                this.dataClient.addDeviceFilterToCollection(collection, pageId, true, message.filter);
+            }
             await this.dynamicDrawMap(message.filter);
             await this.closeSession();
             this.hide();

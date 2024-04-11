@@ -8,16 +8,17 @@ import {
     SchemaDefinition,
     SerializedFieldType
 } from 'lucid-extension-sdk';
-import { createDataProxy, deviceToRecord, toSnakeCase, addQuotationMarks, displayEdgeToRecord } from '@data/data-utils';
+import { addQuotationMarks, createDataProxy, deviceToRecord, displayEdgeToRecord, toSnakeCase } from '@data/data-utils';
 import {
-    DrawSettings,
-    LayoutSettings,
     defaultDrawSettings,
+    defaultImageSettings,
     defaultLayoutSettings,
+    DrawSettings,
     ImageSettings,
-    defaultImageSettings
+    LayoutSettings
 } from 'model/uvx/topo-map';
 import { DisplayEdgeSet } from 'model/uvx/display-edge-set';
+
 export const DEVICE_REFERENCE_KEY = 'device_reference_key';
 export const DISPLAY_EDGE_REFERENCE_KEY = 'display_edge_reference_key';
 
@@ -56,6 +57,7 @@ export const SETTINGS_SCHEMA: SchemaDefinition = {
 
 export const DEVICE_FILTER_SCHEMA: SchemaDefinition = {
     fields: [
+        { name: 'page_id', type: ScalarFieldTypeEnum.STRING },
         { name: 'dynamic_membership', type: ScalarFieldTypeEnum.BOOLEAN },
         { name: 'device_filter', type: ScalarFieldTypeEnum.STRING }
     ],
@@ -245,14 +247,21 @@ export class DataClient {
     /**
      * Adds given DeviceFilter and boolean determining dynamic or static layout to given DeviceFilter collection.
      * @param collection CollectionProxy
-     * @param dynamic boolean
+     * @param pageId string
+     * @param isDynamic boolean
      * @param filter DeviceFilter (optionally undefined)
      */
-    addDeviceFilterToCollection(collection: CollectionProxy, dynamic: boolean, filter?: DeviceFilter) {
+    addDeviceFilterToCollection(
+        collection: CollectionProxy,
+        pageId: string,
+        isDynamic: boolean,
+        filter?: DeviceFilter
+    ) {
         collection.patchItems({
             added: [
                 {
-                    dynamic_membership: dynamic,
+                    page_id: pageId,
+                    dynamic_membership: isDynamic,
                     device_filter: JSON.stringify(filter)
                 }
             ]

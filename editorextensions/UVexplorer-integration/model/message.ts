@@ -134,7 +134,8 @@ export function isGetConnectedDevicesMessage(message: unknown): message is GetCo
 
 export interface ListDevicesMessage extends SerializableDevicesMessage {
     action: 'listDevices';
-    visibleConnectedDeviceGuids?: string; // Why string and not string[]?
+    visibleConnectedDeviceGuids: string; // Why string and not string[]?
+    dynSelectFilter?: string;
     networkName: string;
     backButton: boolean;
 }
@@ -148,7 +149,8 @@ export function isListDevicesMessage(message: unknown): message is ListDevicesMe
         'networkName' in message &&
         typeof message.networkName === 'string' &&
         'backButton' in message &&
-        typeof message.backButton === 'boolean'
+        typeof message.backButton === 'boolean' &&
+        ('dynSelectFilter' in message ? typeof message.dynSelectFilter === 'string' : true)
     );
 }
 
@@ -167,6 +169,18 @@ export function connDeviceGuidsFromListDevMsg(message: ListDevicesMessage): stri
     }
     console.error('Error parsing device guid array in message: ', message);
     return [];
+}
+
+export function devFilterFromListDevMsg(message: ListDevicesMessage): DeviceFilter | null {
+    if (!message.dynSelectFilter) {
+        return null;
+    }
+    const filter: unknown = JSON.parse(message.dynSelectFilter);
+    if (isDeviceFilter(filter)) {
+        return filter;
+    }
+    console.error('Error parsing device filter from message', message);
+    return null;
 }
 
 export interface SelectedDevicesMessage extends DevicesMessage {
