@@ -2,6 +2,9 @@ import { Device, DeviceLink } from 'model/uvx/device';
 import { CollectionProxy, DataProxy, DataSourceProxy, EditorClient } from 'lucid-extension-sdk';
 import { createDataProxy } from '@data/data-utils';
 
+/**
+ * DataClient class with mock functions to be used in tests.
+ */
 export class DataClient {
     private static instance: DataClient;
     private data: DataProxy;

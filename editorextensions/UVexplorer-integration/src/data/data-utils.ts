@@ -2,10 +2,20 @@ import { Device, DeviceCategories, DeviceClass, DeviceLink, ProtocolProfile } fr
 import { CollectionProxy, DataItemProxy, DataProxy, EditorClient, SerializedFieldType } from 'lucid-extension-sdk';
 import { DisplayEdge } from 'model/uvx/display-edge';
 
+/**
+ * Creates an instance of DataProxy.
+ * @param client EditorClient
+ * @returns DataProxy
+ */
 export function createDataProxy(client: EditorClient): DataProxy {
     return new DataProxy(client);
 }
 
+/**
+ * Converts Device to Record<string, SerializedFieldType>.
+ * @param device Device
+ * @returns Record<string, SerializedFieldType>
+ */
 export function deviceToRecord(device: Device): Record<string, SerializedFieldType> {
     return {
         guid: device.guid,
@@ -19,6 +29,11 @@ export function deviceToRecord(device: Device): Record<string, SerializedFieldTy
     };
 }
 
+/**
+ * Converts DisplayEdge to Record<string, SerializedFieldType>.
+ * @param displayEdge DisplayEdge
+ * @returns Record<string, SerializedFieldType>
+ */
 export function displayEdgeToRecord(displayEdge: DisplayEdge): Record<string, SerializedFieldType> {
     return {
         local_node_id: displayEdge.nodeId1,
@@ -27,6 +42,11 @@ export function displayEdgeToRecord(displayEdge: DisplayEdge): Record<string, Se
     };
 }
 
+/**
+ * Converts DataItemProxy to Device.
+ * @param item DataItemProxy
+ * @returns Device
+ */
 export function itemToDevice(item: DataItemProxy): Device {
     return new Device(
         item.fields.get('ip_address')?.toString() ?? '',
@@ -40,6 +60,11 @@ export function itemToDevice(item: DataItemProxy): Device {
     );
 }
 
+/**
+ * Converts DataItemProxy to DisplayEdge.
+ * @param item DataItemProxy
+ * @returns DisplayEdge
+ */
 export function itemToDisplayEdge(item: DataItemProxy): DisplayEdge {
     return new DisplayEdge(
         Number.parseInt(item.fields.get('local_node_id')?.toString() ?? ''),
@@ -48,6 +73,11 @@ export function itemToDisplayEdge(item: DataItemProxy): DisplayEdge {
     );
 }
 
+/**
+ * Converts CollectionProxy to list of devices (Device[])
+ * @param collection CollectionProxy
+ * @returns list of devices (Device[])
+ */
 export function collectionToDevices(collection: CollectionProxy): Device[] {
     const devices: Device[] = [];
     for (const key of collection.items.keys()) {
@@ -56,6 +86,11 @@ export function collectionToDevices(collection: CollectionProxy): Device[] {
     return devices;
 }
 
+/**
+ * Converts a given string to snake case.
+ * @param val string
+ * @returns string
+ */
 export function toSnakeCase(val: string): string {
     return val
         .replace(/[^a-zA-Z0-9 ]/g, '')
@@ -63,10 +98,20 @@ export function toSnakeCase(val: string): string {
         .toLowerCase();
 }
 
+/**
+ * Removes quotation marks from given string (needed because Lucid's Data Collection adds quotation marks to primary keys)
+ * @param val string
+ * @returns string
+ */
 export function removeQuotationMarks(val: string): string {
     return val.replace(/['"]/g, '');
 }
 
+/**
+ * Adds quotation marks to given string (needed because Lucid's Data Collection needs primary keys to have quotation marks)
+ * @param val string
+ * @returns string
+ */
 export function addQuotationMarks(val: string): string {
     return '"' + val + '"';
 }

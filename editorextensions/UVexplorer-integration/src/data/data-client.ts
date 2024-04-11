@@ -62,6 +62,9 @@ export const DEVICE_FILTER_SCHEMA: SchemaDefinition = {
     primaryKey: ['page_id']
 };
 
+/**
+ * Class with functions to interact with Data Collections within LucidChart.
+ */
 export class DataClient {
     private static instance: DataClient;
     private data: DataProxy;
@@ -70,6 +73,11 @@ export class DataClient {
         this.data = createDataProxy(client);
     }
 
+    /**
+     * Creates or retrieves a new instance of DataClient.
+     * @param client EditorClient
+     * @returns DataClient
+     */
     static getInstance(client: EditorClient): DataClient {
         if (!DataClient.instance) {
             DataClient.instance = new DataClient(client);
@@ -77,6 +85,12 @@ export class DataClient {
         return DataClient.instance;
     }
 
+    /**
+     * Creates or retrieves the corresponding network source from the given network guid.
+     * @param name network name as a string
+     * @param guid network guid as a string
+     * @returns DataSourceProxy
+     */
     createOrRetrieveNetworkSource(name: string, guid: string): DataSourceProxy {
         for (const [, source] of this.data.dataSources) {
             if (source.getSourceConfig().guid === guid) {
@@ -86,6 +100,44 @@ export class DataClient {
         return this.data.addDataSource(name, { guid: guid });
     }
 
+    /**
+     * Creates or Retrieves the pageMap source.
+     * @returns DataSourceProxy
+     */
+    createOrRetrievePageMapSource(): DataSourceProxy {
+        for (const [, source] of this.data.dataSources) {
+            if (source.getSourceConfig().id === 'PageMap') {
+                return source;
+            }
+        }
+        return this.data.addDataSource('PageMap', { id: 'PageMap' });
+    }
+
+    /**
+     * Creates or retrieves pageMap collection for linking a page to a loaded network.
+     * @returns CollectionProxy
+     */
+    createOrRetrievePageMapCollection(): CollectionProxy {
+        const source = this.createOrRetrievePageMapSource();
+        for (const [, collection] of source.collections) {
+            if (collection.getName() === 'page_map') {
+                return collection;
+            }
+        }
+        return source.addCollection('page_map', {
+            fields: [
+                { name: 'page_id', type: ScalarFieldTypeEnum.STRING },
+                { name: 'network_guid', type: ScalarFieldTypeEnum.STRING }
+            ],
+            primaryKey: ['page_id']
+        });
+    }
+
+    /**
+     * Creates or retrieves the corresponding Device collection from the given network source.
+     * @param source DataSourceProxy
+     * @returns CollectionProxy
+     */
     createOrRetrieveDeviceCollection(source: DataSourceProxy): CollectionProxy {
         for (const [, collection] of source.collections) {
             if (collection.getName() === `${toSnakeCase(source.getName())}_device`) {
@@ -95,6 +147,11 @@ export class DataClient {
         return source.addCollection(`${toSnakeCase(source.getName())}_device`, DEVICE_SCHEMA);
     }
 
+    /**
+     * Creates or retrieves the corresponding DisplayEdge collection from the given network source.
+     * @param source DataSourceProxy
+     * @returns CollectionProxy
+     */
     createOrRetrieveDisplayEdgeCollection(source: DataSourceProxy): CollectionProxy {
         for (const [, collection] of source.collections) {
             if (collection.getName() === `${toSnakeCase(source.getName())}_display_edge`) {
@@ -104,6 +161,10 @@ export class DataClient {
         return source.addCollection(`${toSnakeCase(source.getName())}_display_edge`, DISPLAY_EDGE_SCHEMA);
     }
 
+    /**
+     * Creates or retrieves the DeviceFilter collection containing data for dynamic map selection.
+     * @returns CollectionProxy
+     */
     createOrRetrieveDeviceFilterCollection(): CollectionProxy {
         const source = this.createOrRetrievePageMapSource();
         for (const [, collection] of source.collections) {
@@ -114,25 +175,36 @@ export class DataClient {
         return source.addCollection(`${toSnakeCase(source.getName())}_filter`, DEVICE_FILTER_SCHEMA);
     }
 
+    /**
+     * Creates or retrieves settings collection containing map settings data.
+     * @returns CollectionProxy
+     */
+    createOrRetrieveSettingsCollection(): CollectionProxy {
+        const source = this.createOrRetrievePageMapSource();
+        for (const [, collection] of source.collections) {
+            if (collection.getName() === 'settings') {
+                return collection;
+            }
+        }
+        return source.addCollection('settings', SETTINGS_SCHEMA);
+    }
+
+    /**
+     * Adds the given devices to the given Device collection.
+     * @param collection CollectionProxy
+     * @param devices list of devices (Device[])
+     */
     addDevicesToCollection(collection: CollectionProxy, devices: Device[]): void {
         collection.patchItems({
             added: devices.map(deviceToRecord)
         });
     }
 
-    clearCollection(collection: CollectionProxy): void {
-        const guids = collection.items.keys();
-        collection.patchItems({
-            deleted: guids
-        });
-    }
-
-    clearPartOfCollection(collection: CollectionProxy, removeDevices: string[]): void {
-        collection.patchItems({
-            deleted: removeDevices
-        });
-    }
-
+    /**
+     * Adds given displayEdges as a list of Record<string, SerializedFieldType> to given DisplayEdge collection.
+     * @param collection CollectionProxy
+     * @param displayEdges DisplayEdgeSet
+     */
     addDisplayEdgesToCollection(collection: CollectionProxy, displayEdges: DisplayEdgeSet): void {
         const displayEdgeRecords: Record<string, SerializedFieldType>[] = [];
         for (const displayEdge of displayEdges.map.values()) {
@@ -143,6 +215,14 @@ export class DataClient {
         });
     }
 
+    /**
+     * Adds given settings and pageId to given settings collection.
+     * @param collection CollectionProxy
+     * @param pageId string
+     * @param layoutSettings LayoutSettings
+     * @param drawSettings DrawSettings
+     * @param imageSettings ImageSettings
+     */
     addSettingsToCollection(
         collection: CollectionProxy,
         pageId: string,
@@ -162,6 +242,12 @@ export class DataClient {
         });
     }
 
+    /**
+     * Adds given DeviceFilter and boolean determining dynamic or static layout to given DeviceFilter collection.
+     * @param collection CollectionProxy
+     * @param dynamic boolean
+     * @param filter DeviceFilter (optionally undefined)
+     */
     addDeviceFilterToCollection(collection: CollectionProxy, dynamic: boolean, filter?: DeviceFilter) {
         collection.patchItems({
             added: [
@@ -173,6 +259,33 @@ export class DataClient {
         });
     }
 
+    /**
+     * Removes all items in given Device, DisplayEdge, or DeviceFilter collection.
+     * @param collection CollectionProxy
+     */
+    clearCollection(collection: CollectionProxy): void {
+        const guids = collection.items.keys();
+        collection.patchItems({
+            deleted: guids
+        });
+    }
+
+    /**
+     * Removes given items from given Device collection.
+     * @param collection CollectionProxy
+     * @param removeDevices list of guid strings
+     */
+    clearPartOfCollection(collection: CollectionProxy, removeDevices: string[]): void {
+        collection.patchItems({
+            deleted: removeDevices
+        });
+    }
+
+    /**
+     * Removes corresponding settings or DeviceFilter from the given settings or DeviceFilter collection based on the given pageId.
+     * @param collection CollectionProxy
+     * @param pageId string
+     */
     deleteSettingsFromCollection(collection: CollectionProxy, pageId: string): void {
         const key = addQuotationMarks(pageId);
         if (collection.items.keys().includes(key)) {
@@ -182,27 +295,12 @@ export class DataClient {
         }
     }
 
-    createOrRetrieveSettingsCollection(): CollectionProxy {
-        const source = this.createOrRetrievePageMapSource();
-        for (const [, collection] of source.collections) {
-            if (collection.getName() === 'settings') {
-                return collection;
-            }
-        }
-        return source.addCollection('settings', SETTINGS_SCHEMA);
-    }
-
-    getLayoutSettings(collection: CollectionProxy, pageId: string): LayoutSettings {
-        const key = addQuotationMarks(pageId);
-        let layoutSettings: LayoutSettings = defaultLayoutSettings;
-        if (collection.items.keys().includes(key)) {
-            layoutSettings = JSON.parse(
-                collection.items.get(key).fields.get('layout_settings')?.toString() ?? ''
-            ) as LayoutSettings;
-        }
-        return layoutSettings;
-    }
-
+    /**
+     * Checks if using dynamic map selection for given DeviceFilter collection and pageId.
+     * @param collection CollectionProxy
+     * @param pageId string
+     * @returns boolean or undefined
+     */
     isUsingDynamicMembership(collection: CollectionProxy, pageId: string): boolean | undefined {
         const key = addQuotationMarks(pageId);
         let usingDynamicMembership: boolean | undefined = undefined;
@@ -214,6 +312,12 @@ export class DataClient {
         return usingDynamicMembership;
     }
 
+    /**
+     * Retrieves corresponding DeviceFilter from given DeviceFilter collection based on given pageId.
+     * @param collection CollectionProxy
+     * @param pageId string
+     * @returns DeviceFilter or undefined
+     */
     getDeviceFilter(collection: CollectionProxy, pageId: string): DeviceFilter | undefined {
         const key = addQuotationMarks(pageId);
         let deviceFilter: DeviceFilter | undefined = undefined;
@@ -225,6 +329,29 @@ export class DataClient {
         return deviceFilter;
     }
 
+    /**
+     * Retrieves corresponding LayoutSettings from given settings collection based on given pageId.
+     * @param collection CollectionProxy
+     * @param pageId string
+     * @returns LayoutSettings
+     */
+    getLayoutSettings(collection: CollectionProxy, pageId: string): LayoutSettings {
+        const key = addQuotationMarks(pageId);
+        let layoutSettings: LayoutSettings = defaultLayoutSettings;
+        if (collection.items.keys().includes(key)) {
+            layoutSettings = JSON.parse(
+                collection.items.get(key).fields.get('layout_settings')?.toString() ?? ''
+            ) as LayoutSettings;
+        }
+        return layoutSettings;
+    }
+
+    /**
+     * Retrieves corresponding DrawSettings from given settings collection based on given pageId.
+     * @param collection CollectionProxy
+     * @param pageId string
+     * @returns DrawSettings
+     */
     getDrawSettings(collection: CollectionProxy, pageId: string): DrawSettings {
         const key = addQuotationMarks(pageId);
         let drawSettings: DrawSettings = defaultDrawSettings;
@@ -236,6 +363,12 @@ export class DataClient {
         return drawSettings;
     }
 
+    /**
+     * Retrieves corresponding ImageSettings from given settings collection based on given pageId.
+     * @param collection CollectionProxy
+     * @param pageId string
+     * @returns ImageSettings
+     */
     getImageSettings(collection: CollectionProxy, pageId: string): ImageSettings {
         const key = addQuotationMarks(pageId);
         let imageSettings: ImageSettings = defaultImageSettings;
@@ -247,31 +380,12 @@ export class DataClient {
         return imageSettings;
     }
 
-    createOrRetrievePageMapSource(): DataSourceProxy {
-        for (const [, source] of this.data.dataSources) {
-            if (source.getSourceConfig().id === 'PageMap') {
-                return source;
-            }
-        }
-        return this.data.addDataSource('PageMap', { id: 'PageMap' });
-    }
-
-    createOrRetrievePageMapCollection(): CollectionProxy {
-        const source = this.createOrRetrievePageMapSource();
-        for (const [, collection] of source.collections) {
-            if (collection.getName() === 'page_map') {
-                return collection;
-            }
-        }
-        return source.addCollection('page_map', {
-            fields: [
-                { name: 'page_id', type: ScalarFieldTypeEnum.STRING },
-                { name: 'network_guid', type: ScalarFieldTypeEnum.STRING }
-            ],
-            primaryKey: ['page_id']
-        });
-    }
-
+    /**
+     * Updates the loaded network guid with given networkGuid for a page in pageMap collection based on given pageId.
+     * @param pageId string
+     * @param networkGuid string
+     * @returns void
+     */
     updatePageMap(pageId: string, networkGuid: string): void {
         const collection = this.createOrRetrievePageMapCollection();
 
@@ -291,6 +405,11 @@ export class DataClient {
         });
     }
 
+    /**
+     * Retrieves corresponding network guid from a given pageId.
+     * @param pageId string
+     * @returns networkGuid as a string
+     */
     getNetworkForPage(pageId: string): string {
         const collection = this.createOrRetrievePageMapCollection();
         for (const [, item] of collection.items) {
@@ -305,6 +424,11 @@ export class DataClient {
         return '';
     }
 
+    /**
+     * Retrieves corresponding Device collection id based on given pageId.
+     * @param pageId string
+     * @returns collection id as a string
+     */
     getDeviceCollectionForPage(pageId: string): string {
         const networkGuid = this.getNetworkForPage(pageId);
         const source = this.createOrRetrieveNetworkSource('', networkGuid);
@@ -312,6 +436,11 @@ export class DataClient {
         return collection.id;
     }
 
+    /**
+     * Retrieves corresponding DisplayEdge collection id based on given pageId.
+     * @param pageId string
+     * @returns collection id as a string
+     */
     getDisplayEdgeCollectionForPage(pageId: string): string {
         const networkGuid = this.getNetworkForPage(pageId);
         const source = this.createOrRetrieveNetworkSource('', networkGuid);
@@ -319,12 +448,22 @@ export class DataClient {
         return collection.id;
     }
 
+    /**
+     * Clears, then adds given devices to the Device collection.
+     * @param source DataSourceProxy
+     * @param devices list of devices (Device[])
+     */
     saveDevices(source: DataSourceProxy, devices: Device[]) {
         const collection = this.createOrRetrieveDeviceCollection(source);
         this.clearCollection(collection); // TODO: Replace once updateDevicesInCollection Function is implemented
         this.addDevicesToCollection(collection, devices);
     }
 
+    /**
+     * Clears, then adds given displayEdges to DisplayEdge collection.
+     * @param networkGuid string
+     * @param displayEdges DisplayEdgeSet
+     */
     saveDisplayEdges(networkGuid: string, displayEdges: DisplayEdgeSet) {
         const source = this.createOrRetrieveNetworkSource('', networkGuid);
         const collection = this.createOrRetrieveDisplayEdgeCollection(source);
@@ -332,6 +471,11 @@ export class DataClient {
         this.addDisplayEdgesToCollection(collection, displayEdges);
     }
 
+    /**
+     * Checks if a network is loaded on the current page.
+     * @param pageId string
+     * @returns boolean
+     */
     checkIfNetworkLoaded(pageId: string): boolean {
         const collection = this.createOrRetrievePageMapCollection();
         for (const [, item] of collection.items) {
@@ -345,6 +489,11 @@ export class DataClient {
         return false;
     }
 
+    /**
+     * Clears, then adds DeviceFilter to the DeviceFilter collection.
+     * @param source DataSourceProxy
+     * @param filter DeviceFilter
+     */
     saveDeviceFilter(source: DataSourceProxy, filter: DeviceFilter) {
         const collection = this.createOrRetrieveDeviceFilterCollection();
         this.clearCollection(collection);

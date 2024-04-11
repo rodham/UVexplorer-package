@@ -38,6 +38,11 @@ export const VENDOR_NAME_MAP: Map<string, string> = new Map<string, string>([
     ['', 'unknown']
 ]);
 
+/**
+ * Retrieves the correct vendor for the given deviceNode or "unknown" if vendor not in the map.
+ * @param deviceNode DeviceNode
+ * @returns string
+ */
 export function getVendor(deviceNode: DeviceNode) {
     let vendor = '';
     if (deviceNode.vendor !== undefined) {

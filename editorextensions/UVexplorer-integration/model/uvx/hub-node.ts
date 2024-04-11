@@ -45,6 +45,11 @@ export enum MultiNodeType {
 }
 
 export class HubNodeUtil {
+    /**
+     * Retrieves the correct category for a given hubNode.
+     * @param node HubNode
+     * @returns category as a string
+     */
     static getCategoryImageKey(node: HubNode): string {
         switch (node.type) {
             case MultiNodeType.VirtualPortGroup:

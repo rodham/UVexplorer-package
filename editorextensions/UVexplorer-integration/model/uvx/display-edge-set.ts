@@ -32,6 +32,10 @@ export function isDisplayEdgeSet(obj: unknown): obj is DisplayEdgeSet {
     return typeof obj === 'object' && obj !== null && obj instanceof DisplayEdgeSet && typeof obj.get === 'function';
 }
 
+/**
+ * Populates the given map's displayEdges based on the local and remote link connections of the map's deviceLink edges.
+ * @param map TopoMap
+ */
 export function populateMapDisplayEdges(map: TopoMap): void {
     const dispEdges = new DisplayEdgeSet();
 

@@ -9,6 +9,9 @@ export enum LayoutType {
     Ring = 3
 }
 
+/**
+ * Used for the Hierarchical LayoutType.
+ */
 export enum LayoutDirection {
     Left = 0,
     Right = 1,
@@ -16,12 +19,18 @@ export enum LayoutDirection {
     Down = 3
 }
 
+/**
+ * Used for the Hierarchical LayoutType.
+ */
 export enum RootAlignment {
     Left = 0,
     Center = 1,
     Right = 2
 }
 
+/**
+ * Determines what the device label on a network device should be.
+ */
 export enum DeviceDisplaySetting {
     Default = 0,
     Hostname = 1,
@@ -29,6 +38,9 @@ export enum DeviceDisplaySetting {
     HostnameAndIpAddress = 3
 }
 
+/**
+ * Determines the type of link drawn between network devices.
+ */
 export enum DashStyle {
     Solid = 0,
     Dash = 1,
@@ -38,6 +50,9 @@ export enum DashStyle {
     Custom = 5
 }
 
+/**
+ * Settings for the custom NetworkDeviceBlock
+ */
 export interface ImageSettings {
     showVendor: boolean;
     showStatus: boolean;
@@ -56,12 +71,6 @@ export function isImageSettings(obj: unknown): obj is ImageSettings {
         typeof obj.showDisplayName === 'boolean'
     );
 }
-
-export const defaultImageSettings = {
-    showVendor: true,
-    showStatus: true,
-    showDisplayName: true
-};
 
 export interface LayoutSettings {
     layoutType: LayoutType;
@@ -93,6 +102,35 @@ export interface LayoutSettings {
     rootNodes?: unknown;
 }
 
+export function isLayoutSettings(obj: unknown): obj is LayoutSettings {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'layoutType' in obj &&
+        typeof obj.layoutType === 'number' &&
+        Object.values(LayoutType).includes(obj.layoutType) &&
+        'useStraightLinks' in obj &&
+        typeof obj.useStraightLinks === 'boolean' &&
+        'showLinkLabels' in obj &&
+        typeof obj.showLinkLabels === 'boolean' &&
+        'showLayer2Links' in obj &&
+        typeof obj.showLayer2Links === 'boolean' &&
+        'showVirtualLinks' in obj &&
+        typeof obj.showVirtualLinks === 'boolean' &&
+        'showWirelessLinks' in obj &&
+        typeof obj.showWirelessLinks === 'boolean' &&
+        'showIpPhoneLinks' in obj &&
+        typeof obj.showIpPhoneLinks === 'boolean' &&
+        'rootNodes' in obj &&
+        Array.isArray(obj.rootNodes) &&
+        (!('hierarchicalSettings' in obj) ||
+            obj.hierarchicalSettings === null ||
+            isHierarchicalLayoutSettings(obj.hierarchicalSettings)) &&
+        (!('radialSettings' in obj) || obj.radialSettings === null || isRingRadialLayoutSettings(obj.radialSettings)) &&
+        (!('ringSettings' in obj) || obj.ringSettings === null || isRingRadialLayoutSettings(obj.ringSettings))
+    );
+}
+
 export interface DrawSettings {
     shortDeviceNames: boolean;
     deviceTrimLeft: boolean;
@@ -114,6 +152,50 @@ export interface DrawSettings {
     stpBlockingPen: PenPattern;
 }
 
+export function isDrawSettings(obj: unknown): obj is DrawSettings {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'shortDeviceNames' in obj &&
+        typeof obj.shortDeviceNames === 'boolean' &&
+        'deviceTrimLeft' in obj &&
+        typeof obj.deviceTrimLeft === 'boolean' &&
+        'deviceTrimRight' in obj &&
+        typeof obj.deviceTrimRight === 'boolean' &&
+        'deviceTrimLeftChar' in obj &&
+        typeof obj.deviceTrimLeftChar === 'string' &&
+        'deviceTrimRightChar' in obj &&
+        typeof obj.deviceTrimRightChar === 'string' &&
+        'deviceTrimLeftCount' in obj &&
+        typeof obj.deviceTrimLeftCount === 'number' &&
+        'deviceTrimRightCount' in obj &&
+        typeof obj.deviceTrimRightCount === 'number' &&
+        'shortIfNames' in obj &&
+        typeof obj.shortIfNames === 'boolean' &&
+        'hideVendorImage' in obj &&
+        typeof obj.hideVendorImage === 'boolean' &&
+        'hidePlatformImage' in obj &&
+        typeof obj.hidePlatformImage === 'boolean' &&
+        'deviceDisplaySetting' in obj &&
+        typeof obj.deviceDisplaySetting === 'number' &&
+        Object.values(DeviceDisplaySetting).includes(obj.deviceDisplaySetting) &&
+        'standardPen' in obj &&
+        isPenPattern(obj.standardPen) &&
+        'lagPen' in obj &&
+        isPenPattern(obj.lagPen) &&
+        'manualPen' in obj &&
+        isPenPattern(obj.manualPen) &&
+        'associatedPen' in obj &&
+        isPenPattern(obj.associatedPen) &&
+        'multiPen' in obj &&
+        isPenPattern(obj.multiPen) &&
+        'stpForwardingPen' in obj &&
+        isPenPattern(obj.stpForwardingPen) &&
+        'stpBlockingPen' in obj &&
+        isPenPattern(obj.stpBlockingPen)
+    );
+}
+
 export interface PenPattern {
     color: {
         red: number;
@@ -122,6 +204,146 @@ export interface PenPattern {
     };
     width: number;
     dashStyle: DashStyle;
+}
+
+export function isPenPattern(obj: unknown): obj is PenPattern {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'color' in obj &&
+        isColor(obj.color) &&
+        'width' in obj &&
+        typeof obj.width === 'number' &&
+        'dashStyle' in obj &&
+        typeof obj.dashStyle === 'number'
+    );
+}
+
+export interface TopoMap {
+    layoutSettings: LayoutSettings;
+    drawSettings: DrawSettings;
+    deviceNodes: DeviceNode[];
+    deviceGroupNodes: unknown;
+    hubNodes: HubNode[];
+    imageNodes: unknown;
+    deviceLinks: DeviceLink[];
+    width: number;
+    height: number;
+    left: number;
+    right: number;
+    top: number;
+    bottom: number;
+    centerX: number;
+    centerY: number;
+
+    displayEdges?: DisplayEdgeSet;
+}
+
+//TODO this type guard can be stricter once we are in a more final state
+export function isTopoMap(obj: unknown): obj is TopoMap {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'layoutSettings' in obj &&
+        isLayoutSettings(obj.layoutSettings) &&
+        'drawSettings' in obj &&
+        isDrawSettings(obj.drawSettings) &&
+        'deviceNodes' in obj &&
+        Array.isArray(obj.deviceNodes) &&
+        'deviceGroupNodes' in obj &&
+        Array.isArray(obj.deviceGroupNodes) &&
+        'hubNodes' in obj &&
+        Array.isArray(obj.hubNodes) &&
+        'imageNodes' in obj &&
+        Array.isArray(obj.imageNodes) &&
+        'deviceLinks' in obj &&
+        Array.isArray(obj.deviceLinks) &&
+        'width' in obj &&
+        typeof obj.width === 'number' &&
+        'height' in obj &&
+        typeof obj.height === 'number' &&
+        'left' in obj &&
+        typeof obj.left === 'number' &&
+        'right' in obj &&
+        typeof obj.right === 'number' &&
+        'top' in obj &&
+        typeof obj.top === 'number' &&
+        'bottom' in obj &&
+        typeof obj.bottom === 'number' &&
+        'centerX' in obj &&
+        typeof obj.centerX === 'number' &&
+        'centerY' in obj &&
+        typeof obj.centerY === 'number' &&
+        ('displayEdges' in obj ? isDisplayEdgeSet(obj.displayEdges) : true)
+    );
+}
+
+export interface HierarchicalLayoutSettings {
+    levelSpacing: number;
+    nodeSpacing: number;
+    layoutDirection: LayoutDirection;
+    rootAlignment: RootAlignment;
+    useStraightLinks: boolean;
+}
+
+export function isHierarchicalLayoutSettings(obj: unknown): obj is HierarchicalLayoutSettings {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'levelSpacing' in obj &&
+        typeof obj.levelSpacing === 'number' &&
+        'nodeSpacing' in obj &&
+        typeof obj.nodeSpacing === 'number' &&
+        'layoutDirection' in obj &&
+        typeof obj.layoutDirection === 'number' &&
+        Object.values(LayoutDirection).includes(obj.layoutDirection) &&
+        'rootAlignment' in obj &&
+        typeof obj.rootAlignment === 'number' &&
+        Object.values(RootAlignment).includes(obj.rootAlignment) &&
+        'useStraightLinks' in obj &&
+        typeof obj.useStraightLinks === 'boolean'
+    );
+}
+
+export interface RingRadialLayoutSettings {
+    minRadius: number;
+    maxRadius: number;
+    maxAngle: number;
+    maximizeRoot: boolean;
+}
+
+export function isRingRadialLayoutSettings(obj: unknown): obj is RingRadialLayoutSettings {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'minRadius' in obj &&
+        typeof obj.minRadius === 'number' &&
+        'maxRadius' in obj &&
+        typeof obj.maxRadius === 'number' &&
+        'maxAngle' in obj &&
+        typeof obj.maxAngle === 'number' &&
+        'maximizeRoot' in obj &&
+        typeof obj.maximizeRoot === 'boolean'
+    );
+}
+
+export interface Color {
+    red: number;
+    green: number;
+    blue: number;
+}
+
+export function isColor(obj: unknown): obj is Color {
+    return (
+        typeof obj === 'object' &&
+        obj !== null &&
+        'red' in obj &&
+        typeof obj.red === 'number' &&
+        'green' in obj &&
+        typeof obj.green === 'number' &&
+        'blue' in obj &&
+        typeof obj.blue === 'number'
+    );
 }
 
 export class TopoMapRequest {
@@ -272,215 +494,8 @@ export const defaultDrawSettings: DrawSettings = {
     }
 };
 
-export interface TopoMap {
-    layoutSettings: LayoutSettings;
-    drawSettings: DrawSettings;
-    deviceNodes: DeviceNode[];
-    deviceGroupNodes: unknown;
-    hubNodes: HubNode[];
-    imageNodes: unknown;
-    deviceLinks: DeviceLink[];
-    width: number;
-    height: number;
-    left: number;
-    right: number;
-    top: number;
-    bottom: number;
-    centerX: number;
-    centerY: number;
-
-    displayEdges?: DisplayEdgeSet;
-}
-
-//TODO this type guard can be stricter once we are in a more final state
-export function isTopoMap(obj: unknown): obj is TopoMap {
-    return (
-        typeof obj === 'object' &&
-        obj !== null &&
-        'layoutSettings' in obj &&
-        isLayoutSettings(obj.layoutSettings) &&
-        'drawSettings' in obj &&
-        isDrawSettings(obj.drawSettings) &&
-        'deviceNodes' in obj &&
-        Array.isArray(obj.deviceNodes) &&
-        'deviceGroupNodes' in obj &&
-        Array.isArray(obj.deviceGroupNodes) &&
-        'hubNodes' in obj &&
-        Array.isArray(obj.hubNodes) &&
-        'imageNodes' in obj &&
-        Array.isArray(obj.imageNodes) &&
-        'deviceLinks' in obj &&
-        Array.isArray(obj.deviceLinks) &&
-        'width' in obj &&
-        typeof obj.width === 'number' &&
-        'height' in obj &&
-        typeof obj.height === 'number' &&
-        'left' in obj &&
-        typeof obj.left === 'number' &&
-        'right' in obj &&
-        typeof obj.right === 'number' &&
-        'top' in obj &&
-        typeof obj.top === 'number' &&
-        'bottom' in obj &&
-        typeof obj.bottom === 'number' &&
-        'centerX' in obj &&
-        typeof obj.centerX === 'number' &&
-        'centerY' in obj &&
-        typeof obj.centerY === 'number' &&
-        ('displayEdges' in obj ? isDisplayEdgeSet(obj.displayEdges) : true)
-    );
-}
-
-export function isLayoutSettings(obj: unknown): obj is LayoutSettings {
-    return (
-        typeof obj === 'object' &&
-        obj !== null &&
-        'layoutType' in obj &&
-        typeof obj.layoutType === 'number' &&
-        Object.values(LayoutType).includes(obj.layoutType) &&
-        'useStraightLinks' in obj &&
-        typeof obj.useStraightLinks === 'boolean' &&
-        'showLinkLabels' in obj &&
-        typeof obj.showLinkLabels === 'boolean' &&
-        'showLayer2Links' in obj &&
-        typeof obj.showLayer2Links === 'boolean' &&
-        'showVirtualLinks' in obj &&
-        typeof obj.showVirtualLinks === 'boolean' &&
-        'showWirelessLinks' in obj &&
-        typeof obj.showWirelessLinks === 'boolean' &&
-        'showIpPhoneLinks' in obj &&
-        typeof obj.showIpPhoneLinks === 'boolean' &&
-        'rootNodes' in obj &&
-        Array.isArray(obj.rootNodes) &&
-        (!('hierarchicalSettings' in obj) ||
-            obj.hierarchicalSettings === null ||
-            isHierarchicalLayoutSettings(obj.hierarchicalSettings)) &&
-        (!('radialSettings' in obj) || obj.radialSettings === null || isRingRadialLayoutSettings(obj.radialSettings)) &&
-        (!('ringSettings' in obj) || obj.ringSettings === null || isRingRadialLayoutSettings(obj.ringSettings))
-    );
-}
-
-export interface HierarchicalLayoutSettings {
-    levelSpacing: number;
-    nodeSpacing: number;
-    layoutDirection: LayoutDirection;
-    rootAlignment: RootAlignment;
-    useStraightLinks: boolean;
-}
-
-export function isHierarchicalLayoutSettings(obj: unknown): obj is HierarchicalLayoutSettings {
-    return (
-        typeof obj === 'object' &&
-        obj !== null &&
-        'levelSpacing' in obj &&
-        typeof obj.levelSpacing === 'number' &&
-        'nodeSpacing' in obj &&
-        typeof obj.nodeSpacing === 'number' &&
-        'layoutDirection' in obj &&
-        typeof obj.layoutDirection === 'number' &&
-        Object.values(LayoutDirection).includes(obj.layoutDirection) &&
-        'rootAlignment' in obj &&
-        typeof obj.rootAlignment === 'number' &&
-        Object.values(RootAlignment).includes(obj.rootAlignment) &&
-        'useStraightLinks' in obj &&
-        typeof obj.useStraightLinks === 'boolean'
-    );
-}
-
-export interface RingRadialLayoutSettings {
-    minRadius: number;
-    maxRadius: number;
-    maxAngle: number;
-    maximizeRoot: boolean;
-}
-
-export function isRingRadialLayoutSettings(obj: unknown): obj is RingRadialLayoutSettings {
-    return (
-        typeof obj === 'object' &&
-        obj !== null &&
-        'minRadius' in obj &&
-        typeof obj.minRadius === 'number' &&
-        'maxRadius' in obj &&
-        typeof obj.maxRadius === 'number' &&
-        'maxAngle' in obj &&
-        typeof obj.maxAngle === 'number' &&
-        'maximizeRoot' in obj &&
-        typeof obj.maximizeRoot === 'boolean'
-    );
-}
-
-export function isDrawSettings(obj: unknown): obj is DrawSettings {
-    return (
-        typeof obj === 'object' &&
-        obj !== null &&
-        'shortDeviceNames' in obj &&
-        typeof obj.shortDeviceNames === 'boolean' &&
-        'deviceTrimLeft' in obj &&
-        typeof obj.deviceTrimLeft === 'boolean' &&
-        'deviceTrimRight' in obj &&
-        typeof obj.deviceTrimRight === 'boolean' &&
-        'deviceTrimLeftChar' in obj &&
-        typeof obj.deviceTrimLeftChar === 'string' &&
-        'deviceTrimRightChar' in obj &&
-        typeof obj.deviceTrimRightChar === 'string' &&
-        'deviceTrimLeftCount' in obj &&
-        typeof obj.deviceTrimLeftCount === 'number' &&
-        'deviceTrimRightCount' in obj &&
-        typeof obj.deviceTrimRightCount === 'number' &&
-        'shortIfNames' in obj &&
-        typeof obj.shortIfNames === 'boolean' &&
-        'hideVendorImage' in obj &&
-        typeof obj.hideVendorImage === 'boolean' &&
-        'hidePlatformImage' in obj &&
-        typeof obj.hidePlatformImage === 'boolean' &&
-        'deviceDisplaySetting' in obj &&
-        typeof obj.deviceDisplaySetting === 'number' &&
-        Object.values(DeviceDisplaySetting).includes(obj.deviceDisplaySetting) &&
-        'standardPen' in obj &&
-        isPenPattern(obj.standardPen) &&
-        'lagPen' in obj &&
-        isPenPattern(obj.lagPen) &&
-        'manualPen' in obj &&
-        isPenPattern(obj.manualPen) &&
-        'associatedPen' in obj &&
-        isPenPattern(obj.associatedPen) &&
-        'multiPen' in obj &&
-        isPenPattern(obj.multiPen) &&
-        'stpForwardingPen' in obj &&
-        isPenPattern(obj.stpForwardingPen) &&
-        'stpBlockingPen' in obj &&
-        isPenPattern(obj.stpBlockingPen)
-    );
-}
-
-export interface Color {
-    red: number;
-    green: number;
-    blue: number;
-}
-
-export function isColor(obj: unknown): obj is Color {
-    return (
-        typeof obj === 'object' &&
-        obj !== null &&
-        'red' in obj &&
-        typeof obj.red === 'number' &&
-        'green' in obj &&
-        typeof obj.green === 'number' &&
-        'blue' in obj &&
-        typeof obj.blue === 'number'
-    );
-}
-
-export function isPenPattern(obj: unknown): obj is PenPattern {
-    return (
-        typeof obj === 'object' &&
-        obj !== null &&
-        'color' in obj &&
-        isColor(obj.color) &&
-        'width' in obj &&
-        typeof obj.width === 'number' &&
-        'dashStyle' in obj &&
-        typeof obj.dashStyle === 'number'
-    );
-}
+export const defaultImageSettings = {
+    showVendor: true,
+    showStatus: true,
+    showDisplayName: true
+};

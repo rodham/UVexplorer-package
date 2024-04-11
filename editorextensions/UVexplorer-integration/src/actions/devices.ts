@@ -7,6 +7,11 @@ import { DocumentClient } from 'src/doc/document-client';
 import { UVExplorerClient } from '@uvx/uvx-client';
 import { DataClient } from '@data/data-client';
 
+/**
+ * Checks that the selected items are our custom NetworkDeviceBlock for add/remove connected devices functionality.
+ * @param viewport Viewport
+ * @returns boolean
+ */
 export function uvDeviceSelected(viewport: Viewport): boolean {
     const selection = viewport.getSelectedItems();
     const isCorrectSelection =
@@ -16,6 +21,11 @@ export function uvDeviceSelected(viewport: Viewport): boolean {
     return isCorrectSelection;
 }
 
+/**
+ * Checks that the selected item is our custom NetworkDeviceBlock for device details functionality.
+ * @param viewport Viewport
+ * @returns boolean
+ */
 export function singleDeviceSelected(viewport: Viewport): boolean {
     const selection = viewport.getSelectedItems();
     const isCorrectSelection =
@@ -25,6 +35,11 @@ export function singleDeviceSelected(viewport: Viewport): boolean {
     return isCorrectSelection;
 }
 
+/**
+ * Checks that the selected item is a LineProxy for device link details functionality.
+ * @param viewport 
+ * @returns 
+ */
 export function deviceLinkSelected(viewport: Viewport): boolean {
     const selection = viewport.getSelectedItems();
     const isCorrectSelection =
@@ -34,6 +49,14 @@ export function deviceLinkSelected(viewport: Viewport): boolean {
     return isCorrectSelection;
 }
 
+/**
+ * Opens connected devices modal to display connected devices of all selected NetworkDeviceBlocks.
+ * @param selection ItemProxy[]
+ * @param client EditorClient
+ * @param docEditor DocumentClient
+ * @param uvxClient UVExplorerClient
+ * @param data DataClient
+ */
 export async function showConnectedDevices(
     selection: ItemProxy[],
     client: EditorClient,
@@ -64,7 +87,14 @@ export async function showConnectedDevices(
     await modal.sendConnectedDevices(networkName);
 }
 
-async function getNetworkName(docEditor: DocumentClient, data: DataClient, uvxClient: UVExplorerClient) {
+/**
+ * Retrieves the network name for the network currently loadedfor a page.
+ * @param docEditor DocumentClient
+ * @param data DataClient
+ * @param uvxClient UVExplorerClient
+ * @returns Promise<string>
+ */
+async function getNetworkName(docEditor: DocumentClient, data: DataClient, uvxClient: UVExplorerClient): Promise<string> {
     const pageId: string = docEditor.getPageId()!;
     const networkGuid = data.getNetworkForPage(pageId);
     const networks = await uvxClient.listNetworks();
@@ -72,6 +102,15 @@ async function getNetworkName(docEditor: DocumentClient, data: DataClient, uvxCl
     return filteredNetworks.filter((n) => n.guid === networkGuid)[0].name;
 }
 
+/**
+ * Opens device details modal to display the device details of a selected NetworkDeviceBlock.
+ * @param selection ItemProxy[]
+ * @param client EditorClient
+ * @param docEditor DocumentClient
+ * @param uvxClient UVExplorerClient
+ * @param data DataClient
+ * @returns Promise<void>
+ */
 export async function viewDeviceDetails(
     selection: ItemProxy[],
     client: EditorClient,
@@ -101,6 +140,15 @@ export async function viewDeviceDetails(
     await modal.sendDeviceDetails();
 }
 
+/**
+ * Opens link info modal to display the link info of a selected link between NetworkDeviceBlocks.
+ * @param selection ItemProxy[]
+ * @param client EditorClient
+ * @param docEditor DocumentClient
+ * @param uvxClient UVExplorerClient
+ * @param data DataClient
+ * @returns Promise<void>
+ */
 export async function viewLinkDetails(
     selection: ItemProxy[],
     client: EditorClient,
