@@ -19,8 +19,8 @@ export class DeviceDetailComponent {
     selectedTab = 'System';
 
     /*
-    * Creates an event listener to extract the device details and display it to the user
-    */
+     * Creates an event listener to extract the device details and display it to the user
+     */
     constructor() {
         window.addEventListener('message', (e) => {
             console.log('Received a message from the parent.');

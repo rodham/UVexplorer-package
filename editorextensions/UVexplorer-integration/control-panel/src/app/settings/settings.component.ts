@@ -51,8 +51,8 @@ export class SettingsComponent {
     selected = false;
 
     /*
-    * Creates event listener to receive and initialize the current map settings
-    */
+     * Creates event listener to receive and initialize the current map settings
+     */
     constructor() {
         window.addEventListener('message', (e) => {
             console.log('Received a message from the parent.');
@@ -73,8 +73,8 @@ export class SettingsComponent {
     }
 
     /*
-    * Retrieves the configured map settings and sends them to the modal. Then sends notification that settings have been closed
-    */
+     * Retrieves the configured map settings and sends them to the modal. Then sends notification that settings have been closed
+     */
     public saveSettings() {
         this.drawSettings.standardPen.color = this.parseColor(this.colors.standardPen);
         this.drawSettings.lagPen.color = this.parseColor(this.colors.lagPen);
@@ -107,8 +107,8 @@ export class SettingsComponent {
     }
 
     /*
-    * Parses the RGB colors defined by the user
-    */
+     * Parses the RGB colors defined by the user
+     */
     private parseColor(colorCode: string) {
         return {
             red: Number('0x' + colorCode.substring(1, 3)),
@@ -118,8 +118,8 @@ export class SettingsComponent {
     }
 
     /*
-    * Updates the color settings for all the diffent types of colors by retrieving their RGB values
-    */
+     * Updates the color settings for all the diffent types of colors by retrieving their RGB values
+     */
     private updateColors() {
         this.colors.standardPen = this.createColorCode(
             this.drawSettings.standardPen.color.red,
@@ -149,15 +149,15 @@ export class SettingsComponent {
     }
 
     /*
-    * Creates the hex color string by combining RGB values
-    */
+     * Creates the hex color string by combining RGB values
+     */
     private createColorCode(red: number, green: number, blue: number) {
         return '#' + this.toHex(red) + this.toHex(green) + this.toHex(blue);
     }
 
     /*
-    * Converts a number value to hexidecimal
-    */
+     * Converts a number value to hexidecimal
+     */
     private toHex(num: number): string {
         const map = '0123456789abcdef';
         let hex = '';

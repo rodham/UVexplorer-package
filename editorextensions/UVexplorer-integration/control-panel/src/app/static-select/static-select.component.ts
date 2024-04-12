@@ -85,8 +85,8 @@ export class StaticSelect {
     }
 
     /*
-    * Creates a string of comma separated device categories for a single device
-    */
+     * Creates a string of comma separated device categories for a single device
+     */
     public appendDeviceCategories(categories: DeviceCategoryEntry[]): string {
         let returnString = categories[0].device_category;
         for (let i = 1; i < categories.length; i++) {
@@ -99,15 +99,15 @@ export class StaticSelect {
     }
 
     /*
-    * Retrieve the row ID for a given row of the table
-    */
+     * Retrieve the row ID for a given row of the table
+     */
     public getRowId: GetRowIdFunc = (params: GetRowIdParams<Device>) => {
         return params.data.guid;
     };
 
     /*
-    * Called once the list of devices is prepared. Sets the preselected devices to be checked
-    */
+     * Called once the list of devices is prepared. Sets the preselected devices to be checked
+     */
     protected onGridReady(event: GridReadyEvent) {
         this.gridApi = event.api;
         // When coming from the Networks component, the data is ready before the grid
@@ -115,8 +115,8 @@ export class StaticSelect {
     }
 
     /*
-    * Updates the table when a change is made to data
-    */
+     * Updates the table when a change is made to data
+     */
     protected onRowDataUpdated(event: RowDataUpdatedEvent) {
         this.gridApi = event.api;
         // When coming from the 'Add/Remove Connected Devices' option, the grid is ready before the data
@@ -124,8 +124,8 @@ export class StaticSelect {
     }
 
     /*
-    * Selects each row in the table if the device is in the preselectedDeviceGuids list
-    */
+     * Selects each row in the table if the device is in the preselectedDeviceGuids list
+     */
     private setPreselectedDevices() {
         for (const device of this.devices) {
             const guid = device.guid;
@@ -144,8 +144,8 @@ export class StaticSelect {
     }
 
     /*
-    * Returns a list of Device objects for each device selected in the table
-    */
+     * Returns a list of Device objects for each device selected in the table
+     */
     public getSelectedDevices(): Device[] {
         const selectedDevices: Device[] = [];
         const selectedRows = this.gridApi?.getSelectedRows();
@@ -158,9 +158,9 @@ export class StaticSelect {
     }
 
     /*
-    * Retrieves a list of all selected devices and a list of devices that are in preselectedDeviceGuids but
-    * is not currently selected. It then sends both these lists to the modal to be reflected on the document
-    */
+     * Retrieves a list of all selected devices and a list of devices that are in preselectedDeviceGuids but
+     * is not currently selected. It then sends both these lists to the modal to be reflected on the document
+     */
     public selectDevices() {
         const selectedDevices = this.getSelectedDevices();
         console.log('Api selected rows: ', selectedDevices);

@@ -9,23 +9,23 @@ export class DocumentClient {
     protected dataClient: DataClient;
 
     /*
-    * Initialize the viewport and dataclient to given values
-    */
+     * Initialize the viewport and dataclient to given values
+     */
     constructor(viewport: Viewport, data: DataClient) {
         this.viewport = viewport;
         this.dataClient = data;
     }
 
     /*
-    * Returns the pageId for current page
-    */
+     * Returns the pageId for current page
+     */
     getPageId() {
         return this.viewport.getCurrentPage()?.id;
     }
 
     /*
-    * Returns the network guid associated with current page
-    */
+     * Returns the network guid associated with current page
+     */
     getPageNetworkGuid() {
         const pageId = this.getPageId();
         if (!pageId) {
@@ -36,9 +36,9 @@ export class DocumentClient {
     }
 
     /*
-    * Saves given drawSettings, layoutSettings, and imageSettings to the settings collection and deletes previously
-    * existing settings
-    */
+     * Saves given drawSettings, layoutSettings, and imageSettings to the settings collection and deletes previously
+     * existing settings
+     */
     saveSettings(drawSettings: DrawSettings, layoutSettings: LayoutSettings, imageSettings: ImageSettings) {
         const pageId = this.getPageId();
         if (pageId === undefined) {
@@ -50,8 +50,8 @@ export class DocumentClient {
     }
 
     /*
-    * retieves the layout settings for the current page
-    */
+     * retieves the layout settings for the current page
+     */
     getLayoutSettings() {
         const pageId = this.getPageId();
         if (pageId === undefined) {
@@ -62,8 +62,8 @@ export class DocumentClient {
     }
 
     /*
-    * Returns the device filter for the current page
-    */
+     * Returns the device filter for the current page
+     */
     getDeviceFilter() {
         const pageId = this.getPageId();
         if (pageId === undefined) {
@@ -74,8 +74,8 @@ export class DocumentClient {
     }
 
     /*
-    * Returns the Data source for the network of the current page
-    */
+     * Returns the Data source for the network of the current page
+     */
     getNetworkSource(name: string, guid: string) {
         const source = this.dataClient.createOrRetrieveNetworkSource(name, guid);
         const page = this.viewport.getCurrentPage();
@@ -87,8 +87,8 @@ export class DocumentClient {
     }
 
     /*
-    * Retrieves the guids for all the network device blocks on the current page
-    */
+     * Retrieves the guids for all the network device blocks on the current page
+     */
     getNetworkDeviceBlockGuids(): string[] {
         const pageItems = this.viewport.getCurrentPage()?.allBlocks;
 
@@ -110,8 +110,8 @@ export class DocumentClient {
     }
 
     /*
-    * Updates the info for the devices on the current page.
-    */
+     * Updates the info for the devices on the current page.
+     */
     updateItemsInfo(topoMap: TopoMap, imageSettings: ImageSettings) {
         const pageItems = this.viewport.getCurrentPage()?.allBlocks;
         const pageId = this.getPageId();
@@ -129,8 +129,8 @@ export class DocumentClient {
     }
 
     /*
-    * Draws the topoMap on the current page with the configured imageSettings
-    */
+     * Draws the topoMap on the current page with the configured imageSettings
+     */
     async drawMap(topoMap: TopoMap, client: EditorClient, imageSettings: ImageSettings): Promise<void> {
         const page = this.viewport.getCurrentPage();
         if (!page) {
@@ -141,8 +141,8 @@ export class DocumentClient {
     }
 
     /*
-    * Removes the devices on current page and returns list of those device guids
-    */
+     * Removes the devices on current page and returns list of those device guids
+     */
     clearMap(removeDevices?: string[]): string[] {
         const page = this.viewport.getCurrentPage();
         if (!page) {
@@ -153,8 +153,8 @@ export class DocumentClient {
     }
 
     /*
-    * Removes given devices and all lines connected to those devices from the map
-    */
+     * Removes given devices and all lines connected to those devices from the map
+     */
     removeFromMap(devices: string[]) {
         const page = this.viewport.getCurrentPage();
         if (!page) {

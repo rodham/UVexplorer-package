@@ -19,8 +19,8 @@ export class LinkDetailComponent {
     numMembers = 0;
 
     /*
-    * Defines an event listener to receive link details messages and display the connected devices
-    */
+     * Defines an event listener to receive link details messages and display the connected devices
+     */
     constructor() {
         window.addEventListener('message', (e) => {
             console.log('Received a message from the parent.');

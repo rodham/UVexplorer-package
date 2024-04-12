@@ -20,9 +20,9 @@ export class DevicesModal extends UVXModal {
     }
 
     /*
-    * This function will either display a list of all networks for the user to choose from or call the functions needed
-    * to obtain and display a list of devices on the previously selected network
-    */
+     * This function will either display a list of all networks for the user to choose from or call the functions needed
+     * to obtain and display a list of devices on the previously selected network
+     */
     async sendNetworks(relisting: boolean) {
         try {
             const networks = await this.uvxClient.listNetworks();
@@ -53,9 +53,9 @@ export class DevicesModal extends UVXModal {
     }
 
     /*
-    * This function causes the UVX API to load a specific network to be queried for devices. It will then return the
-    * source associated with that network.
-    */
+     * This function causes the UVX API to load a specific network to be queried for devices. It will then return the
+     * source associated with that network.
+     */
     async loadNetwork(name: string, guid: string): Promise<DataSourceProxy | undefined> {
         try {
             const networkRequest = new NetworkRequest(guid);
@@ -69,9 +69,9 @@ export class DevicesModal extends UVXModal {
     }
 
     /*
-    * This function takes in a a data source and network name. It then retrieves all the devices for that network,
-    * stores them in the source, then sends a message to display the devices in the devices component
-    */
+     * This function takes in a a data source and network name. It then retrieves all the devices for that network,
+     * stores them in the source, then sends a message to display the devices in the devices component
+     */
     async sendDevices(source: DataSourceProxy, networkName: string) {
         try {
             const deviceListRequest = new DeviceListRequest();
@@ -98,9 +98,9 @@ export class DevicesModal extends UVXModal {
     }
 
     /*
-    * This function is a function that is called anytime a message is sent by a component. It receives those messages
-    * and calls the appropriate actions.
-    */
+     * This function is a function that is called anytime a message is sent by a component. It receives those messages
+     * and calls the appropriate actions.
+     */
     protected async messageFromFrame(message: JsonSerializable) {
         console.log('Received a message from the child.');
         console.log(message);

@@ -31,8 +31,8 @@ export class NetworksComponent {
     devicesMessage?: ListDevicesMessage;
 
     /*
-    * Creates an event listener for when told to list the networks or when the devices are being listed
-    */
+     * Creates an event listener for when told to list the networks or when the devices are being listed
+     */
     constructor() {
         window.addEventListener('message', (e) => {
             console.log('Received a message from the parent in network comp.');
@@ -52,8 +52,8 @@ export class NetworksComponent {
     }
 
     /*
-    * Notifies the modals of what network has been selected
-    */
+     * Notifies the modals of what network has been selected
+     */
     loadNetwork() {
         parent.postMessage(
             {
