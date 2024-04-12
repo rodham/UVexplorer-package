@@ -8,6 +8,10 @@ import { HUB_NODE, HubNode, HubNodeUtil } from 'model/uvx/hub-node';
 import { ImageSettings } from 'model/uvx/topo-map';
 
 export class DrawBlocks {
+    /**
+     * Places all DeviceNodes and HubNodes on the map with the specified image settings
+     * Adds references for DeviceNodes to Device entries in the devices data collection for the current network
+     */
     static drawBlocks(
         viewport: Viewport,
         page: PageProxy,
@@ -36,6 +40,9 @@ export class DrawBlocks {
         return nodeIdToBlockMap;
     }
 
+    /**
+     * Places a DeviceNode on the map
+     */
     static drawDeviceNode(
         page: PageProxy,
         deviceNode: DeviceNode,
@@ -54,6 +61,10 @@ export class DrawBlocks {
         return block;
     }
 
+    /**
+     * FOR SYNC
+     * Updates the blocks
+     */
     static updateBlocks(
         deviceNodes: DeviceNode[],
         collectionId: string,
@@ -70,11 +81,18 @@ export class DrawBlocks {
         }
     }
 
+    /**
+     * FOR SYNC
+     * Updates an existing device block with new shape data and a new reference key
+     */
     static updateBlock(item: BlockProxy, deviceNode: DeviceNode, collectionId: string, imageSettings: ImageSettings) {
         this.setShapeData(item, deviceNode, imageSettings);
         this.setReferenceKey(item, deviceNode, collectionId);
     }
 
+    /**
+     * Places a single HubNode on the map
+     */
     static drawHubNode(page: PageProxy, hubNode: HubNode, customBlockDef: BlockDefinition): BlockProxy {
         const block = page.addBlock({
             ...customBlockDef,
@@ -87,6 +105,9 @@ export class DrawBlocks {
         return block;
     }
 
+    /**
+     * Sets the shape data on a single block
+     */
     static setShapeData(block: BlockProxy, deviceNode: DeviceNode, imageSettings: ImageSettings) {
         block.shapeData.set('Make', imageSettings.showVendor ? getVendor(deviceNode) : '');
         block.shapeData.set('DeviceType', getDeviceType(deviceNode));
@@ -95,6 +116,9 @@ export class DrawBlocks {
         block.shapeData.set('DisplayName', imageSettings.showDisplayName ? deviceNode.displayName : '');
     }
 
+    /**
+     * Sets the reference key on a single block
+     */
     static setReferenceKey(block: BlockProxy, deviceNode: DeviceNode, collectionId: string) {
         block.setReferenceKey(DEVICE_REFERENCE_KEY, {
             collectionId: collectionId,
@@ -103,9 +127,13 @@ export class DrawBlocks {
         });
     }
 
-    // Takes in a list of deviceGuids that should be removed from the map
-    // Removes all device blocks from the map
-    // Returns the list of deviceGuids that should be redrawn
+    /**
+     * FOR AUTO-LAYOUT
+     * Removes specified devices from the map
+     * Returns a list of device guids that remain on the map
+     * @param page
+     * @param removeDevices A list of device guids that should be removed from the map
+     */
     static clearBlocks(page: PageProxy, removeDevices?: string[]) {
         const pageItems = page.allBlocks;
         const remainDevices = [];

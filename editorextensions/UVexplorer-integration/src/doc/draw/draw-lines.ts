@@ -6,6 +6,10 @@ import { DisplayEdgeSet } from 'model/uvx/display-edge-set';
 import { DeviceLink } from 'model/uvx/device';
 
 export class DrawLines {
+    /**
+     * Places all DisplayEdges on the map with the specified draw and label settings
+     * Adds references for DisplayEdges in the display edge data collection for the current network
+     */
     static drawLines(
         page: PageProxy,
         displayEdgeSet: DisplayEdgeSet,
@@ -31,6 +35,9 @@ export class DrawLines {
         }
     }
 
+    /**
+     * Places a single line on the map between two blocks
+     */
     static drawLine(
         page: PageProxy,
         block1: BlockProxy,
@@ -76,10 +83,16 @@ export class DrawLines {
         return line;
     }
 
+    /**
+     * Converts RGB values into a hexadecimal color code
+     */
     private static toColorCode(red: number, green: number, blue: number) {
         return '#' + this.toHex(red) + this.toHex(green) + this.toHex(blue);
     }
 
+    /**
+     * Converts a single RGB value into a hexadecimal value
+     */
     private static toHex(num: number): string {
         const map = '0123456789abcdef';
         let hex = '';

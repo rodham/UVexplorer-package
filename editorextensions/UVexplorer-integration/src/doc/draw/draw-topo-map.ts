@@ -7,6 +7,14 @@ import { ImageSettings, TopoMap } from 'model/uvx/topo-map';
 import { BlockUtils } from '@blocks/block-utils';
 
 export class DrawTopoMap {
+    /**
+     * Render a TopoMap on the current page
+     * @param client
+     * @param viewport
+     * @param page
+     * @param topoMap
+     * @param imageSettings
+     */
     static async drawTopoMap(
         client: EditorClient,
         viewport: Viewport,
@@ -14,6 +22,7 @@ export class DrawTopoMap {
         topoMap: TopoMap,
         imageSettings: ImageSettings
     ) {
+        // Load in custom blocks
         const customBlockDef = await client.getCustomShapeDefinition(
             NetworkDeviceBlock.library,
             NetworkDeviceBlock.shape
@@ -48,6 +57,15 @@ export class DrawTopoMap {
         }
     }
 
+    /**
+     * FOR SYNC
+     * Updates the information for all devices rendered on the current page
+     * @param data
+     * @param pageId
+     * @param topoMap
+     * @param items
+     * @param imageSettings
+     */
     static refreshPageItems(
         data: DataClient,
         pageId: string,
@@ -59,16 +77,24 @@ export class DrawTopoMap {
         DrawBlocks.updateBlocks(topoMap.deviceNodes, deviceCollectionId, items, imageSettings);
     }
 
-    // Takes in a list of devices to remove
-    // Removes all device links and blocks
-    // Returns the device guids for blocks that should be redrawn
+    /**
+     * FOR AUTO-LAYOUT
+     * Removes specified devices from the map and all connected lines
+     * Returns a list of device guids that remain on the map
+     * @param page
+     * @param removeDevices A list of device guids that should be removed from the map
+     */
     static clearMap(page: PageProxy, removeDevices?: string[]): string[] {
         DrawLines.clearLines(page);
         return DrawBlocks.clearBlocks(page, removeDevices);
     }
 
-    // Takes in a list of device guids to be removed
-    // Removes those device blocks and any connected lines.
+    /**
+     * FOR MANUAL-LAYOUT
+     * Removes specified devices and all of their connected lines from the map
+     * @param page
+     * @param removeDevices A list of device guids that should be removed from the map
+     */
     static removeBlocksAndLines(page: PageProxy, removeDevices: string[]) {
         const blocks = page.allBlocks;
 
@@ -92,6 +118,12 @@ export class DrawTopoMap {
         this.removeUnconnectedBlocksWithoutGuids(page);
     }
 
+    /**
+     * FOR MANUAL-LAYOUT
+     * Removes hub nodes (blocks without guids) and any connected lines when the hub node is no longer connected to anything
+     * @param page
+     * @private
+     */
     private static removeUnconnectedBlocksWithoutGuids(page: PageProxy) {
         const blocks = page.allBlocks;
 
