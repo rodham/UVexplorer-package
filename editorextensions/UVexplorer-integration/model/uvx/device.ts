@@ -678,6 +678,9 @@ export function isDeviceConnection(obj: unknown): obj is DeviceConnection {
     );
 }
 
+/**
+ * Defines the type of link between devices.
+ */
 export enum ConnectionType {
     Standard,
     Lag,

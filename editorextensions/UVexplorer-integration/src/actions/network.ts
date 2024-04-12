@@ -13,6 +13,12 @@ import { DataClient } from '@data/data-client';
 import { populateMapDisplayEdges } from 'model/uvx/display-edge-set';
 import { DeviceListRequest } from 'model/uvx/device';
 
+/**
+ * Syncs current map drawn within LucidChart with most current data from UVExplorer.
+ * @param docEditor DocumentClient
+ * @param client EditorClient
+ * @returns Promise<void>
+ */
 export async function syncDisplayedMap(docEditor: DocumentClient, client: EditorClient): Promise<void> {
     const settings = await client.getPackageSettings();
     const apiKey = settings.get('apiKey');
@@ -24,6 +30,11 @@ export async function syncDisplayedMap(docEditor: DocumentClient, client: Editor
     await refreshMapDevices(docEditor, client);
 }
 
+/**
+ * Redraws network map with most current data from UVExplorer.
+ * @param docEditor DocumentClient
+ * @param client EditorClient
+ */
 async function refreshMapDevices(docEditor: DocumentClient, client: EditorClient) {
     const uvxClient = UVExplorerClient.getInstance(client);
     const networkGuid = docEditor.getPageNetworkGuid();
@@ -98,6 +109,11 @@ async function refreshMapDevices(docEditor: DocumentClient, client: EditorClient
     }
 }
 
+/**
+ * Checks if a network is already loaded on the current page.
+ * @param docEditor DocumentClient
+ * @returns boolean
+ */
 export function pageHasNetwork(docEditor: DocumentClient) {
     const networkGuid = docEditor.getPageNetworkGuid();
     console.log('Page network guid exists: ', !!networkGuid);

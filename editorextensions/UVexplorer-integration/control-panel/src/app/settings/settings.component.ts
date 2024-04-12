@@ -45,6 +45,8 @@ export class SettingsComponent {
     selectedTab = 'Layout Settings';
     backButton = false;
 
+    selected = false;
+
     constructor() {
         window.addEventListener('message', (e) => {
             console.log('Received a message from the parent.');
@@ -56,6 +58,8 @@ export class SettingsComponent {
                 this.imageSettings = JSON.parse(e.data.imageSettings) as ImageSettings;
                 this.backButton = e.data.backButton as boolean;
                 this.updateColors();
+
+                this.selected = false;
 
                 console.log('Loaded Map Settings');
             }
@@ -74,6 +78,10 @@ export class SettingsComponent {
         this.layoutSettings.hierarchicalSettings!.rootAlignment =
             +this.layoutSettings.hierarchicalSettings!.rootAlignment;
         this.drawSettings.deviceDisplaySetting = +this.drawSettings.deviceDisplaySetting;
+
+        if (!this.backButton) {
+            this.selected = true;
+        }
 
         parent.postMessage(
             {

@@ -35,6 +35,11 @@ export function isListNetworksMessage(message: unknown): message is ListNetworks
     );
 }
 
+/**
+ * Parses and returns newtorkSummaries from given listNetworks message.
+ * @param message ListNetworksMessage
+ * @returns NetworkSummary[]
+ */
 export function listNetworksMessageToNetworkSummaries(message: ListNetworksMessage): NetworkSummary[] {
     const networkSummaries: unknown = JSON.parse(message.network_summaries);
     if (Array.isArray(networkSummaries) && networkSummaries.every(isNetworkSummary)) {
@@ -79,7 +84,12 @@ export function isSerializableDevicesMessage(message: unknown): message is Seria
     );
 }
 
-export function devicesFromSerializableDevicesMessage(message: SerializableDevicesMessage) {
+/**
+ * Parses and returns devices from given devices message.
+ * @param message SerializableDevicesMessage
+ * @returns Device[]
+ */
+export function devicesFromSerializableDevicesMessage(message: SerializableDevicesMessage): Device[] {
     const devices: unknown = JSON.parse(message.devices);
     if (Array.isArray(devices) && devices.every(isDevice)) {
         return devices;
@@ -144,6 +154,11 @@ export function isListDevicesMessage(message: unknown): message is ListDevicesMe
     );
 }
 
+/**
+ * Parses and returns connected device guids from given listDevices message.
+ * @param message ListDevicesMessage
+ * @returns string[]
+ */
 export function connDeviceGuidsFromListDevMsg(message: ListDevicesMessage): string[] {
     if (!message.visibleConnectedDeviceGuids) {
         return [];
@@ -184,6 +199,7 @@ export function isSelectedDevicesMessage(message: unknown): message is SelectedD
     }
     return isDevicesMessage(message) && message.action === 'selectDevices';
 }
+
 export interface DeviceDetailsMessage {
     action: 'viewDeviceDetails';
     deviceDetails: string;
@@ -204,6 +220,11 @@ export function isDeviceDetailsMessage(message: unknown): message is DeviceDetai
     );
 }
 
+/**
+ * Parses and returns device details from given device details message.
+ * @param message DeviceDetailsMessage
+ * @returns DeviceDetailsResponse
+ */
 export function deviceDetailsFromMessage(message: DeviceDetailsMessage): DeviceDetailsResponse {
     const deviceDetails: unknown = JSON.parse(message.deviceDetails);
     if (isDeviceDetailsResponse(deviceDetails)) {
@@ -213,6 +234,11 @@ export function deviceDetailsFromMessage(message: DeviceDetailsMessage): DeviceD
     }
 }
 
+/**
+ * Parses and returns related device from given device details message.
+ * @param message DeviceDetailsMessage
+ * @returns Device
+ */
 export function deviceFromSerializableDeviceMessage(message: DeviceDetailsMessage): Device {
     const device: unknown = JSON.parse(message.device);
     if (isDevice(device)) {
@@ -239,6 +265,11 @@ export function isLinkDetailsMessage(message: unknown): message is LinkDetailsMe
     );
 }
 
+/**
+ * Parses and returns related DisplayEdge from given link details message.
+ * @param message LinkDetailsMessage
+ * @returns DisplayEdge
+ */
 export function linkFromSerializableLinkMessage(message: LinkDetailsMessage): DisplayEdge {
     const linkEdge: unknown = JSON.parse(message.linkDetails);
     if (isDisplayEdge(linkEdge)) {
