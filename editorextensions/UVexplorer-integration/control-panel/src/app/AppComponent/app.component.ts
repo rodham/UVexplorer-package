@@ -9,6 +9,10 @@ import { NgIf } from '@angular/common';
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'
 })
+
+/*
+ * This is the central component that controls all others
+ */
 export class AppComponent {
     title = 'control-panel';
 }

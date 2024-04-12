@@ -34,6 +34,9 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
     private oidRegEx = /^([0-2*?])((\.0)|(\.[1-9*?][0-9*?]*))*$/;
     selected = false;
 
+    /*
+     * Defines the forms to display on the dynamic selection page under the category selection and associates the regex with that form
+     */
     ngOnInit(): void {
         this.dynamicSelectForm = new FormGroup({
             ipSelection: new FormControl('', {
@@ -59,6 +62,10 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
         }
     }
 
+    /*
+     * Iterates over the list of devices, associates that guid with the category in the map and returns the map containing all categories
+     * with the device guids in that category.
+     */
     private getDeviceCategories(devices: Device[]) {
         const deviceCategories = new Map<string, string[]>();
         for (const device of devices) {
@@ -78,6 +85,9 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
         return deviceCategories;
     }
 
+    /*
+     * Initializes the grid that displays device categories with the count of devices
+     */
     setupCategories() {
         console.log('Setting up categories');
         this.deviceCategories = this.getDeviceCategories(this.devices);
@@ -89,6 +99,9 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
         }
     }
 
+    /*
+     * Prepopulates the filter forms with the previously configured filter
+     */
     prefillFilters() {
         if (!this.prevFilter) return;
         let key: keyof DeviceFilter;
@@ -128,10 +141,16 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
         }
     }
 
+    /*
+     * Joins the list of device names in a comma separated list
+     */
     parsePrevFilterDevNames(names: string[]): string {
         return names.join(', ');
     }
 
+    /*
+     * Parses the previous IP filters for display in the form
+     */
     parsePrevFilterIp(ipScopes: IpScope[]): string {
         let str = '';
         let firstEntry = true;
@@ -178,6 +197,9 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
         return str;
     }
 
+    /*
+     * Selects the previously selected device categories
+     */
     preselectDevCats(catNames: string[]) {
         if (!this.gridApi) {
             console.error('Grid api not defined before preselecting rows');
@@ -190,14 +212,23 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
         }
     }
 
+    /*
+     * Parses the vlan filters and joins them in a comma separated list
+     */
     parsePrevFilterVlans(vlans: string[]): string {
         return vlans.join(', ');
     }
 
+    /*
+     * Parses the oid filters and joins them in a comma separated list
+     */
     parsePrevFilterOids(oids: string[]): string {
         return oids.join(', ');
     }
 
+    /*
+     * Defines behavior for when forms or categories are changed
+     */
     ngOnChanges(_changes: SimpleChanges) {
         console.log('ng changes');
         this.setupCategories();
@@ -213,6 +244,9 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
         }
     }
 
+    /*
+     * Defines the columns for the device category table
+     */
     public columnDefs: ColDef<{ cat: string; count: number }>[] = [
         {
             field: 'cat',
@@ -228,10 +262,16 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
         }
     ];
 
+    /*
+     * Returns the row id for a given table row
+     */
     public getRowId: GetRowIdFunc = (params: GetRowIdParams<CatRow>) => {
         return params.data.cat;
     };
 
+    /*
+     * Preselects the device categories in table on start up
+     */
     protected onGridReady(event: GridReadyEvent) {
         this.gridApi = event.api;
         if (this.prevFilter?.device_categories) {
@@ -240,22 +280,37 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
         }
     }
 
+    /*
+     * Returns the Ip address selction
+     */
     get ipSelection() {
         return this.dynamicSelectForm.get('ipSelection')!;
     }
 
+    /*
+     * Returns the vlan selection
+     */
     get vlanSelection() {
         return this.dynamicSelectForm.get('vlanSelection')!;
     }
 
+    /*
+     * Returns the host name selection
+     */
     get hostSelection() {
         return this.dynamicSelectForm.get('hostSelection')!;
     }
 
+    /*
+     * Returns the oid selection
+     */
     get oidSelection() {
         return this.dynamicSelectForm.get('oidSelection')!;
     }
 
+    /*
+     * Retrieves all the configurations from the user, parses their input, creates a DeviceFilter then sends that device filter to the modals
+     */
     confirmSelection() {
         let ipOut;
         let vlanOut;
@@ -315,6 +370,9 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
         );
     }
 
+    /*
+     * Parses the Ip selection and puts it into a format that is valid for a DeviceFilter
+     */
     private parseIpSelection(ipInput: string) {
         console.log(ipInput);
         const ipOut: IpScope = {};
@@ -357,6 +415,9 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
         return ipOut;
     }
 
+    /*
+     * Transforms VLAN selection to string compatible with Device Filter
+     */
     private parseVlanSelection(vlanInput: string) {
         console.log(vlanInput);
         const vlanOut: string[] = [];
@@ -370,6 +431,9 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
         return vlanOut;
     }
 
+    /*
+     * Transforms Host Name selection to string compatible with Device Filter
+     */
     private parseHostSelection(hostInput: string) {
         console.log(hostInput);
         const hostOut: string[] = [];
@@ -383,6 +447,9 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
         return hostOut;
     }
 
+    /*
+     * Transforms OID selection to string compatible with Device Filter
+     */
     private parseOidSelection(oidInput: string) {
         console.log(oidInput);
         const oidOut: string[] = [];
@@ -396,6 +463,9 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
         return oidOut;
     }
 
+    /*
+     * Parses the selected category rows and creates a string containing selected device categories
+     */
     private parseCatSelection(selectedRows: CatRow[]) {
         console.log(selectedRows);
         const catOut: DeviceCategoryFilter = { category_filter_type: 'Any', category_names: [] };

@@ -21,6 +21,10 @@ import { StaticSelect } from '../static-select/static-select.component';
     imports: [NgIf, NgClass, AgGridAngular, SettingsComponent, FormsModule, DynamicLayoutSelect, StaticSelect],
     templateUrl: './devices.component.html'
 })
+
+/*
+ * This component controls the static membership selection
+ */
 export class DevicesComponent implements OnChanges {
     @Input() devicesMessage?: ListDevicesMessage;
     devices: Device[] = [];
@@ -31,6 +35,9 @@ export class DevicesComponent implements OnChanges {
     settings = false;
     backButton = false;
 
+    /*
+     * Defines an event listener when messages are sent from the modals
+     */
     constructor() {
         window.addEventListener('message', (e) => {
             console.log('Received a message from the parent in devices comp.');
@@ -63,6 +70,9 @@ export class DevicesComponent implements OnChanges {
         }
     }
 
+    /*
+     * devices is the list of all devices and the preselectedDeviceGuids is devices that were already on the map
+     */
     initFromMessage(message: ListDevicesMessage) {
         this.devices = devicesFromSerializableDevicesMessage(message);
         this.preselectedDeviceGuids = connDeviceGuidsFromListDevMsg(message);
@@ -77,6 +87,10 @@ export class DevicesComponent implements OnChanges {
         return this.devices.length > 0;
     }
 
+    /*
+     * categories is a list of all DeviceCategoryEntrys a device is associated with. This function then concats
+     * those into a nice string to display in the device selection list
+     */
     public appendDeviceCategories(categories: DeviceCategoryEntry[]): string {
         let returnString = categories[0].device_category;
         for (let i = 1; i < categories.length; i++) {
@@ -88,12 +102,18 @@ export class DevicesComponent implements OnChanges {
         return returnString;
     }
 
+    /*
+     * This is called when the settings component is closed, bringing up the list of devices again
+     */
     settingsClosed(closed: boolean) {
         if (closed) {
             this.settings = false;
         }
     }
 
+    /*
+     * This notifies the modals to display the map settings then hides the list of devices
+     */
     public changeSettings() {
         parent.postMessage(
             {
@@ -105,10 +125,17 @@ export class DevicesComponent implements OnChanges {
         this.settings = true;
     }
 
+    /*
+     * This is called when a user confirms the map being affected by selecting another network. It forces a networks list
+     * to be displayed again
+     */
     public onWarningConfirm() {
         this.relistNetworks();
     }
 
+    /*
+     * Sends the message for the networks to be relisted
+     */
     public relistNetworks() {
         parent.postMessage(
             {
@@ -118,6 +145,9 @@ export class DevicesComponent implements OnChanges {
         );
     }
 
+    /*
+     * Called when switching between static membership selection and dynamic membership selection
+     */
     onTabChange(tab: string) {
         this.tabSelection = tab;
     }

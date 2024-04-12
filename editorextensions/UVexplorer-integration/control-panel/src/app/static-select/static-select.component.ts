@@ -21,6 +21,10 @@ import { NgClass, NgIf } from '@angular/common';
     imports: [AgGridAngular, NgClass, NgIf],
     templateUrl: './static-select.component.html'
 })
+
+/*
+ * Contains the rest of the functionality to control the static membership selection
+ */
 export class StaticSelect {
     @Input({ required: true }) devices!: Device[];
     @Input() preselectedDeviceGuids: string[] = [];
@@ -30,6 +34,9 @@ export class StaticSelect {
     selectDevicesButtonEnabled = true;
     selected = false;
 
+    /*
+     * Defines the columns to be displayed in the devices grid
+     */
     public columnDefs: ColDef<Device>[] = [
         {
             field: 'custom_name',
@@ -62,6 +69,9 @@ export class StaticSelect {
         }
     ];
 
+    /*
+     * Defines a way for the grid to be autosized to alleviate overlapping or crunched displaying of device grid
+     */
     protected autoSizeStrategy:
         | SizeColumnsToFitProvidedWidthStrategy
         | SizeColumnsToContentStrategy
@@ -74,6 +84,9 @@ export class StaticSelect {
         return this.devices.length > 0;
     }
 
+    /*
+     * Creates a string of comma separated device categories for a single device
+     */
     public appendDeviceCategories(categories: DeviceCategoryEntry[]): string {
         let returnString = categories[0].device_category;
         for (let i = 1; i < categories.length; i++) {
@@ -85,22 +98,34 @@ export class StaticSelect {
         return returnString;
     }
 
+    /*
+     * Retrieve the row ID for a given row of the table
+     */
     public getRowId: GetRowIdFunc = (params: GetRowIdParams<Device>) => {
         return params.data.guid;
     };
 
+    /*
+     * Called once the list of devices is prepared. Sets the preselected devices to be checked
+     */
     protected onGridReady(event: GridReadyEvent) {
         this.gridApi = event.api;
         // When coming from the Networks component, the data is ready before the grid
         this.setPreselectedDevices();
     }
 
+    /*
+     * Updates the table when a change is made to data
+     */
     protected onRowDataUpdated(event: RowDataUpdatedEvent) {
         this.gridApi = event.api;
         // When coming from the 'Add/Remove Connected Devices' option, the grid is ready before the data
         this.setPreselectedDevices();
     }
 
+    /*
+     * Selects each row in the table if the device is in the preselectedDeviceGuids list
+     */
     private setPreselectedDevices() {
         for (const device of this.devices) {
             const guid = device.guid;
@@ -118,6 +143,9 @@ export class StaticSelect {
         console.log(this.preselectedDeviceGuids);
     }
 
+    /*
+     * Returns a list of Device objects for each device selected in the table
+     */
     public getSelectedDevices(): Device[] {
         const selectedDevices: Device[] = [];
         const selectedRows = this.gridApi?.getSelectedRows();
@@ -129,6 +157,10 @@ export class StaticSelect {
         return selectedDevices;
     }
 
+    /*
+     * Retrieves a list of all selected devices and a list of devices that are in preselectedDeviceGuids but
+     * is not currently selected. It then sends both these lists to the modal to be reflected on the document
+     */
     public selectDevices() {
         const selectedDevices = this.getSelectedDevices();
         console.log('Api selected rows: ', selectedDevices);
