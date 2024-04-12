@@ -9,11 +9,18 @@ import { deviceDetailsFromMessage, deviceFromSerializableDeviceMessage, isDevice
     imports: [NgIf, NgFor],
     templateUrl: './device-detail.component.html'
 })
+
+/*
+ * This controls the page that displays data about the selected device
+ */
 export class DeviceDetailComponent {
     device?: Device;
     deviceDetails?: DeviceDetailsResponse;
     selectedTab = 'System';
 
+    /*
+    * Creates an event listener to extract the device details and display it to the user
+    */
     constructor() {
         window.addEventListener('message', (e) => {
             console.log('Received a message from the parent.');

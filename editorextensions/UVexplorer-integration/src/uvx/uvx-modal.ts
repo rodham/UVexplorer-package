@@ -43,6 +43,9 @@ export abstract class UVXModal extends Modal {
         this.dataClient = dataClient;
     }
 
+    /*
+    * This function closes the current session with UVX Api
+    */
     async closeSession() {
         try {
             await this.uvxClient.closeSession();
@@ -52,6 +55,9 @@ export abstract class UVXModal extends Modal {
         }
     }
 
+    /*
+    * This function causes the UVX Api to load the network currently associated with the page
+    */
     async loadPageNetwork() {
         const networkGuid = this.docClient.getPageNetworkGuid();
         if (!networkGuid) {
@@ -62,7 +68,9 @@ export abstract class UVXModal extends Modal {
         await this.uvxClient.loadNetwork(networkRequest);
     }
 
-    // Creates and sends the TopoMapRequest with the desired layout and draw settings
+    /*
+    * Creates and sends the TopoMapRequest with the desired layout and draw settings
+    */
     async loadTopoMap(deviceGuids: string[]): Promise<TopoMap | undefined> {
         const collection = this.dataClient.createOrRetrieveSettingsCollection();
         const page = this.docClient.getPageId();
@@ -84,6 +92,11 @@ export abstract class UVXModal extends Modal {
         }
     }
 
+    /*
+    * This function will create and draw the topo map according to the LayoutSettings stored in the data collection. The
+    * addDevices is a list of devices to be added to the map. Remove devices is a list of devices to remove from the
+    * map. This function only works for static membership
+    */
     async drawMap(addDevices: string[], removeDevices?: string[]): Promise<void> {
         let topoMap: TopoMap | undefined = undefined;
         const collection = this.dataClient.createOrRetrieveSettingsCollection();
@@ -141,6 +154,9 @@ export abstract class UVXModal extends Modal {
         }
     }
 
+    /*
+    * Dynamically draw the map according to the given device filter
+    */
     async dynamicDrawMap(deviceFilter: DeviceFilter) {
         const page = this.docClient.getPageId();
         if (!page) return;
@@ -181,6 +197,10 @@ export abstract class UVXModal extends Modal {
         }
     }
 
+    /*
+    * Retrieves the map settings and sends it to the settings component to display to the user. If settings haven't been
+    * configured yet it will send the default settings.
+    */
     async sendMapSettings(backButton: boolean) {
         const collection = this.dataClient.createOrRetrieveSettingsCollection();
         const page = this.docClient.getPageId();
@@ -208,6 +228,9 @@ export abstract class UVXModal extends Modal {
         }
     }
 
+    /*
+    * Forces the devices component to relist all the devices
+    */
     async reloadDevices() {
         try {
             await this.sendMessage({
