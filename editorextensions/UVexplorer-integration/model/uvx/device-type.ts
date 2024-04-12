@@ -23,6 +23,11 @@ export const DEVICE_TYPE_NAME_MAP: Map<string, string> = new Map<string, string>
     ['', 'unknown']
 ]);
 
+/**
+ * Finds and returns the category in the given deviceTypes with the highest priority.
+ * @param deviceTypes Set<string>
+ * @returns string
+ */
 export function findCategory(deviceTypes: Set<string>) {
     const orderedPrimaryCategories = [
         'net-device',
@@ -55,6 +60,11 @@ export function findCategory(deviceTypes: Set<string>) {
     return 'unknown';
 }
 
+/**
+ * Finds and returns the device category for the given deviceNode.
+ * @param deviceNode DeviceNode
+ * @returns string
+ */
 export function getDeviceType(deviceNode: DeviceNode) {
     const deviceTypes = new Set<string>();
     if (deviceNode.categories.entries !== undefined) {

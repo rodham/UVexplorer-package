@@ -1,5 +1,8 @@
 import { DeviceLink, isDeviceLink } from 'model/uvx/device';
 
+/**
+ * Defines the type of link between devices.
+ */
 export enum DisplayEdgeType {
     Standard,
     Lag,
@@ -8,8 +11,10 @@ export enum DisplayEdgeType {
     Multi
 }
 
-// Represents an edge as displayed on the screen
-// (each DisplayEdge is associated with one or more DeviceLinkEdges)
+/**
+ * Represents an edge as displayed on the screen
+ * (each DisplayEdge is associated with one or more DeviceLinkEdges)
+ */
 export class DisplayEdge {
     public nodeId1: number;
     public nodeId2: number;

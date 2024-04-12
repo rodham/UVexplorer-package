@@ -22,6 +22,10 @@ import {
     imports: [NgIf, FormsModule, NgForOf, NgClass],
     templateUrl: './settings.component.html'
 })
+
+/*
+ * Controls the settings selection menu and communicating that information with the modals
+ */
 export class SettingsComponent {
     @Input({ transform: booleanAttribute }) childSettings = false;
     @Output() settingsClosedEvent = new EventEmitter<boolean>();
@@ -44,7 +48,11 @@ export class SettingsComponent {
     TABS = ['Layout Settings', 'Link Settings', 'Draw Settings', 'Image Settings', 'Label Settings'];
     selectedTab = 'Layout Settings';
     backButton = false;
+    selected = false;
 
+    /*
+     * Creates event listener to receive and initialize the current map settings
+     */
     constructor() {
         window.addEventListener('message', (e) => {
             console.log('Received a message from the parent.');
@@ -57,11 +65,16 @@ export class SettingsComponent {
                 this.backButton = e.data.backButton as boolean;
                 this.updateColors();
 
+                this.selected = false;
+
                 console.log('Loaded Map Settings');
             }
         });
     }
 
+    /*
+     * Retrieves the configured map settings and sends them to the modal. Then sends notification that settings have been closed
+     */
     public saveSettings() {
         this.drawSettings.standardPen.color = this.parseColor(this.colors.standardPen);
         this.drawSettings.lagPen.color = this.parseColor(this.colors.lagPen);
@@ -74,6 +87,10 @@ export class SettingsComponent {
         this.layoutSettings.hierarchicalSettings!.rootAlignment =
             +this.layoutSettings.hierarchicalSettings!.rootAlignment;
         this.drawSettings.deviceDisplaySetting = +this.drawSettings.deviceDisplaySetting;
+
+        if (!this.backButton) {
+            this.selected = true;
+        }
 
         parent.postMessage(
             {
@@ -89,6 +106,9 @@ export class SettingsComponent {
         this.settingsClosedEvent.emit(true);
     }
 
+    /*
+     * Parses the RGB colors defined by the user
+     */
     private parseColor(colorCode: string) {
         return {
             red: Number('0x' + colorCode.substring(1, 3)),
@@ -97,6 +117,9 @@ export class SettingsComponent {
         };
     }
 
+    /*
+     * Updates the color settings for all the diffent types of colors by retrieving their RGB values
+     */
     private updateColors() {
         this.colors.standardPen = this.createColorCode(
             this.drawSettings.standardPen.color.red,
@@ -125,10 +148,16 @@ export class SettingsComponent {
         );
     }
 
+    /*
+     * Creates the hex color string by combining RGB values
+     */
     private createColorCode(red: number, green: number, blue: number) {
         return '#' + this.toHex(red) + this.toHex(green) + this.toHex(blue);
     }
 
+    /*
+     * Converts a number value to hexidecimal
+     */
     private toHex(num: number): string {
         const map = '0123456789abcdef';
         let hex = '';

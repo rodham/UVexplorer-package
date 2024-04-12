@@ -1,4 +1,4 @@
-<div *ngIf="devices" class="divide-y divide-base-300">
+<div *ngIf="devices && !selected; else loadingView" class="divide-y divide-base-300">
     <form
         [formGroup]="dynamicSelectForm"
         #formDir="ngForm"
@@ -93,3 +93,9 @@
         </button>
     </div>
 </div>
+
+<ng-template #loadingView>
+    <div class="flex justify-center">
+        <div class="loading loading-spinner loading-lg m-auto"></div>
+    </div>
+</ng-template>

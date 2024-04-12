@@ -16,8 +16,8 @@ export class DocumentClient {
         this.dataClient = data;
     }
 
-    /**
-     * Returns current page Id
+    /*
+     * Returns the pageId for current page
      */
     getPageId() {
         return this.viewport.getCurrentPage()?.id;
@@ -36,7 +36,8 @@ export class DocumentClient {
     }
 
     /**
-     * Saves the user's settings changes for the current page in the datastore
+     * Saves the user's draw, layout, and image settings changes for the current page in the datastore.
+     * Overwrites the existing settings.
      * @param drawSettings
      * @param layoutSettings
      * @param imageSettings
