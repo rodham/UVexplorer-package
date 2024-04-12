@@ -37,8 +37,8 @@ export function singleDeviceSelected(viewport: Viewport): boolean {
 
 /**
  * Checks that the selected item is a LineProxy for device link details functionality.
- * @param viewport 
- * @returns 
+ * @param viewport
+ * @returns
  */
 export function deviceLinkSelected(viewport: Viewport): boolean {
     const selection = viewport.getSelectedItems();
@@ -94,7 +94,11 @@ export async function showConnectedDevices(
  * @param uvxClient UVExplorerClient
  * @returns Promise<string>
  */
-async function getNetworkName(docEditor: DocumentClient, data: DataClient, uvxClient: UVExplorerClient): Promise<string> {
+async function getNetworkName(
+    docEditor: DocumentClient,
+    data: DataClient,
+    uvxClient: UVExplorerClient
+): Promise<string> {
     const pageId: string = docEditor.getPageId()!;
     const networkGuid = data.getNetworkForPage(pageId);
     const networks = await uvxClient.listNetworks();

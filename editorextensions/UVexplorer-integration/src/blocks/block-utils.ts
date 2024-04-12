@@ -10,7 +10,6 @@ import { HUB_NODE } from 'model/uvx/hub-node';
  * Class with utility functions for our custom NetworkDeviceBlock.
  */
 export class BlockUtils {
-
     /**
      * Checks if an item within LucidChart is our custom NetworkDeviceBlock.
      * @param item ItemProxy
