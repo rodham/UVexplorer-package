@@ -32,6 +32,7 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
         /^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d).?\b){4}(\/(8|16|24))?(-((25[0-5]|(2[0-4]|1\d|[1-9]|)\d).?\b){4}(\/(8|16|24))?)?$/;
     private hostRegEx = /^([a-zA-Z0-9*?\-_])*$/;
     private oidRegEx = /^([0-2*?])((\.0)|(\.[1-9*?][0-9*?]*))*$/;
+    selected = false;
 
     ngOnInit(): void {
         this.dynamicSelectForm = new FormGroup({
@@ -261,6 +262,8 @@ export class DynamicLayoutSelect implements OnChanges, OnInit {
         let hostOut;
         let oidOut;
         let categoriesOut: DeviceCategoryFilter | undefined;
+
+        this.selected = true;
 
         const ipIn: unknown = this.ipSelection.value;
         if (ipIn && typeof ipIn === 'string') {

@@ -1,4 +1,4 @@
-<div class="flex flex-col min-w-screen min-h-screen bg-gray-50">
+<div *ngIf="!selected; else loadingView" class="flex flex-col min-w-screen min-h-screen bg-gray-50">
     <!-- Header -->
     <div class="inline-flex flex-row items-center border-b">
         <button *ngIf="backButton" (click)="saveSettings()" class="py-2 px-4 btn btn-sm btn-link">
@@ -902,3 +902,9 @@
         <button (click)="saveSettings()" class="bg-blue-500 text-white py-2 px-4 rounded">Save</button>
     </div>
 </div>
+
+<ng-template #loadingView>
+    <div class="flex justify-center">
+        <div class="loading loading-spinner loading-lg m-auto"></div>
+    </div>
+</ng-template>

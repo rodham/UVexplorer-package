@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="!selected; else loadingView">
     <ag-grid-angular
         style="width: 100%; height: 405px"
         [class]="themeClass"
@@ -21,3 +21,9 @@
         </button>
     </div>
 </div>
+
+<ng-template #loadingView>
+    <div class="flex justify-center">
+        <div class="loading loading-spinner loading-lg m-auto"></div>
+    </div>
+</ng-template>

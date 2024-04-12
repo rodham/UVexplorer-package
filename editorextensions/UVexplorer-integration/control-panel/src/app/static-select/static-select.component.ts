@@ -13,12 +13,12 @@ import {
     SizeColumnsToContentStrategy,
     SizeColumnsToFitProvidedWidthStrategy
 } from 'ag-grid-community';
-import { NgClass } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 
 @Component({
     selector: 'static-select',
     standalone: true,
-    imports: [AgGridAngular, NgClass],
+    imports: [AgGridAngular, NgClass, NgIf],
     templateUrl: './static-select.component.html'
 })
 export class StaticSelect {
@@ -28,6 +28,7 @@ export class StaticSelect {
     rowSelection: 'multiple' | 'single' = 'multiple';
     gridApi?: GridApi;
     selectDevicesButtonEnabled = true;
+    selected = false;
 
     public columnDefs: ColDef<Device>[] = [
         {
@@ -140,6 +141,8 @@ export class StaticSelect {
                 removeDevices.push(guid);
             }
         }
+
+        this.selected = true;
 
         parent.postMessage(
             {
