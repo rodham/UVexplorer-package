@@ -32,7 +32,7 @@ export class DevicesModal extends UVXModal {
             const networkGuid = this.docClient.getPageNetworkGuid();
             if (!relisting && networkGuid) {
                 const networkName = filteredNetworks.filter((n) => n.guid === networkGuid)[0].name;
-                const source = await this.loadNetwork(networkName, networkGuid);
+                const source = await this.loadNetwork(networkGuid, networkName);
 
                 if (!source) {
                     console.error(`Could not load network: ${networkName}`);
@@ -56,11 +56,11 @@ export class DevicesModal extends UVXModal {
      * This function causes the UVX API to load a specific network to be queried for devices. It will then return the
      * source associated with that network.
      */
-    async loadNetwork(name: string, guid: string): Promise<DataSourceProxy | undefined> {
+    async loadNetwork(guid: string, name?: string): Promise<DataSourceProxy | undefined> {
         try {
             const networkRequest = new NetworkRequest(guid);
             await this.uvxClient.loadNetwork(networkRequest);
-            const source = this.docClient.getNetworkSource(name, guid);
+            const source = this.docClient.getNetworkSource(guid, name);
             return source;
         } catch (e) {
             console.error(e);
@@ -69,7 +69,7 @@ export class DevicesModal extends UVXModal {
     }
 
     /*
-     * This function takes in a a data source and network name. It then retrieves all the devices for that network,
+     * This function takes in a data source and network name. It then retrieves all the devices for that network,
      * stores them in the source, then sends a message to display the devices in the devices component
      */
     async sendDevices(source: DataSourceProxy, networkName: string) {
@@ -105,7 +105,7 @@ export class DevicesModal extends UVXModal {
         console.log('Received a message from the child.');
         console.log(message);
         if (isLoadNetworkMessage(message)) {
-            const source = await this.loadNetwork(message.name, message.network_guid);
+            const source = await this.loadNetwork(message.network_guid, message.name);
             if (source !== undefined) {
                 await this.sendDevices(source, message.name);
             } else {

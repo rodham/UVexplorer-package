@@ -22,7 +22,6 @@ export abstract class UVXModal extends Modal {
     protected dataClient: DataClient;
     protected serverUrl = '';
     protected apiKey = '';
-    protected sessionGuid = '';
 
     protected constructor(
         client: EditorClient,
@@ -148,7 +147,7 @@ export abstract class UVXModal extends Modal {
             if (topoMap.displayEdges) {
                 this.dataClient.saveDisplayEdges(this.dataClient.getNetworkForPage(page), topoMap.displayEdges);
             }
-            await this.docClient.drawMap(topoMap, this.client, imageSettings);
+            await this.docClient.drawMap(topoMap, this.client, imageSettings, this.dataClient);
         } else {
             console.error('Could not load topo map data.');
         }
@@ -191,7 +190,7 @@ export abstract class UVXModal extends Modal {
             if (topoMap.displayEdges) {
                 this.dataClient.saveDisplayEdges(this.dataClient.getNetworkForPage(page), topoMap.displayEdges);
             }
-            await this.docClient.drawMap(topoMap, this.client, imageSettings);
+            await this.docClient.drawMap(topoMap, this.client, imageSettings, this.dataClient);
         } else {
             console.log('Dynamic Membership - Unable to load topo map');
         }

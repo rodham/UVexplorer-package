@@ -20,7 +20,7 @@ describe('Connected Devices Modal Tests', () => {
             return { id: '1' };
         }
     } as lucid.Viewport;
-    const mockDataClient = DataClient.getInstance(mockEditorClient);
+    const mockDataClient = new DataClient(mockEditorClient);
 
     const mockDocClient = new DocumentClient(mockViewport, mockDataClient);
     const mockUvxClient = new UVExplorerClient(mockEditorClient);

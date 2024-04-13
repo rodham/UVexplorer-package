@@ -21,16 +21,8 @@ export class UVExplorerClient {
     private apiKey?: string;
     private serverUrl?: string;
     private sessionGuid?: string;
-    private static instance: UVExplorerClient;
 
     constructor(private client: EditorClient) {}
-
-    static getInstance(client: EditorClient) {
-        if (!UVExplorerClient.instance) {
-            UVExplorerClient.instance = new UVExplorerClient(client);
-        }
-        return UVExplorerClient.instance;
-    }
 
     /**
      * Retrieve the apiKey and serverUrl from the package settings

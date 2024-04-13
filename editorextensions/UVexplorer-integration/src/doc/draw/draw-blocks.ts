@@ -41,7 +41,8 @@ export class DrawBlocks {
     }
 
     /**
-     * Places a DeviceNode on the map
+     * Places a single DeviceNode on the map
+     * Associates the block with the device in the device data collection
      */
     static drawDeviceNode(
         page: PageProxy,
@@ -63,7 +64,7 @@ export class DrawBlocks {
 
     /**
      * FOR SYNC
-     * Updates the blocks
+     * Updates the specified items with the data from new DeviceNodes
      */
     static updateBlocks(
         deviceNodes: DeviceNode[],
@@ -118,6 +119,7 @@ export class DrawBlocks {
 
     /**
      * Sets the reference key on a single block
+     * Associates a block with a device in the specified device collection
      */
     static setReferenceKey(block: BlockProxy, deviceNode: DeviceNode, collectionId: string) {
         block.setReferenceKey(DEVICE_REFERENCE_KEY, {

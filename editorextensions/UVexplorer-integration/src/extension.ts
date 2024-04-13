@@ -53,14 +53,13 @@ client.registerAction('viewDeviceDetails', async () => {
 });
 
 client.registerAction('viewLinkDetails', async () => {
-    await configureClientPackageSettings(client);
     const selection = viewport.getSelectedItems();
     await viewLinkDetails(selection, client, docClient, uvxClient, dataClient);
 });
 
 client.registerAction('syncDisplayedMap', async () => {
     await configureClientPackageSettings(client);
-    await syncDisplayedMap(docClient, client);
+    await syncDisplayedMap(client, docClient, uvxClient, dataClient);
 });
 
 client.registerAction('loadMapSettings', async () => {

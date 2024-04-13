@@ -95,7 +95,7 @@ describe('DataClient Tests', () => {
             const addDataSourceSpy = jest.spyOn(mockDataProxy, 'addDataSource').mockClear();
 
             expect(mockDataProxy.dataSources.size).toBe(1);
-            const source = data.createOrRetrieveNetworkSource('My Network', 'guid');
+            const source = data.createOrRetrieveNetworkSource('guid', 'My Network');
 
             expect(getSourceConfigSpy).toHaveBeenCalledTimes(1);
             expect(addDataSourceSpy).toHaveBeenCalledTimes(0);
@@ -109,7 +109,7 @@ describe('DataClient Tests', () => {
             const addDataSourceSpy = jest.spyOn(mockDataProxy, 'addDataSource');
 
             expect(mockDataProxy.dataSources.size).toBe(0);
-            const source = data.createOrRetrieveNetworkSource('My Network', 'guid-does-not-exist');
+            const source = data.createOrRetrieveNetworkSource('guid-does-not-exist', 'My Network');
 
             expect(addDataSourceSpy).toHaveBeenCalledTimes(1);
 

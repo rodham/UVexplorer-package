@@ -18,9 +18,11 @@ describe('Map', () => {
     let mockClient: lucid.EditorClient;
     let mockViewport: lucid.Viewport;
     let mockPage: lucid.PageProxy;
+    let mockData: DataClient;
 
     beforeEach(() => {
         mockClient = new lucid.EditorClient();
+        mockData = new DataClient(mockClient);
         mockViewport = new lucid.Viewport(mockClient);
         mockPage = new lucid.PageProxy('', mockClient);
     });
@@ -34,11 +36,8 @@ describe('Map', () => {
             const getCustomShapeDefSpy = jest
                 .spyOn(mockClient, 'getCustomShapeDefinition')
                 .mockResolvedValue(undefined);
-            const getInstanceSpy = jest.spyOn(DataClient, 'getInstance');
-            await DrawTopoMap.drawTopoMap(mockClient, mockViewport, mockPage, mockTopoMap, defaultImageSettings);
-
+            await DrawTopoMap.drawTopoMap(mockClient, mockViewport, mockPage, mockTopoMap, defaultImageSettings, mockData);
             expect(getCustomShapeDefSpy).toHaveBeenCalledWith(NetworkDeviceBlock.library, NetworkDeviceBlock.shape);
-            expect(getInstanceSpy).not.toHaveBeenCalled();
         });
 
         it('should draw blocks and lines when custom shape definition is available', async () => {
@@ -46,7 +45,6 @@ describe('Map', () => {
             const getCustomShapeDefSpy = jest
                 .spyOn(mockClient, 'getCustomShapeDefinition')
                 .mockResolvedValue(mockCustomBlockDefinition);
-            const getInstanceSpy = jest.spyOn(DataClient, 'getInstance');
 
             const mockNodeIdToBlockMap = new Map<number, BlockProxy>();
             const drawBlocksSpy = jest.spyOn(DrawBlocks, 'drawBlocks').mockReturnValue(mockNodeIdToBlockMap);
@@ -57,11 +55,11 @@ describe('Map', () => {
                 mockViewport,
                 mockPage,
                 mockTopoMapWithDisplayEdges,
-                defaultImageSettings
+                defaultImageSettings,
+                mockData
             );
 
             expect(getCustomShapeDefSpy).toHaveBeenCalledWith(NetworkDeviceBlock.library, NetworkDeviceBlock.shape);
-            expect(getInstanceSpy).toHaveBeenCalledWith(mockClient);
             expect(drawBlocksSpy).toHaveBeenCalledWith(
                 mockViewport,
                 mockPage,

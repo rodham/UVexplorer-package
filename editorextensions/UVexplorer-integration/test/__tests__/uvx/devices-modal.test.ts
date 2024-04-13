@@ -21,7 +21,7 @@ describe('Devices Modal Tests', () => {
             return { id: '0_0' };
         }
     } as lucid.Viewport;
-    const mockDataClient = DataClient.getInstance(mockEditorClient);
+    const mockDataClient = new DataClient(mockEditorClient)
 
     const mockDocClient = new DocumentClient(mockViewport, mockDataClient);
     const mockUvxClient = new UVExplorerClient(mockEditorClient);
@@ -79,7 +79,7 @@ describe('Devices Modal Tests', () => {
             expect(listNetworksSpy).toHaveBeenCalledTimes(1);
             expect(getPageIdSpy).toHaveBeenCalledTimes(1);
             expect(getNetworkSpy).toHaveBeenCalledWith('0_0');
-            expect(loadNetworkSpy).toHaveBeenCalledWith('My Network', '00000000-0000-0000-0000-000000000000');
+            expect(loadNetworkSpy).toHaveBeenCalledWith('00000000-0000-0000-0000-000000000000', 'My Network');
             expect(sendDevicesSpy).toHaveBeenCalledWith(mockSource, 'My Network');
         });
 

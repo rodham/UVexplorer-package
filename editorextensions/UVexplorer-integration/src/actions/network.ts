@@ -19,7 +19,7 @@ import { DeviceListRequest } from 'model/uvx/device';
  * @param client EditorClient
  * @returns Promise<void>
  */
-export async function syncDisplayedMap(docEditor: DocumentClient, client: EditorClient): Promise<void> {
+export async function syncDisplayedMap(client: EditorClient, docEditor: DocumentClient, uvxClient: UVExplorerClient, data: DataClient): Promise<void> {
     const settings = await client.getPackageSettings();
     const apiKey = settings.get('apiKey');
     const serverUrl = settings.get('serverUrl');
@@ -27,16 +27,17 @@ export async function syncDisplayedMap(docEditor: DocumentClient, client: Editor
         console.error('Package settings not configured correctly');
         return;
     }
-    await refreshMapDevices(docEditor, client);
+    await refreshMapDevices(client, docEditor, uvxClient, data);
 }
 
 /**
  * Redraws network map with most current data from UVExplorer.
  * @param docEditor DocumentClient
  * @param client EditorClient
+ * @param uvxClient UVExplorerClient
+ * @param data DataClient
  */
-async function refreshMapDevices(docEditor: DocumentClient, client: EditorClient) {
-    const uvxClient = UVExplorerClient.getInstance(client);
+async function refreshMapDevices(client: EditorClient, docEditor: DocumentClient, uvxClient: UVExplorerClient, data: DataClient) {
     const networkGuid = docEditor.getPageNetworkGuid();
     if (!networkGuid) throw Error('Unable to get network guid for page');
     const layoutType = docEditor.getLayoutSettings().layoutType;
@@ -77,7 +78,6 @@ async function refreshMapDevices(docEditor: DocumentClient, client: EditorClient
     }
     console.log('Device guids for redraw map: ', deviceGuids);
 
-    const data = DataClient.getInstance(client);
     const collection = data.createOrRetrieveSettingsCollection();
     const page = docEditor.getPageId();
     let layoutSettings = defaultLayoutSettings;
@@ -94,9 +94,8 @@ async function refreshMapDevices(docEditor: DocumentClient, client: EditorClient
 
     populateMapDisplayEdges(topoMap);
     if (topoMap.displayEdges) {
-        const dataClient = DataClient.getInstance(client);
         if (page) {
-            dataClient.saveDisplayEdges(dataClient.getNetworkForPage(page), topoMap.displayEdges);
+            data.saveDisplayEdges(data.getNetworkForPage(page), topoMap.displayEdges);
         }
     }
 
@@ -105,7 +104,7 @@ async function refreshMapDevices(docEditor: DocumentClient, client: EditorClient
         console.log('Refreshing manual layout');
         docEditor.updateItemsInfo(topoMap, imageSettings);
     } else {
-        await docEditor.drawMap(topoMap, client, imageSettings);
+        await docEditor.drawMap(topoMap, client, imageSettings, data);
     }
 }
 

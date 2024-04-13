@@ -22,7 +22,7 @@ describe('Device actions success tests', () => {
     const mockViewport = {
         getSelectedItems: (_deep?: boolean | undefined) => mockSelection
     } as lucid.Viewport;
-    const mockDataClient = DataClient.getInstance(mockClient);
+    const mockDataClient = new DataClient(mockClient);
     const mockDocEditor = new DocumentClient(mockViewport, mockDataClient);
     const mockUvxClient = new UVExplorerClient(mockClient);
 

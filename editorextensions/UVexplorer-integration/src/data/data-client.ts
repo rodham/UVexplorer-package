@@ -68,7 +68,6 @@ export const DEVICE_FILTER_SCHEMA: SchemaDefinition = {
  * Class with functions to interact with Data Collections within LucidChart.
  */
 export class DataClient {
-    private static instance: DataClient;
     private data: DataProxy;
 
     constructor(client: EditorClient) {
@@ -76,30 +75,19 @@ export class DataClient {
     }
 
     /**
-     * Creates or retrieves a new instance of DataClient.
-     * @param client EditorClient
-     * @returns DataClient
-     */
-    static getInstance(client: EditorClient): DataClient {
-        if (!DataClient.instance) {
-            DataClient.instance = new DataClient(client);
-        }
-        return DataClient.instance;
-    }
-
-    /**
      * Creates or retrieves the corresponding network source from the given network guid.
-     * @param name network name as a string
      * @param guid network guid as a string
-     * @returns DataSourceProxy
+     * @param name network name as a string (optional)
+     * The network name will become the name of the data source if provided, otherwise the guid.
+     * The network source name propagates to the device and display edge data collections, making them more human-readable when looking in the data.
      */
-    createOrRetrieveNetworkSource(name: string, guid: string): DataSourceProxy {
+    createOrRetrieveNetworkSource(guid: string, name?: string): DataSourceProxy {
         for (const [, source] of this.data.dataSources) {
             if (source.getSourceConfig().guid === guid) {
                 return source;
             }
         }
-        return this.data.addDataSource(name, { guid: guid });
+        return this.data.addDataSource(name ?? guid, { guid: guid });
     }
 
     /**
@@ -440,7 +428,7 @@ export class DataClient {
      */
     getDeviceCollectionForPage(pageId: string): string {
         const networkGuid = this.getNetworkForPage(pageId);
-        const source = this.createOrRetrieveNetworkSource('', networkGuid);
+        const source = this.createOrRetrieveNetworkSource(networkGuid);
         const collection = this.createOrRetrieveDeviceCollection(source);
         return collection.id;
     }
@@ -452,7 +440,7 @@ export class DataClient {
      */
     getDisplayEdgeCollectionForPage(pageId: string): string {
         const networkGuid = this.getNetworkForPage(pageId);
-        const source = this.createOrRetrieveNetworkSource('', networkGuid);
+        const source = this.createOrRetrieveNetworkSource(networkGuid);
         const collection = this.createOrRetrieveDisplayEdgeCollection(source);
         return collection.id;
     }
@@ -464,7 +452,7 @@ export class DataClient {
      */
     saveDevices(source: DataSourceProxy, devices: Device[]) {
         const collection = this.createOrRetrieveDeviceCollection(source);
-        this.clearCollection(collection); // TODO: Replace once updateDevicesInCollection Function is implemented
+        this.clearCollection(collection);
         this.addDevicesToCollection(collection, devices);
     }
 
@@ -474,9 +462,9 @@ export class DataClient {
      * @param displayEdges DisplayEdgeSet
      */
     saveDisplayEdges(networkGuid: string, displayEdges: DisplayEdgeSet) {
-        const source = this.createOrRetrieveNetworkSource('', networkGuid);
+        const source = this.createOrRetrieveNetworkSource(networkGuid);
         const collection = this.createOrRetrieveDisplayEdgeCollection(source);
-        this.clearCollection(collection); // TODO: Replace once updateDisplayEdgesInCollection Function is implemented
+        this.clearCollection(collection);
         this.addDisplayEdgesToCollection(collection, displayEdges);
     }
 
