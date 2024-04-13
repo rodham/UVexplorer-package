@@ -36,7 +36,14 @@ describe('Map', () => {
             const getCustomShapeDefSpy = jest
                 .spyOn(mockClient, 'getCustomShapeDefinition')
                 .mockResolvedValue(undefined);
-            await DrawTopoMap.drawTopoMap(mockClient, mockViewport, mockPage, mockTopoMap, defaultImageSettings, mockData);
+            await DrawTopoMap.drawTopoMap(
+                mockClient,
+                mockViewport,
+                mockPage,
+                mockTopoMap,
+                defaultImageSettings,
+                mockData
+            );
             expect(getCustomShapeDefSpy).toHaveBeenCalledWith(NetworkDeviceBlock.library, NetworkDeviceBlock.shape);
         });
 

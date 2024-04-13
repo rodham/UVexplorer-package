@@ -19,7 +19,12 @@ import { DeviceListRequest } from 'model/uvx/device';
  * @param client EditorClient
  * @returns Promise<void>
  */
-export async function syncDisplayedMap(client: EditorClient, docEditor: DocumentClient, uvxClient: UVExplorerClient, data: DataClient): Promise<void> {
+export async function syncDisplayedMap(
+    client: EditorClient,
+    docEditor: DocumentClient,
+    uvxClient: UVExplorerClient,
+    data: DataClient
+): Promise<void> {
     const settings = await client.getPackageSettings();
     const apiKey = settings.get('apiKey');
     const serverUrl = settings.get('serverUrl');
@@ -37,7 +42,12 @@ export async function syncDisplayedMap(client: EditorClient, docEditor: Document
  * @param uvxClient UVExplorerClient
  * @param data DataClient
  */
-async function refreshMapDevices(client: EditorClient, docEditor: DocumentClient, uvxClient: UVExplorerClient, data: DataClient) {
+async function refreshMapDevices(
+    client: EditorClient,
+    docEditor: DocumentClient,
+    uvxClient: UVExplorerClient,
+    data: DataClient
+) {
     const networkGuid = docEditor.getPageNetworkGuid();
     if (!networkGuid) throw Error('Unable to get network guid for page');
     const layoutType = docEditor.getLayoutSettings().layoutType;

@@ -136,7 +136,12 @@ export class DocumentClient {
     /**
      * Render a new TopoMap on the current page
      */
-    async drawMap(topoMap: TopoMap, client: EditorClient, imageSettings: ImageSettings, data: DataClient): Promise<void> {
+    async drawMap(
+        topoMap: TopoMap,
+        client: EditorClient,
+        imageSettings: ImageSettings,
+        data: DataClient
+    ): Promise<void> {
         const page = this.viewport.getCurrentPage();
         if (!page) {
             console.error('Unable to get page');
