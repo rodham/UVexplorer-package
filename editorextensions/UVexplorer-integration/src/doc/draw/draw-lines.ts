@@ -4,8 +4,13 @@ import { PenPattern, DrawSettings, DashStyle } from 'model/uvx/topo-map';
 import { DisplayEdge } from 'model/uvx/display-edge';
 import { DisplayEdgeSet } from 'model/uvx/display-edge-set';
 import { DeviceLink } from 'model/uvx/device';
+import { BlockUtils } from '@blocks/block-utils';
 
 export class DrawLines {
+    /**
+     * Places all DisplayEdges on the map with the specified draw and label settings
+     * Adds references for DisplayEdges in the display edge data collection for the current network
+     */
     static drawLines(
         page: PageProxy,
         displayEdgeSet: DisplayEdgeSet,
@@ -31,6 +36,9 @@ export class DrawLines {
         }
     }
 
+    /**
+     * Places a single line on the map between two blocks
+     */
     static drawLine(
         page: PageProxy,
         block1: BlockProxy,
@@ -76,10 +84,16 @@ export class DrawLines {
         return line;
     }
 
+    /**
+     * Converts RGB values into a hexadecimal color code
+     */
     private static toColorCode(red: number, green: number, blue: number) {
         return '#' + this.toHex(red) + this.toHex(green) + this.toHex(blue);
     }
 
+    /**
+     * Converts a single RGB value into a hexadecimal value
+     */
     private static toHex(num: number): string {
         const map = '0123456789abcdef';
         let hex = '';
@@ -88,6 +102,9 @@ export class DrawLines {
         return hex;
     }
 
+    /**
+     * Convert DashStyle (UVexplorer terminology) to StrokeStyle (Lucid terminology)
+     */
     private static toStrokeStyle(dashStyle: DashStyle) {
         switch (dashStyle) {
             case DashStyle.Solid: {
@@ -112,6 +129,10 @@ export class DrawLines {
         }
     }
 
+    /**
+     * Sets the reference key on a single line
+     * Associates a line with a display edge in the specified display edge collection
+     */
     static setReferenceKey(line: LineProxy, displayEdge: DisplayEdge, collectionId: string) {
         line.setReferenceKey(DISPLAY_EDGE_REFERENCE_KEY, {
             collectionId: collectionId,
@@ -120,6 +141,9 @@ export class DrawLines {
         });
     }
 
+    /**
+     * Calculates which pen should be used to draw the specified display edge
+     */
     private static getPenSettings(drawSettings: DrawSettings, displayEdge: DisplayEdge): PenPattern {
         if (displayEdge.deviceLinks[0].linkType?.toLowerCase() === undefined) {
             return drawSettings.standardPen;
@@ -147,6 +171,9 @@ export class DrawLines {
         }
     }
 
+    /**
+     * Returns true if all the specified DeviceLinks are LAG links
+     */
     private static allLagLinks(deviceLinks: DeviceLink[]): boolean {
         return deviceLinks.every((link) => {
             if (link.linkType?.toLowerCase() === undefined) {
@@ -156,16 +183,23 @@ export class DrawLines {
         });
     }
 
+    /**
+     * Clears all UVexplorer display edges from the map
+     */
     static clearLines(page: PageProxy) {
-        // TODO: only delete device connection lines not all lines
         const lines = page.allLines;
         if (lines) {
             for (const [, line] of lines) {
-                line.delete();
+                if (BlockUtils.getDisplayEdgeFromLine(line)) {
+                    line.delete();
+                }
             }
         }
     }
 
+    /**
+     * Generates the link label string for a specified display edge
+     */
     private static createLinkLabel(displayEdge: DisplayEdge) {
         let label = '';
         for (const link of displayEdge.deviceLinks) {

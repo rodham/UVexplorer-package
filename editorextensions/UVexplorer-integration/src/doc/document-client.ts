@@ -4,27 +4,27 @@ import { BlockUtils } from '@blocks/block-utils';
 import { DataClient } from '@data/data-client';
 import { DrawTopoMap } from 'src/doc/draw/draw-topo-map';
 
+/**
+ * Contains functions called to interact with the document's content
+ */
 export class DocumentClient {
     protected viewport: Viewport;
     protected dataClient: DataClient;
 
-    /*
-     * Initialize the viewport and dataclient to given values
-     */
     constructor(viewport: Viewport, data: DataClient) {
         this.viewport = viewport;
         this.dataClient = data;
     }
 
-    /*
+    /**
      * Returns the pageId for current page
      */
     getPageId() {
         return this.viewport.getCurrentPage()?.id;
     }
 
-    /*
-     * Returns the network guid associated with current page
+    /**
+     * Returns the network guid for the network loaded on the current page
      */
     getPageNetworkGuid() {
         const pageId = this.getPageId();
@@ -35,9 +35,9 @@ export class DocumentClient {
         return this.dataClient.getNetworkForPage(pageId);
     }
 
-    /*
-     * Saves given drawSettings, layoutSettings, and imageSettings to the settings collection and deletes previously
-     * existing settings
+    /**
+     * Saves the user's draw, layout, and image settings changes for the current page in the datastore.
+     * Overwrites the existing settings.
      */
     saveSettings(drawSettings: DrawSettings, layoutSettings: LayoutSettings, imageSettings: ImageSettings) {
         const pageId = this.getPageId();
@@ -49,8 +49,8 @@ export class DocumentClient {
         this.dataClient.addSettingsToCollection(collection, pageId, layoutSettings, drawSettings, imageSettings);
     }
 
-    /*
-     * retieves the layout settings for the current page
+    /**
+     * Retrieves the current page's layout settings from the datastore
      */
     getLayoutSettings() {
         const pageId = this.getPageId();
@@ -61,8 +61,8 @@ export class DocumentClient {
         return this.dataClient.getLayoutSettings(collection, pageId);
     }
 
-    /*
-     * Returns the device filter for the current page
+    /**
+     * Returns the current page's device filter from the datastore (for dynamic selection)
      */
     getDeviceFilter() {
         const pageId = this.getPageId();
@@ -73,11 +73,15 @@ export class DocumentClient {
         return this.dataClient.getDeviceFilter(collection, pageId);
     }
 
-    /*
-     * Returns the Data source for the network of the current page
+    /**
+     * Returns the network source for the current page
+     * The network source contains the data collections for devices and display edges (links)
+     * Will create a new network source if it does not exist
+     * @param guid The network guid
+     * @param name The name of the network (optional).
      */
-    getNetworkSource(name: string, guid: string) {
-        const source = this.dataClient.createOrRetrieveNetworkSource(name, guid);
+    getNetworkSource(guid: string, name?: string) {
+        const source = this.dataClient.createOrRetrieveNetworkSource(guid, name);
         const page = this.viewport.getCurrentPage();
         if (page) {
             this.dataClient.updatePageMap(page.id, guid);
@@ -86,8 +90,8 @@ export class DocumentClient {
         return source;
     }
 
-    /*
-     * Retrieves the guids for all the network device blocks on the current page
+    /**
+     * Returns the list of device guids for devices rendered on the current page
      */
     getNetworkDeviceBlockGuids(): string[] {
         const pageItems = this.viewport.getCurrentPage()?.allBlocks;
@@ -109,8 +113,9 @@ export class DocumentClient {
         return guids;
     }
 
-    /*
-     * Updates the info for the devices on the current page.
+    /**
+     * FOR SYNC
+     * Updates the information and image settings for all devices rendered on the current page.
      */
     updateItemsInfo(topoMap: TopoMap, imageSettings: ImageSettings) {
         const pageItems = this.viewport.getCurrentPage()?.allBlocks;
@@ -128,20 +133,28 @@ export class DocumentClient {
         DrawTopoMap.refreshPageItems(this.dataClient, pageId, topoMap, pageItems, imageSettings);
     }
 
-    /*
-     * Draws the topoMap on the current page with the configured imageSettings
+    /**
+     * Render a new TopoMap on the current page
      */
-    async drawMap(topoMap: TopoMap, client: EditorClient, imageSettings: ImageSettings): Promise<void> {
+    async drawMap(
+        topoMap: TopoMap,
+        client: EditorClient,
+        imageSettings: ImageSettings,
+        data: DataClient
+    ): Promise<void> {
         const page = this.viewport.getCurrentPage();
         if (!page) {
             console.error('Unable to get page');
             return;
         }
-        await DrawTopoMap.drawTopoMap(client, this.viewport, page, topoMap, imageSettings);
+        await DrawTopoMap.drawTopoMap(client, this.viewport, page, topoMap, imageSettings, data);
     }
 
-    /*
-     * Removes the devices on current page and returns list of those device guids
+    /**
+     * FOR AUTO-LAYOUT
+     * Removes specified devices from the map
+     * Returns a list of the device guids that remain on the map
+     * The entire map is cleared.
      */
     clearMap(removeDevices?: string[]): string[] {
         const page = this.viewport.getCurrentPage();
@@ -152,8 +165,9 @@ export class DocumentClient {
         return DrawTopoMap.clearMap(page, removeDevices);
     }
 
-    /*
-     * Removes given devices and all lines connected to those devices from the map
+    /**
+     * FOR MANUAL-LAYOUT
+     * Removes specified devices and all of their connected lines from the map.
      */
     removeFromMap(devices: string[]) {
         const page = this.viewport.getCurrentPage();

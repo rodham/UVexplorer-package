@@ -16,7 +16,7 @@ describe('Link Info Modal tests', () => {
             return { id: '1' };
         }
     } as lucid.Viewport;
-    const mockDataClient = DataClient.getInstance(mockEditorClient);
+    const mockDataClient = new DataClient(mockEditorClient);
     const mockDocEditor = new DocumentClient(mockViewport, mockDataClient);
     const mockUvxClient = new UVExplorerClient(mockEditorClient);
     beforeEach(() => {

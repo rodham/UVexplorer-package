@@ -13,22 +13,20 @@ import {
 } from 'model/uvx/device';
 import { TopoMapRequest, isTopoMap, TopoMap } from 'model/uvx/topo-map';
 
+/**
+ * API Client for making requests to UvExplorerServer Rest API V1
+ */
 export class UVExplorerClient {
     private readonly basePath: string = '/public/api/v1';
     private apiKey?: string;
     private serverUrl?: string;
     private sessionGuid?: string;
-    private static instance: UVExplorerClient;
 
     constructor(private client: EditorClient) {}
 
-    static getInstance(client: EditorClient) {
-        if (!UVExplorerClient.instance) {
-            UVExplorerClient.instance = new UVExplorerClient(client);
-        }
-        return UVExplorerClient.instance;
-    }
-
+    /**
+     * Retrieve the apiKey and serverUrl from the package settings
+     */
     private async getCredentials() {
         const settings = await this.client.getPackageSettings();
         const apiKey = settings.get('apiKey');
@@ -42,6 +40,10 @@ export class UVExplorerClient {
         this.serverUrl = serverUrl;
     }
 
+    /**
+     * POST /session
+     * Opens a new session
+     */
     private async openSession(): Promise<void> {
         if (!this.serverUrl || !this.apiKey) {
             await this.getCredentials();
@@ -57,6 +59,9 @@ export class UVExplorerClient {
         this.sessionGuid = response.responseText;
     }
 
+    /**
+     * Return the current session guid
+     */
     private async getSessionGuid(): Promise<string> {
         if (!this.sessionGuid) {
             await this.openSession();
@@ -67,6 +72,10 @@ export class UVExplorerClient {
         return this.sessionGuid;
     }
 
+    /**
+     * DELETE /session
+     * Closes the current session
+     */
     public async closeSession(): Promise<void> {
         if (!this.sessionGuid) {
             console.log('No session open');
@@ -85,6 +94,10 @@ export class UVExplorerClient {
         }
     }
 
+    /**
+     * GET /network/list
+     * Returns a list of the user's network summaries
+     */
     public async listNetworks(): Promise<NetworkSummary[]> {
         console.log('listNetworks about to make call', this.sessionGuid);
         const sessionGuid = await this.getSessionGuid();
@@ -102,6 +115,11 @@ export class UVExplorerClient {
         }
     }
 
+    /**
+     * POST /network/load
+     * Loads a network for the current session
+     * @param networkRequest
+     */
     public async loadNetwork(networkRequest: NetworkRequest): Promise<void> {
         const sessionGuid = await this.getSessionGuid();
         if (!this.serverUrl || !this.sessionGuid) {
@@ -112,6 +130,10 @@ export class UVExplorerClient {
         await this.sendXHRRequest(url, sessionGuid, 'POST', body);
     }
 
+    /**
+     * DELETE /network/unload
+     * Unloads a network for the current session
+     */
     public async unloadNetwork(): Promise<void> {
         const sessionGuid = await this.getSessionGuid();
         if (!this.serverUrl || !this.sessionGuid) {
@@ -121,6 +143,11 @@ export class UVExplorerClient {
         await this.sendXHRRequest(url, sessionGuid, 'DELETE');
     }
 
+    /**
+     * POST /device/list
+     * Returns a list of devices in the currently loaded network (for the current session)
+     * @param deviceListRequest
+     */
     public async listDevices(deviceListRequest: DeviceListRequest): Promise<Device[]> {
         const sessionGuid = await this.getSessionGuid();
         if (!this.serverUrl || !this.sessionGuid) {
@@ -137,12 +164,16 @@ export class UVExplorerClient {
         }
     }
 
+    /**
+     * GET /device/category/list
+     * Returns the set of device categories present in the currently loaded network (for the current session)
+     */
     public async listDeviceCategories(): Promise<string[]> {
         const sessionGuid = await this.getSessionGuid();
         if (!this.serverUrl || !this.sessionGuid) {
             throw Error('Unable to make loadNetwork request');
         }
-        const url = this.serverUrl + this.basePath + '/device/device-type.ts/list';
+        const url = this.serverUrl + this.basePath + '/device/category/list';
         const response = await this.sendXHRRequest(url, sessionGuid, 'GET');
         const deviceCategoryResponse: unknown = this.parseResponseJSON(response.responseText);
         if (isDeviceCategoryListResponse(deviceCategoryResponse)) {
@@ -152,6 +183,10 @@ export class UVExplorerClient {
         }
     }
 
+    /**
+     * GET /device/infoset/list
+     * Returns the set of infosets present in the currently loaded network (for the current session)
+     */
     public async listDeviceInfoSets(): Promise<InfoSet[]> {
         const sessionGuid = await this.getSessionGuid();
         if (!this.serverUrl || !this.sessionGuid) {
@@ -167,6 +202,11 @@ export class UVExplorerClient {
         }
     }
 
+    /**
+     * GET /device/details/${deviceGuid}
+     * Returns a device details response for the requested device
+     * @param deviceGuid
+     */
     public async listDeviceDetails(deviceGuid: string): Promise<DeviceDetailsResponse | undefined> {
         const sessionGuid = await this.getSessionGuid();
         if (!this.serverUrl || !this.sessionGuid) {
@@ -182,6 +222,11 @@ export class UVExplorerClient {
         }
     }
 
+    /**
+     * POST /device/connected
+     * Returns the list of devices connected to the requested device
+     * @param connectedDevicesRequest
+     */
     public async listConnectedDevices(connectedDevicesRequest: ConnectedDevicesRequest): Promise<Device[]> {
         const sessionGuid = await this.getSessionGuid();
         if (!this.serverUrl || !this.sessionGuid) {
@@ -198,6 +243,11 @@ export class UVExplorerClient {
         }
     }
 
+    /**
+     * POST /device/topomap
+     * Returns the requested TopoMap
+     * @param topoMapRequest
+     */
     public async getTopoMap(topoMapRequest: TopoMapRequest): Promise<TopoMap> {
         const sessionGuid = await this.getSessionGuid();
         if (!this.serverUrl || !this.sessionGuid) {
@@ -214,6 +264,13 @@ export class UVExplorerClient {
         }
     }
 
+    /**
+     * Performs an XHR request with bearer token authentication
+     * @param url full request url
+     * @param token bearer token (either API key or session GUID)
+     * @param method request method
+     * @param data request body (optional)
+     */
     public async sendXHRRequest(url: string, token: string, method: string, data?: string): Promise<TextXHRResponse> {
         try {
             const request: XHRRequest = {
